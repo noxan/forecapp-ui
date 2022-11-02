@@ -19,18 +19,30 @@ import {
 const buildColumns = (initialData: any) => {
   const columnHelper = createColumnHelper<any>();
 
-  const headerColumn = Object.keys(initialData[0]);
+  // const headerColumn = Object.keys(initialData[0]);
+  const headerColumn = initialData.columns as any;
 
-  return headerColumn.map((header) =>
-    columnHelper.accessor(header, {
-      cell: (info) => info.getValue(),
-      footer: (info) => info.column.id,
+  return headerColumn.map((name: any) =>
+    columnHelper.accessor(name, {
+      cell: (info) => {
+        console.log(info);
+        return info.getValue();
+      },
+      // footer: (info) => info.column.id,
     })
   );
 };
 
 export default function Table({ initialData }: { initialData: any }) {
-  const [data, setData] = useState(() => [...initialData]);
+  const temp = initialData.values.map((row: any) => {
+    const obj = {} as any;
+    initialData.columns.forEach((col: any, index: number) => {
+      obj[col] = row[index];
+    });
+    return obj;
+  });
+
+  const [data, setData] = useState(() => [...temp]);
   const rerender = useReducer(() => ({}), {})[1];
 
   const table = useReactTable({

@@ -1,21 +1,45 @@
-import useSWR from "swr";
-import { parse as parseCSV } from "csv-parse/sync";
+import { useEffect, useState } from "react";
+import * as danfo from "danfojs";
+
 import Table from "../components/Table";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.text());
-
 export default function Home() {
-  const response = useSWR("/datasets/air_passengers.csv", fetcher);
+  console.log("Home");
+  const [dataset, setDataset] = useState<undefined | danfo.DataFrame>();
 
-  if (response.error || !response.data) {
-    return <div>Error: {JSON.stringify(response.error)}</div>;
+  useEffect(() => {
+    async function fetchData() {
+      const df = await danfo.readCSV("/datasets/energy_dataset_small.csv");
+      setDataset(df);
+    }
+    console.log("useEffect");
+    if (!dataset) {
+      fetchData();
+    }
+  });
+
+  if (!dataset) {
+    return <div>Loading</div>;
   }
 
-  const records = parseCSV(response.data);
+  console.log(dataset);
 
   return (
     <div>
-      <Table initialData={records} />
+      <Table initialData={dataset} />
     </div>
   );
 }
+
+// Home.getInitialProps = async () => {
+//   console.log("getInitialProps");
+//   if (typeof window !== "undefined") {
+//     const danfo = await import("danfojs");
+//     const df = await danfo.readCSV("/datasets/energy_dataset.csv");
+//     return { df };
+//   } else {
+//     const danfo = await import("danfojs-node");
+//     const df = await danfo.readCSV("public/datasets/energy_dataset.csv");
+//     return { df: danfo.toJSON(df, { format: "row" }) };
+//   }
+// };
