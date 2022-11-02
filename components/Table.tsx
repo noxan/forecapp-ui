@@ -1,4 +1,12 @@
 import { useReducer, useState } from "react";
+import {
+  CTable,
+  CTableHead,
+  CTableBody,
+  CTableRow,
+  CTableHeaderCell,
+  CTableDataCell,
+} from "@coreui/react";
 
 import {
   createColumnHelper,
@@ -32,34 +40,34 @@ export default function Table({ initialData }: { initialData: any }) {
 
   return (
     <div className="p-2">
-      <table>
-        <thead>
+      <CTable>
+        <CTableHead>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
+            <CTableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id}>
+                <CTableHeaderCell key={header.id}>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
                         header.getContext()
                       )}
-                </th>
+                </CTableHeaderCell>
               ))}
-            </tr>
+            </CTableRow>
           ))}
-        </thead>
-        <tbody>
+        </CTableHead>
+        <CTableBody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
+            <CTableRow key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
+                <CTableDataCell key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
+                </CTableDataCell>
               ))}
-            </tr>
+            </CTableRow>
           ))}
-        </tbody>
+        </CTableBody>
         <tfoot>
           {table.getFooterGroups().map((footerGroup) => (
             <tr key={footerGroup.id}>
@@ -76,7 +84,7 @@ export default function Table({ initialData }: { initialData: any }) {
             </tr>
           ))}
         </tfoot>
-      </table>
+      </CTable>
     </div>
   );
 }
