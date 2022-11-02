@@ -1,17 +1,9 @@
 import useSWR from "swr";
 import { parse as parseCSV } from "csv-parse/sync";
 import Table from "../components/Table";
+import { Person } from "../models/Person";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.text());
-
-type Person = {
-  firstName: string;
-  lastName: string;
-  age: number;
-  visits: number;
-  status: string;
-  progress: number;
-};
 
 const defaultData: Person[] = [
   {

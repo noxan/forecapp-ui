@@ -6,6 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { Person } from "../models/Person";
 
 const columnHelper = createColumnHelper<Person>();
 
