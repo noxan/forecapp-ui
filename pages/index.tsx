@@ -9,8 +9,15 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      const df = await danfo.readCSV("/datasets/energy_dataset_small.csv");
+      const df_1 = await danfo.readCSV("/datasets/energy_dataset_small.csv");
+
+      const df = df_1.setIndex({ column: "time" });
+
       setDataset(df);
+
+      const columns2 = df.columns.filter((col) => col !== "time");
+
+      df.plot("plot_div").line({ config: { columns: columns2 } });
     }
     console.log("useEffect");
     if (!dataset) {
@@ -19,13 +26,18 @@ export default function Home() {
   });
 
   if (!dataset) {
-    return <div>Loading</div>;
+    return (
+      <div>
+        <div id="plot_div"></div>Loading
+      </div>
+    );
   }
 
   console.log(dataset);
 
   return (
     <div>
+      <div id="plot_div"></div>
       <Table initialData={dataset} />
     </div>
   );
