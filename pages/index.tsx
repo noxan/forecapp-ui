@@ -1,11 +1,10 @@
 import useSWR from "swr";
 import { parse as parseCSV } from "csv-parse/sync";
 import Table from "../components/Table";
-import { Person } from "../models/Person";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.text());
 
-const initialData: Person[] = [
+const initialData: any[] = [
   {
     firstName: "tanner",
     lastName: "linsley",
