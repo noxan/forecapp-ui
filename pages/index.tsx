@@ -4,33 +4,6 @@ import Table from "../components/Table";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.text());
 
-const initialData: any[] = [
-  {
-    firstName: "tanner",
-    lastName: "linsley",
-    age: 24,
-    visits: 100,
-    status: "In Relationship",
-    progress: 50,
-  },
-  {
-    firstName: "tandy",
-    lastName: "miller",
-    age: 40,
-    visits: 40,
-    status: "Single",
-    progress: 80,
-  },
-  {
-    firstName: "joe",
-    lastName: "dirte",
-    age: 45,
-    visits: 20,
-    status: "Complicated",
-    progress: 10,
-  },
-];
-
 export default function Home() {
   const response = useSWR("/datasets/air_passengers.csv", fetcher);
 
@@ -42,7 +15,7 @@ export default function Home() {
 
   return (
     <div>
-      <Table initialData={initialData} />
+      <Table initialData={records} />
     </div>
   );
 }
