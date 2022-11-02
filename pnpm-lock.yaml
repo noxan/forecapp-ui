@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@tanstack/react-table': ^8.5.22
   '@types/node': 18.11.9
   '@types/react': 18.0.24
   '@types/react-dom': 18.0.8
@@ -12,6 +13,7 @@ specifiers:
   typescript: 4.8.4
 
 dependencies:
+  '@tanstack/react-table': 8.5.22_biqbaboplfbrettd7655fr4n2y
   '@types/node': 18.11.9
   '@types/react': 18.0.24
   '@types/react-dom': 18.0.8
@@ -232,6 +234,23 @@ packages:
     resolution: {integrity: sha512-rEUrBSGIoSFuYxwBYtlUFMlE2CwGhmW+w9355/5oduSw8e5h2+Tj4UrAGNNgP9915++wj5vkQo0UuOBqOAq4nw==}
     dependencies:
       tslib: 2.4.1
+    dev: false
+
+  /@tanstack/react-table/8.5.22_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-01XaxQTxcI+w7g+i/YRblxdAikM9G7L1S7LwqaiD/gkKmNUs+g2BXw4GfIcuzzE75Q5t0BXlyqM7MyxxBuvQXA==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@tanstack/table-core': 8.5.22
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@tanstack/table-core/8.5.22:
+    resolution: {integrity: sha512-D3wDbVXl3Bi5PdGfle6DijhLzZxrvMyZsE1dSHH0xBsqEbu7Pkxn5EEd6CA9tGsCgXIEP1s4Yfy1cZ9xnMz1sQ==}
+    engines: {node: '>=12'}
     dev: false
 
   /@types/json5/0.0.29:
