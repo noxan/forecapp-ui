@@ -5,7 +5,7 @@ import { Person } from "../models/Person";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.text());
 
-const defaultData: Person[] = [
+const initialData: Person[] = [
   {
     firstName: "tanner",
     lastName: "linsley",
@@ -43,7 +43,7 @@ export default function Home() {
 
   return (
     <div>
-      <Table defaultData={defaultData} />
+      <Table initialData={initialData} />
     </div>
   );
 }

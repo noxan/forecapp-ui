@@ -42,8 +42,8 @@ const columns = [
   }),
 ];
 
-export default function Table({ defaultData }: { defaultData: any }) {
-  const [data, setData] = useState(() => [...defaultData]);
+export default function Table({ initialData }: { initialData: any }) {
+  const [data, setData] = useState(() => [...initialData]);
   const rerender = useReducer(() => ({}), {})[1];
 
   const table = useReactTable({
