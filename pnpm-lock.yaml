@@ -5,6 +5,7 @@ specifiers:
   '@types/node': 18.11.9
   '@types/react': 18.0.24
   '@types/react-dom': 18.0.8
+  csv-parse: ^5.3.1
   eslint: 8.26.0
   eslint-config-next: 13.0.1
   next: 13.0.1
@@ -18,6 +19,7 @@ dependencies:
   '@types/node': 18.11.9
   '@types/react': 18.0.24
   '@types/react-dom': 18.0.8
+  csv-parse: 5.3.1
   eslint: 8.26.0
   eslint-config-next: 13.0.1_wyqvi574yv7oiwfeinomdzmc3m
   next: 13.0.1_biqbaboplfbrettd7655fr4n2y
@@ -520,6 +522,10 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
+    dev: false
+
+  /csv-parse/5.3.1:
+    resolution: {integrity: sha512-R4Hv6eGJNzgcKdThZ6XORbSQ873HVcNke74QIq+LbwpT90LaZ8Xzl7KKiuIP16xq/P7ofzRt0h7S0xm+fVScsw==}
     dev: false
 
   /damerau-levenshtein/1.0.8:
