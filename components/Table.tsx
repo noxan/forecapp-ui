@@ -6,6 +6,7 @@ import {
   CTableRow,
   CTableHeaderCell,
   CTableDataCell,
+  CTableFoot,
 } from "@coreui/react";
 
 import {
@@ -68,22 +69,22 @@ export default function Table({ initialData }: { initialData: any }) {
             </CTableRow>
           ))}
         </CTableBody>
-        <tfoot>
+        <CTableFoot>
           {table.getFooterGroups().map((footerGroup) => (
-            <tr key={footerGroup.id}>
+            <CTableRow key={footerGroup.id}>
               {footerGroup.headers.map((header) => (
-                <th key={header.id}>
+                <CTableDataCell key={header.id}>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
                         header.column.columnDef.footer,
                         header.getContext()
                       )}
-                </th>
+                </CTableDataCell>
               ))}
-            </tr>
+            </CTableRow>
           ))}
-        </tfoot>
+        </CTableFoot>
       </CTable>
     </div>
   );
