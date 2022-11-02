@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@coreui/coreui': ^4.2.2
   '@coreui/react': ^4.4.0
   '@tanstack/react-table': ^8.5.22
   '@types/node': 18.11.9
@@ -16,6 +17,7 @@ specifiers:
   typescript: 4.8.4
 
 dependencies:
+  '@coreui/coreui': 4.2.2
   '@coreui/react': 4.4.0_biqbaboplfbrettd7655fr4n2y
   '@tanstack/react-table': 8.5.22_biqbaboplfbrettd7655fr4n2y
   '@types/node': 18.11.9
@@ -45,6 +47,16 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.10
+    dev: false
+
+  /@coreui/coreui/4.2.2:
+    resolution: {integrity: sha512-aPL7Rv98CBkIU4y7wmZOUBHuBN2qwRS3CFeWmUV3kPeGiPQe9FG4+kOtcITbttNQ35HVMSZeauJyoy2LSM0ygA==}
+    peerDependencies:
+      '@popperjs/core': ^2.11.5
+    dependencies:
+      postcss-combine-duplicated-selectors: 10.0.3
+    transitivePeerDependencies:
+      - postcss
     dev: false
 
   /@coreui/react/4.4.0_biqbaboplfbrettd7655fr4n2y:
@@ -530,6 +542,12 @@ packages:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+    dev: false
+
+  /cssesc/3.0.0:
+    resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
+    engines: {node: '>=4'}
+    hasBin: true
     dev: false
 
   /csstype/3.1.1:
@@ -1578,6 +1596,23 @@ packages:
     engines: {node: '>=8.6'}
     dev: false
 
+  /postcss-combine-duplicated-selectors/10.0.3:
+    resolution: {integrity: sha512-IP0BmwFloCskv7DV7xqvzDXqMHpwdczJa6ZvIW8abgHdcIHs9mCJX2ltFhu3EwA51ozp13DByng30+Ke+eIExA==}
+    engines: {node: ^10.0.0 || ^12.0.0 || >=14.0.0}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      postcss-selector-parser: 6.0.10
+    dev: false
+
+  /postcss-selector-parser/6.0.10:
+    resolution: {integrity: sha512-IQ7TZdoaqbT+LCpShg46jnZVlhWD2w6iQYAcYXfHARZ7X1t/UGhhceQDs5X0cGqKvYlHNOuv7Oa1xmb0oQuA3w==}
+    engines: {node: '>=4'}
+    dependencies:
+      cssesc: 3.0.0
+      util-deprecate: 1.0.2
+    dev: false
+
   /postcss/8.4.14:
     resolution: {integrity: sha512-E398TUmfAYFPBSdzgeieK2Y1+1cpdxJx8yXbK/m57nRhKSmk1GB2tO4lbLBtlkfPQTDKfe4Xqv1ASWPpayPEig==}
     engines: {node: ^10 || ^12 || >=14}
@@ -1906,6 +1941,10 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /util-deprecate/1.0.2:
+    resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: false
 
   /which-boxed-primitive/1.0.2:
