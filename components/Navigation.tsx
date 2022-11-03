@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import {
   CContainer,
   CHeader,
@@ -13,13 +14,18 @@ const vars: any = {
   "--cui-header-padding-y": "0.25rem",
 };
 
-const NavigationItem = ({ href, label }: { href: string; label: string }) => (
-  <CNavItem>
-    <CNavLink component={Link} href={href}>
-      {label}
-    </CNavLink>
-  </CNavItem>
-);
+const NavigationItem = ({ href, label }: { href: string; label: string }) => {
+  const router = useRouter();
+  const currentRoute = router.pathname;
+  const active = currentRoute === href;
+  return (
+    <CNavItem>
+      <CNavLink component={Link} href={href} active={active}>
+        {label}
+      </CNavLink>
+    </CNavItem>
+  );
+};
 
 export default function Navigation() {
   return (
