@@ -47,6 +47,7 @@ export default function Home() {
                 <CCardBody>
                   <CCardTitle>{dataset.title}</CCardTitle>
                   <CCardText>
+                    <CButton>Load dataset</CButton>
                     {datasetBaseUrl}
                     {dataset.filename}
                   </CCardText>
