@@ -58,7 +58,13 @@ export default function Home() {
                     <CCardBody>
                       <CCardTitle>{dataset.title}</CCardTitle>
                       <CCardText>
-                        <CButton>Import dataset</CButton>
+                        <CButton
+                          onClick={() =>
+                            importDataset(datasetBaseUrl + dataset.filename)
+                          }
+                        >
+                          Import dataset
+                        </CButton>
                       </CCardText>
                     </CCardBody>
                   </CCol>
