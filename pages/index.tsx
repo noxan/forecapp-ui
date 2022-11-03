@@ -1,11 +1,12 @@
 import { CContainer } from "@coreui/react";
-import Navigation from "../components/Navigation";
+import Layout from "../components/Layout";
 
 export default function Home() {
   return (
-    <div>
-      <Navigation />
-      <CContainer>Home</CContainer>
-    </div>
+    <Layout>
+      <CContainer>
+        <h1>Home</h1>
+      </CContainer>
+    </Layout>
   );
 }
