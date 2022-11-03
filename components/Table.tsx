@@ -52,7 +52,7 @@ export default function Table({ initialData }: { initialData: any }) {
   });
 
   return (
-    <CTable>
+    <CTable bordered>
       <CTableHead>
         {table.getHeaderGroups().map((headerGroup) => (
           <CTableRow key={headerGroup.id}>
