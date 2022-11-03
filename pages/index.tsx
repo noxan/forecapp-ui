@@ -47,19 +47,22 @@ export default function Home() {
         <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 3 }}>
           {datasetExamples.map((dataset) => (
             <CCol xs key={dataset.filename}>
-              <CCard className="h-100">
-                <CCardImage
-                  orientation="top"
-                  src={`https://images.unsplash.com/${dataset.image}?fit=crop&w=640&q=80`}
-                />
-                <CCardBody>
-                  <CCardTitle>{dataset.title}</CCardTitle>
-                  <CCardText>
-                    <CButton>Import dataset</CButton>
-                    {datasetBaseUrl}
-                    {dataset.filename}
-                  </CCardText>
-                </CCardBody>
+              <CCard className="mb-3">
+                <CRow className="g-0">
+                  <CCol md={4}>
+                    <CCardImage
+                      src={`https://images.unsplash.com/${dataset.image}?fit=crop&w=460&h=460&q=80`}
+                    />
+                  </CCol>
+                  <CCol md={8}>
+                    <CCardBody>
+                      <CCardTitle>{dataset.title}</CCardTitle>
+                      <CCardText>
+                        <CButton>Import dataset</CButton>
+                      </CCardText>
+                    </CCardBody>
+                  </CCol>
+                </CRow>
               </CCard>
             </CCol>
           ))}
