@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   CContainer,
   CHeader,
@@ -7,10 +8,18 @@ import {
   CNavLink,
 } from "@coreui/react";
 
-const vars = {
+const vars: any = {
   "--cui-header-min-height": "3rem",
   "--cui-header-padding-y": "0.25rem",
 };
+
+const NavigationItem = ({ href, label }: { href: string; label: string }) => (
+  <CNavItem>
+    <CNavLink component={Link} href={href}>
+      {label}
+    </CNavLink>
+  </CNavItem>
+);
 
 export default function Navigation() {
   return (
@@ -18,15 +27,9 @@ export default function Navigation() {
       <CContainer fluid>
         <CHeaderBrand className="mx-auto d-md-none">Header</CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
-          <CNavItem>
-            <CNavLink href="#">1. Upload</CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">2. Fit</CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">3. Analyze</CNavLink>
-          </CNavItem>
+          <NavigationItem href="/" label="Home" />
+          <NavigationItem href="/" label="Dataset" />
+          <NavigationItem href="/" label="Model" />
         </CHeaderNav>
         <CHeaderNav>
           <CNavItem>
