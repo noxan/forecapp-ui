@@ -3,8 +3,8 @@ import * as danfo from "danfojs";
 
 import Table from "../components/Table";
 
-export default function Home() {
-  console.log("Home");
+export default function Dataset() {
+  console.log("Dataset");
   const [dataset, setDataset] = useState<undefined | danfo.DataFrame>();
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function Home() {
   );
 }
 
-// Home.getInitialProps = async () => {
+// Dataset.getInitialProps = async () => {
 //   console.log("getInitialProps");
 //   if (typeof window !== "undefined") {
 //     const danfo = await import("danfojs");
