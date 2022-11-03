@@ -52,52 +52,50 @@ export default function Table({ initialData }: { initialData: any }) {
   });
 
   return (
-    <div className="p-2">
-      <CTable>
-        <CTableHead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <CTableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <CTableHeaderCell key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </CTableHeaderCell>
-              ))}
-            </CTableRow>
-          ))}
-        </CTableHead>
-        <CTableBody>
-          {table.getRowModel().rows.map((row) => (
-            <CTableRow key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <CTableDataCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </CTableDataCell>
-              ))}
-            </CTableRow>
-          ))}
-        </CTableBody>
-        <CTableFoot>
-          {table.getFooterGroups().map((footerGroup) => (
-            <CTableRow key={footerGroup.id}>
-              {footerGroup.headers.map((header) => (
-                <CTableDataCell key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.footer,
-                        header.getContext()
-                      )}
-                </CTableDataCell>
-              ))}
-            </CTableRow>
-          ))}
-        </CTableFoot>
-      </CTable>
-    </div>
+    <CTable>
+      <CTableHead>
+        {table.getHeaderGroups().map((headerGroup) => (
+          <CTableRow key={headerGroup.id}>
+            {headerGroup.headers.map((header) => (
+              <CTableHeaderCell key={header.id}>
+                {header.isPlaceholder
+                  ? null
+                  : flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+              </CTableHeaderCell>
+            ))}
+          </CTableRow>
+        ))}
+      </CTableHead>
+      <CTableBody>
+        {table.getRowModel().rows.map((row) => (
+          <CTableRow key={row.id}>
+            {row.getVisibleCells().map((cell) => (
+              <CTableDataCell key={cell.id}>
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </CTableDataCell>
+            ))}
+          </CTableRow>
+        ))}
+      </CTableBody>
+      <CTableFoot>
+        {table.getFooterGroups().map((footerGroup) => (
+          <CTableRow key={footerGroup.id}>
+            {footerGroup.headers.map((header) => (
+              <CTableDataCell key={header.id}>
+                {header.isPlaceholder
+                  ? null
+                  : flexRender(
+                      header.column.columnDef.footer,
+                      header.getContext()
+                    )}
+              </CTableDataCell>
+            ))}
+          </CTableRow>
+        ))}
+      </CTableFoot>
+    </CTable>
   );
 }
