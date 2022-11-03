@@ -7,9 +7,14 @@ import {
   CNavLink,
 } from "@coreui/react";
 
+const vars = {
+  "--cui-header-min-height": "3rem",
+  "--cui-header-padding-y": "0.25rem",
+};
+
 export default function Navigation() {
   return (
-    <CHeader position="sticky" className="mb-4">
+    <CHeader position="sticky" className="mb-4" style={vars}>
       <CContainer fluid>
         <CHeaderBrand className="mx-auto d-md-none">Header</CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
