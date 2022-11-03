@@ -1,4 +1,5 @@
 import {
+  CAlert,
   CButton,
   CCard,
   CCardBody,
@@ -7,6 +8,7 @@ import {
   CCardTitle,
   CCol,
   CContainer,
+  CForm,
   CFormInput,
   CRow,
 } from "@coreui/react";
@@ -32,11 +34,16 @@ const datasetExamples: ExampleDataset[] = [
   },
 ];
 
+const importDataset = (filepath: string) => {
+  console.log(filepath);
+};
+
 export default function Home() {
   return (
     <Layout>
       <CContainer>
-        <h1>Home</h1>
+        <h1>Getting started</h1>
+        <h2 className="my-3">Example datasets</h2>
         <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 3 }}>
           {datasetExamples.map((dataset) => (
             <CCol xs key={dataset.filename}>
@@ -57,14 +64,18 @@ export default function Home() {
             </CCol>
           ))}
         </CRow>
-        <CRow className="my-3">
-          <CCol>
-            <CFormInput type="file" />
-          </CCol>
-          <CCol>
-            <CButton>Import dataset</CButton>
-          </CCol>
-        </CRow>
+        <h2 className="my-3">Import dataset</h2>
+        <CAlert color="secondary">Custom dataset import is coming soon.</CAlert>
+        <CForm>
+          <CRow>
+            <CCol>
+              <CFormInput type="file" disabled />
+            </CCol>
+            <CCol>
+              <CButton disabled>Import dataset</CButton>
+            </CCol>
+          </CRow>
+        </CForm>
       </CContainer>
     </Layout>
   );
