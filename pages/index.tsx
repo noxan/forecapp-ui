@@ -7,6 +7,7 @@ import {
   CCardTitle,
   CCol,
   CContainer,
+  CFormInput,
   CRow,
 } from "@coreui/react";
 import Layout from "../components/Layout";
@@ -47,7 +48,7 @@ export default function Home() {
                 <CCardBody>
                   <CCardTitle>{dataset.title}</CCardTitle>
                   <CCardText>
-                    <CButton>Load dataset</CButton>
+                    <CButton>Import dataset</CButton>
                     {datasetBaseUrl}
                     {dataset.filename}
                   </CCardText>
@@ -58,7 +59,10 @@ export default function Home() {
         </CRow>
         <CRow className="my-3">
           <CCol>
-            <CButton>File upload and selector to load custom datasets.</CButton>
+            <CFormInput type="file" />
+          </CCol>
+          <CCol>
+            <CButton>Import dataset</CButton>
           </CCol>
         </CRow>
       </CContainer>
