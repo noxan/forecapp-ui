@@ -1,4 +1,5 @@
 import {
+  CButton,
   CCard,
   CCardBody,
   CCardImage,
@@ -54,7 +55,11 @@ export default function Home() {
             </CCol>
           ))}
         </CRow>
-        File upload and selector to load custom datasets.
+        <CRow className="my-3">
+          <CCol>
+            <CButton>File upload and selector to load custom datasets.</CButton>
+          </CCol>
+        </CRow>
       </CContainer>
     </Layout>
   );
