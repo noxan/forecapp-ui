@@ -9,7 +9,7 @@ const exampleDatasets = [
   "datasets/air_passengers.csv",
 ];
 
-export default function Welcome() {
+export default function Home() {
   const datasets = useSelector((state: any) => state.datasets);
   const isLoading = datasets.status === "loading";
   const dispatch = useDispatch<AppDispatch>();
