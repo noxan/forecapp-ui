@@ -3,26 +3,35 @@ import { useSelector, useDispatch } from "react-redux";
 import { importDataset } from "../src/store/datasets";
 import Layout from "../components/Layout";
 
-const datasets = [
+const exampleDatasets = [
   "datasets/energy_dataset_small.csv",
   "datasets/air_passengers.csv",
 ];
 
 export default function Welcome() {
-  // const count = useSelector((state: any) => state.datasets);
+  const datasets = useSelector((state: any) => state.datasets);
+  const isLoading = datasets.status === "loading";
   const dispatch = useDispatch();
   return (
     <Layout>
       <CContainer>
-        {datasets.map((dataset) => (
+        {exampleDatasets.map((dataset) => (
           <CRow key={dataset} className="my-2">
             <CCol>
-              <CButton onClick={() => dispatch(importDataset(dataset))}>
+              <CButton
+                onClick={() => dispatch(importDataset(dataset))}
+                disabled={isLoading}
+              >
                 Load {dataset}
               </CButton>
             </CCol>
           </CRow>
         ))}
+      </CContainer>
+      <CContainer>
+        <CRow>
+          <CCol>{datasets.status}</CCol>
+        </CRow>
       </CContainer>
     </Layout>
   );
