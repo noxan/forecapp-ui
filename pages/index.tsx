@@ -15,14 +15,14 @@ export default function Welcome() {
   return (
     <Layout>
       <CContainer>
-        {exampleDatasets.map((dataset) => (
-          <CRow key={dataset} className="my-2">
+        {exampleDatasets.map((exampleDatasetUrl) => (
+          <CRow key={exampleDatasetUrl} className="my-2">
             <CCol>
               <CButton
-                onClick={() => dispatch(importDataset(dataset))}
+                onClick={() => dispatch(importDataset(exampleDatasetUrl))}
                 disabled={isLoading}
               >
-                Load {dataset}
+                Load {exampleDatasetUrl}
               </CButton>
             </CCol>
           </CRow>
