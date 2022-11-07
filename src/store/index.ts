@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import datasets from "./datasets";
 import transforms from "./transforms";
+import models from "./models";
 
 export const store = configureStore({
   reducer: {
     datasets,
     transforms,
+    models,
   },
 });
 
