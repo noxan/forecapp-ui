@@ -37,7 +37,11 @@ export const datasetSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(importDataset.fulfilled, (state, { payload }) => {
+      state.status = "idle";
       state.raw = payload as any;
+    });
+    builder.addCase(importDataset.pending, (state) => {
+      state.status = "loading";
     });
   },
 });
