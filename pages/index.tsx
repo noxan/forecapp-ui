@@ -34,14 +34,12 @@ export default function Home() {
       <CContainer>
         <CRow>
           <CCol>{datasets.status}</CCol>
-        </CRow>
-        {datasets.raw && (
-          <CRow>
+          {datasets.raw && (
             <CCol>
               <pre>{JSON.stringify(datasets.raw.slice(0, 5))}</pre>
             </CCol>
-          </CRow>
-        )}
+          )}
+        </CRow>
       </CContainer>
     </Layout>
   );
