@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@coreui/coreui': ^4.2.2
   '@coreui/react': ^4.4.0
+  '@coreui/react-chartjs': ^2.1.0
   '@popperjs/core': ^2.11.6
   '@reduxjs/toolkit': ^1.9.0
   '@tanstack/react-table': ^8.5.22
@@ -31,6 +32,7 @@ specifiers:
 dependencies:
   '@coreui/coreui': 4.2.2_cdjzeokg53ldxngifsg3gdbfde
   '@coreui/react': 4.4.0_biqbaboplfbrettd7655fr4n2y
+  '@coreui/react-chartjs': 2.1.0_r6q5zrenym2zg7je7hgi674bti
   '@popperjs/core': 2.11.6
   '@reduxjs/toolkit': 1.9.0_k4ae6lp43ej6mezo3ztvx6pykq
   '@tanstack/react-table': 8.5.22_biqbaboplfbrettd7655fr4n2y
@@ -75,6 +77,23 @@ packages:
       regenerator-runtime: 0.13.10
     dev: false
 
+  /@coreui/chartjs/3.0.0_@popperjs+core@2.11.6:
+    resolution: {integrity: sha512-udbvSxanTNltv94lqTMW8bLRXTtzk9G2SrmFdM/7HH+JSaLX2wdQpZ4VIJhyOCRGLCSKHktl29BnW1/uXQecAg==}
+    dependencies:
+      '@coreui/coreui': 4.0.0_@popperjs+core@2.11.6
+      chart.js: 3.9.1
+    transitivePeerDependencies:
+      - '@popperjs/core'
+    dev: false
+
+  /@coreui/coreui/4.0.0_@popperjs+core@2.11.6:
+    resolution: {integrity: sha512-8vH6fJrmvCR/Oy5v0E+/1AL3Ygb4jhQ7NXK2fMYWJyK13BePDm9muB3y6S0IdqkpBwjY3hHVwHyt2lJqJdesmQ==}
+    peerDependencies:
+      '@popperjs/core': ^2.9.2
+    dependencies:
+      '@popperjs/core': 2.11.6
+    dev: false
+
   /@coreui/coreui/4.2.2_cdjzeokg53ldxngifsg3gdbfde:
     resolution: {integrity: sha512-aPL7Rv98CBkIU4y7wmZOUBHuBN2qwRS3CFeWmUV3kPeGiPQe9FG4+kOtcITbttNQ35HVMSZeauJyoy2LSM0ygA==}
     peerDependencies:
@@ -84,6 +103,20 @@ packages:
       postcss-combine-duplicated-selectors: 10.0.3_postcss@8.4.18
     transitivePeerDependencies:
       - postcss
+    dev: false
+
+  /@coreui/react-chartjs/2.1.0_r6q5zrenym2zg7je7hgi674bti:
+    resolution: {integrity: sha512-Xn8m+j59ap0Y1TwlyttpMz/Q1/b7fDlHXv21wpSNQyTF4OfkyE2ompVW4bVYIUKE/Ov/WoBlL/5NEpwToUotzw==}
+    peerDependencies:
+      react: '>=17'
+      react-dom: '>=17'
+    dependencies:
+      '@coreui/chartjs': 3.0.0_@popperjs+core@2.11.6
+      chart.js: 3.9.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    transitivePeerDependencies:
+      - '@popperjs/core'
     dev: false
 
   /@coreui/react/4.4.0_biqbaboplfbrettd7655fr4n2y:
@@ -893,6 +926,10 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
+    dev: false
+
+  /chart.js/3.9.1:
+    resolution: {integrity: sha512-Ro2JbLmvg83gXF5F4sniaQ+lTbSv18E+TIf2cOeiH1Iqd2PGFOtem+DUufMZsCJwFE7ywPOpfXFBwRTGq7dh6w==}
     dev: false
 
   /chokidar/3.5.3:
