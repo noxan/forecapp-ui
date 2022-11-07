@@ -1,6 +1,6 @@
 import { CButton, CCol, CContainer, CRow } from "@coreui/react";
 import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch } from "../src/store";
+import { AppDispatch, RootState } from "../src/store";
 import { importDataset } from "../src/store/datasets";
 import Layout from "../components/Layout";
 
@@ -10,8 +10,8 @@ const exampleDatasets = [
 ];
 
 export default function Home() {
-  const datasets = useSelector((state: any) => state.datasets);
-  const isLoading = datasets.status === "loading";
+  const state = useSelector((state: RootState) => state);
+  const isLoading = state.datasets.status === "loading";
   const dispatch = useDispatch<AppDispatch>();
 
   return (
@@ -33,12 +33,16 @@ export default function Home() {
           ))}
         </CRow>
         <CRow>
-          <CCol>{datasets.status}</CCol>
-          {datasets.raw && (
+          <CCol>{state.datasets.status}</CCol>
+          {state.datasets.raw && (
             <CCol>
-              <pre>{JSON.stringify(datasets.raw.slice(0, 5))}</pre>
+              <pre>{JSON.stringify(state.datasets.raw.slice(0, 5))}</pre>
             </CCol>
           )}
+        </CRow>
+        <CRow>
+          <h1>Transforms</h1>
+          {}
         </CRow>
       </CContainer>
     </Layout>
