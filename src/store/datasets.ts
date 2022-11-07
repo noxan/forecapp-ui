@@ -1,11 +1,21 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { parse } from "papaparse";
 
 export const importDataset = createAsyncThunk(
   "datasets/importDataset",
-  async () => {
-    console.log("datasets/importDataset");
-    return { hi: "world" };
-  }
+  async (url: string) =>
+    await new Promise((resolve, reject) => {
+      parse(url, {
+        download: true,
+        header: true,
+        complete(results, file) {
+          resolve(results.data as any);
+        },
+        error(err, file) {
+          reject(err);
+        },
+      });
+    })
 );
 
 export const datasetSlice = createSlice({
