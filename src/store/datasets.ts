@@ -1,4 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export const importDataset = createAsyncThunk(
+  "datasets/importDataset",
+  async () => {
+    console.log("datasets/importDataset");
+    return { hi: "world" };
+  }
+);
 
 export const datasetSlice = createSlice({
   name: "datasets",
@@ -8,13 +16,15 @@ export const datasetSlice = createSlice({
     result: undefined,
   },
   reducers: {
-    importDataset: (state, action: PayloadAction) => {
-      console.log(action.payload);
-    },
     applyTransforms: () => undefined,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(importDataset.fulfilled, (state, { payload }) => {
+      state.raw = payload as any;
+    });
   },
 });
 
-export const { importDataset, applyTransforms } = datasetSlice.actions;
+export const { applyTransforms } = datasetSlice.actions;
 
 export default datasetSlice.reducer;
