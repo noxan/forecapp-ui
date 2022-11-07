@@ -17,6 +17,7 @@ export default function Home() {
     <Layout>
       <CContainer>
         <CRow className="my-2">
+          <h1>Dataset</h1>
           {exampleDatasets.map((exampleDatasetUrl) => (
             <CCol key={exampleDatasetUrl}>
               <CButton
