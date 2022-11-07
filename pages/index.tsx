@@ -1,5 +1,6 @@
 import { CButton, CCol, CContainer, CRow } from "@coreui/react";
 import { useSelector, useDispatch } from "react-redux";
+import { AppDispatch } from "../src/store";
 import { importDataset } from "../src/store/datasets";
 import Layout from "../components/Layout";
 
@@ -11,7 +12,7 @@ const exampleDatasets = [
 export default function Welcome() {
   const datasets = useSelector((state: any) => state.datasets);
   const isLoading = datasets.status === "loading";
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   return (
     <Layout>
       <CContainer>
@@ -19,7 +20,9 @@ export default function Welcome() {
           <CRow key={exampleDatasetUrl} className="my-2">
             <CCol>
               <CButton
-                onClick={() => dispatch(importDataset(exampleDatasetUrl))}
+                onClick={() =>
+                  dispatch(importDataset({ url: exampleDatasetUrl }))
+                }
                 disabled={isLoading}
               >
                 Load {exampleDatasetUrl}
