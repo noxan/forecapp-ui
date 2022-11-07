@@ -1,4 +1,3 @@
-// import "chart.js/auto";
 import { CButton, CCol, CContainer, CRow } from "@coreui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { CChart } from "@coreui/react-chartjs";
