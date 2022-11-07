@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const transformSlice = createSlice({
   name: "transforms",
-  initialState: undefined,
+  initialState: [],
   reducers: {
     addTransform: () => undefined,
     editTransform: () => undefined,
