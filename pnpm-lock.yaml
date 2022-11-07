@@ -7,6 +7,7 @@ specifiers:
   '@reduxjs/toolkit': ^1.9.0
   '@tanstack/react-table': ^8.5.22
   '@types/node': 18.11.9
+  '@types/papaparse': ^5.3.5
   '@types/react': 18.0.24
   '@types/react-dom': 18.0.8
   csv-parse: ^5.3.1
@@ -15,6 +16,7 @@ specifiers:
   eslint: 8.26.0
   eslint-config-next: 13.0.1
   next: 13.0.1
+  papaparse: ^5.3.2
   postcss: ^8.4.18
   prettier: ^2.7.1
   react: 18.2.0
@@ -32,6 +34,7 @@ dependencies:
   '@reduxjs/toolkit': 1.9.0_k4ae6lp43ej6mezo3ztvx6pykq
   '@tanstack/react-table': 8.5.22_biqbaboplfbrettd7655fr4n2y
   '@types/node': 18.11.9
+  '@types/papaparse': 5.3.5
   '@types/react': 18.0.24
   '@types/react-dom': 18.0.8
   csv-parse: 5.3.1
@@ -40,6 +43,7 @@ dependencies:
   eslint: 8.26.0
   eslint-config-next: 13.0.1_wyqvi574yv7oiwfeinomdzmc3m
   next: 13.0.1_orpxj3vgaelozwpc7iiuainqz4
+  papaparse: 5.3.2
   postcss: 8.4.18
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -488,6 +492,12 @@ packages:
 
   /@types/offscreencanvas/2019.3.0:
     resolution: {integrity: sha512-esIJx9bQg+QYF0ra8GnvfianIY8qWB0GBx54PK5Eps6m+xTj86KLavHv6qDhzKcu5UUOgNfJ2pWaIIV7TRUd9Q==}
+    dev: false
+
+  /@types/papaparse/5.3.5:
+    resolution: {integrity: sha512-R1icl/hrJPFRpuYj9PVG03WBAlghJj4JW9Py5QdR8FFSxaLmZRyu7xYDCCBZIJNfUv3MYaeBbhBoX958mUTAaw==}
+    dependencies:
+      '@types/node': 18.11.9
     dev: false
 
   /@types/prop-types/15.7.5:
