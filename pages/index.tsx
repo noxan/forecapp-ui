@@ -1,4 +1,6 @@
 import { CButton, CCol, CContainer, CRow } from "@coreui/react";
+import { useSelector, useDispatch } from "react-redux";
+import { importDataset } from "../src/store/datasets";
 import Layout from "../components/Layout";
 
 const datasets = [
@@ -6,18 +8,16 @@ const datasets = [
   "datasets/air_passengers.csv",
 ];
 
-const importDataset = (filepath: string) => {
-  console.log(filepath);
-};
-
 export default function Welcome() {
+  // const count = useSelector((state: any) => state.datasets);
+  const dispatch = useDispatch();
   return (
     <Layout>
       <CContainer>
         {datasets.map((dataset) => (
           <CRow key={dataset} className="my-2">
             <CCol>
-              <CButton onClick={() => importDataset(dataset)}>
+              <CButton onClick={() => dispatch(importDataset(dataset))}>
                 Load {dataset}
               </CButton>
             </CCol>

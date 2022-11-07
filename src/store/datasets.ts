@@ -1,13 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export const datasetSlice = createSlice({
   name: "datasets",
   initialState: {
     raw: undefined,
     main: undefined,
+    result: undefined,
   },
   reducers: {
-    importDataset: () => undefined,
+    importDataset: (state, action: PayloadAction) => {
+      console.log(action.payload);
+    },
     applyTransforms: () => undefined,
   },
 });
