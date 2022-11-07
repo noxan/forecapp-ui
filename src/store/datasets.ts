@@ -18,13 +18,20 @@ export const importDataset = createAsyncThunk(
     })
 );
 
+interface DatasetsState {
+  status: "idle" | "loading";
+  raw?: any[];
+  main?: any[];
+  result?: any[];
+}
+
+const initialState: DatasetsState = {
+  status: "idle",
+};
+
 export const datasetSlice = createSlice({
   name: "datasets",
-  initialState: {
-    raw: undefined,
-    main: undefined,
-    result: undefined,
-  },
+  initialState,
   reducers: {
     applyTransforms: () => undefined,
   },
