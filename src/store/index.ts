@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import datasets from "./datasets";
 import transforms from "./transforms";
 
 export const store = configureStore({
   reducer: {
+    datasets,
     transforms,
   },
 });
