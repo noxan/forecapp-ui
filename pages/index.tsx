@@ -16,9 +16,9 @@ export default function Home() {
   return (
     <Layout>
       <CContainer>
-        {exampleDatasets.map((exampleDatasetUrl) => (
-          <CRow key={exampleDatasetUrl} className="my-2">
-            <CCol>
+        <CRow className="my-2">
+          {exampleDatasets.map((exampleDatasetUrl) => (
+            <CCol key={exampleDatasetUrl}>
               <CButton
                 onClick={() =>
                   dispatch(importDataset({ url: exampleDatasetUrl }))
@@ -28,8 +28,8 @@ export default function Home() {
                 Load {exampleDatasetUrl}
               </CButton>
             </CCol>
-          </CRow>
-        ))}
+          ))}
+        </CRow>
       </CContainer>
       <CContainer>
         <CRow>
