@@ -32,6 +32,13 @@ export default function Welcome() {
         <CRow>
           <CCol>{datasets.status}</CCol>
         </CRow>
+        {datasets.raw && (
+          <CRow>
+            <CCol>
+              <pre>{JSON.stringify(datasets.raw.slice(0, 5))}</pre>
+            </CCol>
+          </CRow>
+        )}
       </CContainer>
     </Layout>
   );
