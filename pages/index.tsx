@@ -1,14 +1,8 @@
-import dynamic from "next/dynamic";
 import { CButton, CCol, CContainer, CRow } from "@coreui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../src/store";
 import { importDataset } from "../src/store/datasets";
 import Layout from "../components/Layout";
-
-const Plot = dynamic(() => import("react-plotly.js"), {
-  ssr: false,
-  loading: () => <>Loading...</>,
-});
 
 const exampleDatasets = [
   "datasets/energy_dataset_small.csv",
@@ -45,12 +39,6 @@ export default function Home() {
               <pre>{JSON.stringify(datasets.raw.slice(0, 5))}</pre>
             </CCol>
           )}
-        </CRow>
-        <CRow className="my-2">
-          <Plot
-            data={[{ type: "scatter", x: [1, 2, 3], y: [2, 5, 3] }]}
-            layout={{ title: "Visualization" }}
-          />
         </CRow>
       </CContainer>
     </Layout>
