@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import * as danfo from "danfojs";
 
-import Table from "../components/Table";
+import Table from "../../components/experiments/Table";
 
 export default function Dataset() {
   console.log("Dataset");
