@@ -10,6 +10,7 @@ specifiers:
   '@types/papaparse': ^5.3.5
   '@types/react': 18.0.24
   '@types/react-dom': 18.0.8
+  '@types/react-plotly.js': ^2.5.2
   csv-parse: ^5.3.1
   danfojs: ^1.1.2
   danfojs-node: ^1.1.2
@@ -40,6 +41,7 @@ dependencies:
   '@types/papaparse': 5.3.5
   '@types/react': 18.0.24
   '@types/react-dom': 18.0.8
+  '@types/react-plotly.js': 2.5.2
   csv-parse: 5.3.1
   danfojs: 1.1.2_seedrandom@3.0.5
   danfojs-node: 1.1.2_seedrandom@3.0.5
@@ -632,6 +634,10 @@ packages:
       '@types/node': 18.11.9
     dev: false
 
+  /@types/plotly.js/2.12.8:
+    resolution: {integrity: sha512-h7gkIDxjC7ZgAZTActvrMJNDFsEPIAOr6kvMIhTOgxOrXTnXH3ywnmjtfoUViuKFNhos3zhhTtcT5QQT/bH/2w==}
+    dev: false
+
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
     dev: false
@@ -639,6 +645,13 @@ packages:
   /@types/react-dom/18.0.8:
     resolution: {integrity: sha512-C3GYO0HLaOkk9dDAz3Dl4sbe4AKUGTCfFIZsz3n/82dPNN8Du533HzKatDxeUYWu24wJgMP1xICqkWk1YOLOIw==}
     dependencies:
+      '@types/react': 18.0.24
+    dev: false
+
+  /@types/react-plotly.js/2.5.2:
+    resolution: {integrity: sha512-hsCEdgGTEkeEXI8ZlB0qOgXCcDjq3NGsi/mlxOasAclScvk1i4b+ajaOj+J/j2Ay86I2a7eDxpuTHrBdVyUrkg==}
+    dependencies:
+      '@types/plotly.js': 2.12.8
       '@types/react': 18.0.24
     dev: false
 
