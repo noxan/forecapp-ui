@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../src/store";
 import { importDataset } from "../src/store/datasets";
 import Layout from "../components/Layout";
-import { useRef } from "react";
 
 const Plot = dynamic(() => import("react-plotly.js"), {
   ssr: false,
@@ -17,7 +16,6 @@ const exampleDatasets = [
 ];
 
 export default function Home() {
-  const ref = useRef();
   const datasets = useSelector((state: any) => state.datasets);
   const isLoading = datasets.status === "loading";
   const dispatch = useDispatch<AppDispatch>();
