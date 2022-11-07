@@ -1,8 +1,8 @@
 import "../styles/globals.sass";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import { persistStore } from "redux-persist";
+import { PersistGate } from "reduxjs-toolkit-persist/integration/react";
+import { persistStore } from "reduxjs-toolkit-persist";
 import { store } from "../src/store";
 
 const persistor = persistStore(store);

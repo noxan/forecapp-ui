@@ -1,6 +1,14 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from "reduxjs-toolkit-persist";
+import storage from "reduxjs-toolkit-persist/lib/storage";
 import datasets from "./datasets";
 import transforms from "./transforms";
 import models from "./models";
@@ -20,6 +28,12 @@ const persistedReducers = persistReducer(persistConfig, reducers);
 
 export const store = configureStore({
   reducer: persistedReducers,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
