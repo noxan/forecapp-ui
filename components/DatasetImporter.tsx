@@ -12,18 +12,18 @@ const DatasetImporter = () => {
   const status = useSelector((state: RootState) => state.datasets.status);
   const dispatch = useDispatch<AppDispatch>();
   return (
-    <>
+    <div>
       {exampleDatasets.map((exampleDatasetUrl) => (
-        <CCol key={exampleDatasetUrl}>
-          <CButton
-            onClick={() => dispatch(importDataset({ url: exampleDatasetUrl }))}
-            disabled={status === "loading"}
-          >
-            Load {exampleDatasetUrl}
-          </CButton>
-        </CCol>
+        <CButton
+          key={exampleDatasetUrl}
+          onClick={() => dispatch(importDataset({ url: exampleDatasetUrl }))}
+          disabled={status === "loading"}
+          className="m-1"
+        >
+          Load {exampleDatasetUrl}
+        </CButton>
       ))}
-    </>
+    </div>
   );
 };
 
