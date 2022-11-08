@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from "../src/store";
 import Layout from "../components/Layout";
 import DatasetImporter from "../components/DatasetImporter";
 import { addTransform } from "../src/store/transforms";
+import ColumnConfiguration from "../components/ColumnConfiguration";
 
 export default function Home() {
   const state = useSelector((state: RootState) => state);
@@ -31,24 +32,7 @@ export default function Home() {
           )}
         </CRow>
       </CContainer>
-      <CContainer>
-        <CRow>
-          <CCol>
-            <h1>Column mapping</h1>
-          </CCol>
-        </CRow>
-        <CRow>
-          <CCol>
-            {state.datasets.columns && (
-              <CCol>
-                <pre style={{ maxHeight: "20rem" }}>
-                  {JSON.stringify(state.datasets.columns, null, 2)}
-                </pre>
-              </CCol>
-            )}
-          </CCol>
-        </CRow>
-      </CContainer>
+      <ColumnConfiguration />
     </Layout>
   );
 }
