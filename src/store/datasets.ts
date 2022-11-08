@@ -19,6 +19,7 @@ export const importDataset = createAsyncThunk<any[], { url: string }>(
     })
 );
 
+// TODO: make sure special columns (time, value) can only be picked once, adjust definitions, e.g. unique = true
 export const columnFunctionalities = [undefined, "time", "value"] as const;
 export type ColumnFunctionalities = typeof columnFunctionalities[number];
 

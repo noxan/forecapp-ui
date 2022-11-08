@@ -23,7 +23,13 @@ const ColumnConfiguration = () => {
         <CRow key={column.identifier}>
           <CCol>
             {column.name} ({column.identifier})
-            <CFormSelect defaultValue={column.functionality}>
+            {/* TODO: make sure special columns (time, value) can only be picked once */}
+            <CFormSelect
+              defaultValue={column.functionality}
+              onChange={(evt) =>
+                console.log("changeColumnFunction", evt.target.value)
+              }
+            >
               {columnFunctionalities.map((functionality) => (
                 <option key={functionality || "None"} value={functionality}>
                   {functionality ? capitalize(functionality) : "None"}
