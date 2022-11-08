@@ -1,10 +1,13 @@
 import { CCol, CContainer, CRow } from "@coreui/react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../src/store";
+import { useAppDispatch, useAppSelector } from "../src/hooks";
+import { ColumnConfigurations } from "../src/store/datasets";
 
 const ColumnConfiguration = () => {
-  const state = useSelector((state: RootState) => state);
-  const dispatch = useDispatch<AppDispatch>();
+  const columns = useAppSelector(
+    (state) => state.datasets.columns
+  ) as ColumnConfigurations;
+  const dispatch = useAppDispatch();
+
   return (
     <CContainer>
       <CRow>
@@ -12,17 +15,11 @@ const ColumnConfiguration = () => {
           <h1>Column mapping</h1>
         </CCol>
       </CRow>
-      <CRow>
-        <CCol>
-          {state.datasets.columns && (
-            <CCol>
-              <pre style={{ maxHeight: "20rem" }}>
-                {JSON.stringify(state.datasets.columns, null, 2)}
-              </pre>
-            </CCol>
-          )}
-        </CCol>
-      </CRow>
+      {Object.values(columns).map((column) => (
+        <CRow key={column.identifier}>
+          <CCol>{column.name}</CCol>
+        </CRow>
+      ))}
     </CContainer>
   );
 };

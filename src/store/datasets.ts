@@ -18,16 +18,16 @@ export const importDataset = createAsyncThunk<any[], { url: string }>(
     })
 );
 
-interface ColumnConfiguration {
+export interface ColumnConfiguration {
   identifier: string;
   name: string;
 }
 
-interface ColumnConfigurations {
+export interface ColumnConfigurations {
   [key: string]: ColumnConfiguration;
 }
 
-interface DatasetsState {
+export interface DatasetsState {
   status: "idle" | "loading";
   raw?: any[];
   columns?: ColumnConfigurations;
@@ -35,9 +35,9 @@ interface DatasetsState {
   result?: any[];
 }
 
-const initialState: DatasetsState = {
+const initialState = {
   status: "idle",
-};
+} as DatasetsState;
 
 export const datasetSlice = createSlice({
   name: "datasets",
