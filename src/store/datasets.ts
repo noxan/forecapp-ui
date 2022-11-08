@@ -2,21 +2,37 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { parse } from "papaparse";
 import { capitalize } from "../helpers";
 
-export const importDataset = createAsyncThunk<any[], { url: string }>(
+export const importDataset = createAsyncThunk<any[], { source: string | File }>(
   "datasets/importDataset",
-  async ({ url }) =>
-    await new Promise((resolve, reject) => {
-      parse(url, {
-        download: true,
-        header: true,
-        complete(results, _file) {
-          resolve(results.data as any);
-        },
-        error(err, _file) {
-          reject(err);
-        },
+  async ({ source }) => {
+    if (source instanceof File) {
+      const text = await source.text();
+      return await new Promise((resolve, reject) => {
+        parse(text, {
+          header: true,
+          complete(results) {
+            resolve(results.data as any);
+          },
+          error(error: Error) {
+            reject(error);
+          },
+        });
       });
-    })
+    } else {
+      return await new Promise((resolve, reject) => {
+        parse(source, {
+          download: true,
+          header: true,
+          complete(results) {
+            resolve(results.data as any);
+          },
+          error(err) {
+            reject(err);
+          },
+        });
+      });
+    }
+  }
 );
 
 // TODO: make sure special columns (time, value) can only be picked once, adjust definitions, e.g. unique = true
