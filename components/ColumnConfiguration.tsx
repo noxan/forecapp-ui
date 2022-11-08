@@ -21,10 +21,10 @@ const ColumnConfiguration = () => {
           <h1>Column mapping</h1>
         </CCol>
       </CRow>
-      {Object.values(columns).map((column) => (
-        <CRow key={column.identifier}>
-          <CCol>
-            {column.name} ({column.identifier})
+      <CRow md={{ cols: 3 }}>
+        {Object.values(columns).map((column, index) => (
+          <CCol key={column.identifier} title={column.identifier}>
+            {column.name}
             {/* TODO: make sure special columns (time, value) can only be picked once */}
             <CFormSelect
               defaultValue={column.functionality}
@@ -44,8 +44,8 @@ const ColumnConfiguration = () => {
               ))}
             </CFormSelect>
           </CCol>
-        </CRow>
-      ))}
+        ))}
+      </CRow>
     </CContainer>
   );
 };

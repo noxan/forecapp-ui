@@ -9,10 +9,10 @@ export const importDataset = createAsyncThunk<any[], { url: string }>(
       parse(url, {
         download: true,
         header: true,
-        complete(results, file) {
+        complete(results, _file) {
           resolve(results.data as any);
         },
-        error(err, file) {
+        error(err, _file) {
           reject(err);
         },
       });
@@ -90,7 +90,6 @@ export const datasetSlice = createSlice({
     updateColumnFunction: (
       state,
       {
-        type,
         payload: { identifier, value },
       }: PayloadAction<{ identifier: string; value: ColumnFunctionalities }>
     ) => {
