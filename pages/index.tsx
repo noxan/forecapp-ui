@@ -22,7 +22,7 @@ export default function Home() {
             <DatasetImporter />
             <div>{state.datasets.status}</div>
             <CButton onClick={() => dispatch(resetColumns())}>
-              Init/reset columns
+              Init/reset columns (click this after loading dataset or to reset)
             </CButton>
           </CCol>
           {state.datasets.raw && (
