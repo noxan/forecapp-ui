@@ -19,13 +19,15 @@ export default function Home() {
           <CCol>{state.datasets.status}</CCol>
           {state.datasets.raw && (
             <CCol>
-              <pre>{JSON.stringify(state.datasets.raw.slice(0, 5))}</pre>
+              <pre>
+                {JSON.stringify(state.datasets.raw.slice(0, 1), null, 2)}
+              </pre>
             </CCol>
           )}
         </CRow>
         <CRow>
-          <h1>Transforms</h1>
-          {JSON.stringify(state.transforms)}
+          <h1>Column mapping</h1>
+          <pre>{JSON.stringify(state.transforms)}</pre>
         </CRow>
       </CContainer>
     </Layout>
