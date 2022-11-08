@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { parse } from "papaparse";
 import { capitalize } from "../helpers";
 
@@ -86,6 +86,18 @@ export const datasetSlice = createSlice({
         state.columns = columns;
       }
     },
+    updateColumnFunction: (
+      state,
+      {
+        type,
+        payload: { identifier, value },
+      }: PayloadAction<{ identifier: string; value: ColumnFunctionalities }>
+    ) => {
+      if (!state.columns) {
+        state.columns = {};
+      }
+      state.columns[identifier].functionality = value;
+    },
     applyTransforms: () => undefined,
   },
   extraReducers: (builder) => {
@@ -99,6 +111,7 @@ export const datasetSlice = createSlice({
   },
 });
 
-export const { resetColumns, applyTransforms } = datasetSlice.actions;
+export const { resetColumns, updateColumnFunction, applyTransforms } =
+  datasetSlice.actions;
 
 export default datasetSlice.reducer;

@@ -3,7 +3,9 @@ import { capitalize } from "../src/helpers";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import {
   ColumnConfigurations,
+  ColumnFunctionalities,
   columnFunctionalities,
+  updateColumnFunction,
 } from "../src/store/datasets";
 
 const ColumnConfiguration = () => {
@@ -27,7 +29,12 @@ const ColumnConfiguration = () => {
             <CFormSelect
               defaultValue={column.functionality}
               onChange={(evt) =>
-                console.log("changeColumnFunction", evt.target.value)
+                dispatch(
+                  updateColumnFunction({
+                    identifier: column.identifier,
+                    value: evt.target.value as ColumnFunctionalities,
+                  })
+                )
               }
             >
               {columnFunctionalities.map((functionality) => (
