@@ -1,11 +1,10 @@
 import { CCol, CContainer, CFormSelect, CRow } from "@coreui/react";
+import { capitalize } from "../src/helpers";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import {
   ColumnConfigurations,
   columnFunctionalities,
 } from "../src/store/datasets";
-
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 const ColumnConfiguration = () => {
   const columns = useAppSelector(

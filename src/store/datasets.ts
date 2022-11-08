@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { parse } from "papaparse";
+import { capitalize } from "../helpers";
 
 export const importDataset = createAsyncThunk<any[], { url: string }>(
   "datasets/importDataset",
@@ -47,6 +48,21 @@ const initialState = {
   status: "idle",
 } as DatasetsState;
 
+const commonColumnNames = {
+  time: ["ds", "time", "timestamp", "date", "datetime"],
+  value: ["y", "value"],
+};
+
+const mapColumnNameToFunctionality = (name: string): ColumnFunctionalities => {
+  const lowerName = name.toLowerCase();
+  for (const [functionality, names] of Object.entries(commonColumnNames)) {
+    if (names.includes(lowerName)) {
+      return functionality as ColumnFunctionalities;
+    }
+  }
+  return undefined;
+};
+
 export const datasetSlice = createSlice({
   name: "datasets",
   initialState,
@@ -59,7 +75,11 @@ export const datasetSlice = createSlice({
         // TODO: handle datasets without header column
         const columns: ColumnConfigurations = {};
         Object.keys(state.raw[0]).forEach((key) => {
-          columns[key] = { identifier: key, name: key };
+          columns[key] = {
+            identifier: key,
+            name: capitalize(key),
+            functionality: mapColumnNameToFunctionality(key),
+          };
         });
         state.columns = columns;
       }
