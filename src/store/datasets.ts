@@ -40,8 +40,9 @@ export interface DatasetsState {
   status: "idle" | "loading";
   raw?: any[];
   columns?: ColumnConfigurations;
-  main?: any[];
-  result?: any[];
+
+  // main?: any[]; // processed dataset
+  // result?: any[]; // results dataset, alias predictions
 }
 
 const initialState = {
