@@ -1,3 +1,4 @@
+import { CRow } from "@coreui/react";
 import dynamic from "next/dynamic";
 
 const Plot = dynamic(() => import("react-plotly.js"), {
@@ -5,6 +6,7 @@ const Plot = dynamic(() => import("react-plotly.js"), {
   loading: () => <>Loading...</>,
 });
 
+const BrokenChart = (datasets: any) => {
   const previewLength = 2;
   let Chart = <div>Loading or invalid data</div>;
   if (datasets.raw.length > 0) {
@@ -12,7 +14,6 @@ const Plot = dynamic(() => import("react-plotly.js"), {
 
     console.log(headers);
     const visualizationData = {
-      x:
       x: [1, 2, 3],
       y: [2, 5, 3],
     };
@@ -30,5 +31,6 @@ const Plot = dynamic(() => import("react-plotly.js"), {
     );
   }
 
-
-  <CRow className="my-2">{Chart}</CRow>
+  return <CRow className="my-2">{Chart}</CRow>;
+};
+export default BrokenChart;
