@@ -34,7 +34,7 @@ export default function Home() {
           )}
         </CRow>
       </CContainer>
-      {state.datasets.raw && <ColumnConfiguration />}
+      {state.datasets.raw && state.datasets.columns && <ColumnConfiguration />}
     </Layout>
   );
 }

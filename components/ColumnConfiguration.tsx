@@ -26,9 +26,9 @@ const ColumnConfiguration = () => {
             <CFormSelect>
               {columnFunctionalities.map((functionality) => (
                 <option
-                  key={functionality}
+                  key={functionality || "None"}
                   value={functionality}
-                  selected={column.functionality === functionality}
+                  defaultChecked={column.functionality === functionality}
                 >
                   {functionality ? capitalize(functionality) : "None"}
                 </option>
