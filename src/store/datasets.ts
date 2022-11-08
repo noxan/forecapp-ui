@@ -21,6 +21,11 @@ export const importDataset = createAsyncThunk<any[], { url: string }>(
 export interface ColumnConfiguration {
   identifier: string;
   name: string;
+  validation?: {
+    checks: undefined;
+    type: undefined;
+  };
+  functionality?: "time" | "value";
 }
 
 export interface ColumnConfigurations {
