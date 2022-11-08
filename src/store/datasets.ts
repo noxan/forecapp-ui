@@ -20,6 +20,7 @@ export const importDataset = createAsyncThunk<any[], { url: string }>(
 );
 
 // TODO: make sure special columns (time, value) can only be picked once, adjust definitions, e.g. unique = true
+// TODO: add other NP features as functionalities for columns, e.g. lagged regressors, future regressors, events, etc.
 export const columnFunctionalities = [undefined, "time", "value"] as const;
 export type ColumnFunctionalities = typeof columnFunctionalities[number];
 
