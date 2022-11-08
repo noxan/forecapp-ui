@@ -25,7 +25,7 @@ export default function Home() {
           </CCol>
           {state.datasets.raw && (
             <CCol>
-              <pre style={{ maxHeight: "20rem" }}>
+              <pre style={{ maxHeight: "10rem" }}>
                 {JSON.stringify(state.datasets.raw.slice(0, 1), null, 2)}
               </pre>
             </CCol>
