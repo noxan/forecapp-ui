@@ -18,21 +18,14 @@ export default function Home() {
           </CCol>
         </CRow>
         <CRow>
-          <CCol md={4}>
+          <CCol>
             <DatasetImporter />
             {state.datasets.status}
           </CCol>
           {state.datasets.raw && (
-            <CCol md={4}>
+            <CCol>
               <pre style={{ maxHeight: "20rem" }}>
                 {JSON.stringify(state.datasets.raw.slice(0, 1), null, 2)}
-              </pre>
-            </CCol>
-          )}
-          {state.datasets.columns && (
-            <CCol md={4}>
-              <pre style={{ maxHeight: "20rem" }}>
-                {JSON.stringify(state.datasets.columns, null, 2)}
               </pre>
             </CCol>
           )}
@@ -42,10 +35,17 @@ export default function Home() {
         <CRow>
           <CCol>
             <h1>Column mapping</h1>
-            <CButton onClick={() => dispatch(addTransform())}>
-              Add transform
-            </CButton>
-            <pre>{JSON.stringify(state.transforms)}</pre>
+          </CCol>
+        </CRow>
+        <CRow>
+          <CCol>
+            {state.datasets.columns && (
+              <CCol>
+                <pre style={{ maxHeight: "20rem" }}>
+                  {JSON.stringify(state.datasets.columns, null, 2)}
+                </pre>
+              </CCol>
+            )}
           </CCol>
         </CRow>
       </CContainer>
