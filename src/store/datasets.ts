@@ -18,6 +18,9 @@ export const importDataset = createAsyncThunk<any[], { url: string }>(
     })
 );
 
+export const columnFunctionalities = [undefined, "time", "value"] as const;
+export type ColumnFunctionalities = typeof columnFunctionalities[number];
+
 export interface ColumnConfiguration {
   identifier: string;
   name: string;
@@ -25,7 +28,7 @@ export interface ColumnConfiguration {
     checks: undefined;
     type: undefined;
   };
-  functionality?: "time" | "value";
+  functionality: ColumnFunctionalities;
 }
 
 export interface ColumnConfigurations {

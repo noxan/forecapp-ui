@@ -1,6 +1,11 @@
-import { CCol, CContainer, CRow } from "@coreui/react";
+import { CCol, CContainer, CFormSelect, CRow } from "@coreui/react";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
-import { ColumnConfigurations } from "../src/store/datasets";
+import {
+  ColumnConfigurations,
+  columnFunctionalities,
+} from "../src/store/datasets";
+
+const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 const ColumnConfiguration = () => {
   const columns = useAppSelector(
@@ -17,7 +22,20 @@ const ColumnConfiguration = () => {
       </CRow>
       {Object.values(columns).map((column) => (
         <CRow key={column.identifier}>
-          <CCol>{column.name}</CCol>
+          <CCol>
+            {column.name} ({column.identifier})
+            <CFormSelect>
+              {columnFunctionalities.map((functionality) => (
+                <option
+                  key={functionality}
+                  value={functionality}
+                  selected={column.functionality === functionality}
+                >
+                  {functionality ? capitalize(functionality) : "None"}
+                </option>
+              ))}
+            </CFormSelect>
+          </CCol>
         </CRow>
       ))}
     </CContainer>
