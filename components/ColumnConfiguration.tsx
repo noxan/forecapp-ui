@@ -23,13 +23,9 @@ const ColumnConfiguration = () => {
         <CRow key={column.identifier}>
           <CCol>
             {column.name} ({column.identifier})
-            <CFormSelect>
+            <CFormSelect defaultValue={column.functionality}>
               {columnFunctionalities.map((functionality) => (
-                <option
-                  key={functionality || "None"}
-                  value={functionality}
-                  defaultChecked={column.functionality === functionality}
-                >
+                <option key={functionality || "None"} value={functionality}>
                   {functionality ? capitalize(functionality) : "None"}
                 </option>
               ))}
