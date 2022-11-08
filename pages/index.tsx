@@ -18,19 +18,24 @@ export default function Home() {
           </CCol>
         </CRow>
         <CRow>
-          <CCol>
+          <CCol md={4}>
             <DatasetImporter />
             {state.datasets.status}
           </CCol>
-          <CCol>
-            {state.datasets.raw && (
-              <CCol>
-                <pre style={{ maxHeight: "20rem" }}>
-                  {JSON.stringify(state.datasets.raw.slice(0, 1), null, 2)}
-                </pre>
-              </CCol>
-            )}
-          </CCol>
+          {state.datasets.raw && (
+            <CCol md={4}>
+              <pre style={{ maxHeight: "20rem" }}>
+                {JSON.stringify(state.datasets.raw.slice(0, 1), null, 2)}
+              </pre>
+            </CCol>
+          )}
+          {state.datasets.columns && (
+            <CCol md={4}>
+              <pre style={{ maxHeight: "20rem" }}>
+                {JSON.stringify(state.datasets.columns, null, 2)}
+              </pre>
+            </CCol>
+          )}
         </CRow>
       </CContainer>
       <CContainer>
