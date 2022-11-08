@@ -97,6 +97,6 @@ export const datasetSlice = createSlice({
   },
 });
 
-export const { applyTransforms } = datasetSlice.actions;
+export const { resetColumns, applyTransforms } = datasetSlice.actions;
 
 export default datasetSlice.reducer;

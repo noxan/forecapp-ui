@@ -1,14 +1,13 @@
 import { CButton, CCol, CContainer, CRow } from "@coreui/react";
-import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "../src/store";
 import Layout from "../components/Layout";
 import DatasetImporter from "../components/DatasetImporter";
-import { addTransform } from "../src/store/transforms";
 import ColumnConfiguration from "../components/ColumnConfiguration";
+import { useAppDispatch, useAppSelector } from "../src/hooks";
+import { resetColumns } from "../src/store/datasets";
 
 export default function Home() {
-  const state = useSelector((state: RootState) => state);
-  const dispatch = useDispatch<AppDispatch>();
+  const state = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
 
   return (
     <Layout>
@@ -21,7 +20,10 @@ export default function Home() {
         <CRow>
           <CCol>
             <DatasetImporter />
-            {state.datasets.status}
+            <div>{state.datasets.status}</div>
+            <CButton onClick={() => dispatch(resetColumns())}>
+              Init/reset columns
+            </CButton>
           </CCol>
           {state.datasets.raw && (
             <CCol>
