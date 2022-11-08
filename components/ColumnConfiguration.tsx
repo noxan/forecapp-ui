@@ -16,7 +16,7 @@ const ColumnConfiguration = () => {
 
   return (
     <CContainer>
-      <CRow>
+      <CRow className="my-2">
         <CCol>
           <h1>Column mapping</h1>
         </CCol>
