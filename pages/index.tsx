@@ -65,6 +65,21 @@ export default function Home() {
             <CRow className="my-2">
               <CCol>
                 <h1>Model input</h1>
+                <CButton
+                  onClick={async () => {
+                    const payload = {
+                      dataset: finalDataset,
+                      configuration: state.models,
+                    };
+                    const res = await fetch("//127.0.0.1:5000/prediction", {
+                      method: "POST",
+                      body: JSON.stringify(payload),
+                    });
+                    console.log(res);
+                  }}
+                >
+                  Run prediction
+                </CButton>
               </CCol>
             </CRow>
             <CRow md={{ cols: 2 }}>
