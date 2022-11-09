@@ -76,18 +76,6 @@ export default function Home() {
             <CRow className="my-2">
               <CCol>
                 <h1>Model input</h1>
-                <CButton
-                  onClick={() => {
-                    dispatch(
-                      neuralprophet({
-                        dataset: finalDataset,
-                        configuration: state.models,
-                      })
-                    );
-                  }}
-                >
-                  Run prediction
-                </CButton>
               </CCol>
             </CRow>
             <CRow md={{ cols: 2 }}>
@@ -104,6 +92,42 @@ export default function Home() {
                 </pre>
               </CCol>
             </CRow>
+            <CRow className="my-2">
+              <CCol>
+                <CButton
+                  onClick={() => {
+                    dispatch(
+                      neuralprophet({
+                        dataset: finalDataset,
+                        configuration: state.models,
+                      })
+                    );
+                  }}
+                >
+                  Run prediction
+                </CButton>
+              </CCol>
+            </CRow>
+            {state.datasets.prediction && (
+              <CRow md={{ cols: 2 }}>
+                <CCol>
+                  <h3>Forecast</h3>
+                  <pre style={{ maxHeight: "20rem" }}>
+                    {JSON.stringify(
+                      state.datasets.prediction.forecast,
+                      null,
+                      2
+                    )}
+                  </pre>
+                </CCol>
+                <CCol>
+                  <h3>Metrics</h3>
+                  <pre style={{ maxHeight: "20rem" }}>
+                    {JSON.stringify(state.datasets.prediction.metrics, null, 2)}
+                  </pre>
+                </CCol>
+              </CRow>
+            )}
           </CContainer>
         </>
       )}
