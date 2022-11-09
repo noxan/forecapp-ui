@@ -2,7 +2,11 @@ import { CButton, CCol, CContainer, CRow } from "@coreui/react";
 import Layout from "../components/Layout";
 import DatasetImporter from "../components/DatasetImporter";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
-import { ColumnConfigurations, resetColumns } from "../src/store/datasets";
+import {
+  ColumnConfigurations,
+  neuralprophet,
+  resetColumns,
+} from "../src/store/datasets";
 import ColumnConfiguration from "../components/ColumnConfiguration";
 
 const transformDataset = (dataset: any[], columns: ColumnConfigurations) =>
@@ -73,16 +77,13 @@ export default function Home() {
               <CCol>
                 <h1>Model input</h1>
                 <CButton
-                  onClick={async () => {
-                    const payload = {
-                      dataset: finalDataset,
-                      configuration: state.models,
-                    };
-                    const res = await fetch("//127.0.0.1:5000/prediction", {
-                      method: "POST",
-                      body: JSON.stringify(payload),
-                    });
-                    console.log(res);
+                  onClick={() => {
+                    dispatch(
+                      neuralprophet({
+                        dataset: finalDataset,
+                        configuration: state.models,
+                      })
+                    );
                   }}
                 >
                   Run prediction

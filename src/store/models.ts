@@ -12,7 +12,7 @@ export const modelSlice = createSlice({
     },
     training: {
       learningRate: "auto",
-      epochs: "auto",
+      epochs: 1, // "auto",
       batchSize: "auto",
     },
     events: {},

@@ -35,6 +35,21 @@ export const importDataset = createAsyncThunk<any[], { source: string | File }>(
   }
 );
 
+export const neuralprophet = createAsyncThunk<
+  object,
+  { dataset: any[]; configuration: object }
+>("datasets/neuralprophet", async ({ dataset, configuration }) => {
+  const payload = {
+    dataset,
+    configuration,
+  };
+  const res = await fetch("//127.0.0.1:5000/prediction", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+  return await res.json();
+});
+
 // TODO: make sure special columns (time, value) can only be picked once, adjust definitions, e.g. unique = true
 // TODO: add other NP features as functionalities for columns, e.g. lagged regressors, future regressors, events, etc.
 export const columnFunctionalities = [undefined, "time", "value"] as const;
@@ -60,7 +75,7 @@ export interface DatasetsState {
   columns?: ColumnConfigurations;
 
   // main?: any[]; // processed dataset
-  // result?: any[]; // results dataset, alias predictions
+  prediction?: object; // results dataset, alias predictions
 }
 
 const initialState = {
@@ -122,6 +137,13 @@ export const datasetSlice = createSlice({
       state.raw = payload as any;
     });
     builder.addCase(importDataset.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(neuralprophet.fulfilled, (state, { payload }) => {
+      state.status = "idle";
+      state.prediction = payload as any;
+    });
+    builder.addCase(neuralprophet.pending, (state) => {
       state.status = "loading";
     });
   },
