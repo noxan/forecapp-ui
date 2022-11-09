@@ -6,22 +6,29 @@ import { ColumnConfigurations, resetColumns } from "../src/store/datasets";
 import ColumnConfiguration from "../components/ColumnConfiguration";
 
 const transformDataset = (dataset: any[], columns: ColumnConfigurations) =>
-  dataset.map((row) => {
-    const newRow: any = {};
-    Object.values(columns).forEach((column) => {
-      // only pick columns which have a functionality assigned
-      if (column.functionality) {
-        // TODO: move column output name configuration to the column functionalities (or allow user override)
-        // NOTE: we'll need to come up with unique identifiers for functionalities with multiple occasions (e.g. events)
-        const outputName = {
-          time: "ds",
-          value: "y",
-        }[column.functionality];
-        newRow[outputName] = row[column.identifier];
-      }
-    });
-    return newRow;
-  });
+  dataset
+    .map((row) => {
+      const newRow: any = {};
+      Object.values(columns).forEach((column) => {
+        // skip empty rows and missing values
+        if (!row[column.identifier]) {
+          return (newRow["ERROR"] = true);
+        }
+
+        // only pick columns which have a functionality assigned
+        if (column.functionality) {
+          // TODO: move column output name configuration to the column functionalities (or allow user override)
+          // NOTE: we'll need to come up with unique identifiers for functionalities with multiple occasions (e.g. events)
+          const outputName = {
+            time: "ds",
+            value: "y",
+          }[column.functionality];
+          newRow[outputName] = row[column.identifier];
+        }
+      });
+      return newRow;
+    })
+    .filter((row) => !row["ERROR"]);
 
 export default function Home() {
   const state = useAppSelector((state) => state);
