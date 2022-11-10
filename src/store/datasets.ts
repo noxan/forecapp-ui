@@ -43,7 +43,7 @@ export const neuralprophet = createAsyncThunk<
     dataset,
     configuration,
   };
-  const res = await fetch(`${process.env.API_URL}/prediction`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prediction`, {
     method: "POST",
     body: JSON.stringify(payload),
   });

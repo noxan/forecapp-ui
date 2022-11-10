@@ -47,6 +47,7 @@ const Prediction = ({
           >
             Run prediction
           </CButton>
+          {process.env.NEXT_PUBLIC_API_URL}
         </CCol>
       </CRow>
       {prediction && (

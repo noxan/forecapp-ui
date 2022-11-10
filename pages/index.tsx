@@ -2,11 +2,7 @@ import { CButton, CCol, CContainer, CRow } from "@coreui/react";
 import Layout from "../components/Layout";
 import DatasetImporter from "../components/DatasetImporter";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
-import {
-  ColumnConfigurations,
-  neuralprophet,
-  resetColumns,
-} from "../src/store/datasets";
+import { ColumnConfigurations, resetColumns } from "../src/store/datasets";
 import ColumnConfiguration from "../components/ColumnConfiguration";
 import Prediction from "../components/Prediction";
 
