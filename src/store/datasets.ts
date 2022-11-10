@@ -43,7 +43,7 @@ export const neuralprophet = createAsyncThunk<
     dataset,
     configuration,
   };
-  const res = await fetch("//127.0.0.1:5000/prediction", {
+  const res = await fetch(`${process.env.API_URL}/prediction`, {
     method: "POST",
     body: JSON.stringify(payload),
   });
