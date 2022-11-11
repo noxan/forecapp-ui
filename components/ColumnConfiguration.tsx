@@ -32,7 +32,10 @@ const ColumnConfiguration = () => {
                 dispatch(
                   updateColumnFunction({
                     identifier: column.identifier,
-                    value: evt.target.value as ColumnFunctionalities,
+                    value:
+                      evt.target.value === "None"
+                        ? undefined
+                        : (evt.target.value as ColumnFunctionalities),
                   })
                 )
               }

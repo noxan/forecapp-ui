@@ -11,8 +11,13 @@ const transformDataset = (dataset: any[], columns: ColumnConfigurations) =>
     .map((row) => {
       const newRow: any = {};
       Object.values(columns).forEach((column) => {
-        // skip empty rows and missing values
-        if (!row[column.identifier]) {
+        // skip empty rows and missing values, but do not skip explicit 0 values
+        if (column.functionality && !row[column.identifier]) {
+          console.warn(
+            `Column ${column.identifier} with value "${
+              row[column.identifier]
+            }" is not a valid value`
+          );
           return (newRow["ERROR"] = true);
         }
 
