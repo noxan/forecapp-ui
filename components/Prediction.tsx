@@ -6,10 +6,12 @@ const Prediction = ({
   finalDataset,
   modelConfiguration,
   prediction,
+  status,
 }: {
   finalDataset: any[];
   modelConfiguration: any;
   prediction?: { forecast: any; metrics: any };
+  status: string;
 }) => {
   const dispatch = useAppDispatch();
   return (
@@ -36,6 +38,10 @@ const Prediction = ({
       <CRow className="my-2">
         <CCol>
           <CButton
+            disabled={status === "loading"}
+            className={`btn-loading${
+              status === "loading" ? " is-loading" : ""
+            }`}
             onClick={() => {
               dispatch(
                 neuralprophet({
@@ -45,6 +51,17 @@ const Prediction = ({
               );
             }}
           >
+            {status === "loading" ? (
+              <>
+                <span
+                  className="btn-loading-spinner spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>{" "}
+              </>
+            ) : (
+              ""
+            )}
             Run prediction
           </CButton>
           {process.env.NEXT_PUBLIC_API_URL}

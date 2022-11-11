@@ -71,6 +71,7 @@ export default function Home() {
           finalDataset={finalDataset}
           modelConfiguration={state.models}
           prediction={state.datasets.prediction}
+          status={state.datasets.status}
         />
       )}
     </Layout>
