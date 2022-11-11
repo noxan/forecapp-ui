@@ -74,6 +74,7 @@ export default function Home() {
       {finalDataset && (
         <Prediction
           finalDataset={finalDataset}
+          columns={state.datasets.columns}
           modelConfiguration={state.models}
           prediction={state.datasets.prediction}
           status={state.datasets.status}

@@ -1,14 +1,16 @@
 import { CButton, CCol, CContainer, CRow } from "@coreui/react";
 import { useAppDispatch } from "../src/hooks";
-import { neuralprophet } from "../src/store/datasets";
+import { ColumnConfigurations, neuralprophet } from "../src/store/datasets";
 
 const Prediction = ({
   finalDataset,
+  columns,
   modelConfiguration,
   prediction,
   status,
 }: {
   finalDataset: any[];
+  columns: ColumnConfigurations;
   modelConfiguration: any;
   prediction?: { forecast: any; metrics: any };
   status: string;
@@ -46,6 +48,7 @@ const Prediction = ({
               dispatch(
                 neuralprophet({
                   dataset: finalDataset,
+                  columns,
                   configuration: modelConfiguration,
                 })
               );
