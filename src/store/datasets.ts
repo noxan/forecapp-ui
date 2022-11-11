@@ -146,6 +146,10 @@ export const datasetSlice = createSlice({
     builder.addCase(neuralprophet.pending, (state) => {
       state.status = "loading";
     });
+    builder.addCase(neuralprophet.rejected, (state, action) => {
+      alert("Something went wrong: " + action.error?.message);
+      state.status = "idle";
+    });
   },
 });
 
