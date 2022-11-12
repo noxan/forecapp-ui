@@ -1,8 +1,7 @@
-import { CButton, CCol, CContainer, CRow } from "@coreui/react";
+import { CCol, CContainer, CRow } from "@coreui/react";
 import Layout from "../components/Layout";
 import DatasetImporter from "../components/DatasetImporter";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
-import { resetColumns } from "../src/store/datasets";
 import ColumnConfiguration from "../components/ColumnConfiguration";
 import Prediction from "../components/Prediction";
 import { transformDataset } from "../src/helpers";
@@ -27,22 +26,8 @@ export default function Home() {
         </CRow>
         <DatasetImporter />
         {state.datasets.raw && <Table data={state.datasets.raw.slice(0, 3)} />}
-        <CRow>
-          <CCol>
-            <CButton onClick={() => dispatch(resetColumns())}>
-              Init/reset columns (click this after loading dataset or to reset)
-            </CButton>
-          </CCol>
-          {state.datasets.raw && (
-            <CCol>
-              <pre style={{ maxHeight: "10rem" }}>
-                {JSON.stringify(state.datasets.raw.slice(0, 1), null, 2)}
-              </pre>
-            </CCol>
-          )}
-        </CRow>
       </CContainer>
-      {state.datasets.raw && state.datasets.columns && <ColumnConfiguration />}
+      {state.datasets.raw && <ColumnConfiguration />}
       {finalDataset && (
         <Prediction
           finalDataset={finalDataset}
