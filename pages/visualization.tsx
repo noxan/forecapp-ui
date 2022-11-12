@@ -1,4 +1,4 @@
-import { CChart } from "@coreui/react-chartjs";
+import { CChartLine } from "@coreui/react-chartjs";
 import { CCol, CContainer, CRow } from "@coreui/react";
 import Link from "next/link";
 import iwanthue from "iwanthue";
@@ -48,7 +48,7 @@ export default function Visualization() {
         </CRow>
         <CRow className="my-2">
           <CCol>
-            <CChart type="line" data={chartData} />
+            <CChartLine type="line" data={chartData} />
           </CCol>
         </CRow>
       </CContainer>
