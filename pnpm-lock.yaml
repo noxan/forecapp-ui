@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@coreui/coreui': ^4.2.2
   '@coreui/react': ^4.4.0
+  '@microlink/react-json-view': ^1.22.2
   '@popperjs/core': ^2.11.6
   '@reduxjs/toolkit': ^1.9.0
   '@tanstack/react-table': ^8.5.22
@@ -23,7 +24,6 @@ specifiers:
   prettier: ^2.7.1
   react: 18.2.0
   react-dom: 18.2.0
-  react-json-view: ^1.21.3
   react-plotly.js: ^2.6.0
   react-redux: ^8.0.5
   reduxjs-toolkit-persist: ^7.2.1
@@ -35,6 +35,7 @@ specifiers:
 dependencies:
   '@coreui/coreui': 4.2.2_cdjzeokg53ldxngifsg3gdbfde
   '@coreui/react': 4.4.0_biqbaboplfbrettd7655fr4n2y
+  '@microlink/react-json-view': 1.22.2_knhnagtyfncgg2hpin7s37uixq
   '@popperjs/core': 2.11.6
   '@reduxjs/toolkit': 1.9.0_k4ae6lp43ej6mezo3ztvx6pykq
   '@tanstack/react-table': 8.5.22_biqbaboplfbrettd7655fr4n2y
@@ -54,7 +55,6 @@ dependencies:
   postcss: 8.4.18
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  react-json-view: 1.21.3_knhnagtyfncgg2hpin7s37uixq
   react-plotly.js: 2.6.0_tlnavpnfh2zh7zwbcddzgqjy24
   react-redux: 8.0.5_nsgh7lqw2e2kb5wanadocemtdi
   reduxjs-toolkit-persist: 7.2.1_@reduxjs+toolkit@1.9.0
@@ -212,6 +212,23 @@ packages:
   /@mapbox/whoots-js/3.1.0:
     resolution: {integrity: sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q==}
     engines: {node: '>=6.0.0'}
+    dev: false
+
+  /@microlink/react-json-view/1.22.2_knhnagtyfncgg2hpin7s37uixq:
+    resolution: {integrity: sha512-liJzdlbspT5GbEuPffw4jzZfXOypKLK1Er9br03T31bAaIi/WptZqpcJaXPi7OmwC7v/YYczCkmAS7WaEfItPQ==}
+    peerDependencies:
+      react: '>= 15'
+      react-dom: '>= 15'
+    dependencies:
+      flux: 4.0.3_react@18.2.0
+      react: 18.2.0
+      react-base16-styling: 0.6.0
+      react-dom: 18.2.0_react@18.2.0
+      react-lifecycles-compat: 3.0.4
+      react-textarea-autosize: 8.3.4_bbvjflvjoibwhtpmedigb26h6y
+    transitivePeerDependencies:
+      - '@types/react'
+      - encoding
     dev: false
 
   /@next/env/13.0.1:
@@ -3989,23 +4006,6 @@ packages:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: false
 
-  /react-json-view/1.21.3_knhnagtyfncgg2hpin7s37uixq:
-    resolution: {integrity: sha512-13p8IREj9/x/Ye4WI/JpjhoIwuzEgUAtgJZNBJckfzJt1qyh24BdTm6UQNGnyTq9dapQdrqvquZTo3dz1X6Cjw==}
-    peerDependencies:
-      react: ^17.0.0 || ^16.3.0 || ^15.5.4
-      react-dom: ^17.0.0 || ^16.3.0 || ^15.5.4
-    dependencies:
-      flux: 4.0.3_react@18.2.0
-      react: 18.2.0
-      react-base16-styling: 0.6.0
-      react-dom: 18.2.0_react@18.2.0
-      react-lifecycles-compat: 3.0.4
-      react-textarea-autosize: 8.4.0_bbvjflvjoibwhtpmedigb26h6y
-    transitivePeerDependencies:
-      - '@types/react'
-      - encoding
-    dev: false
-
   /react-lifecycles-compat/3.0.4:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
     dev: false
@@ -4054,8 +4054,8 @@ packages:
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
 
-  /react-textarea-autosize/8.4.0_bbvjflvjoibwhtpmedigb26h6y:
-    resolution: {integrity: sha512-YrTFaEHLgJsi8sJVYHBzYn+mkP3prGkmP2DKb/tm0t7CLJY5t1Rxix8070LAKb0wby7bl/lf2EeHkuMihMZMwQ==}
+  /react-textarea-autosize/8.3.4_bbvjflvjoibwhtpmedigb26h6y:
+    resolution: {integrity: sha512-CdtmP8Dc19xL8/R6sWvtknD/eCXkQr30dtvC4VmGInhRsfF8X/ihXCq6+9l9qbxmKRiq407/7z5fxE7cVWQNgQ==}
     engines: {node: '>=10'}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0

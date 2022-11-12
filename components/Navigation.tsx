@@ -39,13 +39,10 @@ export default function Navigation() {
         </CHeaderNav>
         <CHeaderNav>
           <CNavItem>
-            <CNavLink href="#">Test</CNavLink>
+            <CNavLink href="/debug">Debug</CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="#">Base</CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">What</CNavLink>
+            <CNavLink href="#">About</CNavLink>
           </CNavItem>
         </CHeaderNav>
         <CHeaderNav className="ms-3">{/* <AppHeaderDropdown /> */}</CHeaderNav>
