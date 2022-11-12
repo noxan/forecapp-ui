@@ -1,4 +1,4 @@
-import { CButton, CCol, CFormInput } from "@coreui/react";
+import { CButton, CCol, CFormInput, CRow } from "@coreui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../src/store";
 import { importDataset } from "../src/store/datasets";
@@ -12,26 +12,31 @@ const DatasetImporter = () => {
   const status = useSelector((state: RootState) => state.datasets.status);
   const dispatch = useDispatch<AppDispatch>();
   return (
-    <div>
+    <CRow>
       {exampleDatasets.map((exampleDatasetUrl) => (
-        <CButton
-          key={exampleDatasetUrl}
-          onClick={() => dispatch(importDataset({ source: exampleDatasetUrl }))}
-          disabled={status === "loading"}
-          className="m-1"
-        >
-          Load {exampleDatasetUrl}
-        </CButton>
+        <CCol key={exampleDatasetUrl}>
+          <CButton
+            onClick={() =>
+              dispatch(importDataset({ source: exampleDatasetUrl }))
+            }
+            disabled={status === "loading"}
+            className="m-1"
+          >
+            Import {exampleDatasetUrl}
+          </CButton>
+        </CCol>
       ))}
-      <CFormInput
-        type="file"
-        onChange={(evt) => {
-          if (evt.target.files && evt.target.files.length > 0) {
-            return dispatch(importDataset({ source: evt.target.files[0] }));
-          }
-        }}
-      />
-    </div>
+      <CCol>
+        <CFormInput
+          type="file"
+          onChange={(evt) => {
+            if (evt.target.files && evt.target.files.length > 0) {
+              return dispatch(importDataset({ source: evt.target.files[0] }));
+            }
+          }}
+        />
+      </CCol>
+    </CRow>
   );
 };
 

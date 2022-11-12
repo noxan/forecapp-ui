@@ -53,9 +53,9 @@ export default function Home() {
             <h1>Dataset</h1>
           </CCol>
         </CRow>
+        <DatasetImporter />
         <CRow>
           <CCol>
-            <DatasetImporter />
             <div>{state.datasets.status}</div>
             <CButton onClick={() => dispatch(resetColumns())}>
               Init/reset columns (click this after loading dataset or to reset)
