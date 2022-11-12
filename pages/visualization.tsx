@@ -1,6 +1,7 @@
 import { CChart } from "@coreui/react-chartjs";
 import { CCol, CContainer, CRow } from "@coreui/react";
 import Link from "next/link";
+import iwanthue from "iwanthue";
 import Layout from "../components/Layout";
 import { useAppSelector } from "../src/hooks";
 import { capitalize } from "../src/helpers";
@@ -11,12 +12,15 @@ const transformDatasetForChart = (dataset: any[]) => {
   // TODO: remove hard coded "time" index
   const timeLabels = dataset.slice(1).map((item) => item.time || item.ds);
 
+  const colorPalette = iwanthue(headers.length);
+
   return {
     labels: timeLabels,
-    datasets: headers.map((header) => ({
+    datasets: headers.map((header, index) => ({
       label: capitalize(header),
       data: dataset.map((item) => item[header]),
-      // backgroundColor: "#" + Math.floor(Math.random() * 16777215).toString(16),
+      backgroundColor: colorPalette[index],
+      borderColor: colorPalette[index],
     })),
   };
 };
