@@ -1,4 +1,11 @@
-import { CButton, CCol, CCollapse, CContainer, CRow } from "@coreui/react";
+import {
+  CBadge,
+  CButton,
+  CCol,
+  CCollapse,
+  CContainer,
+  CRow,
+} from "@coreui/react";
 import { useState } from "react";
 import { useAppDispatch } from "../src/hooks";
 import { ColumnConfigurations, neuralprophet } from "../src/store/datasets";
@@ -76,7 +83,9 @@ const Prediction = ({
             )}
             Run prediction
           </CButton>
-          {process.env.NEXT_PUBLIC_API_URL}
+        </CCol>
+        <CCol>
+          <CBadge color="dark">{process.env.NEXT_PUBLIC_API_URL}</CBadge>
         </CCol>
       </CRow>
       {prediction && (
