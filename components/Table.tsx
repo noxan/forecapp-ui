@@ -5,7 +5,6 @@ import {
   CTableRow,
   CTableHeaderCell,
   CTableDataCell,
-  CTableFoot,
 } from "@coreui/react";
 
 import {
@@ -31,18 +30,20 @@ export default function Table({ data }: { data: any[] }) {
   });
 
   return (
-    <CTable bordered>
+    <CTable hover small responsive>
       <CTableHead>
         {table.getHeaderGroups().map((headerGroup) => (
           <CTableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
               <CTableHeaderCell key={header.id}>
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
+                <div className="table-header-content">
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </div>
               </CTableHeaderCell>
             ))}
           </CTableRow>

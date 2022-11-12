@@ -26,7 +26,7 @@ export default function Home() {
           </CCol>
         </CRow>
         <DatasetImporter />
-        {state.datasets.raw && <Table data={state.datasets.raw.slice(0, 1)} />}
+        {state.datasets.raw && <Table data={state.datasets.raw.slice(0, 3)} />}
         <CRow>
           <CCol>
             <CButton onClick={() => dispatch(resetColumns())}>

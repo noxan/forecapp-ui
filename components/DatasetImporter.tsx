@@ -3,21 +3,29 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../src/store";
 import { importDataset } from "../src/store/datasets";
 
-const exampleDatasets = [
-  "datasets/energy_dataset_small.csv",
-  "datasets/air_passengers.csv",
-];
+const examplePath = "datasets/";
+const exampleDatasets = ["energy_dataset_small.csv", "air_passengers.csv"];
 
 const DatasetImporter = () => {
   const status = useSelector((state: RootState) => state.datasets.status);
   const dispatch = useDispatch<AppDispatch>();
   return (
     <CRow>
+      <style>
+        {`.table-header-content {
+          max-height: 40px;
+          font-weight: normal;
+          line-height: 0.85rem;
+          overflow: hidden;
+        }`}
+      </style>
       {exampleDatasets.map((exampleDatasetUrl) => (
         <CCol key={exampleDatasetUrl}>
           <CButton
             onClick={() =>
-              dispatch(importDataset({ source: exampleDatasetUrl }))
+              dispatch(
+                importDataset({ source: examplePath + exampleDatasetUrl })
+              )
             }
             disabled={status === "loading"}
             className="m-1"
