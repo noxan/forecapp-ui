@@ -18,6 +18,7 @@ export const modelSlice = createSlice({
     events: [
       {
         name: "playoff",
+        // TODO: name (or some other identifier) must be matched with column name
         dates: ["2022-01-21", "2022-02-07"],
         mode: undefined, // additive or multiplicative
         lowerWindow: undefined,
