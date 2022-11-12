@@ -35,6 +35,7 @@ export default function Navigation() {
         <CHeaderNav className="d-none d-md-flex me-auto">
           <NavigationItem href="/" label="Home" />
           <NavigationItem href="/dataset" label="Dataset" />
+          <NavigationItem href="/visualization" label="Visualization" />
           <NavigationItem href="/model" label="Model" />
         </CHeaderNav>
         <CHeaderNav>
