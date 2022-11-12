@@ -6,6 +6,7 @@ import { resetColumns } from "../src/store/datasets";
 import ColumnConfiguration from "../components/ColumnConfiguration";
 import Prediction from "../components/Prediction";
 import { transformDataset } from "../src/helpers";
+import Table from "../components/Table";
 
 export default function Home() {
   const state = useAppSelector((state) => state);
@@ -25,9 +26,9 @@ export default function Home() {
           </CCol>
         </CRow>
         <DatasetImporter />
+        {state.datasets.raw && <Table data={state.datasets.raw.slice(0, 1)} />}
         <CRow>
           <CCol>
-            <div>{state.datasets.status}</div>
             <CButton onClick={() => dispatch(resetColumns())}>
               Init/reset columns (click this after loading dataset or to reset)
             </CButton>

@@ -1,4 +1,4 @@
-import { CButton, CCol, CFormInput, CRow } from "@coreui/react";
+import { CBadge, CButton, CCol, CFormInput, CRow } from "@coreui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../src/store";
 import { importDataset } from "../src/store/datasets";
@@ -35,6 +35,9 @@ const DatasetImporter = () => {
             }
           }}
         />
+      </CCol>
+      <CCol>
+        <CBadge color="dark">{status}</CBadge>
       </CCol>
     </CRow>
   );

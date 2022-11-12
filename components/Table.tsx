@@ -1,4 +1,3 @@
-import { useReducer, useState } from "react";
 import {
   CTable,
   CTableHead,
@@ -16,38 +15,18 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-const buildColumns = (initialData: any) => {
+export default function Table({ data }: { data: any[] }) {
   const columnHelper = createColumnHelper<any>();
-
-  // const headerColumn = Object.keys(initialData[0]);
-  const headerColumn = initialData.columns as any;
-
-  return headerColumn.map((name: any) =>
+  const columns = Object.keys(data[0]).map((name: any) =>
     columnHelper.accessor(name, {
-      cell: (info) => {
-        console.log(info);
-        return info.getValue();
-      },
-      // footer: (info) => info.column.id,
+      cell: (info) => info.getValue(),
+      footer: (info) => info.column.id,
     })
   );
-};
-
-export default function TableExperiment({ initialData }: { initialData: any }) {
-  const temp = initialData.values.map((row: any) => {
-    const obj = {} as any;
-    initialData.columns.forEach((col: any, index: number) => {
-      obj[col] = row[index];
-    });
-    return obj;
-  });
-
-  const [data, setData] = useState(() => [...temp]);
-  const rerender = useReducer(() => ({}), {})[1];
 
   const table = useReactTable({
     data,
-    columns: buildColumns(initialData),
+    columns,
     getCoreRowModel: getCoreRowModel(),
   });
 
@@ -80,22 +59,6 @@ export default function TableExperiment({ initialData }: { initialData: any }) {
           </CTableRow>
         ))}
       </CTableBody>
-      <CTableFoot>
-        {table.getFooterGroups().map((footerGroup) => (
-          <CTableRow key={footerGroup.id}>
-            {footerGroup.headers.map((header) => (
-              <CTableDataCell key={header.id}>
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                      header.column.columnDef.footer,
-                      header.getContext()
-                    )}
-              </CTableDataCell>
-            ))}
-          </CTableRow>
-        ))}
-      </CTableFoot>
     </CTable>
   );
 }
