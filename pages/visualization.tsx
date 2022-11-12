@@ -1,29 +1,9 @@
 import { CChartLine } from "@coreui/react-chartjs";
 import { CCol, CContainer, CRow } from "@coreui/react";
 import Link from "next/link";
-import iwanthue from "iwanthue";
 import Layout from "../components/Layout";
 import { useAppSelector } from "../src/hooks";
-import { capitalize } from "../src/helpers";
-
-const transformDatasetForChart = (dataset: any[]) => {
-  const headers = Object.keys(dataset[0]).splice(1);
-
-  // TODO: remove hard coded "time" index
-  const timeLabels = dataset.slice(1).map((item) => item.time || item.ds);
-
-  const colorPalette = iwanthue(headers.length);
-
-  return {
-    labels: timeLabels,
-    datasets: headers.map((header, index) => ({
-      label: capitalize(header),
-      data: dataset.map((item) => item[header]),
-      backgroundColor: colorPalette[index],
-      borderColor: colorPalette[index],
-    })),
-  };
-};
+import { transformDatasetForChart } from "../src/helpers";
 
 export default function Visualization() {
   const datasets = useAppSelector((state) => state.datasets);

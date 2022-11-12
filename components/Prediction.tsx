@@ -6,7 +6,9 @@ import {
   CContainer,
   CRow,
 } from "@coreui/react";
+import { CChartLine } from "@coreui/react-chartjs";
 import { useState } from "react";
+import { transformDatasetForChart } from "../src/helpers";
 import { useAppDispatch } from "../src/hooks";
 import { ColumnConfigurations, neuralprophet } from "../src/store/datasets";
 
@@ -25,6 +27,11 @@ const Prediction = ({
 }) => {
   const dispatch = useAppDispatch();
   const [showDebug, setShowDebug] = useState(false);
+
+  const chartData = prediction
+    ? transformDatasetForChart(prediction.forecast)
+    : undefined;
+
   return (
     <CContainer>
       <CRow className="my-2">
@@ -88,23 +95,26 @@ const Prediction = ({
           <CBadge color="dark">{process.env.NEXT_PUBLIC_API_URL}</CBadge>
         </CCol>
       </CRow>
-      {prediction && (
-        <CCollapse visible={showDebug}>
-          <CRow md={{ cols: 2 }}>
-            <CCol>
-              <h3>Forecast</h3>
-              <pre style={{ maxHeight: "20rem" }}>
-                {JSON.stringify(prediction.forecast, null, 2)}
-              </pre>
-            </CCol>
-            <CCol>
-              <h3>Metrics</h3>
-              <pre style={{ maxHeight: "20rem" }}>
-                {JSON.stringify(prediction.metrics, null, 2)}
-              </pre>
-            </CCol>
-          </CRow>
-        </CCollapse>
+      {prediction && chartData && (
+        <>
+          <CChartLine type="line" data={chartData} />
+          <CCollapse visible={showDebug}>
+            <CRow md={{ cols: 2 }}>
+              <CCol>
+                <h3>Forecast</h3>
+                <pre style={{ maxHeight: "20rem" }}>
+                  {JSON.stringify(prediction.forecast, null, 2)}
+                </pre>
+              </CCol>
+              <CCol>
+                <h3>Metrics</h3>
+                <pre style={{ maxHeight: "20rem" }}>
+                  {JSON.stringify(prediction.metrics, null, 2)}
+                </pre>
+              </CCol>
+            </CRow>
+          </CCollapse>
+        </>
       )}
     </CContainer>
   );

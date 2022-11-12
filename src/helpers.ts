@@ -1,3 +1,4 @@
+import iwanthue from "iwanthue";
 import { ColumnConfigurations } from "./store/datasets";
 
 export const capitalize = (str: string) =>
@@ -35,3 +36,22 @@ export const transformDataset = (
       return newRow;
     })
     .filter((row) => !row["ERROR"]);
+
+export const transformDatasetForChart = (dataset: any[]) => {
+  const headers = Object.keys(dataset[0]).splice(1);
+
+  // TODO: remove hard coded "time" index
+  const timeLabels = dataset.slice(1).map((item) => item.time || item.ds);
+
+  const colorPalette = iwanthue(headers.length);
+
+  return {
+    labels: timeLabels,
+    datasets: headers.map((header, index) => ({
+      label: capitalize(header),
+      data: dataset.map((item) => item[header]),
+      backgroundColor: colorPalette[index],
+      borderColor: colorPalette[index],
+    })),
+  };
+};
