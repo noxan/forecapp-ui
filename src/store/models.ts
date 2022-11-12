@@ -15,7 +15,16 @@ export const modelSlice = createSlice({
       epochs: 1, // "auto",
       batchSize: "auto",
     },
-    events: {},
+    events: [
+      {
+        name: "playoff",
+        dates: ["2022-01-21", "2022-02-07"],
+        mode: undefined, // additive or multiplicative
+        lowerWindow: undefined,
+        upperWindow: undefined,
+        regularization: undefined,
+      },
+    ],
     holidays: {},
     futureRegressors: {},
     laggedRegressors: {},
