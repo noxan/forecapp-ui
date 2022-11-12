@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@coreui/chartjs': ^3.0.0
   '@coreui/coreui': ^4.2.2
   '@coreui/react': ^4.4.0
   '@coreui/react-chartjs': ^2.1.0
@@ -35,6 +36,7 @@ specifiers:
   typescript: 4.8.4
 
 dependencies:
+  '@coreui/chartjs': 3.0.0_@popperjs+core@2.11.6
   '@coreui/coreui': 4.2.2_cdjzeokg53ldxngifsg3gdbfde
   '@coreui/react': 4.4.0_biqbaboplfbrettd7655fr4n2y
   '@coreui/react-chartjs': 2.1.0_r6q5zrenym2zg7je7hgi674bti

@@ -4,7 +4,6 @@ import Link from "next/link";
 import Layout from "../components/Layout";
 import { useAppSelector } from "../src/hooks";
 import { capitalize } from "../src/helpers";
-import { time } from "console";
 
 const transformDatasetForChart = (dataset: any[]) => {
   const headers = Object.keys(dataset[0]).splice(1);
