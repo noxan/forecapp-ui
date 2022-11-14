@@ -48,6 +48,12 @@ export const neuralprophet = createAsyncThunk<
     method: "POST",
     body: JSON.stringify(payload),
   });
+  if (res.status !== 200) {
+    throw new Error(
+      `Prediction from api failed with status code ${res.status} and message ${res.statusText}`,
+      { cause: res }
+    );
+  }
   return await res.json();
 });
 
