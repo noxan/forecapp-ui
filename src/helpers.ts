@@ -52,7 +52,7 @@ export const transformDatasetForChart = (dataset: any[]) => {
     datasets: headers.map((header, index) => ({
       label: capitalize(header),
       data: dataset.map((item) => item[header]),
-      backgroundColor: colorPalette[index],
+      backgroundColor: colorPalette[index] + "30",
       borderColor: colorPalette[index] + "90",
     })),
   };
