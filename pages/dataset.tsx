@@ -1,6 +1,7 @@
 import {
   CCol,
   CContainer,
+  CFormSelect,
   CNav,
   CNavItem,
   CNavLink,
@@ -16,15 +17,18 @@ import Table from "../components/Table";
 import { capitalize } from "../src/helpers";
 import { useAppSelector } from "../src/hooks";
 
-const INITIALIZE = Symbol();
-type TimeColumnNameType = string | typeof INITIALIZE | undefined;
+const SELECT_STATE_INITIALIZE = "SELECT_STATE_INITIALIZE_UNIQUE";
+const SELECT_STATE_NONE = "SELECT_STATE_NONE_UNIQUE";
+type TimeColumnNameType = string;
 const defaultTimeColumnNames = ["time", "timestamp", "date"];
 
 const datatypes = ["string", "number", "boolean", "datetime", "integer"];
 
 export default function Dataset() {
   const datasets = useAppSelector((state) => state.datasets);
-  const [timeColumn, setTimeColumn] = useState<TimeColumnNameType>(INITIALIZE);
+  const [timeColumn, setTimeColumn] = useState<TimeColumnNameType>(
+    SELECT_STATE_INITIALIZE
+  );
   const [activeKey, setActiveKey] = useState(0);
 
   if (!datasets) {
@@ -39,14 +43,14 @@ export default function Dataset() {
   // TODO: initialize empty header columns if dataset does not provide any
   const headers = Object.keys(dataset[0]);
 
-  if (timeColumn === INITIALIZE) {
+  if (timeColumn === SELECT_STATE_INITIALIZE) {
     const intersection = headers.filter((value) =>
       defaultTimeColumnNames.includes(value)
     );
     if (intersection.length > 0) {
       setTimeColumn(intersection[0]);
     } else {
-      setTimeColumn(undefined);
+      setTimeColumn(SELECT_STATE_NONE);
     }
   }
 
@@ -68,60 +72,75 @@ export default function Dataset() {
         </CRow>
         <CRow className="my-2">
           <CCol>
-            <p>Timeline column: {timeColumn}</p>
+            <CFormSelect
+              label="Time column"
+              defaultValue={timeColumn as string}
+              onChange={(e) => setTimeColumn(e.target.value)}
+              options={[
+                {
+                  label: "Select primary time column",
+                  value: SELECT_STATE_NONE,
+                },
+                ...headers.map((header) => ({
+                  label: capitalize(header),
+                  value: header,
+                })),
+              ]}
+            />
           </CCol>
         </CRow>
-        {timeColumn !== undefined && timeColumn !== INITIALIZE && (
-          <CRow>
-            <CCol md={3}>
-              <CNav variant="pills" className="flex-column">
-                {headers.map((header, index) => (
-                  <CNavItem key={index}>
-                    <CNavLink
-                      href={`#${header}`}
-                      active={activeKey === index}
-                      onClick={(evt) => {
-                        evt.preventDefault();
-                        setActiveKey(index);
-                      }}
+        {timeColumn !== SELECT_STATE_NONE &&
+          timeColumn !== SELECT_STATE_INITIALIZE && (
+            <CRow className="my-2">
+              <CCol md={3}>
+                <CNav variant="pills" className="flex-column">
+                  {headers.map((header, index) => (
+                    <CNavItem key={index}>
+                      <CNavLink
+                        href={`#${header}`}
+                        active={activeKey === index}
+                        onClick={(evt) => {
+                          evt.preventDefault();
+                          setActiveKey(index);
+                        }}
+                      >
+                        {capitalize(header)}
+                      </CNavLink>
+                    </CNavItem>
+                  ))}
+                </CNav>
+              </CCol>
+              <CCol>
+                <CTabContent>
+                  {headers.map((header, index) => (
+                    <CTabPane
+                      key={index}
+                      role="tabpanel"
+                      aria-labelledby={`${header}-tab`}
+                      visible={activeKey === index}
                     >
-                      {capitalize(header)}
-                    </CNavLink>
-                  </CNavItem>
-                ))}
-              </CNav>
-            </CCol>
-            <CCol>
-              <CTabContent>
-                {headers.map((header, index) => (
-                  <CTabPane
-                    key={index}
-                    role="tabpanel"
-                    aria-labelledby={`${header}-tab`}
-                    visible={activeKey === index}
-                  >
-                    <h2>{capitalize(header)}</h2>
+                      <h2>{capitalize(header)}</h2>
 
-                    {/* <CChartLine data={} /> */}
+                      {/* <CChartLine data={} /> */}
 
-                    {dataset.map((item: any) => item[header])}
+                      {dataset.map((item: any) => item[header])}
 
-                    <ul>
-                      <li>Display name</li>
-                      <li>Data type</li>
-                      <li>Errors</li>
-                      <li>Value distribution</li>
-                      <li>Chart over time</li>
-                      <li>
-                        {`Output column name (possibly defined by feature, e.g. "ds" or "y")`}{" "}
-                      </li>
-                    </ul>
-                  </CTabPane>
-                ))}
-              </CTabContent>
-            </CCol>
-          </CRow>
-        )}
+                      <ul>
+                        <li>Display name</li>
+                        <li>Data type</li>
+                        <li>Errors</li>
+                        <li>Value distribution</li>
+                        <li>Chart over time</li>
+                        <li>
+                          {`Output column name (possibly defined by feature, e.g. "ds" or "y")`}{" "}
+                        </li>
+                      </ul>
+                    </CTabPane>
+                  ))}
+                </CTabContent>
+              </CCol>
+            </CRow>
+          )}
       </CContainer>
     </Layout>
   );
