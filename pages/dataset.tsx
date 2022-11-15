@@ -134,14 +134,31 @@ export default function Dataset() {
                             <CBadge color="warning">Must be datetime</CBadge>
                           </div>
                         )}
-                        Current type (auto detect):{" "}
-                        {dataset
-                          .map((row: any) => typeof row[column])
-                          .filter(
-                            (value: any, index: number, self: any) =>
-                              self.indexOf(value) === index
-                          )
-                          .join(", ")}
+                        <div>
+                          Current type (auto detect):{" "}
+                          {dataset
+                            .map((row: any) => typeof row[column])
+                            .filter(
+                              (value: any, index: number, self: any) =>
+                                self.indexOf(value) === index
+                            )
+                            .join(", ")}
+                        </div>
+                        <CFormSelect
+                          label="Data type"
+                          defaultValue={SELECT_STATE_NONE}
+                          onChange={(evt) => console.log(evt.target.value)}
+                          options={[
+                            {
+                              label: "Select data type for column",
+                              value: SELECT_STATE_NONE,
+                            },
+                            ...datatypes.map((datatype) => ({
+                              label: capitalize(datatype),
+                              value: datatype,
+                            })),
+                          ]}
+                        />
                         <h3>Data series</h3>
                         <CChartLine
                           data={generateChartFormatForSeries(
