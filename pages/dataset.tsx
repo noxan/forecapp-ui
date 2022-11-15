@@ -19,7 +19,6 @@ import { useAppSelector } from "../src/hooks";
 
 const SELECT_STATE_INITIALIZE = "SELECT_STATE_INITIALIZE_UNIQUE";
 const SELECT_STATE_NONE = "SELECT_STATE_NONE_UNIQUE";
-type TimeColumnNameType = string;
 
 const datatypes = ["string", "number", "boolean", "datetime", "integer"];
 
@@ -38,9 +37,7 @@ const autodetectTimeColumn = (headers: string[], setTimeColumn: Function) => {
 
 export default function Dataset() {
   const dataset = useAppSelector((state) => state.datasets?.raw);
-  const [timeColumn, setTimeColumn] = useState<TimeColumnNameType>(
-    SELECT_STATE_INITIALIZE
-  );
+  const [timeColumn, setTimeColumn] = useState<string>(SELECT_STATE_INITIALIZE);
   const [activeKey, setActiveKey] = useState(0);
 
   if (!dataset) {
