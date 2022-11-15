@@ -2,15 +2,20 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { parse } from "papaparse";
 import { capitalize } from "../helpers";
 
+const parseConfig = {
+  dynamicTyping: true,
+  header: true,
+};
+
 export const importDataset = createAsyncThunk<any[], { source: string | File }>(
   "datasets/importDataset",
   async ({ source }) => {
     if (source instanceof File) {
-      const text = await source.text();
+      const text = (await source.text()).trim();
       return await new Promise((resolve, reject) => {
         parse(text, {
-          header: true,
-          complete(results) {
+          ...parseConfig,
+          complete(results: any) {
             resolve(results.data as any);
           },
           error(error: Error) {
@@ -22,7 +27,7 @@ export const importDataset = createAsyncThunk<any[], { source: string | File }>(
       return await new Promise((resolve, reject) => {
         parse(source, {
           download: true,
-          header: true,
+          ...parseConfig,
           complete(results) {
             resolve(results.data as any);
           },

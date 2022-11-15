@@ -25,7 +25,7 @@ const SELECT_STATE_NONE = "SELECT_STATE_NONE_UNIQUE";
 const datatypes = ["string", "number", "boolean", "datetime", "integer"];
 
 // Time column autodetction
-const defaultTimeColumnNames = ["time", "timestamp", "date", "ds"];
+const defaultTimeColumnNames = ["time", "timestamp", "date", "ds", "day"];
 const autodetectTimeColumn = (headers: string[], setTimeColumn: Function) => {
   const intersection = headers.filter((value) =>
     defaultTimeColumnNames.includes(value.trim().toLowerCase())
@@ -128,14 +128,20 @@ export default function Dataset() {
                             <CBadge color="primary">Primary time column</CBadge>
                           </div>
                         )}
-
                         <h3>Column data type</h3>
                         {timeColumn === column && (
                           <div>
                             <CBadge color="warning">Must be datetime</CBadge>
                           </div>
                         )}
-
+                        Current type (auto detect):{" "}
+                        {dataset
+                          .map((row: any) => typeof row[column])
+                          .filter(
+                            (value: any, index: number, self: any) =>
+                              self.indexOf(value) === index
+                          )
+                          .join(", ")}
                         <h3>Data series</h3>
                         <CChartLine
                           data={generateChartFormatForSeries(
@@ -146,9 +152,7 @@ export default function Dataset() {
                           )}
                           type={"line"}
                         />
-
                         <h3>Value distribution</h3>
-
                         {(() => {
                           // TODO: create bins if data type allows
                           const counts = {};
@@ -176,9 +180,7 @@ export default function Dataset() {
                             />
                           );
                         })()}
-
                         <h3>Validation errors</h3>
-
                         <h3>Output column name</h3>
                         <CBadge color="warning">
                           Possibly defined by feature, e.g. {`"ds" or "y"`}
