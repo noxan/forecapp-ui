@@ -11,6 +11,7 @@ import {
   CTabPane,
 } from "@coreui/react";
 import { CChartBar, CChartLine } from "@coreui/react-chartjs";
+import iwanthue from "iwanthue";
 import Link from "next/link";
 import { useState } from "react";
 import Layout from "../components/Layout";
@@ -40,6 +41,8 @@ export default function Dataset() {
   const dataset = useAppSelector((state) => state.datasets?.raw);
   const [timeColumn, setTimeColumn] = useState<string>(SELECT_STATE_INITIALIZE);
   const [activeKey, setActiveKey] = useState(0);
+
+  const chartColor = iwanthue(1)[0];
 
   if (!dataset) {
     return (
@@ -140,7 +143,8 @@ export default function Dataset() {
                         data={generateChartFormatForSeries(
                           dataset.map((row: any) => row[timeColumn]),
                           capitalize(column),
-                          dataset.map((row: any) => row[column])
+                          dataset.map((row: any) => row[column]),
+                          chartColor
                         )}
                         type={"line"}
                       />
@@ -166,6 +170,8 @@ export default function Dataset() {
                                 {
                                   label: "Value distribution",
                                   data: keys.map((key: any) => counts[key]),
+                                  backgroundColor: chartColor + "30",
+                                  borderColor: chartColor + "90",
                                 },
                               ],
                             }}
