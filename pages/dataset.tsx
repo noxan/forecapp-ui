@@ -128,6 +128,13 @@ export default function Dataset() {
                         </div>
                       )}
 
+                      <h3>Column data type</h3>
+                      {timeColumn === column && (
+                        <div>
+                          <CBadge color="warning">Must be datetime</CBadge>
+                        </div>
+                      )}
+
                       <h3>Data series</h3>
                       <CChartLine
                         data={generateChartFormatForSeries(
@@ -138,23 +145,17 @@ export default function Dataset() {
                         type={"line"}
                       />
 
-                      <h3>Column data type</h3>
-                      {timeColumn === column && (
-                        <div>
-                          <CBadge color="warning">Must be datetime</CBadge>
-                        </div>
-                      )}
-
                       <h3>Value distribution</h3>
 
                       {(() => {
                         // TODO: create bins if data type allows
                         const counts = {};
-                        dataset.forEach((row: any) => {
-                          console.log(row[column]);
-                          const value = row[column];
-                          counts[value] = counts[value] ? counts[value] + 1 : 1;
-                        });
+                        dataset.forEach(
+                          (row: any) =>
+                            (counts[row[column]] = counts[row[column]]
+                              ? counts[row[column]] + 1
+                              : 1)
+                        );
                         const keys = Object.keys(counts).sort();
                         return (
                           <CChartBar
