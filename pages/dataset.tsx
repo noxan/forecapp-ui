@@ -24,6 +24,17 @@ const defaultTimeColumnNames = ["time", "timestamp", "date"];
 
 const datatypes = ["string", "number", "boolean", "datetime", "integer"];
 
+const autodetectTimeColumn = (headers: string[], setTimeColumn: Function) => {
+  const intersection = headers.filter((value) =>
+    defaultTimeColumnNames.includes(value)
+  );
+  if (intersection.length > 0) {
+    setTimeColumn(intersection[0]);
+  } else {
+    setTimeColumn(SELECT_STATE_NONE);
+  }
+};
+
 export default function Dataset() {
   const datasets = useAppSelector((state) => state.datasets);
   const [timeColumn, setTimeColumn] = useState<TimeColumnNameType>(
@@ -44,14 +55,7 @@ export default function Dataset() {
   const headers = Object.keys(dataset[0]);
 
   if (timeColumn === SELECT_STATE_INITIALIZE) {
-    const intersection = headers.filter((value) =>
-      defaultTimeColumnNames.includes(value)
-    );
-    if (intersection.length > 0) {
-      setTimeColumn(intersection[0]);
-    } else {
-      setTimeColumn(SELECT_STATE_NONE);
-    }
+    autodetectTimeColumn(headers, setTimeColumn);
   }
 
   return (
