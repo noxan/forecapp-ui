@@ -173,6 +173,12 @@ export default function Dataset() {
                               })),
                             ]}
                           />
+                          <div>
+                            Output column name:{" "}
+                            <CBadge color="warning">
+                              Possibly defined by feature, e.g. {`"ds" or "y"`}
+                            </CBadge>
+                          </div>
                           <h4>Data series</h4>
                           <CChartLine
                             data={generateChartFormatForSeries(
@@ -212,10 +218,6 @@ export default function Dataset() {
                             );
                           })()}
                           <h4>Validation errors</h4>
-                          <h4>Output column name</h4>
-                          <CBadge color="warning">
-                            Possibly defined by feature, e.g. {`"ds" or "y"`}
-                          </CBadge>
                         </CTabPane>
                       );
                     })()}
