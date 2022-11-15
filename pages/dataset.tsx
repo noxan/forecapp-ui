@@ -37,13 +37,13 @@ const autodetectTimeColumn = (headers: string[], setTimeColumn: Function) => {
 };
 
 export default function Dataset() {
-  const datasets = useAppSelector((state) => state.datasets);
+  const dataset = useAppSelector((state) => state.datasets?.raw);
   const [timeColumn, setTimeColumn] = useState<TimeColumnNameType>(
     SELECT_STATE_INITIALIZE
   );
   const [activeKey, setActiveKey] = useState(0);
 
-  if (!datasets) {
+  if (!dataset) {
     return (
       <Layout>
         <Link href="/">Import dataset first</Link>
@@ -51,7 +51,6 @@ export default function Dataset() {
     );
   }
 
-  const dataset = datasets.raw;
   // TODO: initialize empty header columns if dataset does not provide any
   const headers = Object.keys(dataset[0]);
 
@@ -68,7 +67,7 @@ export default function Dataset() {
           </CCol>
         </CRow>
       </CContainer>
-      {datasets.raw && <Table data={datasets.raw.slice(0, 3)} />}
+      {dataset && <Table data={dataset.slice(0, 3)} />}
       <CContainer>
         <CRow className="my-2">
           <CCol>
