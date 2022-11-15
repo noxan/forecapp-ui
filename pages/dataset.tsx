@@ -134,7 +134,7 @@ export default function Dataset() {
 
                       return (
                         <CTabPane visible>
-                          <h2>{capitalize(column)}</h2>
+                          <h3>{capitalize(column)}</h3>
                           {timeColumn === column && (
                             <div>
                               <CBadge color="primary">
@@ -142,7 +142,7 @@ export default function Dataset() {
                               </CBadge>
                             </div>
                           )}
-                          <h3>Column data type</h3>
+                          <h4>Column data type</h4>
                           {timeColumn === column && (
                             <div>
                               <CBadge color="warning">Must be datetime</CBadge>
@@ -173,7 +173,7 @@ export default function Dataset() {
                               })),
                             ]}
                           />
-                          <h3>Data series</h3>
+                          <h4>Data series</h4>
                           <CChartLine
                             data={generateChartFormatForSeries(
                               dataset.map((row: any) => row[timeColumn]),
@@ -183,7 +183,7 @@ export default function Dataset() {
                             )}
                             type={"line"}
                           />
-                          <h3>Value distribution</h3>
+                          <h4>Value distribution</h4>
                           {(() => {
                             // TODO: create bins if data type allows
                             const counts = {};
@@ -211,8 +211,8 @@ export default function Dataset() {
                               />
                             );
                           })()}
-                          <h3>Validation errors</h3>
-                          <h3>Output column name</h3>
+                          <h4>Validation errors</h4>
+                          <h4>Output column name</h4>
                           <CBadge color="warning">
                             Possibly defined by feature, e.g. {`"ds" or "y"`}
                           </CBadge>
