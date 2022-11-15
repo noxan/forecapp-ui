@@ -10,7 +10,7 @@ import {
   CTabContent,
   CTabPane,
 } from "@coreui/react";
-import { CChartLine } from "@coreui/react-chartjs";
+import { CChartBar, CChartLine } from "@coreui/react-chartjs";
 import Link from "next/link";
 import { useState } from "react";
 import Layout from "../components/Layout";
@@ -128,6 +128,7 @@ export default function Dataset() {
                         </div>
                       )}
 
+                      <h3>Data series</h3>
                       <CChartLine
                         data={generateChartFormatForSeries(
                           dataset.map((row: any) => row[timeColumn]),
@@ -137,16 +138,29 @@ export default function Dataset() {
                         type={"line"}
                       />
 
-                      <ul>
-                        <li>Display name</li>
-                        <li>Data type</li>
-                        <li>Errors</li>
-                        <li>Value distribution</li>
-                        <li>Chart over time</li>
-                        <li>
-                          {`Output column name (possibly defined by feature, e.g. "ds" or "y")`}{" "}
-                        </li>
-                      </ul>
+                      <h3>Column data type</h3>
+
+                      <h3>Value distribution</h3>
+
+                      <CChartBar
+                        type="bar"
+                        data={{
+                          labels: [0, 1, 2, 3, 4],
+                          datasets: [
+                            {
+                              label: "Value distribution",
+                              data: [19, 28, 20, 16],
+                            },
+                          ],
+                        }}
+                      />
+
+                      <h3>Validation errors</h3>
+
+                      <h3>Output column name</h3>
+                      <CBadge color="warning">
+                        Possibly defined by feature, e.g. {`"ds" or "y"`}
+                      </CBadge>
                     </CTabPane>
                   ))}
                 </CTabContent>
