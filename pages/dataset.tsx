@@ -117,76 +117,75 @@ export default function Dataset() {
               </CCol>
               <CCol md={9}>
                 <CTabContent>
-                  {headers.map((column, index) => (
-                    <CTabPane
-                      key={index}
-                      role="tabpanel"
-                      aria-labelledby={`${column}-tab`}
-                      visible={activeKey === index}
-                    >
-                      <h2>{capitalize(column)}</h2>
-                      {timeColumn === column && (
-                        <div>
-                          <CBadge color="primary">Primary time column</CBadge>
-                        </div>
-                      )}
+                  {(() => {
+                    const column = headers[activeKey];
 
-                      <h3>Column data type</h3>
-                      {timeColumn === column && (
-                        <div>
-                          <CBadge color="warning">Must be datetime</CBadge>
-                        </div>
-                      )}
-
-                      <h3>Data series</h3>
-                      <CChartLine
-                        data={generateChartFormatForSeries(
-                          dataset.map((row: any) => row[timeColumn]),
-                          capitalize(column),
-                          dataset.map((row: any) => row[column]),
-                          chartColor
+                    return (
+                      <CTabPane visible>
+                        <h2>{capitalize(column)}</h2>
+                        {timeColumn === column && (
+                          <div>
+                            <CBadge color="primary">Primary time column</CBadge>
+                          </div>
                         )}
-                        type={"line"}
-                      />
 
-                      <h3>Value distribution</h3>
+                        <h3>Column data type</h3>
+                        {timeColumn === column && (
+                          <div>
+                            <CBadge color="warning">Must be datetime</CBadge>
+                          </div>
+                        )}
 
-                      {(() => {
-                        // TODO: create bins if data type allows
-                        const counts = {};
-                        dataset.forEach(
-                          (row: any) =>
-                            (counts[row[column]] = counts[row[column]]
-                              ? counts[row[column]] + 1
-                              : 1)
-                        );
-                        const keys = Object.keys(counts).sort();
-                        return (
-                          <CChartBar
-                            type="bar"
-                            data={{
-                              labels: keys,
-                              datasets: [
-                                {
-                                  label: "Value distribution",
-                                  data: keys.map((key: any) => counts[key]),
-                                  backgroundColor: chartColor + "30",
-                                  borderColor: chartColor + "90",
-                                },
-                              ],
-                            }}
-                          />
-                        );
-                      })()}
+                        <h3>Data series</h3>
+                        <CChartLine
+                          data={generateChartFormatForSeries(
+                            dataset.map((row: any) => row[timeColumn]),
+                            capitalize(column),
+                            dataset.map((row: any) => row[column]),
+                            chartColor
+                          )}
+                          type={"line"}
+                        />
 
-                      <h3>Validation errors</h3>
+                        <h3>Value distribution</h3>
 
-                      <h3>Output column name</h3>
-                      <CBadge color="warning">
-                        Possibly defined by feature, e.g. {`"ds" or "y"`}
-                      </CBadge>
-                    </CTabPane>
-                  ))}
+                        {(() => {
+                          // TODO: create bins if data type allows
+                          const counts = {};
+                          dataset.forEach(
+                            (row: any) =>
+                              (counts[row[column]] = counts[row[column]]
+                                ? counts[row[column]] + 1
+                                : 1)
+                          );
+                          const keys = Object.keys(counts).sort();
+                          return (
+                            <CChartBar
+                              type="bar"
+                              data={{
+                                labels: keys,
+                                datasets: [
+                                  {
+                                    label: "Value distribution",
+                                    data: keys.map((key: any) => counts[key]),
+                                    backgroundColor: chartColor + "30",
+                                    borderColor: chartColor + "90",
+                                  },
+                                ],
+                              }}
+                            />
+                          );
+                        })()}
+
+                        <h3>Validation errors</h3>
+
+                        <h3>Output column name</h3>
+                        <CBadge color="warning">
+                          Possibly defined by feature, e.g. {`"ds" or "y"`}
+                        </CBadge>
+                      </CTabPane>
+                    );
+                  })()}
                 </CTabContent>
               </CCol>
             </CRow>
