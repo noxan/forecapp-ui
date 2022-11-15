@@ -57,3 +57,22 @@ export const transformDatasetForChart = (dataset: any[]) => {
     })),
   };
 };
+
+export const generateChartFormatForSeries = (
+  timeLabels: string[],
+  label: string,
+  series: any[]
+) => {
+  const color = iwanthue(1);
+  return {
+    labels: timeLabels,
+    datasets: [
+      {
+        label: label,
+        data: series,
+        backgroundColor: color + "30",
+        borderColor: color + "90",
+      },
+    ],
+  };
+};

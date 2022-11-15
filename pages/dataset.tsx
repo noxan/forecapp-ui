@@ -1,4 +1,5 @@
 import {
+  CBadge,
   CCol,
   CContainer,
   CFormSelect,
@@ -14,7 +15,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Layout from "../components/Layout";
 import Table from "../components/Table";
-import { capitalize } from "../src/helpers";
+import { capitalize, generateChartFormatForSeries } from "../src/helpers";
 import { useAppSelector } from "../src/hooks";
 
 const SELECT_STATE_INITIALIZE = "SELECT_STATE_INITIALIZE_UNIQUE";
@@ -64,7 +65,7 @@ export default function Dataset() {
           </CCol>
         </CRow>
       </CContainer>
-      {dataset && <Table data={dataset.slice(0, 3)} />}
+      {/* {dataset && <Table data={dataset.slice(0, 3)} />} */}
       <CContainer>
         <CRow className="my-2">
           <CCol>
@@ -111,20 +112,30 @@ export default function Dataset() {
                   ))}
                 </CNav>
               </CCol>
-              <CCol>
+              <CCol md={9}>
                 <CTabContent>
-                  {headers.map((header, index) => (
+                  {headers.map((column, index) => (
                     <CTabPane
                       key={index}
                       role="tabpanel"
-                      aria-labelledby={`${header}-tab`}
+                      aria-labelledby={`${column}-tab`}
                       visible={activeKey === index}
                     >
-                      <h2>{capitalize(header)}</h2>
+                      <h2>{capitalize(column)}</h2>
+                      {timeColumn === column && (
+                        <div>
+                          <CBadge color="primary">Primary time column</CBadge>
+                        </div>
+                      )}
 
-                      {/* <CChartLine data={} /> */}
-
-                      {dataset.map((item: any) => item[header])}
+                      <CChartLine
+                        data={generateChartFormatForSeries(
+                          dataset.map((row: any) => row[timeColumn]),
+                          capitalize(column),
+                          dataset.map((row: any) => row[column])
+                        )}
+                        type={"line"}
+                      />
 
                       <ul>
                         <li>Display name</li>
