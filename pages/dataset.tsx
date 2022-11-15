@@ -20,13 +20,14 @@ import { useAppSelector } from "../src/hooks";
 const SELECT_STATE_INITIALIZE = "SELECT_STATE_INITIALIZE_UNIQUE";
 const SELECT_STATE_NONE = "SELECT_STATE_NONE_UNIQUE";
 type TimeColumnNameType = string;
-const defaultTimeColumnNames = ["time", "timestamp", "date"];
 
 const datatypes = ["string", "number", "boolean", "datetime", "integer"];
 
+// Time column autodetction
+const defaultTimeColumnNames = ["time", "timestamp", "date", "ds"];
 const autodetectTimeColumn = (headers: string[], setTimeColumn: Function) => {
   const intersection = headers.filter((value) =>
-    defaultTimeColumnNames.includes(value)
+    defaultTimeColumnNames.includes(value.trim().toLowerCase())
   );
   if (intersection.length > 0) {
     setTimeColumn(intersection[0]);
