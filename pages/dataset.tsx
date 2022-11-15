@@ -139,21 +139,38 @@ export default function Dataset() {
                       />
 
                       <h3>Column data type</h3>
+                      {timeColumn === column && (
+                        <div>
+                          <CBadge color="warning">Must be datetime</CBadge>
+                        </div>
+                      )}
 
                       <h3>Value distribution</h3>
 
-                      <CChartBar
-                        type="bar"
-                        data={{
-                          labels: [0, 1, 2, 3, 4],
-                          datasets: [
-                            {
-                              label: "Value distribution",
-                              data: [19, 28, 20, 16],
-                            },
-                          ],
-                        }}
-                      />
+                      {(() => {
+                        // TODO: create bins if data type allows
+                        const counts = {};
+                        dataset.forEach((row: any) => {
+                          console.log(row[column]);
+                          const value = row[column];
+                          counts[value] = counts[value] ? counts[value] + 1 : 1;
+                        });
+                        const keys = Object.keys(counts).sort();
+                        return (
+                          <CChartBar
+                            type="bar"
+                            data={{
+                              labels: keys,
+                              datasets: [
+                                {
+                                  label: "Value distribution",
+                                  data: keys.map((key: any) => counts[key]),
+                                },
+                              ],
+                            }}
+                          />
+                        );
+                      })()}
 
                       <h3>Validation errors</h3>
 
