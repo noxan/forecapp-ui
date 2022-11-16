@@ -198,43 +198,44 @@ export default function Dataset() {
                             </div>
                           )}
                           <h4>Column data type</h4>
-                          {specialColumn && (
-                            <div>
-                              <CBadge color="warning">
-                                Must be {specialColumn.datatype}
-                              </CBadge>
-                            </div>
+                          {specialColumn ? (
+                            <div>Datatype: {specialColumn.datatype}</div>
+                          ) : (
+                            <>
+                              <div>
+                                Auto detected datatypes:{" "}
+                                {dataset
+                                  .map((row: any) => typeof row[column])
+                                  .filter(
+                                    (value: any, index: number, self: any) =>
+                                      self.indexOf(value) === index
+                                  )
+                                  .join(", ")}
+                              </div>
+                              <CFormSelect
+                                label="Datatype"
+                                defaultValue={SELECT_STATE_NONE}
+                                onChange={(evt) =>
+                                  console.log(evt.target.value)
+                                }
+                                options={[
+                                  {
+                                    label: "Select data type for column",
+                                    value: SELECT_STATE_NONE,
+                                  },
+                                  ...datatypes.map((datatype) => ({
+                                    label: capitalize(datatype),
+                                    value: datatype,
+                                  })),
+                                ]}
+                              />
+                            </>
                           )}
                           <div>
-                            Current type (auto detect):{" "}
-                            {dataset
-                              .map((row: any) => typeof row[column])
-                              .filter(
-                                (value: any, index: number, self: any) =>
-                                  self.indexOf(value) === index
-                              )
-                              .join(", ")}
-                          </div>
-                          <CFormSelect
-                            label="Data type"
-                            defaultValue={SELECT_STATE_NONE}
-                            onChange={(evt) => console.log(evt.target.value)}
-                            options={[
-                              {
-                                label: "Select data type for column",
-                                value: SELECT_STATE_NONE,
-                              },
-                              ...datatypes.map((datatype) => ({
-                                label: capitalize(datatype),
-                                value: datatype,
-                              })),
-                            ]}
-                          />
-                          <div>
                             Output column name:{" "}
-                            <CBadge color="warning">
-                              Possibly defined by feature, e.g. {`"ds" or "y"`}
-                            </CBadge>
+                            {specialColumn
+                              ? specialColumn.outputName
+                              : "unknown"}
                           </div>
                           <h4>Data series</h4>
                           <CChartLine
