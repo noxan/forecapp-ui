@@ -22,7 +22,13 @@ import { useAppSelector } from "../src/hooks";
 const SELECT_STATE_INITIALIZE = "SELECT_STATE_INITIALIZE_UNIQUE";
 const SELECT_STATE_NONE = "SELECT_STATE_NONE_UNIQUE";
 
-const datatypes = ["string", "number", "boolean", "datetime", "integer"];
+const datatypes = [
+  "string",
+  "number",
+  "boolean",
+  "datetime",
+  "integer",
+] as const;
 
 const COLUMN_PRIMARY_TIME = Symbol();
 const COLUMN_PRIMARY_TARGET = Symbol();
@@ -37,7 +43,7 @@ const SPECIAL_COLUMN_CONFIGURATIONS = {
   [COLUMN_PRIMARY_TARGET]: {
     id: COLUMN_PRIMARY_TARGET,
     label: "Target",
-    defaultInputNames: ["y", "value", "target", "output", "score"],
+    defaultInputNames: ["y", "value", "target", "output", "score", "price"],
     outputName: "y",
     datatype: "number",
   },
@@ -60,12 +66,22 @@ const autodetectColumn = (
   }
 };
 
+type ColumnConfig = {
+  inputName?: string; // equals "id"
+  label?: string;
+  datatype?: typeof datatypes;
+  outputName?: string;
+};
+
 export default function Dataset() {
   const dataset = useAppSelector((state) => state.datasets?.raw);
   const [timeColumn, setTimeColumn] = useState<string>(SELECT_STATE_INITIALIZE);
   const [targetColumn, setTargetColumn] = useState<string>(
     SELECT_STATE_INITIALIZE
   );
+  const [columnConfigs, setColumnConfigs] = useState<{
+    [x: string]: ColumnConfig;
+  }>({});
   const [activeKey, setActiveKey] = useState(0);
 
   const chartColor = iwanthue(1)[0];
@@ -193,6 +209,8 @@ export default function Dataset() {
                             self.indexOf(value) === index
                         );
 
+                      const columnConfig = columnConfigs[column] || {};
+
                       const datatypeDefaultValue = datatypes.includes(
                         datatypesAutodetected[0]
                       )
@@ -222,7 +240,13 @@ export default function Dataset() {
                                 label="Datatype"
                                 defaultValue={datatypeDefaultValue}
                                 onChange={(evt) =>
-                                  console.log(evt.target.value)
+                                  setColumnConfigs({
+                                    ...columnConfigs,
+                                    [column]: {
+                                      ...columnConfig,
+                                      datatype: evt.target.value as any,
+                                    },
+                                  })
                                 }
                                 options={[
                                   {
