@@ -27,3 +27,10 @@ export const SPECIAL_COLUMN_CONFIGURATIONS = {
     datatype: "number",
   },
 };
+
+export type ColumnConfig = {
+  inputName?: string; // equals "id"
+  label?: string;
+  datatype?: typeof DATATYPES;
+  outputName?: string;
+};

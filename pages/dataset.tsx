@@ -12,9 +12,9 @@ import { useState } from "react";
 import ColumnConfigPanel from "../components/ColumnConfigPanel";
 import Layout from "../components/Layout";
 import {
+  ColumnConfig,
   COLUMN_PRIMARY_TARGET,
   COLUMN_PRIMARY_TIME,
-  DATATYPES,
   SELECT_STATE_INITIALIZE,
   SELECT_STATE_NONE,
   SPECIAL_COLUMN_CONFIGURATIONS,
@@ -37,13 +37,6 @@ const autodetectColumn = (
   } else {
     setTimeColumn(SELECT_STATE_NONE);
   }
-};
-
-type ColumnConfig = {
-  inputName?: string; // equals "id"
-  label?: string;
-  datatype?: typeof DATATYPES;
-  outputName?: string;
 };
 
 export default function Dataset() {
