@@ -10,7 +10,7 @@ import { CChartLine } from "@coreui/react-chartjs";
 import { useState } from "react";
 import { transformDatasetForChart } from "../src/helpers";
 import { useAppDispatch } from "../src/hooks";
-import { ColumnConfigurations, neuralprophet } from "../src/store/datasets";
+import { ColumnConfigurations, apiPrediction } from "../src/store/datasets";
 
 const Prediction = ({
   finalDataset,
@@ -70,7 +70,7 @@ const Prediction = ({
               }`}
               onClick={() => {
                 dispatch(
-                  neuralprophet({
+                  apiPrediction({
                     dataset: finalDataset,
                     columns,
                     configuration: modelConfiguration,

@@ -13,7 +13,7 @@ export const importDataset = createAsyncThunk<any[], { source: string | File }>(
   }
 );
 
-export const neuralprophet = createAsyncThunk<
+export const apiPrediction = createAsyncThunk<
   object,
   { dataset: any[]; columns: ColumnConfigurations; configuration: object }
 >("datasets/neuralprophet", async ({ dataset, columns, configuration }) => {
@@ -124,14 +124,14 @@ export const datasetSlice = createSlice({
     builder.addCase(importDataset.pending, (state) => {
       state.status = "loading";
     });
-    builder.addCase(neuralprophet.fulfilled, (state, { payload }) => {
+    builder.addCase(apiPrediction.fulfilled, (state, { payload }) => {
       state.status = "idle";
       state.prediction = payload as any;
     });
-    builder.addCase(neuralprophet.pending, (state) => {
+    builder.addCase(apiPrediction.pending, (state) => {
       state.status = "loading";
     });
-    builder.addCase(neuralprophet.rejected, (state, action) => {
+    builder.addCase(apiPrediction.rejected, (state, action) => {
       alert("Something went wrong: " + action.error?.message);
       state.status = "idle";
     });
