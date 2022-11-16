@@ -1,42 +1,30 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { parse } from "papaparse";
+import { parse as papaparse } from "papaparse";
 import { capitalize } from "../helpers";
 
-const parseConfig = {
-  dynamicTyping: false,
-  header: true,
-};
+const parse = async (source: any, config: object = {}) =>
+  await new Promise<any>((resolve, reject) =>
+    papaparse(source, {
+      dynamicTyping: false,
+      header: true,
+      ...config,
+      complete(results) {
+        resolve(results.data);
+      },
+      error(error) {
+        reject(error);
+      },
+    })
+  );
 
 export const importDataset = createAsyncThunk<any[], { source: string | File }>(
   "datasets/importDataset",
   async ({ source }) => {
     if (source instanceof File) {
       const text = (await source.text()).trim();
-      return await new Promise((resolve, reject) => {
-        parse(text, {
-          ...parseConfig,
-          complete(results: any) {
-            resolve(results.data as any);
-          },
-          error(error: Error) {
-            reject(error);
-          },
-        });
-      });
-    } else {
-      return await new Promise((resolve, reject) => {
-        parse(source, {
-          download: true,
-          ...parseConfig,
-          complete(results) {
-            resolve(results.data as any);
-          },
-          error(err) {
-            reject(err);
-          },
-        });
-      });
+      return await parse(text);
     }
+    return await parse(source, { download: true });
   }
 );
 
