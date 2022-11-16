@@ -25,11 +25,19 @@ const SELECT_STATE_NONE = "SELECT_STATE_NONE_UNIQUE";
 const datatypes = ["string", "number", "boolean", "datetime", "integer"];
 
 const COLUMN_PRIMARY_TIMESERIES = Symbol();
+const COLUMN_TARGET_VALUE = Symbol();
 const SPECIAL_COLUMN_CONFIGURATIONS = {
   [COLUMN_PRIMARY_TIMESERIES]: {
     id: COLUMN_PRIMARY_TIMESERIES,
     defaultInputNames: ["ds", "datetime", "timestamp", "date", "time", "day"],
     outputName: "ds",
+    datatype: "datetime",
+  },
+  [COLUMN_TARGET_VALUE]: {
+    id: COLUMN_TARGET_VALUE,
+    defaultInputNames: ["y", "value", "target", "output", "score"],
+    outputName: "y",
+    datatype: "number",
   },
 };
 
