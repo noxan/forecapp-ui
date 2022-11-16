@@ -78,7 +78,9 @@ export default function Dataset() {
             <div>{columns.length} columns</div>
             <CButton
               color="danger"
-              onClick={() => dispatch(resetColumnConfiguration())}
+              onClick={() =>
+                dispatch(resetColumnConfiguration({ columnHeaders: columns }))
+              }
             >
               Reset
             </CButton>
