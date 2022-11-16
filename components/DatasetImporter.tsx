@@ -1,7 +1,7 @@
 import { CBadge, CButton, CCol, CFormInput, CRow } from "@coreui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../src/store";
-import { importDatasetWithReset } from "../src/store/datasets";
+import { importDatasetWithAutodetect } from "../src/store/datasets";
 
 const examplePath = "datasets/";
 const exampleDatasets = ["energy_dataset_small.csv", "air_passengers.csv"];
@@ -16,7 +16,7 @@ const DatasetImporter = () => {
           <CButton
             onClick={() =>
               dispatch(
-                importDatasetWithReset({
+                importDatasetWithAutodetect({
                   source: examplePath + exampleDatasetUrl,
                 })
               )
@@ -34,7 +34,7 @@ const DatasetImporter = () => {
           onChange={(evt) => {
             if (evt.target.files && evt.target.files.length > 0) {
               return dispatch(
-                importDatasetWithReset({ source: evt.target.files[0] })
+                importDatasetWithAutodetect({ source: evt.target.files[0] })
               );
             }
           }}

@@ -34,23 +34,6 @@ import {
   selectTimeColumn,
 } from "../src/store/selectors";
 
-// Time column autodetction
-const autodetectColumn = (
-  column: keyof typeof SPECIAL_COLUMN_CONFIGURATIONS,
-  headers: string[],
-  setTimeColumn: Function
-) => {
-  const config = SPECIAL_COLUMN_CONFIGURATIONS[column];
-  const intersection = headers.filter((value) =>
-    config.defaultInputNames.includes(value.trim().toLowerCase())
-  );
-  if (intersection.length > 0) {
-    setTimeColumn(intersection[0]);
-  } else {
-    setTimeColumn(SELECT_STATE_NONE);
-  }
-};
-
 export default function Dataset() {
   const dispatch = useAppDispatch();
   const timeColumn = useAppSelector(selectTimeColumn);
@@ -79,18 +62,6 @@ export default function Dataset() {
         ...configUpdate,
       },
     });
-
-  // TODO: Possibly move column auto initialization to importDataset action
-  if (timeColumn === SELECT_STATE_INITIALIZE) {
-    autodetectColumn(COLUMN_PRIMARY_TIME, columns, (col: string) =>
-      dispatch(setTimeColumn(col))
-    );
-  }
-  if (targetColumn === SELECT_STATE_INITIALIZE) {
-    autodetectColumn(COLUMN_PRIMARY_TARGET, columns, (col: string) =>
-      dispatch(setTargetColumn(col))
-    );
-  }
 
   return (
     <Layout>

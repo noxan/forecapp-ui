@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { SELECT_STATE_INITIALIZE } from "../definitions";
+import {
+  COLUMN_PRIMARY_TARGET,
+  COLUMN_PRIMARY_TIME,
+  SELECT_STATE_INITIALIZE,
+} from "../definitions";
+import { autodetectColumn } from "../helpers";
 import { parse } from "../parser";
 
 const importDataset = createAsyncThunk<any[], { source: string | File }>(
@@ -13,11 +18,14 @@ const importDataset = createAsyncThunk<any[], { source: string | File }>(
   }
 );
 
-export const importDatasetWithReset =
+export const importDatasetWithAutodetect =
   ({ source }: { source: string | File }) =>
-  (dispatch: Function) => {
-    dispatch(importDataset({ source }));
-    dispatch(resetColumnConfiguration());
+  async (dispatch: Function, getState: Function) => {
+    await dispatch(importDataset({ source }));
+    const state = getState();
+    const columnHeaders = Object.keys(state.datasets.raw[0]);
+    autodetectColumn(COLUMN_PRIMARY_TIME, columnHeaders, setTimeColumn);
+    autodetectColumn(COLUMN_PRIMARY_TARGET, columnHeaders, setTargetColumn);
   };
 
 type PredictionQueryArg = { dataset: any[]; configuration: object };
