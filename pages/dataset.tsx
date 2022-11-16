@@ -24,11 +24,20 @@ const SELECT_STATE_NONE = "SELECT_STATE_NONE_UNIQUE";
 
 const datatypes = ["string", "number", "boolean", "datetime", "integer"];
 
+const COLUMN_PRIMARY_TIMESERIES = Symbol();
+const SPECIAL_COLUMN_CONFIGURATIONS = {
+  [COLUMN_PRIMARY_TIMESERIES]: {
+    id: COLUMN_PRIMARY_TIMESERIES,
+    defaultInputNames: ["ds", "datetime", "timestamp", "date", "time", "day"],
+    outputName: "ds",
+  },
+};
+
 // Time column autodetction
-const defaultTimeColumnNames = ["time", "timestamp", "date", "ds", "day"];
 const autodetectTimeColumn = (headers: string[], setTimeColumn: Function) => {
+  const config = SPECIAL_COLUMN_CONFIGURATIONS[COLUMN_PRIMARY_TIMESERIES];
   const intersection = headers.filter((value) =>
-    defaultTimeColumnNames.includes(value.trim().toLowerCase())
+    config.defaultInputNames.includes(value.trim().toLowerCase())
   );
   if (intersection.length > 0) {
     setTimeColumn(intersection[0]);
