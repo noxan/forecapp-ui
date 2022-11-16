@@ -9,6 +9,7 @@ import {
   SPECIAL_COLUMN_CONFIGURATIONS,
 } from "../src/definitions";
 import { capitalize, generateChartFormatForSeries } from "../src/helpers";
+import ColumnHistogram from "./ColumnHistogram";
 
 const chartColor = iwanthue(1)[0];
 
@@ -106,33 +107,10 @@ const ColumnConfigPanel = ({
           type={"line"}
         />
         <h4>Value distribution</h4>
-        {(() => {
-          // TODO: create bins if data type allows
-          const counts = {};
-          dataset.forEach(
-            (row: any) =>
-              (counts[row[column]] = counts[row[column]]
-                ? counts[row[column]] + 1
-                : 1)
-          );
-          const keys = Object.keys(counts).sort();
-          return (
-            <CChartBar
-              type="bar"
-              data={{
-                labels: keys,
-                datasets: [
-                  {
-                    label: "Value distribution",
-                    data: keys.map((key: any) => counts[key]),
-                    backgroundColor: chartColor + "30",
-                    borderColor: chartColor + "90",
-                  },
-                ],
-              }}
-            />
-          );
-        })()}
+        <ColumnHistogram
+          rows={dataset.map((row: any) => row[column])}
+          chartColor={chartColor}
+        />
         <h4>Validation errors</h4>
       </CTabPane>
     </CTabContent>
