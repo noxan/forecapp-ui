@@ -114,7 +114,6 @@ export const datasetSlice = createSlice({
       }
       state.columns[identifier].functionality = value;
     },
-    applyTransforms: () => undefined,
   },
   extraReducers: (builder) => {
     builder.addCase(importDataset.fulfilled, (state, { payload }) => {
@@ -138,7 +137,6 @@ export const datasetSlice = createSlice({
   },
 });
 
-export const { resetColumns, updateColumnFunction, applyTransforms } =
-  datasetSlice.actions;
+export const { resetColumns, updateColumnFunction } = datasetSlice.actions;
 
 export default datasetSlice.reducer;
