@@ -29,12 +29,14 @@ const COLUMN_PRIMARY_TARGET = Symbol();
 const SPECIAL_COLUMN_CONFIGURATIONS = {
   [COLUMN_PRIMARY_TIME]: {
     id: COLUMN_PRIMARY_TIME,
+    label: "Time",
     defaultInputNames: ["ds", "datetime", "timestamp", "date", "time", "day"],
     outputName: "ds",
     datatype: "datetime",
   },
   [COLUMN_PRIMARY_TARGET]: {
     id: COLUMN_PRIMARY_TARGET,
+    label: "Target",
     defaultInputNames: ["y", "value", "target", "output", "score"],
     outputName: "y",
     datatype: "number",
@@ -175,21 +177,32 @@ export default function Dataset() {
                   <CTabContent>
                     {(() => {
                       const column = headers[activeKey];
+                      const specialColumnMapping =
+                        column === timeColumn
+                          ? COLUMN_PRIMARY_TIME
+                          : column === targetColumn
+                          ? COLUMN_PRIMARY_TARGET
+                          : false;
+                      const specialColumn = specialColumnMapping
+                        ? SPECIAL_COLUMN_CONFIGURATIONS[specialColumnMapping]
+                        : false;
 
                       return (
                         <CTabPane visible>
                           <h3>{capitalize(column)}</h3>
-                          {timeColumn === column && (
+                          {specialColumn && (
                             <div>
                               <CBadge color="primary">
-                                Primary time column
+                                {specialColumn.label}
                               </CBadge>
                             </div>
                           )}
                           <h4>Column data type</h4>
-                          {timeColumn === column && (
+                          {specialColumn && (
                             <div>
-                              <CBadge color="warning">Must be datetime</CBadge>
+                              <CBadge color="warning">
+                                Must be {specialColumn.datatype}
+                              </CBadge>
                             </div>
                           )}
                           <div>
