@@ -1,4 +1,5 @@
 import {
+  CButton,
   CCol,
   CContainer,
   CFormSelect,
@@ -21,7 +22,7 @@ import {
 } from "../src/definitions";
 import { capitalize } from "../src/helpers";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
-import { setTimeColumn } from "../src/store/datasets";
+import { resetColumnConfiguration, setTimeColumn } from "../src/store/datasets";
 import { selectDataset, selectTimeColumn } from "../src/store/selectors";
 
 // Time column autodetction
@@ -133,6 +134,12 @@ export default function Dataset() {
           <CCol>
             <div>{dataset.length} entries</div>
             <div>{headers.length} columns</div>
+            <CButton
+              color="danger"
+              onClick={() => dispatch(resetColumnConfiguration())}
+            >
+              Reset
+            </CButton>
           </CCol>
         </CRow>
         {timeColumn !== undefined &&
