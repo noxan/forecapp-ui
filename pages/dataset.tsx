@@ -122,6 +122,23 @@ export default function Dataset() {
             />
           </CCol>
           <CCol>
+            <CFormSelect
+              label="Target column"
+              defaultValue={targetColumn as string}
+              onChange={(e) => setTargetColumn(e.target.value)}
+              options={[
+                {
+                  label: "Select primary target column",
+                  value: SELECT_STATE_NONE,
+                },
+                ...headers.map((header) => ({
+                  label: capitalize(header),
+                  value: header,
+                })),
+              ]}
+            />
+          </CCol>
+          <CCol>
             <div>{dataset.length} entries</div>
             <div>{headers.length} columns</div>
           </CCol>
