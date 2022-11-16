@@ -20,7 +20,9 @@ import {
   SPECIAL_COLUMN_CONFIGURATIONS,
 } from "../src/definitions";
 import { capitalize } from "../src/helpers";
-import { useAppSelector } from "../src/hooks";
+import { useAppDispatch, useAppSelector } from "../src/hooks";
+import { setTimeColumn } from "../src/store/datasets";
+import { selectTimeColumn } from "../src/store/selectors";
 
 // Time column autodetction
 const autodetectColumn = (
@@ -40,8 +42,11 @@ const autodetectColumn = (
 };
 
 export default function Dataset() {
+  const dispatch = useAppDispatch();
+  const timeColumn = useAppSelector(selectTimeColumn);
+  const setTimeColumnAction = (timeColumn: string) =>
+    dispatch(setTimeColumn(timeColumn));
   const dataset = useAppSelector((state) => state.datasets?.raw);
-  const [timeColumn, setTimeColumn] = useState<string>(SELECT_STATE_INITIALIZE);
   const [targetColumn, setTargetColumn] = useState<string>(
     SELECT_STATE_INITIALIZE
   );
@@ -69,7 +74,7 @@ export default function Dataset() {
     });
 
   if (timeColumn === SELECT_STATE_INITIALIZE) {
-    autodetectColumn(COLUMN_PRIMARY_TIME, headers, setTimeColumn);
+    autodetectColumn(COLUMN_PRIMARY_TIME, headers, setTimeColumnAction);
   }
   if (targetColumn === SELECT_STATE_INITIALIZE) {
     autodetectColumn(COLUMN_PRIMARY_TARGET, headers, setTargetColumn);
@@ -95,7 +100,7 @@ export default function Dataset() {
             <CFormSelect
               label="Time column"
               defaultValue={timeColumn as string}
-              onChange={(e) => setTimeColumn(e.target.value)}
+              onChange={(e) => setTimeColumnAction(e.target.value)}
               options={[
                 {
                   label: "Select primary time column",
@@ -130,7 +135,8 @@ export default function Dataset() {
             <div>{headers.length} columns</div>
           </CCol>
         </CRow>
-        {timeColumn !== SELECT_STATE_NONE &&
+        {timeColumn !== undefined &&
+          timeColumn !== SELECT_STATE_NONE &&
           timeColumn !== SELECT_STATE_INITIALIZE && (
             <>
               <hr />

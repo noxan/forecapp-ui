@@ -28,17 +28,29 @@ export const apiPrediction = createAsyncThunk<any, PredictionQueryArg>(
 export interface DatasetsState {
   status: "idle" | "loading";
   raw?: any[];
+  columns: {
+    timeColumn: string;
+    targetColumn: string;
+  };
   prediction?: object; // results dataset, alias predictions
 }
 
 const initialState = {
   status: "idle",
+  columns: {},
 } as DatasetsState;
 
 export const datasetSlice = createSlice({
   name: "datasets",
   initialState,
-  reducers: {},
+  reducers: {
+    setTimeColumn: (state, action: { payload: string }) => {
+      state.columns.timeColumn = action.payload;
+    },
+    setTargetColumn: (state, action) => {
+      state.columns.targetColumn = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(importDataset.fulfilled, (state, { payload }) => {
       state.status = "idle";
@@ -61,6 +73,6 @@ export const datasetSlice = createSlice({
   },
 });
 
-export const {} = datasetSlice.actions;
+export const { setTimeColumn, setTargetColumn } = datasetSlice.actions;
 
 export default datasetSlice.reducer;
