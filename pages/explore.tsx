@@ -18,7 +18,6 @@ export default function Explore() {
   return (
     <Layout>
       <CContainer>
-        <style>{`td { white-space: nowrap; text-align: right; }`}</style>
         <CRow className="my-2">
           <CCol>
             <h1>Explore dataset</h1>

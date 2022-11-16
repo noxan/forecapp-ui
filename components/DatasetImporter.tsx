@@ -11,14 +11,6 @@ const DatasetImporter = () => {
   const dispatch = useDispatch<AppDispatch>();
   return (
     <CRow>
-      <style>
-        {`.table-header-content {
-          max-height: 40px;
-          font-weight: normal;
-          line-height: 0.85rem;
-          overflow: hidden;
-        }`}
-      </style>
       {exampleDatasets.map((exampleDatasetUrl) => (
         <CCol key={exampleDatasetUrl}>
           <CButton

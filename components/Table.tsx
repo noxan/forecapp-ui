@@ -31,6 +31,20 @@ export default function Table({ data }: { data: any[] }) {
 
   return (
     <CTable hover small responsive>
+      <style>
+        {`
+        .table-header-content {
+          max-height: 40px;
+          font-weight: normal;
+          line-height: 0.9rem;
+          overflow: hidden;
+        }
+        tbody > tr > td {
+          white-space: nowrap;
+          text-align: right;
+        }
+        `}
+      </style>
       <CTableHead>
         {table.getHeaderGroups().map((headerGroup) => (
           <CTableRow key={headerGroup.id}>
