@@ -24,17 +24,17 @@ const SELECT_STATE_NONE = "SELECT_STATE_NONE_UNIQUE";
 
 const datatypes = ["string", "number", "boolean", "datetime", "integer"];
 
-const COLUMN_PRIMARY_TIMESERIES = Symbol();
-const COLUMN_TARGET_VALUE = Symbol();
+const COLUMN_PRIMARY_TIME = Symbol();
+const COLUMN_PRIMARY_TARGET = Symbol();
 const SPECIAL_COLUMN_CONFIGURATIONS = {
-  [COLUMN_PRIMARY_TIMESERIES]: {
-    id: COLUMN_PRIMARY_TIMESERIES,
+  [COLUMN_PRIMARY_TIME]: {
+    id: COLUMN_PRIMARY_TIME,
     defaultInputNames: ["ds", "datetime", "timestamp", "date", "time", "day"],
     outputName: "ds",
     datatype: "datetime",
   },
-  [COLUMN_TARGET_VALUE]: {
-    id: COLUMN_TARGET_VALUE,
+  [COLUMN_PRIMARY_TARGET]: {
+    id: COLUMN_PRIMARY_TARGET,
     defaultInputNames: ["y", "value", "target", "output", "score"],
     outputName: "y",
     datatype: "number",
@@ -42,8 +42,12 @@ const SPECIAL_COLUMN_CONFIGURATIONS = {
 };
 
 // Time column autodetction
-const autodetectTimeColumn = (headers: string[], setTimeColumn: Function) => {
-  const config = SPECIAL_COLUMN_CONFIGURATIONS[COLUMN_PRIMARY_TIMESERIES];
+const autodetectColumn = (
+  column: keyof typeof SPECIAL_COLUMN_CONFIGURATIONS,
+  headers: string[],
+  setTimeColumn: Function
+) => {
+  const config = SPECIAL_COLUMN_CONFIGURATIONS[column];
   const intersection = headers.filter((value) =>
     config.defaultInputNames.includes(value.trim().toLowerCase())
   );
@@ -57,6 +61,9 @@ const autodetectTimeColumn = (headers: string[], setTimeColumn: Function) => {
 export default function Dataset() {
   const dataset = useAppSelector((state) => state.datasets?.raw);
   const [timeColumn, setTimeColumn] = useState<string>(SELECT_STATE_INITIALIZE);
+  const [targetColumn, setTargetColumn] = useState<string>(
+    SELECT_STATE_INITIALIZE
+  );
   const [activeKey, setActiveKey] = useState(0);
 
   const chartColor = iwanthue(1)[0];
@@ -73,7 +80,10 @@ export default function Dataset() {
   const headers = Object.keys(dataset[0]);
 
   if (timeColumn === SELECT_STATE_INITIALIZE) {
-    autodetectTimeColumn(headers, setTimeColumn);
+    autodetectColumn(COLUMN_PRIMARY_TIME, headers, setTimeColumn);
+  }
+  if (targetColumn === SELECT_STATE_INITIALIZE) {
+    autodetectColumn(COLUMN_PRIMARY_TARGET, headers, setTargetColumn);
   }
 
   return (
