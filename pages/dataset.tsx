@@ -7,10 +7,10 @@ import {
   CNavLink,
   CRow,
 } from "@coreui/react";
-import Link from "next/link";
 import { useState } from "react";
 import ColumnConfigPanel from "../components/ColumnConfigPanel";
 import Layout from "../components/Layout";
+import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
 import {
   ColumnConfig,
   COLUMN_PRIMARY_TARGET,
@@ -51,11 +51,7 @@ export default function Dataset() {
   const [activeKey, setActiveKey] = useState(0);
 
   if (!dataset) {
-    return (
-      <Layout>
-        <Link href="/">Import dataset first</Link>
-      </Layout>
-    );
+    return <MissingDatasetPlaceholder />;
   }
 
   // TODO: initialize empty header columns if dataset does not provide any

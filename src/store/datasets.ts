@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { parse } from "../parser";
 
 export const importDataset = createAsyncThunk<any[], { source: string | File }>(
