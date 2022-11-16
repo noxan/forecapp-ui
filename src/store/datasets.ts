@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { SELECT_STATE_INITIALIZE } from "../definitions";
 import { parse } from "../parser";
 
 export const importDataset = createAsyncThunk<any[], { source: string | File }>(
@@ -37,7 +38,9 @@ export interface DatasetsState {
 
 const initialState = {
   status: "idle",
-  columns: {},
+  columns: {
+    timeColumn: SELECT_STATE_INITIALIZE,
+  },
 } as DatasetsState;
 
 export const datasetSlice = createSlice({
