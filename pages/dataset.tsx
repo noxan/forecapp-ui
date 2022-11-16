@@ -2,7 +2,6 @@ import {
   CButton,
   CCol,
   CContainer,
-  CFormSelect,
   CNav,
   CNavItem,
   CNavLink,
@@ -13,14 +12,7 @@ import ColumnConfigPanel from "../components/ColumnConfigPanel";
 import Layout from "../components/Layout";
 import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
 import PrimaryColumnConfig from "../components/PrimaryColumnConfig";
-import {
-  ColumnConfig,
-  COLUMN_PRIMARY_TARGET,
-  COLUMN_PRIMARY_TIME,
-  SELECT_STATE_INITIALIZE,
-  SELECT_STATE_NONE,
-  SPECIAL_COLUMN_CONFIGURATIONS,
-} from "../src/definitions";
+import { SELECT_STATE_INITIALIZE, SELECT_STATE_NONE } from "../src/definitions";
 import { capitalize } from "../src/helpers";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import {
@@ -40,28 +32,14 @@ export default function Dataset() {
   const targetColumn = useAppSelector(selectTargetColumn);
   const dataset = useAppSelector(selectDataset);
 
-  const [columnConfigs, setColumnConfigs] = useState<{
-    [x: string]: ColumnConfig;
-  }>({});
   const [activeKey, setActiveKey] = useState(0);
 
   if (!dataset) {
     return <MissingDatasetPlaceholder />;
   }
 
-  // TODO: initialize empty header columns if dataset does not provide any
   const columns = Object.keys(dataset[0]);
-
   const activeColumn = columns[activeKey];
-
-  const setColumnConfig = (configUpdate: object) =>
-    setColumnConfigs({
-      ...columnConfigs,
-      [activeColumn]: {
-        ...columnConfigs[activeColumn],
-        ...configUpdate,
-      },
-    });
 
   return (
     <Layout>
@@ -141,8 +119,6 @@ export default function Dataset() {
                     dataset={dataset}
                     timeColumn={timeColumn}
                     targetColumn={targetColumn}
-                    columnConfig={columnConfigs[activeColumn]}
-                    setColumnConfig={setColumnConfig}
                   />
                 </CCol>
               </CRow>

@@ -23,6 +23,7 @@ export const importDatasetWithAutodetect =
   async (dispatch: Function, getState: Function) => {
     await dispatch(importDataset({ source }));
     const state = getState();
+    // TODO: initialize empty header columns if dataset does not provide any
     const columnHeaders = Object.keys(state.datasets.raw[0]);
     autodetectColumn(COLUMN_PRIMARY_TIME, columnHeaders, setTimeColumn);
     autodetectColumn(COLUMN_PRIMARY_TARGET, columnHeaders, setTargetColumn);
