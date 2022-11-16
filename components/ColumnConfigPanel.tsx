@@ -37,12 +37,14 @@ const ColumnConfigPanel = ({
   const specialColumn = specialColumnMapping
     ? SPECIAL_COLUMN_CONFIGURATIONS[specialColumnMapping]
     : false;
-  console.log(dataset);
   const datatypesAutodetected = dataset
     .map((row: any) => typeof row[column])
     .filter(
       (value: any, index: number, self: any) => self.indexOf(value) === index
     );
+
+  const rows = dataset.map((row: any) => row[column]);
+  const timeLabels = dataset.map((row: any) => row[timeColumn]);
 
   const datatypeDefaultValue = datatypes.includes(
     datatypesAutodetected[0] as any
@@ -99,18 +101,15 @@ const ColumnConfigPanel = ({
         <h4>Data series</h4>
         <CChartLine
           data={generateChartFormatForSeries(
-            dataset.map((row: any) => row[timeColumn]),
+            timeLabels,
             capitalize(column),
-            dataset.map((row: any) => row[column]),
+            rows,
             chartColor
           )}
           type={"line"}
         />
         <h4>Value distribution</h4>
-        <ColumnHistogram
-          rows={dataset.map((row: any) => row[column])}
-          chartColor={chartColor}
-        />
+        <ColumnHistogram rows={rows} chartColor={chartColor} />
         <h4>Validation errors</h4>
       </CTabPane>
     </CTabContent>
