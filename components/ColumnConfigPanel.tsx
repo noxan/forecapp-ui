@@ -1,11 +1,9 @@
-import { CBadge, CFormSelect, CTabContent, CTabPane } from "@coreui/react";
-import { CChartBar, CChartLine } from "@coreui/react-chartjs";
+import { CBadge, CTabContent, CTabPane } from "@coreui/react";
+import { CChartLine } from "@coreui/react-chartjs";
 import iwanthue from "iwanthue";
 import {
   COLUMN_PRIMARY_TARGET,
   COLUMN_PRIMARY_TIME,
-  DATATYPES,
-  SELECT_STATE_NONE,
   SPECIAL_COLUMN_CONFIGURATIONS,
 } from "../src/definitions";
 import { capitalize, generateChartFormatForSeries } from "../src/helpers";
@@ -18,15 +16,11 @@ const ColumnConfigPanel = ({
   dataset,
   timeColumn,
   targetColumn,
-  columnConfig,
-  setColumnConfig,
 }: {
   column: string;
   dataset: any[];
   timeColumn: string;
   targetColumn: string;
-  columnConfig: object;
-  setColumnConfig: Function;
 }) => {
   const specialColumnMapping =
     column === timeColumn
@@ -46,12 +40,6 @@ const ColumnConfigPanel = ({
   const rows = dataset.map((row: any) => row[column]);
   const timeLabels = dataset.map((row: any) => row[timeColumn]);
 
-  const datatypeDefaultValue = DATATYPES.includes(
-    datatypesAutodetected[0] as any
-  )
-    ? datatypesAutodetected[0]
-    : SELECT_STATE_NONE;
-
   return (
     <CTabContent>
       <CTabPane visible>
@@ -69,29 +57,6 @@ const ColumnConfigPanel = ({
             <div>
               Auto detected datatypes: {datatypesAutodetected.join(", ")}
             </div>
-            <CFormSelect
-              label="Datatype"
-              defaultValue={datatypeDefaultValue}
-              onChange={(evt) =>
-                setColumnConfig({
-                  datatype: evt.target.value as any,
-                })
-              }
-              options={[
-                {
-                  label: "Select datatype for column",
-                  value: SELECT_STATE_NONE,
-                },
-                ...DATATYPES.map((datatype) => ({
-                  label:
-                    capitalize(datatype) +
-                    (datatypeDefaultValue === datatype
-                      ? " (auto detected)"
-                      : ""),
-                  value: datatype,
-                })),
-              ]}
-            />
           </>
         )}
         <div>

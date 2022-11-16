@@ -1,90 +1,45 @@
 import {
+  CButton,
   CCol,
   CContainer,
-  CFormSelect,
   CNav,
   CNavItem,
   CNavLink,
   CRow,
 } from "@coreui/react";
-import Link from "next/link";
 import { useState } from "react";
 import ColumnConfigPanel from "../components/ColumnConfigPanel";
 import Layout from "../components/Layout";
-import {
-  COLUMN_PRIMARY_TARGET,
-  COLUMN_PRIMARY_TIME,
-  DATATYPES,
-  SELECT_STATE_INITIALIZE,
-  SELECT_STATE_NONE,
-  SPECIAL_COLUMN_CONFIGURATIONS,
-} from "../src/definitions";
+import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
+import PrimaryColumnConfig from "../components/PrimaryColumnConfig";
+import { SELECT_STATE_INITIALIZE, SELECT_STATE_NONE } from "../src/definitions";
 import { capitalize } from "../src/helpers";
-import { useAppSelector } from "../src/hooks";
-
-// Time column autodetction
-const autodetectColumn = (
-  column: keyof typeof SPECIAL_COLUMN_CONFIGURATIONS,
-  headers: string[],
-  setTimeColumn: Function
-) => {
-  const config = SPECIAL_COLUMN_CONFIGURATIONS[column];
-  const intersection = headers.filter((value) =>
-    config.defaultInputNames.includes(value.trim().toLowerCase())
-  );
-  if (intersection.length > 0) {
-    setTimeColumn(intersection[0]);
-  } else {
-    setTimeColumn(SELECT_STATE_NONE);
-  }
-};
-
-type ColumnConfig = {
-  inputName?: string; // equals "id"
-  label?: string;
-  datatype?: typeof DATATYPES;
-  outputName?: string;
-};
+import { useAppDispatch, useAppSelector } from "../src/hooks";
+import {
+  resetAndDetectColumnConfig,
+  setTargetColumn,
+  setTimeColumn,
+} from "../src/store/datasets";
+import {
+  selectDataset,
+  selectTargetColumn,
+  selectTimeColumn,
+} from "../src/store/selectors";
 
 export default function Dataset() {
-  const dataset = useAppSelector((state) => state.datasets?.raw);
-  const [timeColumn, setTimeColumn] = useState<string>(SELECT_STATE_INITIALIZE);
-  const [targetColumn, setTargetColumn] = useState<string>(
-    SELECT_STATE_INITIALIZE
-  );
-  const [columnConfigs, setColumnConfigs] = useState<{
-    [x: string]: ColumnConfig;
-  }>({});
+  const dispatch = useAppDispatch();
+  const timeColumn = useAppSelector(selectTimeColumn);
+  const targetColumn = useAppSelector(selectTargetColumn);
+  const dataset = useAppSelector(selectDataset);
+
   const [activeKey, setActiveKey] = useState(0);
 
   if (!dataset) {
-    return (
-      <Layout>
-        <Link href="/">Import dataset first</Link>
-      </Layout>
-    );
+    return <MissingDatasetPlaceholder />;
   }
 
-  // TODO: initialize empty header columns if dataset does not provide any
-  const headers = Object.keys(dataset[0]);
-
-  const activeColumn = headers[activeKey];
-
-  const setColumnConfig = (configUpdate: object) =>
-    setColumnConfigs({
-      ...columnConfigs,
-      [activeColumn]: {
-        ...columnConfigs[activeColumn],
-        ...configUpdate,
-      },
-    });
-
-  if (timeColumn === SELECT_STATE_INITIALIZE) {
-    autodetectColumn(COLUMN_PRIMARY_TIME, headers, setTimeColumn);
-  }
-  if (targetColumn === SELECT_STATE_INITIALIZE) {
-    autodetectColumn(COLUMN_PRIMARY_TARGET, headers, setTargetColumn);
-  }
+  const columns = Object.keys(dataset[0]);
+  const activeColumn = columns[activeKey];
 
   return (
     <Layout>
@@ -103,45 +58,36 @@ export default function Dataset() {
         </CRow>
         <CRow className="my-2">
           <CCol>
-            <CFormSelect
-              label="Time column"
-              defaultValue={timeColumn as string}
-              onChange={(e) => setTimeColumn(e.target.value)}
-              options={[
-                {
-                  label: "Select primary time column",
-                  value: SELECT_STATE_NONE,
-                },
-                ...headers.map((header) => ({
-                  label: capitalize(header),
-                  value: header,
-                })),
-              ]}
+            <PrimaryColumnConfig
+              columns={columns}
+              label="time"
+              defaultValue={timeColumn}
+              setAction={setTimeColumn}
             />
           </CCol>
           <CCol>
-            <CFormSelect
-              label="Target column"
-              defaultValue={targetColumn as string}
-              onChange={(e) => setTargetColumn(e.target.value)}
-              options={[
-                {
-                  label: "Select primary target column",
-                  value: SELECT_STATE_NONE,
-                },
-                ...headers.map((header) => ({
-                  label: capitalize(header),
-                  value: header,
-                })),
-              ]}
+            <PrimaryColumnConfig
+              columns={columns}
+              label="target"
+              defaultValue={targetColumn}
+              setAction={setTargetColumn}
             />
           </CCol>
           <CCol>
             <div>{dataset.length} entries</div>
-            <div>{headers.length} columns</div>
+            <div>{columns.length} columns</div>
+            <CButton
+              color="danger"
+              onClick={() =>
+                dispatch(resetAndDetectColumnConfig({ columnHeaders: columns }))
+              }
+            >
+              Reset
+            </CButton>
           </CCol>
         </CRow>
-        {timeColumn !== SELECT_STATE_NONE &&
+        {timeColumn !== undefined &&
+          timeColumn !== SELECT_STATE_NONE &&
           timeColumn !== SELECT_STATE_INITIALIZE && (
             <>
               <hr />
@@ -153,7 +99,7 @@ export default function Dataset() {
               <CRow className="my-2">
                 <CCol md={3}>
                   <CNav variant="pills" className="flex-column">
-                    {headers.map((header, index) => (
+                    {columns.map((header, index) => (
                       <CNavItem key={index}>
                         <CNavLink
                           href={`#${header}`}
@@ -175,8 +121,6 @@ export default function Dataset() {
                     dataset={dataset}
                     timeColumn={timeColumn}
                     targetColumn={targetColumn}
-                    columnConfig={columnConfigs[activeColumn]}
-                    setColumnConfig={setColumnConfig}
                   />
                 </CCol>
               </CRow>

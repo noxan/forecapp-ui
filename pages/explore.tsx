@@ -2,17 +2,13 @@ import { CCol, CContainer, CRow } from "@coreui/react";
 import Layout from "../components/Layout";
 import { useAppSelector } from "../src/hooks";
 import { default as TableComponent } from "../components/Table";
-import Link from "next/link";
+import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
 
 export default function Explore() {
   const dataset = useAppSelector((state) => state.datasets?.raw);
 
   if (!dataset) {
-    return (
-      <Layout>
-        <Link href="/">Import dataset first</Link>
-      </Layout>
-    );
+    return <MissingDatasetPlaceholder />;
   }
 
   return (

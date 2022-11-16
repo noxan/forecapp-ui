@@ -1,19 +1,15 @@
 import { CChartLine } from "@coreui/react-chartjs";
 import { CCol, CContainer, CRow } from "@coreui/react";
-import Link from "next/link";
 import Layout from "../components/Layout";
 import { useAppSelector } from "../src/hooks";
 import { transformDatasetForChart } from "../src/helpers";
+import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
 
 export default function Visualization() {
   const datasets = useAppSelector((state) => state.datasets);
 
-  if (!datasets) {
-    return (
-      <Layout>
-        <Link href="/">Import dataset first</Link>
-      </Layout>
-    );
+  if (!datasets.raw) {
+    return <MissingDatasetPlaceholder />;
   }
 
   const chartData = transformDatasetForChart(datasets.raw);

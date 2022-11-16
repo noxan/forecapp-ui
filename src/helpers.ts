@@ -1,8 +1,29 @@
 import iwanthue from "iwanthue";
+import {
+  SELECT_STATE_NONE,
+  SPECIAL_COLUMN_CONFIGURATIONS,
+} from "./definitions";
 import { ColumnConfigurations } from "./store/datasets";
 
 export const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
+
+// Time column autodetction
+export const autodetectColumn = (
+  column: keyof typeof SPECIAL_COLUMN_CONFIGURATIONS,
+  columnHeaders: string[],
+  setTimeColumn: Function
+) => {
+  const config = SPECIAL_COLUMN_CONFIGURATIONS[column];
+  const intersection = columnHeaders.filter((value) =>
+    config.defaultInputNames.includes(value.trim().toLowerCase())
+  );
+  if (intersection.length > 0) {
+    setTimeColumn(intersection[0]);
+  } else {
+    setTimeColumn(SELECT_STATE_NONE);
+  }
+};
 
 export const transformDataset = (
   dataset: any[],

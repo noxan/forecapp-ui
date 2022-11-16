@@ -2,7 +2,6 @@ import { CCol, CContainer, CRow } from "@coreui/react";
 import Layout from "../components/Layout";
 import DatasetImporter from "../components/DatasetImporter";
 import { useAppSelector } from "../src/hooks";
-import ColumnConfiguration from "../components/ColumnConfiguration";
 import Prediction from "../components/Prediction";
 import { transformDataset } from "../src/helpers";
 import Table from "../components/Table";
@@ -26,7 +25,7 @@ export default function Home() {
         <DatasetImporter />
         {state.datasets.raw && <Table data={state.datasets.raw.slice(0, 3)} />}
       </CContainer>
-      {state.datasets.raw && <ColumnConfiguration />}
+      {/* {state.datasets.raw && <ColumnConfiguration />} */}
       {finalDataset && (
         <Prediction
           finalDataset={finalDataset}
