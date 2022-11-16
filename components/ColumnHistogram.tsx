@@ -8,9 +8,9 @@ const ColumnHistogram = ({
   chartColor: string;
 }) => {
   // TODO: create bins if data type allows
-  const counts = {};
+  const counts: { [x: string]: any } = {};
 
-  rows.forEach((row: any) => (counts[row] = counts[row] ? counts[row] + 1 : 1));
+  rows.forEach((row) => (counts[row] = counts[row] ? counts[row] + 1 : 1));
   const keys = Object.keys(counts).sort();
 
   return (
