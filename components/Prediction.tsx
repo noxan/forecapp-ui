@@ -10,17 +10,15 @@ import { CChartLine } from "@coreui/react-chartjs";
 import { useState } from "react";
 import { transformDatasetForChart } from "../src/helpers";
 import { useAppDispatch } from "../src/hooks";
-import { ColumnConfigurations, apiPrediction } from "../src/store/datasets";
+import { apiPrediction } from "../src/store/datasets";
 
 const Prediction = ({
   finalDataset,
-  columns,
   modelConfiguration,
   prediction,
   status,
 }: {
   finalDataset: any[];
-  columns: ColumnConfigurations;
   modelConfiguration: any;
   prediction?: { forecast: any; metrics: any };
   status: string;
@@ -72,7 +70,6 @@ const Prediction = ({
                 dispatch(
                   apiPrediction({
                     dataset: finalDataset,
-                    columns,
                     configuration: modelConfiguration,
                   })
                 );

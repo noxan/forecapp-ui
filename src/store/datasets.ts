@@ -15,11 +15,10 @@ export const importDataset = createAsyncThunk<any[], { source: string | File }>(
 
 export const apiPrediction = createAsyncThunk<
   object,
-  { dataset: any[]; columns: ColumnConfigurations; configuration: object }
->("datasets/neuralprophet", async ({ dataset, columns, configuration }) => {
+  { dataset: any[]; configuration: object }
+>("datasets/neuralprophet", async ({ dataset, configuration }) => {
   const payload = {
     dataset,
-    columns,
     configuration,
   };
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prediction`, {
