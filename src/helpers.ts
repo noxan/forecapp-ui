@@ -1,9 +1,10 @@
 import iwanthue from "iwanthue";
 import {
+  COLUMN_PRIMARY_TARGET,
+  COLUMN_PRIMARY_TIME,
   SELECT_STATE_NONE,
   SPECIAL_COLUMN_CONFIGURATIONS,
 } from "./definitions";
-import { ColumnConfigurations } from "./store/datasets";
 
 export const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
@@ -27,32 +28,33 @@ export const autodetectColumn = (
 
 export const transformDataset = (
   dataset: any[],
-  columns: ColumnConfigurations
+  columns: { timeColumn: string; targetColumn: string }
 ) =>
   dataset
     .map((row) => {
       const newRow: any = {};
-      Object.values(columns).forEach((column) => {
-        // skip empty rows and missing values, but do not skip explicit 0 values
-        if (column.functionality && !row[column.identifier]) {
-          console.warn(
-            `Column ${column.identifier} with value "${
-              row[column.identifier]
-            }" is not a valid value`
+      Object.keys(columns).forEach((columnType) => {
+        // TODO: check for missing values
+
+        // TODO: add handling for other (non primary) columns
+        // NOTE: we'll need to come up with unique identifiers for functionalities with multiple occasions (e.g. events)
+
+        const specialColumnMapping =
+          columnType === "timeColumn"
+            ? COLUMN_PRIMARY_TIME
+            : columnType === "targetColumn"
+            ? COLUMN_PRIMARY_TARGET
+            : false;
+        if (!specialColumnMapping) {
+          throw new Error(
+            `Column ${columnType} is not a special column. This should not happen.`
           );
-          return (newRow["ERROR"] = true);
         }
 
-        // only pick columns which have a functionality assigned
-        if (column.functionality) {
-          // TODO: move column output name configuration to the column functionalities (or allow user override)
-          // NOTE: we'll need to come up with unique identifiers for functionalities with multiple occasions (e.g. events)
-          const outputName = {
-            time: "ds",
-            value: "y",
-          }[column.functionality];
-          newRow[outputName] = row[column.identifier];
-        }
+        const outputName =
+          SPECIAL_COLUMN_CONFIGURATIONS[specialColumnMapping].outputName;
+        const identifier = columns[columnType];
+        newRow[outputName] = row[identifier];
       });
       return newRow;
     })
