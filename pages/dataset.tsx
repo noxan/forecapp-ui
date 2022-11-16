@@ -80,6 +80,7 @@ export default function Dataset() {
       },
     });
 
+  // TODO: Possibly move column auto initialization to importDataset action
   if (timeColumn === SELECT_STATE_INITIALIZE) {
     autodetectColumn(COLUMN_PRIMARY_TIME, headers, (col: string) =>
       dispatch(setTimeColumn(col))
