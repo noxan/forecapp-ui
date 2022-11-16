@@ -16,7 +16,7 @@ import { SELECT_STATE_INITIALIZE, SELECT_STATE_NONE } from "../src/definitions";
 import { capitalize } from "../src/helpers";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import {
-  resetColumnConfiguration,
+  resetAndDetectColumnConfig,
   setTargetColumn,
   setTimeColumn,
 } from "../src/store/datasets";
@@ -79,7 +79,7 @@ export default function Dataset() {
             <CButton
               color="danger"
               onClick={() =>
-                dispatch(resetColumnConfiguration({ columnHeaders: columns }))
+                dispatch(resetAndDetectColumnConfig({ columnHeaders: columns }))
               }
             >
               Reset

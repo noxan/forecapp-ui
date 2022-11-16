@@ -25,7 +25,7 @@ export const importDatasetWithAutodetect =
     const state = getState();
     // TODO: initialize empty header columns if dataset does not provide any
     const columnHeaders = Object.keys(state.datasets.raw[0]);
-    dispatch(resetColumnConfiguration({ columnHeaders }));
+    dispatch(resetAndDetectColumnConfig({ columnHeaders }));
   };
 
 type PredictionQueryArg = { dataset: any[]; configuration: object };
@@ -64,7 +64,7 @@ export const datasetSlice = createSlice({
   initialState,
   reducers: {
     // TODO: reset column configuration on new dataset import
-    resetColumnConfiguration: (state, action) => {
+    resetAndDetectColumnConfig: (state, action) => {
       if (action.payload && "columnHeaders" in action.payload) {
         const { columnHeaders } = action.payload;
         autodetectColumn(
@@ -114,7 +114,7 @@ export const datasetSlice = createSlice({
   },
 });
 
-export const { resetColumnConfiguration, setTimeColumn, setTargetColumn } =
+export const { resetAndDetectColumnConfig, setTimeColumn, setTargetColumn } =
   datasetSlice.actions;
 
 export default datasetSlice.reducer;
