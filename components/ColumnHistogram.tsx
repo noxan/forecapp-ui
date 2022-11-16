@@ -11,7 +11,7 @@ const ColumnHistogram = ({
   const counts: { [x: string]: any } = {};
 
   rows.forEach((row) => (counts[row] = counts[row] ? counts[row] + 1 : 1));
-  const keys = Object.keys(counts).sort();
+  const keys = Object.keys(counts).sort((a: any, b: any) => a - b);
 
   return (
     <CChartBar
