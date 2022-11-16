@@ -186,6 +186,18 @@ export default function Dataset() {
                       const specialColumn = specialColumnMapping
                         ? SPECIAL_COLUMN_CONFIGURATIONS[specialColumnMapping]
                         : false;
+                      const datatypesAutodetected = dataset
+                        .map((row: any) => typeof row[column])
+                        .filter(
+                          (value: any, index: number, self: any) =>
+                            self.indexOf(value) === index
+                        );
+
+                      const datatypeDefaultValue = datatypes.includes(
+                        datatypesAutodetected[0]
+                      )
+                        ? datatypesAutodetected[0]
+                        : SELECT_STATE_NONE;
 
                       return (
                         <CTabPane visible>
@@ -204,27 +216,25 @@ export default function Dataset() {
                             <>
                               <div>
                                 Auto detected datatypes:{" "}
-                                {dataset
-                                  .map((row: any) => typeof row[column])
-                                  .filter(
-                                    (value: any, index: number, self: any) =>
-                                      self.indexOf(value) === index
-                                  )
-                                  .join(", ")}
+                                {datatypesAutodetected.join(", ")}
                               </div>
                               <CFormSelect
                                 label="Datatype"
-                                defaultValue={SELECT_STATE_NONE}
+                                defaultValue={datatypeDefaultValue}
                                 onChange={(evt) =>
                                   console.log(evt.target.value)
                                 }
                                 options={[
                                   {
-                                    label: "Select data type for column",
+                                    label: "Select datatype for column",
                                     value: SELECT_STATE_NONE,
                                   },
                                   ...datatypes.map((datatype) => ({
-                                    label: capitalize(datatype),
+                                    label:
+                                      capitalize(datatype) +
+                                      (datatypeDefaultValue === datatype
+                                        ? " (auto detected)"
+                                        : ""),
                                     value: datatype,
                                   })),
                                 ]}
