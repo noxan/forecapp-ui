@@ -6,8 +6,8 @@ export const importDataset = createAsyncThunk<any[], { source: string | File }>(
   "datasets/importDataset",
   async ({ source }) => {
     if (source instanceof File) {
-      const text = (await source.text()).trim();
-      return await parse(text);
+      const text = await source.text();
+      return await parse(text.trim());
     }
     return await parse(source, { download: true });
   }
