@@ -4,7 +4,7 @@ import iwanthue from "iwanthue";
 import {
   COLUMN_PRIMARY_TARGET,
   COLUMN_PRIMARY_TIME,
-  datatypes,
+  DATATYPES,
   SELECT_STATE_NONE,
   SPECIAL_COLUMN_CONFIGURATIONS,
 } from "../src/definitions";
@@ -46,7 +46,7 @@ const ColumnConfigPanel = ({
   const rows = dataset.map((row: any) => row[column]);
   const timeLabels = dataset.map((row: any) => row[timeColumn]);
 
-  const datatypeDefaultValue = datatypes.includes(
+  const datatypeDefaultValue = DATATYPES.includes(
     datatypesAutodetected[0] as any
   )
     ? datatypesAutodetected[0]
@@ -82,7 +82,7 @@ const ColumnConfigPanel = ({
                   label: "Select datatype for column",
                   value: SELECT_STATE_NONE,
                 },
-                ...datatypes.map((datatype) => ({
+                ...DATATYPES.map((datatype) => ({
                   label:
                     capitalize(datatype) +
                     (datatypeDefaultValue === datatype

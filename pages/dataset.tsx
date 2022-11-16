@@ -15,7 +15,7 @@ import Table from "../components/Table";
 import {
   COLUMN_PRIMARY_TARGET,
   COLUMN_PRIMARY_TIME,
-  datatypes,
+  DATATYPES,
   SELECT_STATE_INITIALIZE,
   SELECT_STATE_NONE,
   SPECIAL_COLUMN_CONFIGURATIONS,
@@ -43,7 +43,7 @@ const autodetectColumn = (
 type ColumnConfig = {
   inputName?: string; // equals "id"
   label?: string;
-  datatype?: typeof datatypes;
+  datatype?: typeof DATATYPES;
   outputName?: string;
 };
 
