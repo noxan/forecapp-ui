@@ -17,6 +17,7 @@ const PrimaryColumnConfig = ({
   const dispatch = useAppDispatch();
   return (
     <CFormSelect
+      key={`${label}-${defaultValue}`}
       label={`${capitalize(label)} column`}
       defaultValue={defaultValue}
       onChange={(e) => dispatch(setAction(e.target.value))}
