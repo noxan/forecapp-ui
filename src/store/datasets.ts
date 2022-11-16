@@ -44,6 +44,10 @@ export const datasetSlice = createSlice({
   name: "datasets",
   initialState,
   reducers: {
+    // TODO: reset column configuration on new dataset import
+    resetColumnConfiguration: (state) => {
+      state.columns = initialState.columns;
+    },
     setTimeColumn: (state, action: { payload: string }) => {
       state.columns.timeColumn = action.payload;
     },
@@ -73,6 +77,7 @@ export const datasetSlice = createSlice({
   },
 });
 
-export const { setTimeColumn, setTargetColumn } = datasetSlice.actions;
+export const { resetColumnConfiguration, setTimeColumn, setTargetColumn } =
+  datasetSlice.actions;
 
 export default datasetSlice.reducer;
