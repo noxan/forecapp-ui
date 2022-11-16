@@ -12,26 +12,24 @@ export const importDataset = createAsyncThunk<any[], { source: string | File }>(
   }
 );
 
-export const apiPrediction = createAsyncThunk<
-  object,
-  { dataset: any[]; configuration: object }
->("datasets/neuralprophet", async ({ dataset, configuration }) => {
-  const payload = {
-    dataset,
-    configuration,
-  };
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prediction`, {
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
-  if (res.status !== 200) {
-    throw new Error(
-      `Prediction from api failed with status code ${res.status} and message ${res.statusText}`,
-      { cause: res }
-    );
+type PredictionQueryArg = { dataset: any[]; configuration: object };
+
+export const apiPrediction = createAsyncThunk<any, PredictionQueryArg>(
+  "datasets/apiPrediction",
+  async (payload) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prediction`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+    if (res.status !== 200) {
+      throw new Error(
+        `Prediction from api failed with status code ${res.status} and message ${res.statusText}`,
+        { cause: res }
+      );
+    }
+    return await res.json();
   }
-  return await res.json();
-});
+);
 
 export interface DatasetsState {
   status: "idle" | "loading";
