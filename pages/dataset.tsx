@@ -23,8 +23,16 @@ import {
 } from "../src/definitions";
 import { capitalize } from "../src/helpers";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
-import { resetColumnConfiguration, setTimeColumn } from "../src/store/datasets";
-import { selectDataset, selectTimeColumn } from "../src/store/selectors";
+import {
+  resetColumnConfiguration,
+  setTargetColumn,
+  setTimeColumn,
+} from "../src/store/datasets";
+import {
+  selectDataset,
+  selectTargetColumn,
+  selectTimeColumn,
+} from "../src/store/selectors";
 
 // Time column autodetction
 const autodetectColumn = (
@@ -46,10 +54,9 @@ const autodetectColumn = (
 export default function Dataset() {
   const dispatch = useAppDispatch();
   const timeColumn = useAppSelector(selectTimeColumn);
+  const targetColumn = useAppSelector(selectTargetColumn);
   const dataset = useAppSelector(selectDataset);
-  const [targetColumn, setTargetColumn] = useState<string>(
-    SELECT_STATE_INITIALIZE
-  );
+
   const [columnConfigs, setColumnConfigs] = useState<{
     [x: string]: ColumnConfig;
   }>({});
@@ -79,7 +86,9 @@ export default function Dataset() {
     );
   }
   if (targetColumn === SELECT_STATE_INITIALIZE) {
-    autodetectColumn(COLUMN_PRIMARY_TARGET, headers, setTargetColumn);
+    autodetectColumn(COLUMN_PRIMARY_TARGET, headers, (col: string) =>
+      dispatch(setTargetColumn(col))
+    );
   }
 
   return (
@@ -107,20 +116,11 @@ export default function Dataset() {
             />
           </CCol>
           <CCol>
-            <CFormSelect
-              label="Target column"
-              defaultValue={targetColumn as string}
-              onChange={(e) => setTargetColumn(e.target.value)}
-              options={[
-                {
-                  label: "Select primary target column",
-                  value: SELECT_STATE_NONE,
-                },
-                ...headers.map((header) => ({
-                  label: capitalize(header),
-                  value: header,
-                })),
-              ]}
+            <PrimaryColumnConfig
+              columns={headers}
+              label="target"
+              defaultValue={targetColumn}
+              setAction={setTargetColumn}
             />
           </CCol>
           <CCol>
