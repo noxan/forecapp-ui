@@ -67,9 +67,9 @@ export default function Dataset() {
   }
 
   // TODO: initialize empty header columns if dataset does not provide any
-  const headers = Object.keys(dataset[0]);
+  const columns = Object.keys(dataset[0]);
 
-  const activeColumn = headers[activeKey];
+  const activeColumn = columns[activeKey];
 
   const setColumnConfig = (configUpdate: object) =>
     setColumnConfigs({
@@ -82,12 +82,12 @@ export default function Dataset() {
 
   // TODO: Possibly move column auto initialization to importDataset action
   if (timeColumn === SELECT_STATE_INITIALIZE) {
-    autodetectColumn(COLUMN_PRIMARY_TIME, headers, (col: string) =>
+    autodetectColumn(COLUMN_PRIMARY_TIME, columns, (col: string) =>
       dispatch(setTimeColumn(col))
     );
   }
   if (targetColumn === SELECT_STATE_INITIALIZE) {
-    autodetectColumn(COLUMN_PRIMARY_TARGET, headers, (col: string) =>
+    autodetectColumn(COLUMN_PRIMARY_TARGET, columns, (col: string) =>
       dispatch(setTargetColumn(col))
     );
   }
@@ -110,7 +110,7 @@ export default function Dataset() {
         <CRow className="my-2">
           <CCol>
             <PrimaryColumnConfig
-              columns={headers}
+              columns={columns}
               label="time"
               defaultValue={timeColumn}
               setAction={setTimeColumn}
@@ -118,7 +118,7 @@ export default function Dataset() {
           </CCol>
           <CCol>
             <PrimaryColumnConfig
-              columns={headers}
+              columns={columns}
               label="target"
               defaultValue={targetColumn}
               setAction={setTargetColumn}
@@ -126,7 +126,7 @@ export default function Dataset() {
           </CCol>
           <CCol>
             <div>{dataset.length} entries</div>
-            <div>{headers.length} columns</div>
+            <div>{columns.length} columns</div>
             <CButton
               color="danger"
               onClick={() => dispatch(resetColumnConfiguration())}
@@ -148,7 +148,7 @@ export default function Dataset() {
               <CRow className="my-2">
                 <CCol md={3}>
                   <CNav variant="pills" className="flex-column">
-                    {headers.map((header, index) => (
+                    {columns.map((header, index) => (
                       <CNavItem key={index}>
                         <CNavLink
                           href={`#${header}`}
