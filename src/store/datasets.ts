@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { SELECT_STATE_INITIALIZE } from "../definitions";
 import { parse } from "../parser";
 
-export const importDataset = createAsyncThunk<any[], { source: string | File }>(
+const importDataset = createAsyncThunk<any[], { source: string | File }>(
   "datasets/importDataset",
   async ({ source }) => {
     if (source instanceof File) {
@@ -12,6 +12,13 @@ export const importDataset = createAsyncThunk<any[], { source: string | File }>(
     return await parse(source, { download: true });
   }
 );
+
+export const importDatasetWithReset =
+  ({ source }: { source: string | File }) =>
+  (dispatch: Function) => {
+    dispatch(importDataset({ source }));
+    dispatch(resetColumnConfiguration());
+  };
 
 type PredictionQueryArg = { dataset: any[]; configuration: object };
 
