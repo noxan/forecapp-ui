@@ -4,7 +4,7 @@ import { useAppSelector } from "../src/hooks";
 import { default as TableComponent } from "../components/Table";
 import Link from "next/link";
 
-export default function Table() {
+export default function Explore() {
   const dataset = useAppSelector((state) => state.datasets?.raw);
 
   if (!dataset) {
@@ -21,7 +21,7 @@ export default function Table() {
         <style>{`td { white-space: nowrap; text-align: right; }`}</style>
         <CRow className="my-2">
           <CCol>
-            <h1>Table</h1>
+            <h1>Explore dataset</h1>
           </CCol>
         </CRow>
       </CContainer>

@@ -36,6 +36,7 @@ export default function Navigation() {
           <NavigationItem href="/" label="Home" />
           <NavigationItem href="/dataset" label="Dataset" />
           <NavigationItem href="/visualization" label="Visualization" />
+          <NavigationItem href="/explore" label="Table" />
           <NavigationItem href="/model" label="Model" />
         </CHeaderNav>
         <CHeaderNav>
