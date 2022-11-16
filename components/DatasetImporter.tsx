@@ -4,7 +4,11 @@ import { AppDispatch, RootState } from "../src/store";
 import { importDatasetWithAutodetect } from "../src/store/datasets";
 
 const examplePath = "datasets/";
-const exampleDatasets = ["energy_dataset_small.csv", "air_passengers.csv"];
+const exampleDatasets = [
+  "energy_dataset_small.csv",
+  "air_passengers.csv",
+  "online_retail_II_5k.csv",
+];
 
 const DatasetImporter = () => {
   const status = useSelector((state: RootState) => state.datasets.status);
