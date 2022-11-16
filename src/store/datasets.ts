@@ -40,6 +40,7 @@ const initialState = {
   status: "idle",
   columns: {
     timeColumn: SELECT_STATE_INITIALIZE,
+    targetColumn: SELECT_STATE_INITIALIZE,
   },
 } as DatasetsState;
 

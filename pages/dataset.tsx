@@ -12,6 +12,7 @@ import { useState } from "react";
 import ColumnConfigPanel from "../components/ColumnConfigPanel";
 import Layout from "../components/Layout";
 import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
+import PrimaryColumnConfig from "../components/PrimaryColumnConfig";
 import {
   ColumnConfig,
   COLUMN_PRIMARY_TARGET,
@@ -98,20 +99,11 @@ export default function Dataset() {
         </CRow>
         <CRow className="my-2">
           <CCol>
-            <CFormSelect
-              label="Time column"
-              defaultValue={timeColumn as string}
-              onChange={(e) => dispatch(setTimeColumn(e.target.value))}
-              options={[
-                {
-                  label: "Select primary time column",
-                  value: SELECT_STATE_NONE,
-                },
-                ...headers.map((header) => ({
-                  label: capitalize(header),
-                  value: header,
-                })),
-              ]}
+            <PrimaryColumnConfig
+              columns={headers}
+              label="time"
+              defaultValue={timeColumn}
+              setAction={setTimeColumn}
             />
           </CCol>
           <CCol>
