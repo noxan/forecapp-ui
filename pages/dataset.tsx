@@ -11,7 +11,6 @@ import Link from "next/link";
 import { useState } from "react";
 import ColumnConfigPanel from "../components/ColumnConfigPanel";
 import Layout from "../components/Layout";
-import Table from "../components/Table";
 import {
   COLUMN_PRIMARY_TARGET,
   COLUMN_PRIMARY_TIME,
@@ -96,7 +95,6 @@ export default function Dataset() {
           </CCol>
         </CRow>
       </CContainer>
-      {/* {dataset && <Table data={dataset.slice(0, 3)} />} */}
       <CContainer>
         <CRow className="my-2">
           <CCol>

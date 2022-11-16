@@ -3,7 +3,7 @@ import { parse } from "papaparse";
 import { capitalize } from "../helpers";
 
 const parseConfig = {
-  dynamicTyping: true,
+  dynamicTyping: false,
   header: true,
 };
 
