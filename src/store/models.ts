@@ -30,10 +30,11 @@ export const modelSlice = createSlice({
     futureRegressors: {},
     laggedRegressors: [
       {
-        name: "lagged_regressor-1",
+        name: "lagged-regressor-1",
         n_lags: "auto", // Union[int, Literal['auto', 'scalar']] = 'auto',
         regularization: undefined, // optional, float
         normalize: "auto", // boolean or "auto"
+        dataColumnRef: undefined,
       },
     ],
   },

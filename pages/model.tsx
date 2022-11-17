@@ -70,6 +70,8 @@ export default function ModelConfig() {
                         regularization: {laggedRegressor.regularization}
                         <br />
                         normalize: {laggedRegressor.normalize}
+                        <br />
+                        dataColumnRef: {laggedRegressor.dataColumnRef}
                         {/* TODO: add action to remove lagged regressor */}
                         {/* TODO: add action to edit lagged regressor config */}
                       </CCardText>
