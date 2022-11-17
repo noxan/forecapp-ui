@@ -11,7 +11,10 @@ import Layout from "../components/Layout";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
+import validator from "@rjsf/validator-ajv8";
+import Form from "@rjsf/core";
 import { editModelConfig } from "../src/store/models";
+import { modelConfigSchema } from "../src/forms";
 
 const ReactJson = dynamic(() => import("@microlink/react-json-view"), {
   ssr: false,
@@ -20,6 +23,8 @@ const ReactJson = dynamic(() => import("@microlink/react-json-view"), {
 export default function Debug() {
   const modelConfig = useAppSelector((state) => state.models);
   const dispatch = useAppDispatch();
+
+  const log = (type) => console.log.bind(console, type);
 
   return (
     <Layout>
@@ -36,6 +41,13 @@ export default function Debug() {
               <CCardBody>
                 <CCardTitle>Trend</CCardTitle>
                 <CCardText>
+                  <Form
+                    schema={modelConfigSchema}
+                    validator={validator}
+                    onChange={log("changed")}
+                    onSubmit={log("submitted")}
+                    onError={log("errors")}
+                  />
                   T(t) = Trend at time t
                   <ul>
                     <li> growth = off | linear</li>
