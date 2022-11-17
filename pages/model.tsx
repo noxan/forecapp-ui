@@ -5,6 +5,7 @@ import {
   CCardTitle,
   CCol,
   CContainer,
+  CFormSelect,
   CRow,
 } from "@coreui/react";
 import Layout from "../components/Layout";
@@ -28,7 +29,19 @@ export default function Debug() {
             <CCard className="mb-3">
               <CCardBody>
                 <CCardTitle>Country holidays</CCardTitle>
-                <CCardText></CCardText>
+                <CCardText>
+                  <CFormSelect
+                    key={modelConfig.holidays}
+                    label="Country holidays"
+                    defaultValue={modelConfig.holidays}
+                    onChange={(e) => console.log(e.target.value)}
+                    options={[
+                      { value: "", label: "None" },
+                      { value: "US", label: "United States" },
+                      { value: "DE", label: "Germany" },
+                    ]}
+                  />
+                </CCardText>
               </CCardBody>
             </CCard>
           </CCol>
