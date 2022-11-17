@@ -13,7 +13,7 @@ import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import validator from "@rjsf/validator-ajv8";
 import Form from "@rjsf/core";
-import { editModelConfig } from "../../src/store/models";
+import { editModelConfigJsonView } from "../../src/store/models";
 import {
   modelTrendConfigSchema,
   modelTrainingConfigSchema,
@@ -177,7 +177,7 @@ export default function Debug() {
                 src={modelConfig}
                 sortKeys
                 collapsed={1}
-                onEdit={(evt) => dispatch(editModelConfig(evt))}
+                onEdit={(evt) => dispatch(editModelConfigJsonView(evt))}
               />
             </Suspense>
           </CCol>
