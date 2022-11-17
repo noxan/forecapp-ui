@@ -8,13 +8,19 @@ import {
   CFormSelect,
   CRow,
 } from "@coreui/react";
+import Form from "@rjsf/core";
+import validator from "@rjsf/validator-ajv8";
 import Layout from "../components/Layout";
 import { SELECT_STATE_NONE } from "../src/definitions";
+import { modelLaggedRegressorConfigSchema } from "../src/forms";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import { editModelConfig } from "../src/store/models";
 
 export default function ModelConfig() {
   const modelConfig = useAppSelector((state) => state.models);
+  const columnHeaders = useAppSelector((state) =>
+    Object.keys(state.datasets.raw?.[0])
+  );
   const dispatch = useAppDispatch();
 
   return (
@@ -57,28 +63,15 @@ export default function ModelConfig() {
             <CCard className="mb-3">
               <CCardBody>
                 <CCardTitle>Lagged regressors</CCardTitle>
-                {modelConfig.laggedRegressors.map(
-                  (laggedRegressor: any, index: number) => (
-                    <div key={laggedRegressor.name}>
-                      {index > 0 && <hr />}
-                      <CCardText key={laggedRegressor.name}>
-                        name: {laggedRegressor.name}
-                        <br />
-                        {/* "lagged_regressor-1"; <br />*/}
-                        n_lags: {laggedRegressor.n_lags}
-                        <br />
-                        regularization: {laggedRegressor.regularization}
-                        <br />
-                        normalize: {laggedRegressor.normalize}
-                        <br />
-                        dataColumnRef: {laggedRegressor.dataColumnRef}
-                        {/* TODO: add action to remove lagged regressor */}
-                        {/* TODO: add action to edit lagged regressor config */}
-                      </CCardText>
-                    </div>
-                  )
-                )}
-                {/* TODO: add action to add new lagged regressor */}
+                <CCardText>
+                  <Form
+                    schema={modelLaggedRegressorConfigSchema(columnHeaders)}
+                    validator={validator}
+                    onChange={(evt) => console.log(evt.formData)}
+                  >
+                    {" "}
+                  </Form>
+                </CCardText>
               </CCardBody>
             </CCard>
           </CCol>

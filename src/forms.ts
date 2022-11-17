@@ -37,3 +37,19 @@ export const modelTrainingConfigSchema: RJSFSchema = {
     quantiles: { type: "array", items: { type: "number" } },
   },
 };
+
+export const modelLaggedRegressorConfigSchema = (
+  columnHeaders: string[]
+): RJSFSchema => ({
+  type: "array",
+  required: [],
+  items: {
+    type: "object",
+    properties: {
+      n_lags: { type: "string", default: "auto" },
+      regularization: { type: "integer" },
+      normalize: { type: "integer" },
+      dataColumnRef: { type: "string", enum: columnHeaders },
+    },
+  },
+});
