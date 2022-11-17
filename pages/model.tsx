@@ -39,8 +39,8 @@ export default function ModelConfig() {
                     onChange={(e) => {
                       const newValue =
                         SELECT_STATE_NONE !== e.target.value
-                          ? e.target.value
-                          : undefined;
+                          ? [e.target.value]
+                          : [];
                       dispatch(editModelConfig({ countryHolidays: newValue }));
                     }}
                     options={[

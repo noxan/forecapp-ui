@@ -26,7 +26,7 @@ export const modelSlice = createSlice({
         regularization: undefined,
       },
     ],
-    countryHolidays: undefined,
+    countryHolidays: [],
     futureRegressors: {},
     laggedRegressors: {},
   },
