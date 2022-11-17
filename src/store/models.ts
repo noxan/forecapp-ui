@@ -28,7 +28,14 @@ export const modelSlice = createSlice({
     ],
     countryHolidays: [],
     futureRegressors: {},
-    laggedRegressors: {},
+    laggedRegressors: [
+      {
+        name: "lagged_regressor-1",
+        n_lags: "auto", // Union[int, Literal['auto', 'scalar']] = 'auto',
+        regularization: undefined, // optional, float
+        normalize: "auto", // boolean or "auto"
+      },
+    ],
   },
   reducers: {
     editModelConfig: (state, { payload }) => ({ ...state, ...payload }),

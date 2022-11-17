@@ -57,7 +57,11 @@ export default function ModelConfig() {
             <CCard className="mb-3">
               <CCardBody>
                 <CCardTitle>Lagged regressors</CCardTitle>
-                <CCardText></CCardText>
+                <CCardText>
+                  <pre>
+                    {JSON.stringify(modelConfig.laggedRegressors, null, 2)}
+                  </pre>
+                </CCardText>
               </CCardBody>
             </CCard>
           </CCol>
