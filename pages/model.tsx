@@ -27,8 +27,24 @@ export default function Debug() {
           <CCol xs>
             <CCard className="mb-3">
               <CCardBody>
-                <CCardTitle>Trend</CCardTitle>
-                <CCardText>T(t) = Trend at time t</CCardText>
+                <CCardTitle>Country holidays</CCardTitle>
+                <CCardText></CCardText>
+              </CCardBody>
+            </CCard>
+          </CCol>
+          <CCol xs>
+            <CCard className="mb-3">
+              <CCardBody>
+                <CCardTitle>Lagged regressors</CCardTitle>
+                <CCardText></CCardText>
+              </CCardBody>
+            </CCard>
+          </CCol>
+          <CCol xs>
+            <CCard className="mb-3">
+              <CCardBody>
+                <CCardTitle>Events</CCardTitle>
+                <CCardText></CCardText>
               </CCardBody>
             </CCard>
           </CCol>
