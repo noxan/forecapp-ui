@@ -9,6 +9,7 @@ import {
   CRow,
 } from "@coreui/react";
 import Layout from "../components/Layout";
+import { SELECT_STATE_NONE } from "../src/definitions";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import { editModelConfig } from "../src/store/models";
 
@@ -32,14 +33,18 @@ export default function ModelConfig() {
                 <CCardTitle>Country holidays</CCardTitle>
                 <CCardText>
                   <CFormSelect
-                    key={modelConfig.holidays}
+                    key={modelConfig.countryHolidays}
                     label="Country holidays"
-                    defaultValue={modelConfig.holidays}
-                    onChange={(e) =>
-                      dispatch(editModelConfig({ holidays: e.target.value }))
-                    }
+                    defaultValue={modelConfig.countryHolidays}
+                    onChange={(e) => {
+                      const newValue =
+                        SELECT_STATE_NONE !== e.target.value
+                          ? e.target.value
+                          : undefined;
+                      dispatch(editModelConfig({ countryHolidays: newValue }));
+                    }}
                     options={[
-                      { value: "", label: "None" },
+                      { value: SELECT_STATE_NONE, label: "None" },
                       { value: "US", label: "United States" },
                       { value: "DE", label: "Germany" },
                     ]}
