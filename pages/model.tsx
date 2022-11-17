@@ -35,7 +35,7 @@ export default function ModelConfig() {
                   <CFormSelect
                     key={modelConfig.countryHolidays}
                     label="Country holidays"
-                    defaultValue={modelConfig.countryHolidays}
+                    defaultValue={modelConfig.countryHolidays?.[0]}
                     onChange={(e) => {
                       const newValue =
                         SELECT_STATE_NONE !== e.target.value
@@ -57,11 +57,26 @@ export default function ModelConfig() {
             <CCard className="mb-3">
               <CCardBody>
                 <CCardTitle>Lagged regressors</CCardTitle>
-                <CCardText>
-                  <pre>
-                    {JSON.stringify(modelConfig.laggedRegressors, null, 2)}
-                  </pre>
-                </CCardText>
+                {modelConfig.laggedRegressors.map(
+                  (laggedRegressor: any, index: number) => (
+                    <div key={laggedRegressor.name}>
+                      {index > 0 && <hr />}
+                      <CCardText key={laggedRegressor.name}>
+                        name: {laggedRegressor.name}
+                        <br />
+                        {/* "lagged_regressor-1"; <br />*/}
+                        n_lags: {laggedRegressor.n_lags}
+                        <br />
+                        regularization: {laggedRegressor.regularization}
+                        <br />
+                        normalize: {laggedRegressor.normalize}
+                        {/* TODO: add action to remove lagged regressor */}
+                        {/* TODO: add action to edit lagged regressor config */}
+                      </CCardText>
+                    </div>
+                  )
+                )}
+                {/* TODO: add action to add new lagged regressor */}
               </CCardBody>
             </CCard>
           </CCol>
