@@ -24,7 +24,7 @@ export default function Debug() {
   const modelConfig = useAppSelector((state) => state.models);
   const dispatch = useAppDispatch();
 
-  const log = (type) => console.log.bind(console, type);
+  const log = (type: any) => console.log.bind(console, type);
 
   return (
     <Layout>
