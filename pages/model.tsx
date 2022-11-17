@@ -1,4 +1,12 @@
-import { CCol, CContainer, CRow } from "@coreui/react";
+import {
+  CCard,
+  CCardBody,
+  CCardText,
+  CCardTitle,
+  CCol,
+  CContainer,
+  CRow,
+} from "@coreui/react";
 import Layout from "../components/Layout";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import { Suspense } from "react";
@@ -21,6 +29,74 @@ export default function Debug() {
             <h1>Model</h1>
           </CCol>
         </CRow>
+
+        <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 2 }}>
+          <CCol xs>
+            <CCard className="mb-3">
+              <CCardBody>
+                <CCardTitle>Trend</CCardTitle>
+                <CCardText>Text</CCardText>
+              </CCardBody>
+            </CCard>
+          </CCol>
+          <CCol xs>
+            <CCard className="mb-3">
+              <CCardBody>
+                <CCardTitle>Seasonality</CCardTitle>
+                <CCardText>Text</CCardText>
+              </CCardBody>
+            </CCard>
+          </CCol>
+          <CCol xs>
+            <CCard className="mb-3">
+              <CCardBody>
+                <CCardTitle>Auto regression</CCardTitle>
+                <CCardText>Text</CCardText>
+              </CCardBody>
+            </CCard>
+          </CCol>
+          <CCol xs>
+            <CCard className="mb-3">
+              <CCardBody>
+                <CCardTitle>Events and holidays</CCardTitle>
+                <CCardText>Text</CCardText>
+              </CCardBody>
+            </CCard>
+          </CCol>
+          <CCol xs>
+            <CCard className="mb-3">
+              <CCardBody>
+                <CCardTitle>Future and lagged regressors</CCardTitle>
+                <CCardText>Text</CCardText>
+              </CCardBody>
+            </CCard>
+          </CCol>
+          <CCol xs>
+            <CCard className="mb-3">
+              <CCardBody>
+                <CCardTitle>Training</CCardTitle>
+                <CCardText>Text</CCardText>
+              </CCardBody>
+            </CCard>
+          </CCol>
+          <CCol xs>
+            <CCard className="mb-3">
+              <CCardBody>
+                <CCardTitle>Validation</CCardTitle>
+                <CCardText>Text</CCardText>
+              </CCardBody>
+            </CCard>
+          </CCol>
+          <CCol xs>
+            <CCard className="mb-3">
+              <CCardBody>
+                <CCardTitle>Data preparation</CCardTitle>
+                <CCardText>Text</CCardText>
+              </CCardBody>
+            </CCard>
+          </CCol>
+        </CRow>
+
         <CRow className="my-2">
           <CCol>
             <Suspense fallback={`Loading...`}>
