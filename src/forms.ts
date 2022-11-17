@@ -21,3 +21,19 @@ export const modelTrendConfigSchema: RJSFSchema = {
     },
   },
 };
+
+export const modelTrainingConfigSchema: RJSFSchema = {
+  title: "Training",
+  type: "object",
+  required: [],
+  properties: {
+    learning_rate: { type: "number" },
+    epochs: { type: "integer" },
+    batch_size: { type: "integer" },
+    newer_samples_weight: { type: "number" },
+    newer_samples_start: { type: "number" },
+    loss_func: { type: "str | torch.nn.functional.loss" },
+    collect_metrics: { type: "bool | [str]" },
+    quantiles: { type: "array", items: { type: "number" } },
+  },
+};

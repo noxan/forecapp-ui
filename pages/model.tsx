@@ -14,7 +14,10 @@ import dynamic from "next/dynamic";
 import validator from "@rjsf/validator-ajv8";
 import Form from "@rjsf/core";
 import { editModelConfig } from "../src/store/models";
-import { modelTrendConfigSchema } from "../src/forms";
+import {
+  modelTrendConfigSchema,
+  modelTrainingConfigSchema,
+} from "../src/forms";
 
 const ReactJson = dynamic(() => import("@microlink/react-json-view"), {
   ssr: false,
@@ -123,16 +126,13 @@ export default function Debug() {
               <CCardBody>
                 <CCardTitle>Training</CCardTitle>
                 <CCardText>
-                  <ul>
-                    <li> learning_rate = float</li>
-                    <li>epochs = int</li>
-                    <li>batch_size = int</li>
-                    <li>newer_samples_weight = float</li>
-                    <li>newer_samples_start = float</li>
-                    <li>loss_func = str | torch.nn.functional.loss</li>
-                    <li>collect_metrics = bool | [str]</li>
-                    <li>quantiles = [float]</li>
-                  </ul>
+                  <Form
+                    schema={modelTrainingConfigSchema}
+                    validator={validator}
+                    onChange={(evt) => console.log(evt.formData)}
+                    onSubmit={log("submitted")}
+                    onError={log("errors")}
+                  />
                 </CCardText>
               </CCardBody>
             </CCard>
