@@ -66,6 +66,7 @@ export default function ModelConfig() {
                 <Form
                   schema={modelLaggedRegressorConfigSchema(columnHeaders)}
                   validator={validator}
+                  formData={modelConfig.laggedRegressors}
                   onChange={(evt) =>
                     dispatch(
                       editModelConfig({ laggedRegressors: evt.formData })
