@@ -11,7 +11,11 @@ export default function Home() {
 
   const finalDataset =
     state.datasets.raw && state.datasets.columns
-      ? transformDataset(state.datasets.raw, state.datasets.columns)
+      ? transformDataset(
+          state.datasets.raw,
+          state.models,
+          state.datasets.columns
+        )
       : undefined;
 
   return (

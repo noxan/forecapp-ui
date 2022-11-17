@@ -5,6 +5,7 @@ import {
   SELECT_STATE_NONE,
   SPECIAL_COLUMN_CONFIGURATIONS,
 } from "./definitions";
+import { ModelState } from "./store/models";
 
 export const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
@@ -28,11 +29,14 @@ export const autodetectColumn = (
 
 export const transformDataset = (
   dataset: any[],
+  modelConfig: ModelState,
   columns: { timeColumn: string; targetColumn: string }
 ) =>
   dataset
     .map((row) => {
       const newRow: any = {};
+
+      // Special columns (time + target)
       Object.keys(columns).forEach((columnType) => {
         // TODO: check for missing values
 
@@ -55,7 +59,21 @@ export const transformDataset = (
           SPECIAL_COLUMN_CONFIGURATIONS[specialColumnMapping].outputName;
         const identifier = columns[columnType as keyof typeof columns];
         newRow[outputName] = row[identifier];
+        if (!row[identifier]) {
+          newRow["ERROR"] = true;
+        }
       });
+
+      // Lagged regressors
+      modelConfig.laggedRegressors.forEach((laggedRegressor: any) => {
+        const outputName = laggedRegressor.dataColumnRef;
+        const identifier = laggedRegressor.dataColumnRef;
+        newRow[outputName] = row[identifier];
+        if (!row[identifier]) {
+          newRow["ERROR"] = true;
+        }
+      });
+
       return newRow;
     })
     .filter((row) => !row["ERROR"]);

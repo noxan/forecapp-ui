@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export type ModelState = {
+  laggedRegressors: any[];
+};
+
 export const modelSlice = createSlice({
   name: "models",
   initialState: {
@@ -37,7 +41,7 @@ export const modelSlice = createSlice({
         dataColumnRef: undefined,
       },
     ],
-  },
+  } as ModelState,
   reducers: {
     editModelConfig: (state, { payload }) => ({ ...state, ...payload }),
     editModelConfigJsonView: (_, { payload: { updated_src: newState } }: any) =>
