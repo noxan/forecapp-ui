@@ -10,9 +10,9 @@ import {
 } from "@coreui/react";
 import Layout from "../components/Layout";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
-import { editModelConfigJsonView } from "../src/store/models";
+import { editModelConfig } from "../src/store/models";
 
-export default function Debug() {
+export default function ModelConfig() {
   const modelConfig = useAppSelector((state) => state.models);
   const dispatch = useAppDispatch();
 
@@ -36,9 +36,7 @@ export default function Debug() {
                     label="Country holidays"
                     defaultValue={modelConfig.holidays}
                     onChange={(e) =>
-                      dispatch(
-                        editModelConfigJsonView({ holidays: e.target.value })
-                      )
+                      dispatch(editModelConfig({ holidays: e.target.value }))
                     }
                     options={[
                       { value: "", label: "None" },

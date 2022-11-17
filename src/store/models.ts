@@ -31,11 +31,12 @@ export const modelSlice = createSlice({
     laggedRegressors: {},
   },
   reducers: {
+    editModelConfig: (state, { payload }) => ({ ...state, ...payload }),
     editModelConfigJsonView: (_, { payload: { updated_src: newState } }: any) =>
       newState,
   },
 });
 
-export const { editModelConfigJsonView: editModelConfig } = modelSlice.actions;
+export const { editModelConfig, editModelConfigJsonView } = modelSlice.actions;
 
 export default modelSlice.reducer;
