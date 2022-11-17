@@ -63,15 +63,17 @@ export default function ModelConfig() {
             <CCard className="mb-3">
               <CCardBody>
                 <CCardTitle>Lagged regressors</CCardTitle>
-                <CCardText>
-                  <Form
-                    schema={modelLaggedRegressorConfigSchema(columnHeaders)}
-                    validator={validator}
-                    onChange={(evt) => console.log(evt.formData)}
-                  >
-                    {" "}
-                  </Form>
-                </CCardText>
+                <Form
+                  schema={modelLaggedRegressorConfigSchema(columnHeaders)}
+                  validator={validator}
+                  onChange={(evt) =>
+                    dispatch(
+                      editModelConfig({ laggedRegressors: evt.formData })
+                    )
+                  }
+                >
+                  {" "}
+                </Form>
               </CCardBody>
             </CCard>
           </CCol>
