@@ -14,7 +14,7 @@ import dynamic from "next/dynamic";
 import validator from "@rjsf/validator-ajv8";
 import Form from "@rjsf/core";
 import { editModelConfig } from "../src/store/models";
-import { modelConfigSchema } from "../src/forms";
+import { modelTrendConfigSchema } from "../src/forms";
 
 const ReactJson = dynamic(() => import("@microlink/react-json-view"), {
   ssr: false,
@@ -41,23 +41,14 @@ export default function Debug() {
               <CCardBody>
                 <CCardTitle>Trend</CCardTitle>
                 <CCardText>
+                  T(t) = Trend at time t
                   <Form
-                    schema={modelConfigSchema}
+                    schema={modelTrendConfigSchema}
                     validator={validator}
                     onChange={log("changed")}
                     onSubmit={log("submitted")}
                     onError={log("errors")}
                   />
-                  T(t) = Trend at time t
-                  <ul>
-                    <li> growth = off | linear</li>
-                    <li>changepoints = [datetimes]</li>
-                    <li>n_changepoints = int</li>
-                    <li>changepoints_range = float</li>
-                    <li>trend_reg = float</li>
-                    <li>trend_reg_threshold = bool</li>
-                    <li>trend_global_local = global | local</li>
-                  </ul>
                 </CCardText>
               </CCardBody>
             </CCard>

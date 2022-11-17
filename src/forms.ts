@@ -1,6 +1,6 @@
 import { RJSFSchema } from "@rjsf/utils";
 
-export const modelConfigSchema: RJSFSchema = {
+export const modelTrendConfigSchema: RJSFSchema = {
   title: "Model trend",
   type: "object",
   required: ["growth"],
