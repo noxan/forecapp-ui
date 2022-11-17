@@ -53,7 +53,7 @@ export const transformDataset = (
 
         const outputName =
           SPECIAL_COLUMN_CONFIGURATIONS[specialColumnMapping].outputName;
-        const identifier = columns[columnType];
+        const identifier = columns[columnType as keyof typeof columns];
         newRow[outputName] = row[identifier];
       });
       return newRow;
