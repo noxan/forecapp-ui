@@ -8,11 +8,7 @@ import {
 } from "@coreui/react";
 import { CChartLine } from "@coreui/react-chartjs";
 import { useState } from "react";
-import {
-  isColumnValid,
-  SELECT_STATE_INITIALIZE,
-  SELECT_STATE_NONE,
-} from "../src/definitions";
+import { isColumnValid } from "../src/definitions";
 import { transformDatasetForChart } from "../src/helpers";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import { apiPrediction } from "../src/store/datasets";
