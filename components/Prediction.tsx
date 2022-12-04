@@ -35,7 +35,7 @@ const Prediction = ({
       <CContainer>
         <CRow className="my-2">
           <CCol>
-            <h1>Model input</h1>
+            <h1>Prediction</h1>
           </CCol>
           <CCol>
             <CButton onClick={() => setShowDebug(!showDebug)} color="link">

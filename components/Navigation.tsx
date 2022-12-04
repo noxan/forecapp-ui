@@ -38,6 +38,7 @@ export default function Navigation() {
           <NavigationItem href="/visualization" label="Visualization" />
           <NavigationItem href="/explore" label="Table" />
           <NavigationItem href="/model" label="Model" />
+          <NavigationItem href="/prediction" label="Prediction" />
         </CHeaderNav>
         <CHeaderNav>
           <CNavItem>
