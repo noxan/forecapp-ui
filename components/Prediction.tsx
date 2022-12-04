@@ -7,6 +7,7 @@ import {
   CRow,
 } from "@coreui/react";
 import { CChartLine } from "@coreui/react-chartjs";
+import Link from "next/link";
 import { useState } from "react";
 import { isColumnValid } from "../src/definitions";
 import { transformDatasetForChart } from "../src/helpers";
@@ -69,14 +70,14 @@ const Prediction = ({
         <CRow className="my-2">
           <CCol>
             {!areColumnsValid && (
-              <div>
+              <>
                 <CBadge color="danger">
                   You have to select time and target columns first
                 </CBadge>
-                <CButton href="/dataset" color="link">
-                  Go to dataset
-                </CButton>
-              </div>
+                <div>
+                  <Link href="/dataset">Go to dataset</Link>
+                </div>
+              </>
             )}
             <CButton
               disabled={status === "loading" || !areColumnsValid}
