@@ -1,4 +1,4 @@
-import { CButton, CCol, CContainer, CRow } from "@coreui/react";
+import { CBadge, CButton, CCol, CContainer, CRow } from "@coreui/react";
 import Layout from "../components/Layout";
 import { useAppSelector } from "../src/hooks";
 import { Suspense } from "react";
@@ -29,6 +29,13 @@ export default function Debug() {
             <CButton color="danger" onClick={() => resetApplication()}>
               Hard reset application
             </CButton>
+          </CCol>
+        </CRow>
+        <CRow className="my-2">
+          <CCol>
+            <CBadge color="info">
+              {process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA}
+            </CBadge>
           </CCol>
         </CRow>
         <CRow className="my-2">
