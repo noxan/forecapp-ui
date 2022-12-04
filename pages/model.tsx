@@ -11,6 +11,7 @@ import {
 import Form from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
 import Layout from "../components/Layout";
+import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
 import { SELECT_STATE_NONE } from "../src/definitions";
 import { modelLaggedRegressorConfigSchema } from "../src/forms";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
@@ -18,10 +19,14 @@ import { editModelConfig } from "../src/store/models";
 
 export default function ModelConfig() {
   const modelConfig = useAppSelector((state) => state.models);
-  const columnHeaders = useAppSelector((state) =>
-    Object.keys(state.datasets.raw?.[0])
-  );
+  const dataset = useAppSelector((state) => state.datasets?.raw);
   const dispatch = useAppDispatch();
+
+  if (!dataset) {
+    return <MissingDatasetPlaceholder />;
+  }
+
+  const columnHeaders = dataset[0];
 
   return (
     <Layout>
