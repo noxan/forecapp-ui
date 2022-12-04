@@ -42,6 +42,7 @@ const DatasetImporter = () => {
               );
             }
           }}
+          accept=".csv"
         />
       </CCol>
       <CCol>
