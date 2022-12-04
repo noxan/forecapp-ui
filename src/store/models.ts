@@ -16,7 +16,7 @@ export const modelSlice = createSlice({
     },
     training: {
       learningRate: "auto",
-      epochs: 1, // "auto",
+      epochs: "auto",
       batchSize: "auto",
     },
     events: [
@@ -32,15 +32,7 @@ export const modelSlice = createSlice({
     ],
     countryHolidays: [],
     futureRegressors: {},
-    laggedRegressors: [
-      {
-        name: "lagged-regressor-1",
-        n_lags: "auto", // Union[int, Literal['auto', 'scalar']] = 'auto',
-        regularization: undefined, // optional, float
-        normalize: "auto", // boolean or "auto"
-        dataColumnRef: undefined,
-      },
-    ],
+    laggedRegressors: [],
   } as ModelState,
   reducers: {
     editModelConfig: (state, { payload }) => ({ ...state, ...payload }),
