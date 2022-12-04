@@ -1,4 +1,3 @@
-import { CCol, CContainer, CRow } from "@coreui/react";
 import Layout from "../components/Layout";
 import { useAppSelector } from "../src/hooks";
 import { transformDataset } from "../src/helpers";

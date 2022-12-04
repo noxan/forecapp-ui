@@ -1,6 +1,11 @@
 export const SELECT_STATE_INITIALIZE = "SELECT_STATE_INITIALIZE_UNIQUE";
 export const SELECT_STATE_NONE = "SELECT_STATE_NONE_UNIQUE";
 
+export const isColumnValid = (columnValue: any) =>
+  columnValue !== undefined &&
+  columnValue !== SELECT_STATE_NONE &&
+  columnValue !== SELECT_STATE_INITIALIZE;
+
 export const DATATYPES = [
   "string",
   "number",

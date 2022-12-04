@@ -8,9 +8,15 @@ import {
 } from "@coreui/react";
 import { CChartLine } from "@coreui/react-chartjs";
 import { useState } from "react";
+import {
+  isColumnValid,
+  SELECT_STATE_INITIALIZE,
+  SELECT_STATE_NONE,
+} from "../src/definitions";
 import { transformDatasetForChart } from "../src/helpers";
-import { useAppDispatch } from "../src/hooks";
+import { useAppDispatch, useAppSelector } from "../src/hooks";
 import { apiPrediction } from "../src/store/datasets";
+import { selectTargetColumn, selectTimeColumn } from "../src/store/selectors";
 
 const Prediction = ({
   finalDataset,
@@ -24,7 +30,12 @@ const Prediction = ({
   status: string;
 }) => {
   const dispatch = useAppDispatch();
+  const timeColumn = useAppSelector(selectTimeColumn);
+  const targetColumn = useAppSelector(selectTargetColumn);
   const [showDebug, setShowDebug] = useState(false);
+
+  const areColumnsValid =
+    isColumnValid(timeColumn) && isColumnValid(targetColumn);
 
   const chartData = prediction
     ? transformDatasetForChart(prediction.forecast)
@@ -61,8 +72,18 @@ const Prediction = ({
         </CCollapse>
         <CRow className="my-2">
           <CCol>
+            {!areColumnsValid && (
+              <div>
+                <CBadge color="danger">
+                  You have to select time and target columns first
+                </CBadge>
+                <CButton href="/dataset" color="link">
+                  Go to dataset
+                </CButton>
+              </div>
+            )}
             <CButton
-              disabled={status === "loading"}
+              disabled={status === "loading" || !areColumnsValid}
               className={`btn-loading${
                 status === "loading" ? " is-loading" : ""
               }`}
