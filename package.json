@@ -22,6 +22,7 @@
     "@tanstack/react-table": "^8.5.30",
     "@types/node": "18.11.9",
     "@types/papaparse": "^5.3.5",
+    "@types/plotly.js": "^2.12.8",
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
     "@types/react-plotly.js": "^2.5.2",
