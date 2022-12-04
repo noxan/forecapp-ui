@@ -12,7 +12,7 @@ import ColumnConfigPanel from "../components/ColumnConfigPanel";
 import Layout from "../components/Layout";
 import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
 import PrimaryColumnConfig from "../components/PrimaryColumnConfig";
-import { SELECT_STATE_INITIALIZE, SELECT_STATE_NONE } from "../src/definitions";
+import { isColumnValid } from "../src/definitions";
 import { capitalize } from "../src/helpers";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import {
