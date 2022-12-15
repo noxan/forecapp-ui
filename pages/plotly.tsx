@@ -3,28 +3,47 @@ import Layout from "../components/Layout";
 import { useAppSelector } from "../src/hooks";
 import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
 import dynamic from "next/dynamic";
+import { selectTargetColumn, selectTimeColumn } from "../src/store/selectors";
+import { isColumnValid } from "../src/definitions";
+import MissingColumnPlaceholder from "../components/MissingColumnPlaceholder";
 
 const Plot = dynamic(() => import("react-plotly.js"), {
   ssr: false,
   loading: () => <>Loading...</>,
 });
 
-export default function Visualization() {
+export default function Plotly() {
   const datasets = useAppSelector((state) => state.datasets);
+  const timeColumn = useAppSelector(selectTimeColumn);
+  const targetColumn = useAppSelector(selectTargetColumn);
+
+  const areColumnsValid =
+    isColumnValid(timeColumn) && isColumnValid(targetColumn);
 
   if (!datasets.raw) {
     return <MissingDatasetPlaceholder />;
   }
+  if (!areColumnsValid) {
+    return (
+      <Layout>
+        <CContainer>
+          <CRow>
+            <CCol>
+              <MissingColumnPlaceholder />
+            </CCol>
+          </CRow>
+        </CContainer>
+      </Layout>
+    );
+  }
 
-  // const chartData = transformDatasetForChart(datasets.raw);
-
-  const x = datasets.raw.map((item: any) => item["time"]);
-  const dataset = datasets.raw.map((item: any) => item["price actual"]);
+  const x = datasets.raw.map((item: any) => item[timeColumn]);
+  const y = datasets.raw.map((item: any) => item[targetColumn]);
 
   const data = [
     {
       x,
-      y: dataset,
+      y,
       type: "scattergl",
       mode: "lines",
     },
