@@ -8,10 +8,11 @@ import {
   REGISTER,
   REHYDRATE,
 } from "reduxjs-toolkit-persist";
-import storage from "reduxjs-toolkit-persist/lib/storage";
 import datasets from "./datasets";
 import transforms from "./transforms";
 import models from "./models";
+
+const storageIndexedDB = require("redux-persist-indexeddb-storage").default;
 
 const reducers = combineReducers({
   datasets,
@@ -21,7 +22,7 @@ const reducers = combineReducers({
 
 const persistConfig = {
   key: "root",
-  storage,
+  storage: storageIndexedDB("forecapp-db"),
 };
 
 const persistedReducers = persistReducer(persistConfig, reducers);
