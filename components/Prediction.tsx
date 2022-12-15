@@ -14,6 +14,7 @@ import { transformDatasetForChart } from "../src/helpers";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import { apiPrediction } from "../src/store/datasets";
 import { selectTargetColumn, selectTimeColumn } from "../src/store/selectors";
+import MissingColumnPlaceholder from "./MissingColumnPlaceholder";
 
 const Prediction = ({
   finalDataset,
@@ -69,16 +70,7 @@ const Prediction = ({
         </CCollapse>
         <CRow className="my-2">
           <CCol>
-            {!areColumnsValid && (
-              <>
-                <CBadge color="danger">
-                  You have to select time and target columns first
-                </CBadge>
-                <div>
-                  <Link href="/dataset">Go to dataset</Link>
-                </div>
-              </>
-            )}
+            {!areColumnsValid && <MissingColumnPlaceholder />}
             <CButton
               disabled={status === "loading" || !areColumnsValid}
               className={`btn-loading${
