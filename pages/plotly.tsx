@@ -25,11 +25,11 @@ export default function Visualization() {
     {
       x,
       y: dataset,
-      type: "scatter",
+      type: "scattergl",
       mode: "lines",
     },
   ] as Plotly.Data[];
-  const layout = { autosize: true, title: "A Fancy Plot" };
+  const layout = { autosize: true };
 
   return (
     <Layout>
