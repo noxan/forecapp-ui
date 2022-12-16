@@ -28,8 +28,7 @@ export default function PlotlyChart({
       useResizeHandler
       data={data}
       layout={{
-        autosize: true,
-        hovermode: "closest",
+        hovermode: "x",
         showlegend: true,
         legend: { orientation: "h" },
       }}
