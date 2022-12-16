@@ -12,7 +12,7 @@ import datasets from "./datasets";
 import transforms from "./transforms";
 import models from "./models";
 
-const storageIndexedDB = require("redux-persist-indexeddb-storage").default;
+const isSSR = typeof window === "undefined";
 
 const reducers = combineReducers({
   datasets,
@@ -20,15 +20,24 @@ const reducers = combineReducers({
   models,
 });
 
-const persistConfig = {
-  key: "root",
-  storage: storageIndexedDB("forecapp-db"),
-};
+const reducer = isSSR
+  ? reducers
+  : (() => {
+      const storageIndexedDB =
+        require("redux-persist-indexeddb-storage").default;
 
-const persistedReducers = persistReducer(persistConfig, reducers);
+      const persistConfig = {
+        key: "root",
+        storage: storageIndexedDB("forecapp-db"),
+      };
+
+      const persistedReducers = persistReducer(persistConfig, reducers);
+
+      return persistedReducers;
+    })();
 
 export const store = configureStore({
-  reducer: persistedReducers,
+  reducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
