@@ -1,5 +1,5 @@
 import { CBadge, CTabContent, CTabPane } from "@coreui/react";
-import { CChartLine } from "@coreui/react-chartjs";
+import { CChart } from "@coreui/react-chartjs";
 import iwanthue from "iwanthue";
 import {
   COLUMN_PRIMARY_TARGET,
@@ -64,14 +64,14 @@ const ColumnConfigPanel = ({
           {specialColumn ? specialColumn.outputName : "unknown"}
         </div>
         <h4>Data series</h4>
-        <CChartLine
+        <CChart
           data={generateChartFormatForSeries(
             timeLabels,
             capitalize(column),
             rows,
             chartColor
           )}
-          type={"line"}
+          type="line"
         />
         <h4>Value distribution</h4>
         <ColumnHistogram rows={rows} chartColor={chartColor} />
