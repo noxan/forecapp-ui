@@ -6,13 +6,15 @@ import dynamic from "next/dynamic";
 import { selectTargetColumn, selectTimeColumn } from "../src/store/selectors";
 import { isColumnValid } from "../src/definitions";
 import MissingColumnPlaceholder from "../components/MissingColumnPlaceholder";
+import { capitalize } from "../src/helpers";
 
 const Plot = dynamic(() => import("react-plotly.js"), {
   ssr: false,
+  // suspense: true,
   loading: () => <>Loading...</>,
 });
 
-export default function Plotly() {
+export default function PlotlyPage() {
   const datasets = useAppSelector((state) => state.datasets);
   const timeColumn = useAppSelector(selectTimeColumn);
   const targetColumn = useAppSelector(selectTargetColumn);
@@ -38,16 +40,17 @@ export default function Plotly() {
   }
 
   const x = datasets.raw.map((item: any) => item[timeColumn]);
-  const y = datasets.raw.map((item: any) => item[targetColumn]);
+  const columnHeaders = Object.keys(datasets.raw[0]).filter(
+    (item: any) => item !== timeColumn
+  );
 
-  const data = [
-    {
-      x,
-      y,
-      type: "scattergl",
-      mode: "lines",
-    },
-  ] as Plotly.Data[];
+  const data = columnHeaders.map((columnHeader) => ({
+    type: "scattergl",
+    mode: "lines",
+    x,
+    y: datasets.raw.map((item: any) => item[columnHeader]),
+    name: capitalize(columnHeader),
+  }));
   const layout = { autosize: true };
 
   return (
