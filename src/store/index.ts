@@ -14,27 +14,26 @@ import models from "./models";
 
 const isSSR = typeof window === "undefined";
 
+const configurePersistedReducers = () => {
+  const storageIndexedDB = require("redux-persist-indexeddb-storage").default;
+
+  const persistConfig = {
+    key: "root",
+    storage: storageIndexedDB("forecapp-db"),
+  };
+
+  const persistedReducers = persistReducer(persistConfig, reducers);
+
+  return persistedReducers;
+};
+
 const reducers = combineReducers({
   datasets,
   transforms,
   models,
 });
 
-const reducer = isSSR
-  ? reducers
-  : (() => {
-      const storageIndexedDB =
-        require("redux-persist-indexeddb-storage").default;
-
-      const persistConfig = {
-        key: "root",
-        storage: storageIndexedDB("forecapp-db"),
-      };
-
-      const persistedReducers = persistReducer(persistConfig, reducers);
-
-      return persistedReducers;
-    })();
+const reducer = isSSR ? reducers : configurePersistedReducers();
 
 export const store = configureStore({
   reducer,
