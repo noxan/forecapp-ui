@@ -15,7 +15,7 @@ export default function Home() {
         {isDatasetLoaded && (
           <CRow className="my-5">
             <CCol>
-              <CButton color="primary" href="/dataset">
+              <CButton color="primary" href="/wizard/pick-time">
                 Continue with previous dataset
               </CButton>
             </CCol>
