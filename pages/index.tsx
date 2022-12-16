@@ -1,23 +1,35 @@
-import { CCol, CContainer, CRow } from "@coreui/react";
-import Layout from "../components/Layout";
-import DatasetImporter from "../components/DatasetImporter";
+import { CButton, CCol, CContainer, CRow } from "@coreui/react";
 import { useAppSelector } from "../src/hooks";
-import Table from "../components/Table";
+import Welcome from "../components/Welcome";
+import DatasetImporter from "../components/DatasetImporter";
 
 export default function Home() {
   const state = useAppSelector((state) => state);
 
+  const isDatasetLoaded = !!state.datasets?.raw;
+
   return (
-    <Layout>
+    <main>
+      <Welcome />
       <CContainer>
+        {isDatasetLoaded && (
+          <CRow className="my-5">
+            <CCol>
+              <CButton color="primary" href="/dataset">
+                Continue with previous dataset
+              </CButton>
+            </CCol>
+          </CRow>
+        )}
         <CRow className="my-2">
           <CCol>
-            <h1>Dataset</h1>
+            <h5>
+              Select a dataset below to get started or import your own dataset.
+            </h5>
           </CCol>
         </CRow>
         <DatasetImporter />
-        {state.datasets.raw && <Table data={state.datasets.raw.slice(0, 3)} />}
       </CContainer>
-    </Layout>
+    </main>
   );
 }
