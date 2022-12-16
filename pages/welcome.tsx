@@ -12,7 +12,7 @@ import {
   CFormInput,
   CRow,
 } from "@coreui/react";
-import Layout from "../../components/Layout";
+import Layout from "../components/Layout";
 
 type ExampleDataset = {
   title: string;
