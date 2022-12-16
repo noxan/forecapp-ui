@@ -29,6 +29,7 @@ specifiers:
   next: 13.0.1
   papaparse: ^5.3.2
   plotly.js: ^2.16.5
+  plotly.js-gl2d-dist: ^2.16.5
   postcss: ^8.4.20
   prettier: ^2.8.1
   react: 18.2.0
@@ -71,6 +72,7 @@ dependencies:
   next: 13.0.1_iburw4xngv4nuxezlam7kbvdc4
   papaparse: 5.3.2
   plotly.js: 2.16.5
+  plotly.js-gl2d-dist: 2.16.5
   postcss: 8.4.20
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -3964,6 +3966,10 @@ packages:
 
   /plotly.js-dist-min/2.8.0:
     resolution: {integrity: sha512-6OOg/D7OEffYq1WJt4XKNHzJAd9uN3kCuKZcCr0RGvnSB3wvP7fDmfsUpxZR2q0M+3j7SKejJ8qv1HGkarnObg==}
+    dev: false
+
+  /plotly.js-gl2d-dist/2.16.5:
+    resolution: {integrity: sha512-k8PncF2cKonMSXHJzDlbtREGbK+biEofweNb7ga4am0xki4NYrCb3uejghAd17811l1D0tiEeFBX53/hgtAk2g==}
     dev: false
 
   /plotly.js/2.16.5:

@@ -1,4 +1,7 @@
-import Plot from "react-plotly.js";
+import createPlotComponent from "react-plotly.js/factory";
+
+const Plotly = require("plotly.js-gl2d-dist");
+const Plot = createPlotComponent(Plotly);
 import { capitalize } from "../src/helpers";
 
 export default function PlotlyChart({
@@ -26,6 +29,8 @@ export default function PlotlyChart({
       layout={{
         autosize: true,
         hovermode: "closest",
+        showlegend: true,
+        legend: { orientation: "h" },
       }}
       config={{
         responsive: true,
