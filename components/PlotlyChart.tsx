@@ -19,6 +19,7 @@ export default function PlotlyChart({
     x,
     y: dataset.map((item: any) => item[columnHeader]),
     name: capitalize(columnHeader),
+    visible: columnHeader === targetColumn ? true : "legendonly",
   })) as Plotly.Data[];
 
   const y = dataset.map((item: any) => item[targetColumn]);
