@@ -15,7 +15,6 @@ const ColumnHistogram = ({
 
   return (
     <CChartBar
-      type="bar"
       data={{
         labels: keys,
         datasets: [
