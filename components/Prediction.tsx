@@ -7,7 +7,6 @@ import {
   CRow,
 } from "@coreui/react";
 import { CChartLine } from "@coreui/react-chartjs";
-import Link from "next/link";
 import { useState } from "react";
 import { isColumnValid } from "../src/definitions";
 import { transformDatasetForChart } from "../src/helpers";
@@ -106,7 +105,7 @@ const Prediction = ({
       </CContainer>
       {prediction && chartData && (
         <>
-          <CChartLine type="line" data={chartData} />
+          <CChartLine data={chartData} />
           <CCollapse visible={showDebug}>
             <CContainer>
               <CRow md={{ cols: 2 }}>

@@ -13,7 +13,6 @@ import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import validator from "@rjsf/validator-ajv8";
 import Form from "@rjsf/core";
-import { editModelConfigJsonView } from "../../src/store/models";
 import {
   modelTrendConfigSchema,
   modelTrainingConfigSchema,
@@ -25,7 +24,6 @@ const ReactJson = dynamic(() => import("@microlink/react-json-view"), {
 
 export default function Debug() {
   const modelConfig = useAppSelector((state) => state.models);
-  const dispatch = useAppDispatch();
 
   const log = (type: any) => console.log.bind(console, type);
 
@@ -173,12 +171,7 @@ export default function Debug() {
         <CRow className="my-2">
           <CCol>
             <Suspense fallback={`Loading...`}>
-              <ReactJson
-                src={modelConfig}
-                sortKeys
-                collapsed={1}
-                onEdit={(evt) => dispatch(editModelConfigJsonView(evt))}
-              />
+              <ReactJson src={modelConfig} sortKeys collapsed={1} />
             </Suspense>
           </CCol>
         </CRow>

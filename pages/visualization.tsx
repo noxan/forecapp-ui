@@ -26,7 +26,7 @@ export default function Visualization() {
       <CContainer fluid>
         <CRow className="my-2">
           <CCol>
-            <CChartLine type="line" data={chartData} />
+            <CChartLine data={chartData} />
           </CCol>
         </CRow>
       </CContainer>
