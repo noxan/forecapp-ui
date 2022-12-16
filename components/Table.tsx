@@ -16,12 +16,14 @@ import {
 
 export default function Table({ data }: { data: any[] }) {
   const columnHelper = createColumnHelper<any>();
-  const columns = Object.keys(data[0]).map((name: any) =>
+  const columns = Object.keys(data[0]).map((name: string) =>
     columnHelper.accessor(name, {
       cell: (info) => info.getValue(),
-      footer: (info) => info.column.id,
     })
   );
+
+  console.log(data);
+  console.log(columns);
 
   const table = useReactTable({
     data,
