@@ -26,6 +26,9 @@ export default function Home() {
 
   const isDatasetLoaded = !!dataset;
 
+  const importAction = (source: any) =>
+    dispatch(importDatasetWithAutodetect({ source }));
+
   return (
     <main>
       <Welcome />
@@ -49,9 +52,7 @@ export default function Home() {
             <DatasetCard
               key={dataset.filename}
               dataset={dataset}
-              importAction={(filepath: string) =>
-                dispatch(importDatasetWithAutodetect({ source: filepath }))
-              }
+              importAction={(source) => importAction(source)}
             />
           ))}
         </CRow>
@@ -63,9 +64,7 @@ export default function Home() {
               label="Select a file to import"
               onChange={(evt) => {
                 if (evt.target.files && evt.target.files.length > 0) {
-                  return dispatch(
-                    importDatasetWithAutodetect({ source: evt.target.files[0] })
-                  );
+                  return importAction(evt.target.files[0]);
                 }
               }}
               accept=".csv"
