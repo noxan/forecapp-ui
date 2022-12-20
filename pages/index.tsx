@@ -1,9 +1,10 @@
-import { CButton, CCol, CContainer, CRow } from "@coreui/react";
+import { CButton, CCol, CContainer, CFormInput, CRow } from "@coreui/react";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import Welcome from "../components/Welcome";
 import DatasetImporter from "../components/DatasetImporter";
 import DatasetCard from "../components/DatasetCard";
 import { importDatasetWithAutodetect } from "../src/store/datasets";
+import { selectDataset } from "../src/store/selectors";
 
 const datasetExamples = [
   {
@@ -19,10 +20,11 @@ const datasetExamples = [
 ];
 
 export default function Home() {
-  const state = useAppSelector((state) => state);
+  const dataset = useAppSelector(selectDataset);
+  const status = useAppSelector((state) => state.datasets.status);
   const dispatch = useAppDispatch();
 
-  const isDatasetLoaded = !!state.datasets?.raw;
+  const isDatasetLoaded = !!dataset;
 
   return (
     <main>
@@ -39,9 +41,7 @@ export default function Home() {
         )}
         <CRow className="my-2">
           <CCol>
-            <h5>
-              Select a dataset below to get started or import your own dataset.
-            </h5>
+            <h5>Select a dataset below to get started</h5>
           </CCol>
         </CRow>
         <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 3 }}>
@@ -54,6 +54,23 @@ export default function Home() {
               }
             />
           ))}
+        </CRow>
+        <CRow className="my-2">
+          <CCol>
+            <h5>Import from your computer</h5>
+            <CFormInput
+              type="file"
+              label="Select a file to import"
+              onChange={(evt) => {
+                if (evt.target.files && evt.target.files.length > 0) {
+                  return dispatch(
+                    importDatasetWithAutodetect({ source: evt.target.files[0] })
+                  );
+                }
+              }}
+              accept=".csv"
+            />
+          </CCol>
         </CRow>
       </CContainer>
     </main>
