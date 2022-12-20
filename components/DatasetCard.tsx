@@ -3,7 +3,6 @@ import {
   CCard,
   CCardBody,
   CCardImage,
-  CCardLink,
   CCardSubtitle,
   CCardText,
   CCardTitle,
@@ -46,7 +45,7 @@ const DatasetCard = ({ dataset, importAction, disabled }: DatasetCardProps) => (
             importAction(dataset.filename);
           }}
         >
-          Import "{dataset.title}" dataset
+          Import „{dataset.title}‟ dataset
         </CButton>
       </CCardBody>
     </CCard>
