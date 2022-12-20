@@ -4,6 +4,7 @@ import Welcome from "../components/Welcome";
 import DatasetCard from "../components/DatasetCard";
 import { importDatasetWithAutodetect } from "../src/store/datasets";
 import { selectDataset } from "../src/store/selectors";
+import { useRouter } from "next/router";
 
 const datasetBaseUrl = "/datasets/";
 const datasetExamples = [
@@ -20,14 +21,16 @@ const datasetExamples = [
 ];
 
 export default function Home() {
+  const router = useRouter();
   const dataset = useAppSelector(selectDataset);
   const status = useAppSelector((state) => state.datasets.status);
   const dispatch = useAppDispatch();
 
   const isDatasetLoaded = !!dataset;
 
-  const importAction = (source: any) => {
-    dispatch(importDatasetWithAutodetect({ source }));
+  const importAction = async (source: any) => {
+    await dispatch(importDatasetWithAutodetect({ source }));
+    router.push("/wizard/pick-time");
   };
 
   return (
