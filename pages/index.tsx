@@ -1,11 +1,11 @@
 import { CButton, CCol, CContainer, CFormInput, CRow } from "@coreui/react";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import Welcome from "../components/Welcome";
-import DatasetImporter from "../components/DatasetImporter";
 import DatasetCard from "../components/DatasetCard";
 import { importDatasetWithAutodetect } from "../src/store/datasets";
 import { selectDataset } from "../src/store/selectors";
 
+const datasetBaseUrl = "/datasets/";
 const datasetExamples = [
   {
     title: "Energy prices",
@@ -26,8 +26,9 @@ export default function Home() {
 
   const isDatasetLoaded = !!dataset;
 
-  const importAction = (source: any) =>
+  const importAction = (source: any) => {
     dispatch(importDatasetWithAutodetect({ source }));
+  };
 
   return (
     <main>
@@ -52,7 +53,7 @@ export default function Home() {
             <DatasetCard
               key={dataset.filename}
               dataset={dataset}
-              importAction={(source) => importAction(source)}
+              importAction={(source) => importAction(datasetBaseUrl + source)}
             />
           ))}
         </CRow>
