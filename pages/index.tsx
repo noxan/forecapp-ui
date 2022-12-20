@@ -1,10 +1,26 @@
 import { CButton, CCol, CContainer, CRow } from "@coreui/react";
-import { useAppSelector } from "../src/hooks";
+import { useAppDispatch, useAppSelector } from "../src/hooks";
 import Welcome from "../components/Welcome";
 import DatasetImporter from "../components/DatasetImporter";
+import DatasetCard from "../components/DatasetCard";
+import { importDatasetWithAutodetect } from "../src/store/datasets";
+
+const datasetExamples = [
+  {
+    title: "Energy prices",
+    filename: "energy_dataset_small.csv",
+    image: "photo-1473341304170-971dccb5ac1e",
+  },
+  {
+    title: "Air passengers",
+    filename: "air_passengers.csv",
+    image: "photo-1569629743817-70d8db6c323b",
+  },
+];
 
 export default function Home() {
   const state = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
 
   const isDatasetLoaded = !!state.datasets?.raw;
 
@@ -28,7 +44,17 @@ export default function Home() {
             </h5>
           </CCol>
         </CRow>
-        <DatasetImporter />
+        <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 3 }}>
+          {datasetExamples.map((dataset) => (
+            <DatasetCard
+              key={dataset.filename}
+              dataset={dataset}
+              importAction={(filepath: string) =>
+                dispatch(importDatasetWithAutodetect({ source: filepath }))
+              }
+            />
+          ))}
+        </CRow>
       </CContainer>
     </main>
   );
