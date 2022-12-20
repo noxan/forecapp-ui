@@ -1,4 +1,5 @@
 import { CButton, CCol, CContainer, CRow } from "@coreui/react";
+import Link from "next/link";
 import MissingDatasetPlaceholder from "../../components/MissingDatasetPlaceholder";
 import PrimaryColumnConfig from "../../components/PrimaryColumnConfig";
 import { isColumnValid } from "../../src/definitions";
@@ -48,6 +49,7 @@ export default function WizardTimeColumnPage() {
             <CButton
               color="primary"
               disabled={!isValid}
+              component={Link}
               href="/wizard/pick-target"
             >
               Confirm
