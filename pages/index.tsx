@@ -54,6 +54,7 @@ export default function Home() {
               key={dataset.filename}
               dataset={dataset}
               importAction={(source) => importAction(datasetBaseUrl + source)}
+              disabled={status === "loading"}
             />
           ))}
         </CRow>
@@ -63,6 +64,7 @@ export default function Home() {
             <CFormInput
               type="file"
               label="Select a file to import"
+              disabled={status === "loading"}
               onChange={(evt) => {
                 if (evt.target.files && evt.target.files.length > 0) {
                   return importAction(evt.target.files[0]);

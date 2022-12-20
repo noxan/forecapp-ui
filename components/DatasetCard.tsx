@@ -18,9 +18,10 @@ type Dataset = {
 type DatasetCardProps = {
   dataset: Dataset;
   importAction: (filepath: string) => void;
+  disabled: boolean;
 };
 
-const DatasetCard = ({ dataset, importAction }: DatasetCardProps) => (
+const DatasetCard = ({ dataset, importAction, disabled }: DatasetCardProps) => (
   <CCol xs key={dataset.filename}>
     <CCard className="mb-3">
       <CRow className="g-0">
@@ -34,6 +35,7 @@ const DatasetCard = ({ dataset, importAction }: DatasetCardProps) => (
             <CCardTitle>{dataset.title}</CCardTitle>
             <CCardText>
               <CButton
+                disabled={disabled}
                 onClick={() => importAction(dataset.filename)}
                 className="stretched-link"
               >
