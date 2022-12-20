@@ -24,7 +24,10 @@ const datasetBaseUrl = "/public/datasets/";
 
 const DatasetCard = ({ dataset, importAction }: DatasetCardProps) => (
   <CCol xs key={dataset.filename}>
-    <CCard className="mb-3">
+    <CCard
+      className="mb-3"
+      onClick={() => importAction(datasetBaseUrl + dataset.filename)}
+    >
       <CRow className="g-0">
         <CCol md={4}>
           <CCardImage
@@ -34,13 +37,7 @@ const DatasetCard = ({ dataset, importAction }: DatasetCardProps) => (
         <CCol md={8}>
           <CCardBody>
             <CCardTitle>{dataset.title}</CCardTitle>
-            <CCardText>
-              <CButton
-                onClick={() => importAction(datasetBaseUrl + dataset.filename)}
-              >
-                Import dataset
-              </CButton>
-            </CCardText>
+            <CCardText></CCardText>
           </CCardBody>
         </CCol>
       </CRow>
