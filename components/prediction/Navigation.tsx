@@ -23,11 +23,13 @@ const getLatestMetrics = (metrics: any) =>
 
 const displayMetrics = (metrics: any) => {
   const latestMetrics = getLatestMetrics(metrics);
-  return Object.keys(latestMetrics).map((key) => (
-    <span key={key} className="mx-1">
-      {key}: {latestMetrics[key].toFixed(2)}
-    </span>
-  ));
+  return Object.keys(latestMetrics)
+    .filter((key) => key !== "epoch")
+    .map((key) => (
+      <span key={key} className="mx-1">
+        {key}: {latestMetrics[key].toFixed(2)}
+      </span>
+    ));
 };
 
 const PredictioNavigation = ({ metrics, status, apiPredictionAction }: any) => (
