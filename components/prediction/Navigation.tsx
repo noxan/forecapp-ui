@@ -8,7 +8,14 @@ import {
 } from "@coreui/react";
 import { vars } from "../Navigation";
 
-const PredictioNavigation = () => (
+const displayMetrics = (metrics: any) =>
+  Object.keys(metrics).map((key) => (
+    <span key={key} className="mx-1">
+      {key}: {metrics[key].toFixed(2)}
+    </span>
+  ));
+
+const PredictioNavigation = ({ metrics }: any) => (
   <CHeader position="sticky" className="mb-4" style={vars}>
     <CContainer fluid>
       <CHeaderBrand className="mx-auto d-md-none">Header</CHeaderBrand>
@@ -25,7 +32,7 @@ const PredictioNavigation = () => (
       </CHeaderNav>
       <CHeaderNav>
         <CNavItem>
-          <CNavLink>Scores</CNavLink>
+          <CNavLink>Metrics: {displayMetrics(metrics)}</CNavLink>
         </CNavItem>
         <CNavItem>
           <CNavLink>History</CNavLink>
