@@ -8,7 +8,13 @@ export const modelSlice = createSlice({
   name: "models",
   initialState: {
     forecasts: undefined,
-    growth: "linear",
+    trend: {
+      growth: "linear",
+    },
+    autoRegression: {
+      lags: 0,
+      regularization: 0,
+    },
     seasonality: {
       mode: "additive",
       daily: "auto",

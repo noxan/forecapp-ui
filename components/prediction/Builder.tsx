@@ -54,7 +54,30 @@ const PredictionBuilder = () => {
 
       <CAccordionItem itemKey={20}>
         <CAccordionHeader>Auto regression</CAccordionHeader>
-        <CAccordionBody>{/* TODO */}</CAccordionBody>
+        <CAccordionBody>
+          How many previous values should be used to predict the next value?
+          <CFormInput
+            type="number"
+            defaultValue={modelConfiguration?.autoRegression?.lags}
+            onChange={(e) =>
+              dispatch(
+                editModelConfig({ autoRegression: { lags: e.target.value } })
+              )
+            }
+          />
+          Regularization?
+          <CFormInput
+            type="number"
+            defaultValue={modelConfiguration?.autoRegression?.regularization}
+            onChange={(e) =>
+              dispatch(
+                editModelConfig({
+                  autoRegression: { regularization: e.target.value },
+                })
+              )
+            }
+          />
+        </CAccordionBody>
       </CAccordionItem>
 
       <CAccordionItem itemKey={40}>
