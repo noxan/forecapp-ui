@@ -4,6 +4,18 @@ import PlotlyChart from "../Plotly";
 
 // const x = dataset.map((item: any) => item[timeColumn]);
 
+const filterColumns = (columns: string[]) =>
+  columns.filter((column) =>
+    [
+      "yhat1",
+      "season_daily",
+      "season_weekly",
+      "season_yearly",
+      "trend",
+      "y",
+    ].includes(column)
+  );
+
 const columnRenameMap = {
   y: "Actual",
   yhat1: "Prediction",
@@ -22,7 +34,12 @@ const transformPredictionData = (prediction: any[]): Plotly.Data[] => {
   // TODO: Filter non relevant prediction return columns
   const columnHeaders = Object.keys(prediction[0]).splice(1);
 
-  return columnHeaders.map((columnHeader, index) => ({
+  const lastForecastColumn = columnHeaders
+    .filter((columnHeader) => columnHeader.startsWith("yhat"))
+    .map((columnHeader) => parseInt(columnHeader.replace("yhat", ""), 10))
+    .sort((a, b) => b - a)[0];
+
+  return filterColumns(columnHeaders).map((columnHeader, index) => ({
     type: "scattergl",
     mode: "lines",
     marker: {
@@ -30,7 +47,18 @@ const transformPredictionData = (prediction: any[]): Plotly.Data[] => {
     },
     // TODO: Add meaningful time values for x-axis
     // x,
-    y: prediction.map((item: any) => item[columnHeader]),
+    y: (() => {
+      // TOOD: Clean up this mess: merges yhat_1 and yhat_max to have a single prediction
+      if (columnHeader === "yhat1" && lastForecastColumn > 1) {
+        return prediction.map((item: any, index) => {
+          if (index > lastForecastColumn) {
+            return item[`yhat${lastForecastColumn}`];
+          }
+          return item[columnHeader];
+        });
+      }
+      return prediction.map((item: any) => item[columnHeader]);
+    })(),
     name: capitalize(renameColumn(columnHeader)),
     visible: ["y", "yhat1"].includes(columnHeader.toLowerCase())
       ? true
