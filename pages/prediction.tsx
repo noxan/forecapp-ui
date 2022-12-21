@@ -16,7 +16,7 @@ import PredictionWizardCard from "../components/prediction/WizardCard";
 import PredictionBuilder from "../components/prediction/Builder";
 import { apiPrediction } from "../src/store/datasets";
 import PredictionChart from "../components/prediction/Chart";
-import LoadingOverlay from "../components/prediction/LoadingSpinner";
+import LoadingOverlay from "../components/prediction/LoadingOverlay";
 
 export default function Visualization() {
   const dispatch = useAppDispatch();
