@@ -9,12 +9,14 @@ import {
 const PredictionWizardCard = ({ className }: any) => (
   <CCard className={className}>
     <CCardBody>
-      <CCardTitle>Card title</CCardTitle>
+      <CCardTitle>Configuration wizard</CCardTitle>
       <CCardText>
-        Some quick example text to build on the card title and make up the bulk
-        of the card&apos;s content.
+        To improve your forecast best follow the configuration wizard to learn
+        about all the components and build a solid baseline model.
       </CCardText>
-      <CButton href="#">Go somewhere</CButton>
+      <CButton variant="outline" href="#">
+        Improve your forecast
+      </CButton>
     </CCardBody>
   </CCard>
 );
