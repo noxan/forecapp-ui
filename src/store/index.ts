@@ -9,7 +9,6 @@ import {
   REHYDRATE,
 } from "reduxjs-toolkit-persist";
 import datasets from "./datasets";
-import transforms from "./transforms";
 import models from "./models";
 
 const isSSR = typeof window === "undefined";
@@ -29,7 +28,6 @@ const configurePersistedReducers = () => {
 
 const reducers = combineReducers({
   datasets,
-  transforms,
   models,
 });
 
