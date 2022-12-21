@@ -40,9 +40,6 @@ const PredictioNavigation = ({ metrics, status, apiPredictionAction }: any) => (
         <CNavItem>
           <CNavLink>Adjust parameters</CNavLink>
         </CNavItem>
-        <CNavItem>
-          <CNavLink>Change forecast horizon</CNavLink>
-        </CNavItem>
       </CHeaderNav>
       <CHeaderNav>
         <CNavItem>
