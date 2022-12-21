@@ -3,9 +3,14 @@ import { useAppDispatch, useAppSelector } from "../src/hooks";
 import Welcome from "../components/Welcome";
 import DatasetCard from "../components/DatasetCard";
 import { importDatasetWithAutodetect } from "../src/store/datasets";
-import { selectDataset } from "../src/store/selectors";
+import {
+  selectDataset,
+  selectTargetColumn,
+  selectTimeColumn,
+} from "../src/store/selectors";
 import { useRouter } from "next/router";
 import LinkButton from "../components/LinkButton";
+import { validateColumnDefinitions } from "../src/definitions";
 
 const datasetBaseUrl = "/datasets/";
 const datasetExamples = [
@@ -34,10 +39,17 @@ const datasetExamples = [
 export default function Home() {
   const router = useRouter();
   const dataset = useAppSelector(selectDataset);
+  const timeColumn = useAppSelector(selectTimeColumn);
+  const targetColumn = useAppSelector(selectTargetColumn);
   const status = useAppSelector((state) => state.datasets.status);
   const dispatch = useAppDispatch();
 
   const isDatasetLoaded = !!dataset;
+  const isColumnDefinitions = validateColumnDefinitions(
+    timeColumn,
+    targetColumn
+  );
+  const resumeHref = isColumnDefinitions ? "/prediction" : "/wizard/pick-model";
 
   const importAction = async (source: any) => {
     await dispatch(importDatasetWithAutodetect({ source }));
@@ -51,8 +63,8 @@ export default function Home() {
         {isDatasetLoaded && (
           <CRow className="my-5">
             <CCol>
-              <LinkButton color="primary" href="/wizard/pick-time">
-                Continue with previous dataset
+              <LinkButton color="primary" href={resumeHref}>
+                Continue with previous project
               </LinkButton>
             </CCol>
           </CRow>
