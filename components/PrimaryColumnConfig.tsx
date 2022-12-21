@@ -23,7 +23,7 @@ const PrimaryColumnConfig = ({
       onChange={(e) => dispatch(setAction(e.target.value))}
       options={[
         {
-          label: `Select primary ${label} column`,
+          label: `Select ${label} column`,
           value: SELECT_STATE_NONE,
         },
         ...columns.map((column) => ({
