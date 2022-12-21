@@ -26,17 +26,7 @@ export const modelSlice = createSlice({
       epochs: "auto",
       batchSize: "auto",
     },
-    events: [
-      {
-        name: "playoff",
-        // TODO: name (or some other identifier) must be matched with column name
-        dates: ["2022-01-21", "2022-02-07"],
-        mode: undefined, // additive or multiplicative
-        lowerWindow: undefined,
-        upperWindow: undefined,
-        regularization: undefined,
-      },
-    ],
+    events: [],
     holidays: [],
     futureRegressors: {},
     laggedRegressors: [],
