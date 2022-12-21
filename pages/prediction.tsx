@@ -17,6 +17,7 @@ import PredictionBuilder from "../components/prediction/Builder";
 import { apiPrediction } from "../src/store/datasets";
 import PredictionChart from "../components/prediction/Chart";
 import LoadingOverlay from "../components/prediction/LoadingOverlay";
+import MissingForecastPlaceholder from "../components/MissingForecastPlaceholder";
 
 export default function Visualization() {
   const dispatch = useAppDispatch();
@@ -33,6 +34,9 @@ export default function Visualization() {
   }
   if (!validateColumnDefinitions(timeColumn, targetColumn)) {
     return <MissingColumnPlaceholder />;
+  }
+  if (!predictionData) {
+    return <MissingForecastPlaceholder />;
   }
 
   return (
