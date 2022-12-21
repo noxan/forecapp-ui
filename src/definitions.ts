@@ -6,6 +6,9 @@ export const isColumnValid = (columnValue: any) =>
   columnValue !== SELECT_STATE_NONE &&
   columnValue !== SELECT_STATE_INITIALIZE;
 
+export const validateColumnDefinitions = (timeColumn: any, targetColumn: any) =>
+  isColumnValid(timeColumn) && isColumnValid(targetColumn);
+
 export const DATATYPES = [
   "string",
   "number",

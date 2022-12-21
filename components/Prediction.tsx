@@ -8,12 +8,9 @@ import {
 } from "@coreui/react";
 import { CChartLine } from "@coreui/react-chartjs";
 import { useState } from "react";
-import { isColumnValid } from "../src/definitions";
 import { transformDatasetForChart } from "../src/helpers";
-import { useAppDispatch, useAppSelector } from "../src/hooks";
+import { useAppDispatch } from "../src/hooks";
 import { apiPrediction } from "../src/store/datasets";
-import { selectTargetColumn, selectTimeColumn } from "../src/store/selectors";
-import MissingColumnPlaceholder from "./MissingColumnPlaceholder";
 
 const Prediction = ({
   finalDataset,
@@ -27,12 +24,7 @@ const Prediction = ({
   status: string;
 }) => {
   const dispatch = useAppDispatch();
-  const timeColumn = useAppSelector(selectTimeColumn);
-  const targetColumn = useAppSelector(selectTargetColumn);
   const [showDebug, setShowDebug] = useState(false);
-
-  const areColumnsValid =
-    isColumnValid(timeColumn) && isColumnValid(targetColumn);
 
   const chartData = prediction
     ? transformDatasetForChart(prediction.forecast)
@@ -69,9 +61,8 @@ const Prediction = ({
         </CCollapse>
         <CRow className="my-2">
           <CCol>
-            {!areColumnsValid && <MissingColumnPlaceholder />}
             <CButton
-              disabled={status === "loading" || !areColumnsValid}
+              disabled={status === "loading"}
               className={`btn-loading${
                 status === "loading" ? " is-loading" : ""
               }`}

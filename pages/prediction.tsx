@@ -10,7 +10,7 @@ import {
   selectTargetColumn,
   selectTimeColumn,
 } from "../src/store/selectors";
-import { isColumnValid } from "../src/definitions";
+import { validateColumnDefinitions } from "../src/definitions";
 import MissingColumnPlaceholder from "../components/MissingColumnPlaceholder";
 
 export default function Visualization() {
@@ -24,8 +24,7 @@ export default function Visualization() {
   if (!dataset) {
     return <MissingDatasetPlaceholder />;
   }
-
-  if (!isColumnValid(timeColumn) || !isColumnValid(targetColumn)) {
+  if (!validateColumnDefinitions(timeColumn, targetColumn)) {
     return <MissingColumnPlaceholder />;
   }
 

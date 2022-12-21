@@ -3,8 +3,12 @@ import Layout from "../components/Layout";
 import { useAppSelector } from "../src/hooks";
 import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
 import dynamic from "next/dynamic";
-import { selectTargetColumn, selectTimeColumn } from "../src/store/selectors";
-import { isColumnValid } from "../src/definitions";
+import {
+  selectDataset,
+  selectTargetColumn,
+  selectTimeColumn,
+} from "../src/store/selectors";
+import { validateColumnDefinitions } from "../src/definitions";
 import MissingColumnPlaceholder from "../components/MissingColumnPlaceholder";
 
 const PlotlyChart = dynamic(() => import("../components/PlotlyChart"), {
@@ -13,28 +17,15 @@ const PlotlyChart = dynamic(() => import("../components/PlotlyChart"), {
 });
 
 export default function Visualization() {
-  const datasets = useAppSelector((state) => state.datasets);
+  const dataset = useAppSelector(selectDataset);
   const timeColumn = useAppSelector(selectTimeColumn);
   const targetColumn = useAppSelector(selectTargetColumn);
 
-  const areColumnsValid =
-    isColumnValid(timeColumn) && isColumnValid(targetColumn);
-
-  if (!datasets.raw) {
+  if (!dataset) {
     return <MissingDatasetPlaceholder />;
   }
-  if (!areColumnsValid) {
-    return (
-      <Layout>
-        <CContainer>
-          <CRow>
-            <CCol>
-              <MissingColumnPlaceholder />
-            </CCol>
-          </CRow>
-        </CContainer>
-      </Layout>
-    );
+  if (!validateColumnDefinitions(timeColumn, targetColumn)) {
+    return <MissingColumnPlaceholder />;
   }
 
   return (
@@ -50,7 +41,7 @@ export default function Visualization() {
         <CRow className="my-2">
           <CCol>
             <PlotlyChart
-              dataset={datasets.raw}
+              dataset={dataset}
               timeColumn={timeColumn}
               targetColumn={targetColumn}
             />
