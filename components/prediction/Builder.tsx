@@ -26,9 +26,9 @@ const PredictionBuilder = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <CAccordion activeItemKey={1}>
-      <CAccordionItem itemKey={1}>
-        <CAccordionHeader>Forecast</CAccordionHeader>
+    <CAccordion activeItemKey={10}>
+      <CAccordionItem itemKey={10}>
+        <CAccordionHeader>Forecast horizon</CAccordionHeader>
         <CAccordionBody>
           How far should the model predict into the future?
           <CFormInput
@@ -41,7 +41,41 @@ const PredictionBuilder = () => {
           />
         </CAccordionBody>
       </CAccordionItem>
-      <CAccordionItem itemKey={2}>
+
+      <CAccordionItem itemKey={12}>
+        <CAccordionHeader>Trend</CAccordionHeader>
+        <CAccordionBody>{/* TODO */}</CAccordionBody>
+      </CAccordionItem>
+
+      <CAccordionItem itemKey={14}>
+        <CAccordionHeader>Seasonality</CAccordionHeader>
+        <CAccordionBody>{/* TODO */}</CAccordionBody>
+      </CAccordionItem>
+
+      <CAccordionItem itemKey={20}>
+        <CAccordionHeader>Auto regression</CAccordionHeader>
+        <CAccordionBody>{/* TODO */}</CAccordionBody>
+      </CAccordionItem>
+
+      <CAccordionItem itemKey={40}>
+        <CAccordionHeader>Events</CAccordionHeader>
+        <CAccordionBody>{/* TODO */}</CAccordionBody>
+      </CAccordionItem>
+
+      <CAccordionItem itemKey={50}>
+        <CAccordionHeader>Holidays</CAccordionHeader>
+        <CAccordionBody>{/* TODO */}</CAccordionBody>
+      </CAccordionItem>
+
+      <CAccordionItem itemKey={55}>
+        <CAccordionHeader>Indicators (regressors)</CAccordionHeader>
+        <CAccordionBody>
+          Which other columns should be used to enhance the prediction?
+          {/* TODO */}
+        </CAccordionBody>
+      </CAccordionItem>
+
+      <CAccordionItem itemKey={60}>
         <CAccordionHeader>Training</CAccordionHeader>
         <CAccordionBody>
           How many epochs to train?
@@ -56,16 +90,6 @@ const PredictionBuilder = () => {
           />
         </CAccordionBody>
       </CAccordionItem>
-
-      {new Array(9)
-        .fill(0)
-        .map((_, index) => index + 3)
-        .map((index) => (
-          <CAccordionItem key={index} itemKey={index}>
-            <CAccordionHeader>Accordion Item #{index}</CAccordionHeader>
-            <CAccordionBody>{placeholderText}</CAccordionBody>
-          </CAccordionItem>
-        ))}
     </CAccordion>
   );
 };
