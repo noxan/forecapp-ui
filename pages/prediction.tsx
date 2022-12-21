@@ -3,18 +3,25 @@ import { useAppSelector } from "../src/hooks";
 import { transformDataset } from "../src/helpers";
 import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
 import Prediction from "../components/Prediction";
+import {
+  selectDataset,
+  selectModelConfiguration,
+  selectStatus,
+} from "../src/store/selectors";
 
 export default function Visualization() {
-  const datasets = useAppSelector((state) => state.datasets);
-  const modelConfiguration = useAppSelector((state) => state.models);
+  const dataset = useAppSelector(selectDataset);
+  const status = useAppSelector(selectStatus);
+  const modelConfiguration = useAppSelector(selectModelConfiguration);
+  const { columns, prediction } = useAppSelector((state) => state.datasets);
 
-  if (!datasets.raw) {
+  if (!dataset) {
     return <MissingDatasetPlaceholder />;
   }
 
   const finalDataset =
-    datasets.raw && datasets.columns
-      ? transformDataset(datasets.raw, modelConfiguration, datasets.columns)
+    dataset && columns
+      ? transformDataset(dataset, modelConfiguration, columns)
       : undefined;
 
   return (
@@ -23,8 +30,8 @@ export default function Visualization() {
         <Prediction
           finalDataset={finalDataset}
           modelConfiguration={modelConfiguration}
-          prediction={datasets.prediction}
-          status={datasets.status}
+          prediction={prediction}
+          status={status}
         />
       )}
     </Layout>
