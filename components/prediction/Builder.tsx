@@ -4,6 +4,7 @@ import {
   CAccordionHeader,
   CAccordionItem,
   CFormInput,
+  CFormSelect,
 } from "@coreui/react";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
 import { editModelConfig } from "../../src/store/models";
@@ -75,7 +76,48 @@ const PredictionBuilder = () => {
 
       <CAccordionItem itemKey={50}>
         <CAccordionHeader>Holidays</CAccordionHeader>
-        <CAccordionBody>{/* TODO */}</CAccordionBody>
+        <CAccordionBody>
+          Which country specific holidays should be considered?
+          {modelConfiguration?.holidays?.map((holiday: string) => (
+            <div
+              key={holiday}
+              onClick={() =>
+                dispatch(
+                  editModelConfig({
+                    holidays: (modelConfiguration?.holidays || []).filter(
+                      (item: string) => item !== holiday
+                    ),
+                  })
+                )
+              }
+            >
+              {holiday}
+            </div>
+          ))}
+          <CFormSelect
+            onChange={async (evt) => {
+              const value = evt.target.value;
+              if (value !== "Add country holidays") {
+                if (!modelConfiguration?.holidays?.includes(value)) {
+                  await dispatch(
+                    editModelConfig({
+                      holidays: [
+                        value,
+                        ...(modelConfiguration?.holidays || []),
+                      ],
+                    })
+                  );
+                }
+                evt.target.value = "Add country holidays";
+              }
+            }}
+          >
+            <option>Add country holidays</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </CFormSelect>
+        </CAccordionBody>
       </CAccordionItem>
 
       <CAccordionItem itemKey={55}>
