@@ -37,7 +37,7 @@ export const modelSlice = createSlice({
         regularization: undefined,
       },
     ],
-    countryHolidays: [],
+    holidays: [],
     futureRegressors: {},
     laggedRegressors: [],
   } as ModelState,

@@ -3,9 +3,12 @@ import {
   CAccordionBody,
   CAccordionHeader,
   CAccordionItem,
+  CBadge,
   CFormInput,
   CFormSelect,
 } from "@coreui/react";
+import { capitalize } from "../../src/helpers";
+import { countryHolidays } from "../../src/holidays";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
 import { editModelConfig } from "../../src/store/models";
 import { selectModelConfiguration } from "../../src/store/selectors";
@@ -78,22 +81,26 @@ const PredictionBuilder = () => {
         <CAccordionHeader>Holidays</CAccordionHeader>
         <CAccordionBody>
           Which country specific holidays should be considered?
-          {modelConfiguration?.holidays?.map((holiday: string) => (
-            <div
-              key={holiday}
-              onClick={() =>
-                dispatch(
-                  editModelConfig({
-                    holidays: (modelConfiguration?.holidays || []).filter(
-                      (item: string) => item !== holiday
-                    ),
-                  })
-                )
-              }
-            >
-              {holiday}
-            </div>
-          ))}
+          <div>
+            {modelConfiguration?.holidays?.map((code: string) => (
+              <CBadge
+                key={code}
+                color="secondary"
+                className="m-1"
+                onClick={() =>
+                  dispatch(
+                    editModelConfig({
+                      holidays: (modelConfiguration?.holidays || []).filter(
+                        (item: string) => item !== code
+                      ),
+                    })
+                  )
+                }
+              >
+                {countryHolidays[code]}
+              </CBadge>
+            ))}
+          </div>
           <CFormSelect
             onChange={async (evt) => {
               const value = evt.target.value;
@@ -113,9 +120,11 @@ const PredictionBuilder = () => {
             }}
           >
             <option>Add country holidays</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            {Object.entries(countryHolidays).map(([code, country]) => (
+              <option key={code} value={code}>
+                {country}
+              </option>
+            ))}
           </CFormSelect>
         </CAccordionBody>
       </CAccordionItem>

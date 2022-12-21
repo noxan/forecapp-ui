@@ -44,15 +44,15 @@ export default function ModelConfig() {
                 <CCardTitle>Country holidays</CCardTitle>
                 <CCardText>
                   <CFormSelect
-                    key={modelConfig.countryHolidays}
+                    key={modelConfig.holidays}
                     label="Country holidays"
-                    defaultValue={modelConfig.countryHolidays?.[0]}
+                    defaultValue={modelConfig.holidays?.[0]}
                     onChange={(e) => {
                       const newValue =
                         SELECT_STATE_NONE !== e.target.value
                           ? [e.target.value]
                           : [];
-                      dispatch(editModelConfig({ countryHolidays: newValue }));
+                      dispatch(editModelConfig({ holidays: newValue }));
                     }}
                     options={[
                       { value: SELECT_STATE_NONE, label: "None" },
