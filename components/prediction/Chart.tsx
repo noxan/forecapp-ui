@@ -9,6 +9,17 @@ const PlotlyChart = dynamic(() => import("react-plotly.js"), {
 
 // const x = dataset.map((item: any) => item[timeColumn]);
 
+const columnRenameMap = {
+  y: "Actual",
+  yhat1: "Prediction",
+  season_daily: "Seasonality (Daily)",
+  residual1: "Error (Residual)",
+} as Record<string, string>;
+const renameColumn = (column: string) =>
+  Object.keys(columnRenameMap).includes(column)
+    ? columnRenameMap[column]
+    : column;
+
 const transformPredictionData = (prediction: any[]): Plotly.Data[] => {
   // TODO: Filter non relevant prediction return columns
   const columnHeaders = Object.keys(prediction[0]).splice(1);
@@ -22,8 +33,7 @@ const transformPredictionData = (prediction: any[]): Plotly.Data[] => {
     // TODO: Add meaningful time values for x-axis
     // x,
     y: prediction.map((item: any) => item[columnHeader]),
-    // TODO: Rename columns
-    name: capitalize(columnHeader),
+    name: capitalize(renameColumn(columnHeader)),
     visible: ["y", "yhat1"].includes(columnHeader.toLowerCase())
       ? true
       : "legendonly",
