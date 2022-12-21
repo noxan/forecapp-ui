@@ -48,14 +48,21 @@ export default function WizardTimeColumnPage() {
         </CRow>
         <CRow className="my-2">
           <CCol>
-            <CButton
-              color="primary"
-              component={Link}
-              disabled={!isValid}
-              href="/prediction"
-            >
-              Confirm
-            </CButton>
+            <Link href={!isValid ? {} : "/prediction"}>
+              <CButton color="primary" disabled={!isValid}>
+                Confirm
+              </CButton>
+            </Link>
+            <Link href={!isValid ? {} : "/wizard/pick-time"}>
+              <CButton
+                color="primary"
+                variant="ghost"
+                disabled={!isValid}
+                className="mx-2"
+              >
+                Back
+              </CButton>
+            </Link>
           </CCol>
         </CRow>
       </CContainer>
