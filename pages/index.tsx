@@ -5,6 +5,7 @@ import DatasetCard from "../components/DatasetCard";
 import { importDatasetWithAutodetect } from "../src/store/datasets";
 import { selectDataset } from "../src/store/selectors";
 import { useRouter } from "next/router";
+import LinkButton from "../components/LinkButton";
 
 const datasetBaseUrl = "/datasets/";
 const datasetExamples = [
@@ -50,9 +51,9 @@ export default function Home() {
         {isDatasetLoaded && (
           <CRow className="my-5">
             <CCol>
-              <CButton color="primary" href="/wizard/pick-time">
+              <LinkButton color="primary" href="/wizard/pick-time">
                 Continue with previous dataset
-              </CButton>
+              </LinkButton>
             </CCol>
           </CRow>
         )}
