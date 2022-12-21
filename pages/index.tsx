@@ -1,6 +1,5 @@
 import { CCol, CContainer, CFormInput, CRow } from "@coreui/react";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
-import Welcome from "../components/Welcome";
 import DatasetCard from "../components/DatasetCard";
 import { importDatasetWithAutodetect } from "../src/store/datasets";
 import {
@@ -58,8 +57,13 @@ export default function Home() {
 
   return (
     <main>
-      <Welcome />
       <CContainer>
+        <CRow className="my-5">
+          <CCol>
+            <h1>Forecapp</h1>
+            <h4>The easy time-series forecasting app.</h4>
+          </CCol>
+        </CRow>
         {isDatasetLoaded && (
           <CRow className="my-5">
             <CCol>
