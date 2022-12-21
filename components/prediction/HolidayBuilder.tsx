@@ -4,22 +4,24 @@ import { countryHolidays } from "../../src/holidays";
 const HolidayBuilder = ({ modelConfiguration, updateConfig }: any) => (
   <>
     <div>
-      {modelConfiguration?.holidays?.map((code: string) => (
-        <CBadge
-          key={code}
-          color="secondary"
-          style={{ marginRight: "0.25rem" }}
-          onClick={() =>
-            updateConfig({
-              holidays: (modelConfiguration?.holidays || []).filter(
-                (item: string) => item !== code
-              ),
-            })
-          }
-        >
-          {countryHolidays[code]}
-        </CBadge>
-      ))}
+      {modelConfiguration?.holidays?.map(
+        (code: keyof typeof countryHolidays) => (
+          <CBadge
+            key={code}
+            color="secondary"
+            style={{ marginRight: "0.25rem" }}
+            onClick={() =>
+              updateConfig({
+                holidays: (modelConfiguration?.holidays || []).filter(
+                  (item: string) => item !== code
+                ),
+              })
+            }
+          >
+            {countryHolidays[code]}
+          </CBadge>
+        )
+      )}
     </div>
     <CFormSelect
       className="mt-2"
