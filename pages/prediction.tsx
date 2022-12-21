@@ -22,6 +22,23 @@ const PlotlyChart = dynamic(() => import("react-plotly.js"), {
   loading: () => <>Loading chart...</>,
 });
 
+export const transformPredictionData = (prediction: any[]): Plotly.Data[] => {
+  const columnHeaders = Object.keys(prediction[0]).splice(1);
+  // TODO: Filter non relevant prediction return columns
+  return columnHeaders.map((columnHeader) => ({
+    type: "scattergl",
+    mode: "lines",
+    // TODO: Add meaningful time values for x-axis
+    // x,
+    y: prediction.map((item: any) => item[columnHeader]),
+    // TODO: Rename columns
+    name: capitalize(columnHeader),
+    visible: ["y", "yhat1"].includes(columnHeader.toLowerCase())
+      ? true
+      : "legendonly",
+  }));
+};
+
 export default function Visualization() {
   const dispatch = useAppDispatch();
   const dataset = useAppSelector(selectDataset);
@@ -45,20 +62,6 @@ export default function Visualization() {
   const columnHeaders = Object.keys(dataset[0]).filter(
     (item: any) => item !== timeColumn
   );
-  const data = columnHeaders
-    .filter((item) => item === targetColumn)
-    .map((columnHeader) => ({
-      type: "scattergl",
-      mode: "lines",
-      x,
-      y: dataset.map((item: any) => item[columnHeader]),
-      name: capitalize(columnHeader),
-      visible: columnHeader === targetColumn ? true : "legendonly",
-    })) as Plotly.Data[];
-
-  // TODO: Map prediction data to chart
-  // const data = prediction.map((column: string) => ({
-  // }));
 
   return (
     <>
@@ -84,7 +87,7 @@ export default function Visualization() {
             <h1>Forecast</h1>
             <PlotlyChart
               useResizeHandler
-              data={data}
+              data={transformPredictionData(predictionData.forecast)}
               layout={{
                 hovermode: "x",
                 showlegend: true,
