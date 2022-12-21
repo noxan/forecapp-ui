@@ -5,10 +5,15 @@ import PrimaryColumnConfig from "../../components/PrimaryColumnConfig";
 import { isColumnValid } from "../../src/definitions";
 import { useAppSelector } from "../../src/hooks";
 import { setTargetColumn } from "../../src/store/datasets";
-import { selectDataset, selectTargetColumn } from "../../src/store/selectors";
+import {
+  selectDataset,
+  selectTargetColumn,
+  selectTimeColumn,
+} from "../../src/store/selectors";
 
 export default function WizardTimeColumnPage() {
   const targetColumn = useAppSelector(selectTargetColumn);
+  const timeColumn = useAppSelector(selectTimeColumn);
   const dataset = useAppSelector(selectDataset);
 
   const isValid = isColumnValid(targetColumn);
@@ -17,7 +22,9 @@ export default function WizardTimeColumnPage() {
     return <MissingDatasetPlaceholder />;
   }
 
-  const columns = Object.keys(dataset[0]);
+  const columns = Object.keys(dataset[0]).filter(
+    (column) => column !== timeColumn
+  );
 
   return (
     <main>
