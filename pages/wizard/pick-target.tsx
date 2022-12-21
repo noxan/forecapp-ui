@@ -43,7 +43,7 @@ export default function WizardTimeColumnPage() {
           <CCol>
             <PrimaryColumnConfig
               columns={columns}
-              label="time"
+              label="prediction"
               defaultValue={targetColumn}
               setAction={setTargetColumn}
             />
