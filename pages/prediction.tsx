@@ -10,44 +10,16 @@ import {
 } from "../src/store/selectors";
 import { validateColumnDefinitions } from "../src/definitions";
 import MissingColumnPlaceholder from "../components/MissingColumnPlaceholder";
-import {
-  CAccordion,
-  CAccordionBody,
-  CAccordionHeader,
-  CAccordionItem,
-  CButton,
-  CCard,
-  CCardBody,
-  CCardText,
-  CCardTitle,
-  CCol,
-  CContainer,
-  CHeader,
-  CHeaderBrand,
-  CHeaderNav,
-  CNavItem,
-  CNavLink,
-  CRow,
-} from "@coreui/react";
-import { vars } from "../components/Navigation";
+import { CCol, CContainer, CRow } from "@coreui/react";
 import dynamic from "next/dynamic";
+import PredictionNavigation from "../components/prediction/Navigation";
+import PredictionWizardCard from "../components/prediction/WizardCard";
+import PredictionBuilder from "../components/prediction/Builder";
 
 const PlotlyChart = dynamic(() => import("react-plotly.js"), {
   ssr: false,
   loading: () => <>Loading chart...</>,
 });
-
-const placeholderText = (
-  <>
-    <strong>This is the first item&apos;s accordion body.</strong> It is hidden
-    by default, until the collapse plugin adds the appropriate classes that we
-    use to style each element. These classes control the overall appearance, as
-    well as the showing and hiding via CSS transitions. You can modify any of
-    this with custom CSS or overriding our default variables. It&apos;s also
-    worth noting that just about any HTML can go within the{" "}
-    <code>.accordion-body</code>, though the transition does limit overflow.
-  </>
-);
 
 export default function Visualization() {
   const dataset = useAppSelector(selectDataset);
@@ -92,56 +64,12 @@ export default function Visualization() {
 
   return (
     <>
-      <CHeader position="sticky" className="mb-4" style={vars}>
-        <CContainer fluid>
-          <CHeaderBrand className="mx-auto d-md-none">Header</CHeaderBrand>
-          <CHeaderNav className="d-none d-md-flex me-auto">
-            <CNavItem>
-              <CNavLink>Explore dataset</CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink>Adjust parameters</CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink>Change forecast horizon</CNavLink>
-            </CNavItem>
-          </CHeaderNav>
-          <CHeaderNav>
-            <CNavItem>
-              <CNavLink>Scores</CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink>History</CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink>Export</CNavLink>
-            </CNavItem>
-          </CHeaderNav>
-        </CContainer>
-      </CHeader>
+      <PredictionNavigation />
       <CContainer fluid>
         <CRow>
           <CCol sm={3}>
-            <CCard className="mb-2">
-              <CCardBody>
-                <CCardTitle>Card title</CCardTitle>
-                <CCardText>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card&apos;s content.
-                </CCardText>
-                <CButton href="#">Go somewhere</CButton>
-              </CCardBody>
-            </CCard>
-            <CAccordion activeItemKey={1}>
-              {new Array(10).fill(0).map((_, index) => (
-                <CAccordionItem key={index} itemKey={index + 1}>
-                  <CAccordionHeader>
-                    Accordion Item #{index + 1}
-                  </CAccordionHeader>
-                  <CAccordionBody>{placeholderText}</CAccordionBody>
-                </CAccordionItem>
-              ))}
-            </CAccordion>
+            <PredictionWizardCard className="mb-2" />
+            <PredictionBuilder />
           </CCol>
           <CCol>
             <h1>Forecast</h1>
