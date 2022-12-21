@@ -3,7 +3,11 @@ import {
   CAccordionBody,
   CAccordionHeader,
   CAccordionItem,
+  CFormInput,
 } from "@coreui/react";
+import { useAppDispatch, useAppSelector } from "../../src/hooks";
+import { editModelConfig } from "../../src/store/models";
+import { selectModelConfiguration } from "../../src/store/selectors";
 
 const placeholderText = (
   <>
@@ -17,25 +21,53 @@ const placeholderText = (
   </>
 );
 
-const PredictionBuilder = () => (
-  <CAccordion activeItemKey={1}>
-    <CAccordionItem itemKey={1}>
-      <CAccordionHeader>Forecast</CAccordionHeader>
-      <CAccordionBody>
-        How far should the model predict into the future?
-      </CAccordionBody>
-    </CAccordionItem>
+const PredictionBuilder = () => {
+  const modelConfiguration = useAppSelector(selectModelConfiguration);
+  const dispatch = useAppDispatch();
 
-    {new Array(9)
-      .fill(0)
-      .map((_, index) => index + 2)
-      .map((index) => (
-        <CAccordionItem key={index} itemKey={index}>
-          <CAccordionHeader>Accordion Item #{index}</CAccordionHeader>
-          <CAccordionBody>{placeholderText}</CAccordionBody>
-        </CAccordionItem>
-      ))}
-  </CAccordion>
-);
+  return (
+    <CAccordion activeItemKey={1}>
+      <CAccordionItem itemKey={1}>
+        <CAccordionHeader>Forecast</CAccordionHeader>
+        <CAccordionBody>
+          How far should the model predict into the future?
+          <CFormInput
+            type="number"
+            defaultValue={modelConfiguration.forecasts}
+            placeholder="Number of values to forecast..."
+            onChange={(e) =>
+              dispatch(editModelConfig({ forecasts: e.target.value }))
+            }
+          />
+        </CAccordionBody>
+      </CAccordionItem>
+      <CAccordionItem itemKey={2}>
+        <CAccordionHeader>Training</CAccordionHeader>
+        <CAccordionBody>
+          How many epochs to train?
+          <CFormInput
+            type="number"
+            defaultValue={modelConfiguration.training.epochs}
+            onChange={(e) =>
+              dispatch(
+                editModelConfig({ training: { epochs: e.target.value } })
+              )
+            }
+          />
+        </CAccordionBody>
+      </CAccordionItem>
+
+      {new Array(9)
+        .fill(0)
+        .map((_, index) => index + 3)
+        .map((index) => (
+          <CAccordionItem key={index} itemKey={index}>
+            <CAccordionHeader>Accordion Item #{index}</CAccordionHeader>
+            <CAccordionBody>{placeholderText}</CAccordionBody>
+          </CAccordionItem>
+        ))}
+    </CAccordion>
+  );
+};
 
 export default PredictionBuilder;

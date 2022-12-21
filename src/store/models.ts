@@ -7,6 +7,7 @@ export type ModelState = {
 export const modelSlice = createSlice({
   name: "models",
   initialState: {
+    forecasts: undefined,
     growth: "linear",
     seasonality: {
       mode: "additive",
