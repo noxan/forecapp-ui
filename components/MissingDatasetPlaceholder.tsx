@@ -1,17 +1,14 @@
 import { CCol, CContainer, CRow } from "@coreui/react";
-import Link from "next/link";
-import Layout from "./Layout";
+import LinkButton from "./LinkButton";
 
 const MissingDatasetPlaceholder = () => (
-  <Layout>
-    <CContainer>
-      <CRow>
-        <CCol>
-          <Link href="/">Import dataset first</Link>
-        </CCol>
-      </CRow>
-    </CContainer>
-  </Layout>
+  <CContainer>
+    <CRow className="my-5">
+      <CCol>
+        <LinkButton href="/">Start with import dataset</LinkButton>
+      </CCol>
+    </CRow>
+  </CContainer>
 );
 
 export default MissingDatasetPlaceholder;

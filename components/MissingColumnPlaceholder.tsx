@@ -1,15 +1,16 @@
-import { CBadge } from "@coreui/react";
-import Link from "next/link";
+import { CCol, CContainer, CRow } from "@coreui/react";
+import LinkButton from "./LinkButton";
 
 export default function MissingColumnPlaceholder() {
   return (
-    <>
-      <CBadge color="danger">
-        You have to select time and target columns first
-      </CBadge>
-      <div>
-        <Link href="/dataset">Go to dataset</Link>
-      </div>
-    </>
+    <CContainer>
+      <CRow className="my-5">
+        <CCol>
+          <LinkButton href="/wizard/pick-time">
+            Start with time and prediction column selection
+          </LinkButton>
+        </CCol>
+      </CRow>
+    </CContainer>
   );
 }

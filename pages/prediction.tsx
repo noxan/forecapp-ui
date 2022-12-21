@@ -7,16 +7,26 @@ import {
   selectDataset,
   selectModelConfiguration,
   selectStatus,
+  selectTargetColumn,
+  selectTimeColumn,
 } from "../src/store/selectors";
+import { isColumnValid } from "../src/definitions";
+import MissingColumnPlaceholder from "../components/MissingColumnPlaceholder";
 
 export default function Visualization() {
   const dataset = useAppSelector(selectDataset);
   const status = useAppSelector(selectStatus);
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const { columns, prediction } = useAppSelector((state) => state.datasets);
+  const timeColumn = useAppSelector(selectTimeColumn);
+  const targetColumn = useAppSelector(selectTargetColumn);
 
   if (!dataset) {
     return <MissingDatasetPlaceholder />;
+  }
+
+  if (!isColumnValid(timeColumn) || !isColumnValid(targetColumn)) {
+    return <MissingColumnPlaceholder />;
   }
 
   const finalDataset =
