@@ -10,30 +10,7 @@ import {
 import { useRouter } from "next/router";
 import LinkButton from "../components/LinkButton";
 import { validateColumnDefinitions } from "../src/definitions";
-
-const datasetBaseUrl = "/datasets/";
-const datasetExamples = [
-  {
-    title: "Energy (full)",
-    filename: "energy_dataset.csv",
-    image: "photo-1473341304170-971dccb5ac1e",
-  },
-  {
-    title: "Online retail (5k)",
-    filename: "online_retail_II_5k.csv",
-    image: "photo-1563013544-824ae1b704d3",
-  },
-  {
-    title: "Air passengers",
-    filename: "air_passengers.csv",
-    image: "photo-1569629743817-70d8db6c323b",
-  },
-  {
-    title: "Energy (small)",
-    filename: "energy_dataset_small.csv",
-    image: "photo-1473341304170-971dccb5ac1e",
-  },
-];
+import datasetExamples from "../src/datasets";
 
 export default function Home() {
   const router = useRouter();
@@ -83,7 +60,7 @@ export default function Home() {
             <DatasetCard
               key={dataset.filename}
               dataset={dataset}
-              importAction={(source) => importAction(datasetBaseUrl + source)}
+              importAction={() => importAction(dataset.fullUrl)}
               disabled={status === "loading"}
             />
           ))}
