@@ -16,6 +16,7 @@ import PredictionWizardCard from "../components/prediction/WizardCard";
 import PredictionBuilder from "../components/prediction/Builder";
 import { apiPrediction } from "../src/store/datasets";
 import PredictionChart from "../components/prediction/Chart";
+import LoadingOverlay from "../components/prediction/LoadingSpinner";
 
 export default function Visualization() {
   const dispatch = useAppDispatch();
@@ -56,6 +57,7 @@ export default function Visualization() {
           </CCol>
           <CCol>
             <h1>Forecast</h1>
+            {status === "loading" && <LoadingOverlay />}
             <PredictionChart predictionData={predictionData} />
           </CCol>
         </CRow>
