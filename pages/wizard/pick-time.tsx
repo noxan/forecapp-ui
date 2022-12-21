@@ -1,5 +1,5 @@
-import { CButton, CCol, CContainer, CRow } from "@coreui/react";
-import Link from "next/link";
+import { CCol, CContainer, CRow } from "@coreui/react";
+import LinkButton from "../../components/LinkButton";
 import MissingDatasetPlaceholder from "../../components/MissingDatasetPlaceholder";
 import PrimaryColumnConfig from "../../components/PrimaryColumnConfig";
 import { isColumnValid } from "../../src/definitions";
@@ -46,21 +46,22 @@ export default function WizardTimeColumnPage() {
         </CRow>
         <CRow className="my-2">
           <CCol>
-            <Link href={!isValid ? {} : "/wizard/pick-target"}>
-              <CButton color="primary" disabled={!isValid}>
-                Confirm
-              </CButton>
-            </Link>
-            <Link href={!isValid ? {} : "/"}>
-              <CButton
-                color="primary"
-                variant="ghost"
-                disabled={!isValid}
-                className="mx-2"
-              >
-                Back
-              </CButton>
-            </Link>
+            <LinkButton
+              color="primary"
+              disabled={!isValid}
+              href="/wizard/pick-target"
+            >
+              Confirm
+            </LinkButton>
+
+            <LinkButton
+              color="primary"
+              variant="ghost"
+              href="/"
+              className="mx-2"
+            >
+              Back
+            </LinkButton>
           </CCol>
         </CRow>
       </CContainer>
