@@ -28,21 +28,16 @@ export default function Visualization() {
     return <MissingColumnPlaceholder />;
   }
 
-  const finalDataset =
-    dataset && columns
-      ? transformDataset(dataset, modelConfiguration, columns)
-      : undefined;
+  const finalDataset = transformDataset(dataset, modelConfiguration, columns);
 
   return (
     <Layout>
-      {finalDataset && (
-        <Prediction
-          finalDataset={finalDataset}
-          modelConfiguration={modelConfiguration}
-          prediction={prediction}
-          status={status}
-        />
-      )}
+      <Prediction
+        finalDataset={finalDataset}
+        modelConfiguration={modelConfiguration}
+        prediction={prediction}
+        status={status}
+      />
     </Layout>
   );
 }
