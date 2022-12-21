@@ -25,7 +25,7 @@ export default function Home() {
     timeColumn,
     targetColumn
   );
-  const resumeHref = isColumnDefinitions ? "/prediction" : "/wizard/pick-model";
+  const resumeHref = isColumnDefinitions ? "/prediction" : "/wizard/pick-time";
 
   const importAction = async (source: any) => {
     await dispatch(importDatasetWithAutodetect({ source }));
