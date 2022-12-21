@@ -9,12 +9,18 @@ import {
   CNavLink,
 } from "@coreui/react";
 
-const vars: any = {
+export const vars: any = {
   "--cui-header-min-height": "3rem",
   "--cui-header-padding-y": "0.25rem",
 };
 
-const NavigationItem = ({ href, label }: { href: string; label: string }) => {
+export const NavigationItem = ({
+  href,
+  label,
+}: {
+  href: string;
+  label: string;
+}) => {
   const router = useRouter();
   const currentRoute = router.pathname;
   const active = currentRoute === href;
