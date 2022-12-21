@@ -1,17 +1,17 @@
-export const colors = [
-  "#95a5a6",
+export const colors2 = [
+  "#1abc9c",
   "#2ecc71",
-  "#ecf0f1",
   "#3498db",
   "#9b59b6",
   "#34495e",
   "#f1c40f",
   "#e67e22",
-  "#1abc9c",
   "#e74c3c",
+  "#ecf0f1",
+  "#95a5a6",
 ];
 
-export const colors2 = [
+export const colors = [
   "#16a085",
   "#27ae60",
   "#2980b9",
@@ -22,4 +22,4 @@ export const colors2 = [
   "#c0392b",
   "#bdc3c7",
   "#7f8c8d",
-];
+].reverse();

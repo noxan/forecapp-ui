@@ -1,5 +1,5 @@
-import iwanthue from "iwanthue";
 import dynamic from "next/dynamic";
+import { colors } from "../../src/colors";
 import { capitalize } from "../../src/helpers";
 
 const PlotlyChart = dynamic(() => import("react-plotly.js"), {
@@ -8,11 +8,11 @@ const PlotlyChart = dynamic(() => import("react-plotly.js"), {
 });
 
 // const x = dataset.map((item: any) => item[timeColumn]);
-const colors = iwanthue(20);
 
 const transformPredictionData = (prediction: any[]): Plotly.Data[] => {
-  const columnHeaders = Object.keys(prediction[0]).splice(1);
   // TODO: Filter non relevant prediction return columns
+  const columnHeaders = Object.keys(prediction[0]).splice(1);
+
   return columnHeaders.map((columnHeader, index) => ({
     type: "scattergl",
     mode: "lines",
@@ -38,6 +38,7 @@ const PredictionChart = ({ predictionData }: { predictionData: any }) => (
       hovermode: "x",
       showlegend: true,
       legend: { orientation: "h" },
+      margin: { t: 20, b: 20, l: 20, r: 20, pad: 0 },
     }}
     config={{
       responsive: true,
