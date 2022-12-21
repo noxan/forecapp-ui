@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../src/hooks";
-import { capitalize, transformDataset } from "../src/helpers";
+import { transformDataset } from "../src/helpers";
 import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
 import {
   selectDataset,
@@ -11,38 +11,11 @@ import {
 import { validateColumnDefinitions } from "../src/definitions";
 import MissingColumnPlaceholder from "../components/MissingColumnPlaceholder";
 import { CCol, CContainer, CRow } from "@coreui/react";
-import dynamic from "next/dynamic";
 import PredictionNavigation from "../components/prediction/Navigation";
 import PredictionWizardCard from "../components/prediction/WizardCard";
 import PredictionBuilder from "../components/prediction/Builder";
 import { apiPrediction } from "../src/store/datasets";
-import iwanthue from "iwanthue";
-
-const PlotlyChart = dynamic(() => import("react-plotly.js"), {
-  ssr: false,
-  loading: () => <>Loading chart...</>,
-});
-
-export const transformPredictionData = (prediction: any[]): Plotly.Data[] => {
-  const columnHeaders = Object.keys(prediction[0]).splice(1);
-  const colors = iwanthue(columnHeaders.length);
-  // TODO: Filter non relevant prediction return columns
-  return columnHeaders.map((columnHeader, index) => ({
-    type: "scattergl",
-    mode: "lines",
-    marker: {
-      color: colors[index],
-    },
-    // TODO: Add meaningful time values for x-axis
-    // x,
-    y: prediction.map((item: any) => item[columnHeader]),
-    // TODO: Rename columns
-    name: capitalize(columnHeader),
-    visible: ["y", "yhat1"].includes(columnHeader.toLowerCase())
-      ? true
-      : "legendonly",
-  }));
-};
+import PredictionChart from "../components/prediction/Chart";
 
 export default function Visualization() {
   const dispatch = useAppDispatch();
@@ -62,11 +35,6 @@ export default function Visualization() {
   }
 
   const finalDataset = transformDataset(dataset, modelConfiguration, columns);
-
-  const x = dataset.map((item: any) => item[timeColumn]);
-  const columnHeaders = Object.keys(dataset[0]).filter(
-    (item: any) => item !== timeColumn
-  );
 
   return (
     <>
@@ -90,19 +58,7 @@ export default function Visualization() {
           </CCol>
           <CCol>
             <h1>Forecast</h1>
-            <PlotlyChart
-              useResizeHandler
-              data={transformPredictionData(predictionData.forecast)}
-              layout={{
-                hovermode: "x",
-                showlegend: true,
-                legend: { orientation: "h" },
-              }}
-              config={{
-                responsive: true,
-              }}
-              style={{ width: "100%", minHeight: "85vh" }}
-            />
+            <PredictionChart predictionData={predictionData} />
           </CCol>
         </CRow>
       </CContainer>
