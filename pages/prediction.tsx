@@ -16,6 +16,7 @@ import PredictionNavigation from "../components/prediction/Navigation";
 import PredictionWizardCard from "../components/prediction/WizardCard";
 import PredictionBuilder from "../components/prediction/Builder";
 import { apiPrediction } from "../src/store/datasets";
+import iwanthue from "iwanthue";
 
 const PlotlyChart = dynamic(() => import("react-plotly.js"), {
   ssr: false,
@@ -24,10 +25,14 @@ const PlotlyChart = dynamic(() => import("react-plotly.js"), {
 
 export const transformPredictionData = (prediction: any[]): Plotly.Data[] => {
   const columnHeaders = Object.keys(prediction[0]).splice(1);
+  const colors = iwanthue(columnHeaders.length);
   // TODO: Filter non relevant prediction return columns
-  return columnHeaders.map((columnHeader) => ({
+  return columnHeaders.map((columnHeader, index) => ({
     type: "scattergl",
     mode: "lines",
+    marker: {
+      color: colors[index],
+    },
     // TODO: Add meaningful time values for x-axis
     // x,
     y: prediction.map((item: any) => item[columnHeader]),
