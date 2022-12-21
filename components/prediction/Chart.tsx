@@ -2,10 +2,17 @@ import dynamic from "next/dynamic";
 import { colors } from "../../src/colors";
 import { capitalize } from "../../src/helpers";
 
-const PlotlyChart = dynamic(() => import("react-plotly.js"), {
-  ssr: false,
-  loading: () => <>Loading chart...</>,
-});
+const PlotlyChart = dynamic(
+  async () => {
+    const createPlotComponent = await import("react-plotly.js/factory");
+    const Plotly = require("plotly.js-gl2d-dist");
+    return createPlotComponent.default(Plotly);
+  },
+  {
+    ssr: false,
+    loading: () => <>Loading chart...</>,
+  }
+);
 
 // const x = dataset.map((item: any) => item[timeColumn]);
 
