@@ -58,7 +58,11 @@ export default function WizardTimeColumnPage() {
         </CRow>
         <CRow className="my-2">
           <CCol>
-            <LinkButton color="primary" disabled={!isValid} href="/prediction">
+            <LinkButton
+              color="primary"
+              disabled={!isValid}
+              href="/prediction?first-run"
+            >
               Confirm
             </LinkButton>
             <LinkButton

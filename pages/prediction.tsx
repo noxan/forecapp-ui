@@ -18,8 +18,10 @@ import { apiPrediction } from "../src/store/datasets";
 import PredictionChart from "../components/prediction/Chart";
 import LoadingOverlay from "../components/prediction/LoadingOverlay";
 import MissingForecastPlaceholder from "../components/MissingForecastPlaceholder";
+import { useRouter } from "next/router";
 
 export default function Visualization() {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const dataset = useAppSelector(selectDataset);
   const status = useAppSelector(selectStatus);
@@ -29,13 +31,27 @@ export default function Visualization() {
   const targetColumn = useAppSelector(selectTargetColumn);
   const predictionData = useAppSelector((state) => state.datasets.prediction);
 
+  const predictAction = () =>
+    dispatch(
+      apiPrediction({
+        dataset: transformDataset(dataset, modelConfiguration, columns),
+        configuration: modelConfiguration,
+      })
+    );
+
+  const isFirstRun = Object.keys(router.query).includes("first-run");
+  if (isFirstRun) {
+    router.replace({ query: {} });
+    predictAction();
+  }
+
   if (!dataset) {
     return <MissingDatasetPlaceholder />;
   }
   if (!validateColumnDefinitions(timeColumn, targetColumn)) {
     return <MissingColumnPlaceholder />;
   }
-  if (!predictionData) {
+  if (!predictionData || isFirstRun) {
     return <MissingForecastPlaceholder />;
   }
 
@@ -44,14 +60,7 @@ export default function Visualization() {
       <PredictionNavigation
         metrics={predictionData?.metrics}
         status={status}
-        apiPredictionAction={() =>
-          dispatch(
-            apiPrediction({
-              dataset: transformDataset(dataset, modelConfiguration, columns),
-              configuration: modelConfiguration,
-            })
-          )
-        }
+        apiPredictionAction={predictAction}
       />
       <CContainer fluid>
         <CRow>
