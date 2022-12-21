@@ -102,6 +102,9 @@ export default function Visualization() {
             <CNavItem>
               <CNavLink>Adjust parameters</CNavLink>
             </CNavItem>
+            <CNavItem>
+              <CNavLink>Change forecast horizon</CNavLink>
+            </CNavItem>
           </CHeaderNav>
           <CHeaderNav>
             <CNavItem>
