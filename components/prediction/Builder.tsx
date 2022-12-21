@@ -3,15 +3,12 @@ import {
   CAccordionBody,
   CAccordionHeader,
   CAccordionItem,
-  CBadge,
   CFormInput,
-  CFormSelect,
 } from "@coreui/react";
-import { capitalize } from "../../src/helpers";
-import { countryHolidays } from "../../src/holidays";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
 import { editModelConfig } from "../../src/store/models";
 import { selectModelConfiguration } from "../../src/store/selectors";
+import HolidayBuilder from "./HolidayBuilder";
 
 const PredictionBuilder = () => {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
@@ -81,51 +78,10 @@ const PredictionBuilder = () => {
         <CAccordionHeader>Holidays</CAccordionHeader>
         <CAccordionBody>
           Which country specific holidays should be considered?
-          <div>
-            {modelConfiguration?.holidays?.map((code: string) => (
-              <CBadge
-                key={code}
-                color="secondary"
-                className="m-1"
-                onClick={() =>
-                  dispatch(
-                    editModelConfig({
-                      holidays: (modelConfiguration?.holidays || []).filter(
-                        (item: string) => item !== code
-                      ),
-                    })
-                  )
-                }
-              >
-                {countryHolidays[code]}
-              </CBadge>
-            ))}
-          </div>
-          <CFormSelect
-            onChange={async (evt) => {
-              const value = evt.target.value;
-              if (value !== "Add country holidays") {
-                if (!modelConfiguration?.holidays?.includes(value)) {
-                  await dispatch(
-                    editModelConfig({
-                      holidays: [
-                        value,
-                        ...(modelConfiguration?.holidays || []),
-                      ],
-                    })
-                  );
-                }
-                evt.target.value = "Add country holidays";
-              }
-            }}
-          >
-            <option>Add country holidays</option>
-            {Object.entries(countryHolidays).map(([code, country]) => (
-              <option key={code} value={code}>
-                {country}
-              </option>
-            ))}
-          </CFormSelect>
+          <HolidayBuilder
+            modelConfiguration={modelConfiguration}
+            updateConfig={(config: any) => dispatch(editModelConfig(config))}
+          />
         </CAccordionBody>
       </CAccordionItem>
 
