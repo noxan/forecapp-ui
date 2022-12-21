@@ -2,7 +2,6 @@ import { CCol, CContainer, CRow } from "@coreui/react";
 import Layout from "../components/Layout";
 import { useAppSelector } from "../src/hooks";
 import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
-import dynamic from "next/dynamic";
 import {
   selectDataset,
   selectTargetColumn,
@@ -10,11 +9,7 @@ import {
 } from "../src/store/selectors";
 import { validateColumnDefinitions } from "../src/definitions";
 import MissingColumnPlaceholder from "../components/MissingColumnPlaceholder";
-
-const DatasetChart = dynamic(() => import("../components/DatasetChart"), {
-  ssr: false,
-  loading: () => <>Loading...</>,
-});
+import DatasetChart from "../components/DatasetChart";
 
 export default function Visualization() {
   const dataset = useAppSelector(selectDataset);

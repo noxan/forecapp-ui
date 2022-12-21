@@ -1,8 +1,5 @@
-import createPlotComponent from "react-plotly.js/factory";
-
-const Plotly = require("plotly.js-gl2d-dist");
-const Plot = createPlotComponent(Plotly);
 import { capitalize } from "../src/helpers";
+import PlotlyChart from "./Plotly";
 
 export default function DatasetChart({
   dataset,
@@ -24,7 +21,7 @@ export default function DatasetChart({
 
   const y = dataset.map((item: any) => item[targetColumn]);
   return (
-    <Plot
+    <PlotlyChart
       useResizeHandler
       data={data}
       layout={{
