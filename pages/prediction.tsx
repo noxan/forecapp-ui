@@ -1,4 +1,4 @@
-import { useAppSelector } from "../src/hooks";
+import { useAppDispatch, useAppSelector } from "../src/hooks";
 import { capitalize, transformDataset } from "../src/helpers";
 import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
 import {
@@ -15,26 +15,22 @@ import dynamic from "next/dynamic";
 import PredictionNavigation from "../components/prediction/Navigation";
 import PredictionWizardCard from "../components/prediction/WizardCard";
 import PredictionBuilder from "../components/prediction/Builder";
+import { apiPrediction } from "../src/store/datasets";
 
 const PlotlyChart = dynamic(() => import("react-plotly.js"), {
   ssr: false,
   loading: () => <>Loading chart...</>,
 });
 
-type Metrics = {
-  [key: string]: number;
-};
-
 export default function Visualization() {
+  const dispatch = useAppDispatch();
   const dataset = useAppSelector(selectDataset);
   const status = useAppSelector(selectStatus);
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const columns = useAppSelector((state) => state.datasets.columns);
-  const { status: predictionStatus, data: predictionData } = useAppSelector(
-    (state) => state.datasets.prediction
-  );
   const timeColumn = useAppSelector(selectTimeColumn);
   const targetColumn = useAppSelector(selectTargetColumn);
+  const predictionData = useAppSelector((state) => state.datasets.prediction);
 
   if (!dataset) {
     return <MissingDatasetPlaceholder />;
@@ -60,47 +56,24 @@ export default function Visualization() {
       visible: columnHeader === targetColumn ? true : "legendonly",
     })) as Plotly.Data[];
 
-  const metrics = {
-    Loss: {
-      "0": 0.4313843113067464,
-      "1": 0.07083476524045039,
-      "2": 0.04240324271942485,
-    },
-    MAE: {
-      "0": 33.859524793585635,
-      "1": 12.581460394486479,
-      "2": 10.439013243702703,
-    },
-    RMSE: {
-      "0": 42.255662576651865,
-      "1": 15.2941816235766,
-      "2": 12.663606023592223,
-    },
-    RegLoss: {
-      "0": 0.0,
-      "1": 0.0,
-      "2": 0.0,
-    },
-    SmoothL1Loss: {
-      "0": 0.5727956983348961,
-      "1": 0.09276482564926056,
-      "2": 0.06282282909646691,
-    },
-  };
-  const getLatestMetrics = (metrics: any) =>
-    Object.keys(metrics).reduce((obj: Metrics, key: keyof Metrics) => {
-      const metric = Object.values(metrics[key]);
-      obj[key] = metric.slice(-1)[0] as number;
-      return obj;
-    }, {});
-
   // TODO: Map prediction data to chart
   // const data = prediction.map((column: string) => ({
   // }));
 
   return (
     <>
-      <PredictionNavigation metrics={getLatestMetrics(metrics)} />
+      <PredictionNavigation
+        metrics={predictionData?.metrics}
+        status={status}
+        apiPredictionAction={() =>
+          dispatch(
+            apiPrediction({
+              dataset: finalDataset,
+              configuration: modelConfiguration,
+            })
+          )
+        }
+      />
       <CContainer fluid>
         <CRow>
           <CCol sm={3}>

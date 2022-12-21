@@ -1,4 +1,5 @@
 import {
+  CButton,
   CContainer,
   CHeader,
   CHeaderBrand,
@@ -8,14 +9,27 @@ import {
 } from "@coreui/react";
 import { vars } from "../Navigation";
 
-const displayMetrics = (metrics: any) =>
-  Object.keys(metrics).map((key) => (
+type Metrics = {
+  [key: string]: number;
+};
+
+const getLatestMetrics = (metrics: any) =>
+  Object.keys(metrics).reduce((obj: Metrics, key: keyof Metrics) => {
+    const metric = Object.values(metrics[key]);
+    obj[key] = metric.slice(-1)[0] as number;
+    return obj;
+  }, {});
+
+const displayMetrics = (metrics: any) => {
+  const latestMetrics = getLatestMetrics(metrics);
+  return Object.keys(latestMetrics).map((key) => (
     <span key={key} className="mx-1">
-      {key}: {metrics[key].toFixed(2)}
+      {key}: {latestMetrics[key].toFixed(2)}
     </span>
   ));
+};
 
-const PredictioNavigation = ({ metrics }: any) => (
+const PredictioNavigation = ({ metrics, status, apiPredictionAction }: any) => (
   <CHeader position="sticky" className="mb-4" style={vars}>
     <CContainer fluid>
       <CHeaderBrand className="mx-auto d-md-none">Header</CHeaderBrand>
@@ -32,8 +46,19 @@ const PredictioNavigation = ({ metrics }: any) => (
       </CHeaderNav>
       <CHeaderNav>
         <CNavItem>
-          <CNavLink>Metrics: {displayMetrics(metrics)}</CNavLink>
+          <CButton
+            size="sm"
+            onClick={apiPredictionAction}
+            disabled={status === "loading"}
+          >
+            Run
+          </CButton>
         </CNavItem>
+        {metrics && (
+          <CNavItem>
+            <CNavLink>Metrics: {displayMetrics(metrics)}</CNavLink>
+          </CNavItem>
+        )}
         <CNavItem>
           <CNavLink>History</CNavLink>
         </CNavItem>
