@@ -30,9 +30,12 @@ export default function WizardTimeColumnPage() {
         <CRow className="my-2">
           <CCol>
             <p>
-              {`Info: The model needs to know which value you wish to predict, often also called target column and labeled with the character y in many more scientific contexts.`}
+              Info: The model needs to know which value you wish to predict,
+              often also called target column and labeled with the character y
+              in many more scientific contexts.
               <br />
-              {`Depending on your dataset a common pick might be “price”, “demand”, “sales”, “visitors”, “inventory”, ...`}
+              Depending on your dataset a common pick might be “price”,
+              “demand”, “sales”, “visitors”, “inventory”, ...
             </p>
           </CCol>
         </CRow>
