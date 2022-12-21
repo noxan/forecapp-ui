@@ -9,14 +9,24 @@ import { useRouter } from "next/router";
 const datasetBaseUrl = "/datasets/";
 const datasetExamples = [
   {
-    title: "Energy prices",
-    filename: "energy_dataset_small.csv",
+    title: "Energy (full)",
+    filename: "energy_dataset.csv",
     image: "photo-1473341304170-971dccb5ac1e",
+  },
+  {
+    title: "Online retail (5k)",
+    filename: "online_retail_II_5k.csv",
+    image: "photo-1563013544-824ae1b704d3",
   },
   {
     title: "Air passengers",
     filename: "air_passengers.csv",
     image: "photo-1569629743817-70d8db6c323b",
+  },
+  {
+    title: "Energy (small)",
+    filename: "energy_dataset_small.csv",
+    image: "photo-1473341304170-971dccb5ac1e",
   },
 ];
 
@@ -51,7 +61,7 @@ export default function Home() {
             <h5>Select a dataset below to get started</h5>
           </CCol>
         </CRow>
-        <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 3 }}>
+        <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 4 }}>
           {datasetExamples.map((dataset) => (
             <DatasetCard
               key={dataset.filename}
