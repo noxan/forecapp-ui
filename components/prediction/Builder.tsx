@@ -19,12 +19,22 @@ const placeholderText = (
 
 const PredictionBuilder = () => (
   <CAccordion activeItemKey={1}>
-    {new Array(10).fill(0).map((_, index) => (
-      <CAccordionItem key={index} itemKey={index + 1}>
-        <CAccordionHeader>Accordion Item #{index + 1}</CAccordionHeader>
-        <CAccordionBody>{placeholderText}</CAccordionBody>
-      </CAccordionItem>
-    ))}
+    <CAccordionItem itemKey={1}>
+      <CAccordionHeader>Forecast</CAccordionHeader>
+      <CAccordionBody>
+        How far should the model predict into the future?
+      </CAccordionBody>
+    </CAccordionItem>
+
+    {new Array(9)
+      .fill(0)
+      .map((_, index) => index + 2)
+      .map((index) => (
+        <CAccordionItem key={index} itemKey={index}>
+          <CAccordionHeader>Accordion Item #{index}</CAccordionHeader>
+          <CAccordionBody>{placeholderText}</CAccordionBody>
+        </CAccordionItem>
+      ))}
   </CAccordion>
 );
 
