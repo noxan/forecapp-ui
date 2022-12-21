@@ -13,6 +13,9 @@ const columnRenameMap = {
   y: "Actual",
   yhat1: "Prediction",
   season_daily: "Seasonality (Daily)",
+  season_weekly: "Seasonality (Weekly)",
+  season_yearly: "Seasonality (Yearly)",
+
   residual1: "Error (Residual)",
 } as Record<string, string>;
 const renameColumn = (column: string) =>
