@@ -27,7 +27,6 @@ import {
 } from "../src/store/selectors";
 
 export default function Dataset() {
-  const dispatch = useAppDispatch();
   const timeColumn = useAppSelector(selectTimeColumn);
   const targetColumn = useAppSelector(selectTargetColumn);
   const dataset = useAppSelector(selectDataset);
@@ -51,44 +50,8 @@ export default function Dataset() {
         </CRow>
       </CContainer>
       <CContainer>
-        <CRow className="my-2">
-          <CCol>
-            <h2>Primary time series column</h2>
-          </CCol>
-        </CRow>
-        <CRow className="my-2">
-          <CCol>
-            <PrimaryColumnConfig
-              columns={columns}
-              label="time"
-              defaultValue={timeColumn}
-              setAction={setTimeColumn}
-            />
-          </CCol>
-          <CCol>
-            <PrimaryColumnConfig
-              columns={columns}
-              label="target"
-              defaultValue={targetColumn}
-              setAction={setTargetColumn}
-            />
-          </CCol>
-          <CCol>
-            <div>{dataset.length} entries</div>
-            <div>{columns.length} columns</div>
-            <CButton
-              color="danger"
-              onClick={() =>
-                dispatch(resetAndDetectColumnConfig({ columnHeaders: columns }))
-              }
-            >
-              Reset
-            </CButton>
-          </CCol>
-        </CRow>
         {isColumnValid(timeColumn) && (
           <>
-            <hr />
             <CRow className="my-2">
               <CCol>
                 <h2>Columns explorer and configurations</h2>

@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import { useAppSelector } from "../src/hooks";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
+import ColumnPickerDebug from "../components/ColumnPickerDebug";
 
 const ReactJson = dynamic(() => import("@microlink/react-json-view"), {
   ssr: false,
@@ -46,6 +47,7 @@ export default function Debug() {
           </CCol>
         </CRow>
       </CContainer>
+      <ColumnPickerDebug />
     </Layout>
   );
 }
