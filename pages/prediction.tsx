@@ -34,8 +34,6 @@ export default function Visualization() {
     return <MissingColumnPlaceholder />;
   }
 
-  const finalDataset = transformDataset(dataset, modelConfiguration, columns);
-
   return (
     <>
       <PredictionNavigation
@@ -44,7 +42,7 @@ export default function Visualization() {
         apiPredictionAction={() =>
           dispatch(
             apiPrediction({
-              dataset: finalDataset,
+              dataset: transformDataset(dataset, modelConfiguration, columns),
               configuration: modelConfiguration,
             })
           )
