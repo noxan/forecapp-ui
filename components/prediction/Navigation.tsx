@@ -1,6 +1,7 @@
 import {
   CButton,
   CContainer,
+  CForm,
   CHeader,
   CHeaderBrand,
   CHeaderNav,
@@ -42,15 +43,15 @@ const PredictioNavigation = ({ metrics, status, apiPredictionAction }: any) => (
         </CNavItem>
       </CHeaderNav>
       <CHeaderNav>
-        <CNavItem>
+        <CForm className="d-flex">
           <CButton
-            size="sm"
+            variant="outline"
             onClick={apiPredictionAction}
             disabled={status === "loading"}
           >
-            Run
+            Update forecast
           </CButton>
-        </CNavItem>
+        </CForm>
         {metrics && (
           <CNavItem>
             <CNavLink>Metrics: {displayMetrics(metrics)}</CNavLink>
