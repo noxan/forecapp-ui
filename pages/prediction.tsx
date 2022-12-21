@@ -51,7 +51,7 @@ export default function Visualization() {
   if (!validateColumnDefinitions(timeColumn, targetColumn)) {
     return <MissingColumnPlaceholder />;
   }
-  if (!predictionData || isFirstRun) {
+  if (isFirstRun) {
     return <MissingForecastPlaceholder />;
   }
 
@@ -71,7 +71,9 @@ export default function Visualization() {
           <CCol style={{ position: "relative" }}>
             <h1>Forecast</h1>
             {status === "loading" && <LoadingOverlay />}
-            <PredictionChart predictionData={predictionData} />
+            {predictionData && (
+              <PredictionChart predictionData={predictionData} />
+            )}
           </CCol>
         </CRow>
       </CContainer>
