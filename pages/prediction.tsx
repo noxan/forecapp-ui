@@ -55,7 +55,7 @@ export default function Visualization() {
             <PredictionWizardCard className="mb-2" />
             <PredictionBuilder />
           </CCol>
-          <CCol>
+          <CCol style={{ position: "relative" }}>
             <h1>Forecast</h1>
             {status === "loading" && <LoadingOverlay />}
             <PredictionChart predictionData={predictionData} />
