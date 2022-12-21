@@ -4,7 +4,7 @@ const Plotly = require("plotly.js-gl2d-dist");
 const Plot = createPlotComponent(Plotly);
 import { capitalize } from "../src/helpers";
 
-export default function PlotlyChart({
+export default function DatasetChart({
   dataset,
   timeColumn,
   targetColumn,

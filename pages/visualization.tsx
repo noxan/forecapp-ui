@@ -11,7 +11,7 @@ import {
 import { validateColumnDefinitions } from "../src/definitions";
 import MissingColumnPlaceholder from "../components/MissingColumnPlaceholder";
 
-const PlotlyChart = dynamic(() => import("../components/PlotlyChart"), {
+const DatasetChart = dynamic(() => import("../components/DatasetChart"), {
   ssr: false,
   loading: () => <>Loading...</>,
 });
@@ -40,7 +40,7 @@ export default function Visualization() {
       <CContainer fluid>
         <CRow className="my-2">
           <CCol>
-            <PlotlyChart
+            <DatasetChart
               dataset={dataset}
               timeColumn={timeColumn}
               targetColumn={targetColumn}
