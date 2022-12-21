@@ -37,8 +37,8 @@ const PredictionChart = ({ predictionData }: { predictionData: any }) => (
     layout={{
       hovermode: "x",
       showlegend: true,
-      legend: { orientation: "h" },
-      margin: { t: 20, b: 20, l: 20, r: 20, pad: 0 },
+      legend: { orientation: "h", y: -0.05 },
+      margin: { t: 10, b: 10, l: 30, r: 30, pad: 10 },
     }}
     config={{
       responsive: true,
