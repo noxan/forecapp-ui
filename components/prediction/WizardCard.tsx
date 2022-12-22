@@ -9,14 +9,16 @@ import {
 const PredictionWizardCard = ({ className }: any) => (
   <CCard className={className}>
     <CCardBody>
-      <CCardTitle>Configuration wizard</CCardTitle>
+      <CCardTitle>Getting started</CCardTitle>
       <CCardText>
-        To improve your forecast best follow the configuration wizard to learn
-        about all the components and build a solid baseline model.
+        Congratulations on your forecast. The forecast is mostly automatically
+        configured. You can further improve it by adjusting the settings below
+        and check the metrics on the top right. Make sure to update your
+        forecast after you make changes.
       </CCardText>
-      <CButton variant="outline" href="#">
+      {/* <CButton variant="outline" href="#">
         Improve your forecast
-      </CButton>
+      </CButton> */}
     </CCardBody>
   </CCard>
 );
