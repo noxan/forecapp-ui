@@ -113,7 +113,9 @@ const PredictionBuilder = () => {
             defaultValue={modelConfiguration.training?.earlyStopping}
             onChange={(e) =>
               dispatch(
-                editModelConfig({ training: { earlyStopping: e.target.value } })
+                editModelConfig({
+                  training: { earlyStopping: e.target.checked },
+                })
               )
             }
           />
