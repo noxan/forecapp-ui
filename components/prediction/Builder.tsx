@@ -5,6 +5,7 @@ import {
   CAccordionItem,
   CFormCheck,
   CFormInput,
+  CFormRange,
 } from "@coreui/react";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
 import { editModelConfig } from "../../src/store/models";
@@ -55,9 +56,11 @@ const PredictionBuilder = () => {
               )
             }
           />
-          Regularization?
-          <CFormInput
-            type="number"
+          <CFormRange
+            min={0}
+            max={1}
+            step={0.01}
+            label="Regularization"
             defaultValue={modelConfiguration?.autoRegression?.regularization}
             onChange={(e) =>
               dispatch(
