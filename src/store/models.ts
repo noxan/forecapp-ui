@@ -24,7 +24,7 @@ export const modelSlice = createSlice({
     },
     training: {
       learningRate: "auto",
-      epochs: "auto",
+      epochs: 20,
       batchSize: "auto",
       earlyStopping: true,
     },
