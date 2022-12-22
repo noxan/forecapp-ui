@@ -112,6 +112,7 @@ const PredictionBuilder = () => {
           How many epochs to train?
           <CFormInput
             type="number"
+            placeholder="auto"
             defaultValue={modelConfiguration.training.epochs}
             onChange={(e) =>
               dispatch(
@@ -135,6 +136,7 @@ const PredictionBuilder = () => {
           Learning rate
           <CFormInput
             type="number"
+            placeholder="auto"
             defaultValue={modelConfiguration.training.learningRate}
             onChange={(e) =>
               dispatch(
@@ -145,6 +147,7 @@ const PredictionBuilder = () => {
           Batch size
           <CFormInput
             type="number"
+            placeholder="auto"
             defaultValue={modelConfiguration.training.batchSize}
             onChange={(e) =>
               dispatch(
