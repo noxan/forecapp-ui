@@ -8,17 +8,16 @@ import {
   REGISTER,
   REHYDRATE,
 } from "reduxjs-toolkit-persist";
+import storage from "reduxjs-toolkit-persist/lib/storage";
 import datasets from "./datasets";
 import models from "./models";
 
 const isSSR = typeof window === "undefined";
 
 const configurePersistedReducers = () => {
-  const storageIndexedDB = require("redux-persist-indexeddb-storage").default;
-
   const persistConfig = {
     key: "root",
-    storage: storageIndexedDB("forecapp-db"),
+    storage,
   };
 
   const persistedReducers = persistReducer(persistConfig, reducers);
@@ -26,8 +25,19 @@ const configurePersistedReducers = () => {
   return persistedReducers;
 };
 
+const configureDatasetReducer = () => {
+  const storageIndexedDB = require("redux-persist-indexeddb-storage").default;
+
+  const datasetsPersistConfig = {
+    key: "datasets",
+    storage: storageIndexedDB("forecapp-db"),
+  };
+
+  return persistReducer(datasetsPersistConfig, datasets);
+};
+
 const reducers = combineReducers({
-  datasets,
+  datasets: isSSR ? datasets : configureDatasetReducer(),
   models,
 });
 
