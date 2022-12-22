@@ -37,12 +37,12 @@ const PredictioNavigation = ({ metrics, status, apiPredictionAction }: any) => (
     <CContainer fluid>
       <CHeaderBrand className="mx-auto d-md-none">Header</CHeaderBrand>
       <CHeaderNav className="d-none d-md-flex me-auto">
-        <CNavItem>
+        {/* <CNavItem>
           <CNavLink>Explore dataset</CNavLink>
         </CNavItem>
         <CNavItem>
           <CNavLink>Adjust parameters</CNavLink>
-        </CNavItem>
+        </CNavItem> */}
       </CHeaderNav>
       <CHeaderNav>
         <CForm className="d-flex">
