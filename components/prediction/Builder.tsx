@@ -35,12 +35,20 @@ const PredictionBuilder = () => {
 
       <CAccordionItem itemKey={12}>
         <CAccordionHeader>Trend</CAccordionHeader>
-        <CAccordionBody>{/* TODO */}</CAccordionBody>
+        <CAccordionBody>
+          <div>Trend - auto</div>
+          <div>Changepoints - auto</div>
+        </CAccordionBody>
       </CAccordionItem>
 
       <CAccordionItem itemKey={14}>
         <CAccordionHeader>Seasonality</CAccordionHeader>
-        <CAccordionBody>{/* TODO */}</CAccordionBody>
+        <CAccordionBody>
+          <div>Daily - auto</div>
+          <div>Weekly - auto</div>
+          <div>Yearly - auto</div>
+          {/* <div>Custom - TODO</div> */}
+        </CAccordionBody>
       </CAccordionItem>
 
       <CAccordionItem itemKey={20}>
@@ -74,10 +82,10 @@ const PredictionBuilder = () => {
         </CAccordionBody>
       </CAccordionItem>
 
-      <CAccordionItem itemKey={40}>
+      {/* <CAccordionItem itemKey={40}>
         <CAccordionHeader>Events</CAccordionHeader>
-        <CAccordionBody>{/* TODO */}</CAccordionBody>
-      </CAccordionItem>
+        <CAccordionBody>TODO</CAccordionBody>
+      </CAccordionItem> */}
 
       <CAccordionItem itemKey={50}>
         <CAccordionHeader>Holidays</CAccordionHeader>
