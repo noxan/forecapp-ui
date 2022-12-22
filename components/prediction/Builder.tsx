@@ -36,17 +36,61 @@ const PredictionBuilder = () => {
       <CAccordionItem itemKey={12}>
         <CAccordionHeader>Trend</CAccordionHeader>
         <CAccordionBody>
-          <div>Trend - auto</div>
-          <div>Changepoints - auto</div>
+          <CFormCheck
+            id="trend"
+            label="Enable trend"
+            defaultChecked={modelConfiguration.trend?.growth === "linear"}
+            onChange={(e) =>
+              dispatch(
+                editModelConfig({
+                  trend: { growth: e.target.checked ? "linear" : "off" },
+                })
+              )
+            }
+          />
+          {/* <div>Changepoints - auto</div> */}
         </CAccordionBody>
       </CAccordionItem>
 
       <CAccordionItem itemKey={14}>
         <CAccordionHeader>Seasonality</CAccordionHeader>
         <CAccordionBody>
-          <div>Daily - auto</div>
-          <div>Weekly - auto</div>
-          <div>Yearly - auto</div>
+          <CFormCheck
+            id="seasonalityDaily"
+            label="Enable daily seasonality"
+            defaultChecked={modelConfiguration.seasonality?.daily}
+            onChange={(e) =>
+              dispatch(
+                editModelConfig({
+                  seasonality: { daily: e.target.checked },
+                })
+              )
+            }
+          />
+          <CFormCheck
+            id="seasonalityWeekly"
+            label="Enable weekly seasonality"
+            defaultChecked={modelConfiguration.seasonality?.weekly}
+            onChange={(e) =>
+              dispatch(
+                editModelConfig({
+                  seasonality: { weekly: e.target.checked },
+                })
+              )
+            }
+          />
+          <CFormCheck
+            id="seasonalityYearly"
+            label="Enable yearly seasonality"
+            defaultChecked={modelConfiguration.seasonality?.yearly}
+            onChange={(e) =>
+              dispatch(
+                editModelConfig({
+                  seasonality: { yearly: e.target.checked },
+                })
+              )
+            }
+          />
           {/* <div>Custom - TODO</div> */}
         </CAccordionBody>
       </CAccordionItem>
