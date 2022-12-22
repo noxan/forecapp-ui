@@ -10,9 +10,10 @@ export const modelSlice = createSlice({
     forecasts: undefined,
     trend: {
       growth: "linear",
+      changepoints: 2,
     },
     autoRegression: {
-      lags: 0,
+      lags: undefined,
       regularization: 0,
     },
     seasonality: {

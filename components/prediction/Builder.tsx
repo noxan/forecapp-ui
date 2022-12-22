@@ -57,6 +57,7 @@ const PredictionBuilder = () => {
           How many previous values should be used to predict the next value?
           <CFormInput
             type="number"
+            placeholder="off"
             min={0}
             defaultValue={modelConfiguration?.autoRegression?.lags}
             onChange={(e) =>
