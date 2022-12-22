@@ -3,6 +3,7 @@ import {
   CAccordionBody,
   CAccordionHeader,
   CAccordionItem,
+  CFormCheck,
   CFormInput,
 } from "@coreui/react";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
@@ -103,6 +104,36 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({ training: { epochs: e.target.value } })
+              )
+            }
+          />
+          <CFormCheck
+            label="Early stopping"
+            defaultValue={modelConfiguration.training?.earlyStopping}
+            onChange={(e) =>
+              dispatch(
+                editModelConfig({ training: { earlyStopping: e.target.value } })
+              )
+            }
+          />
+          <h5 className="mt-3">Advanced options</h5>
+          Learning rate
+          <CFormInput
+            type="number"
+            defaultValue={modelConfiguration.training.learningRate}
+            onChange={(e) =>
+              dispatch(
+                editModelConfig({ training: { learningRate: e.target.value } })
+              )
+            }
+          />
+          Batch size
+          <CFormInput
+            type="number"
+            defaultValue={modelConfiguration.training.batchSize}
+            onChange={(e) =>
+              dispatch(
+                editModelConfig({ training: { batchSize: e.target.value } })
               )
             }
           />
