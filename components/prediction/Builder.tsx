@@ -143,13 +143,12 @@ const PredictionBuilder = () => {
         </CAccordionBody>
       </CAccordionItem>
 
-      <CAccordionItem itemKey={55}>
+      {/* <CAccordionItem itemKey={55}>
         <CAccordionHeader>Indicators (regressors)</CAccordionHeader>
         <CAccordionBody>
           Which other columns should be used to enhance the prediction?
-          {/* TODO */}
         </CAccordionBody>
-      </CAccordionItem>
+      </CAccordionItem> */}
 
       <CAccordionItem itemKey={60}>
         <CAccordionHeader>Training</CAccordionHeader>
