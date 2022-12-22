@@ -114,7 +114,7 @@ const PredictionBuilder = () => {
           <CFormCheck
             id="earlyStopping"
             label="Stop training early if no improvement is seen"
-            defaultValue={modelConfiguration.training?.earlyStopping}
+            defaultChecked={modelConfiguration.training?.earlyStopping}
             onChange={(e) =>
               dispatch(
                 editModelConfig({
