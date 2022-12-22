@@ -25,6 +25,7 @@ export const modelSlice = createSlice({
       learningRate: "auto",
       epochs: "auto",
       batchSize: "auto",
+      earlyStopping: true,
     },
     events: [],
     holidays: [],
