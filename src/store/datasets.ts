@@ -36,6 +36,9 @@ export const apiPrediction = createAsyncThunk<any, PredictionQueryArg>(
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prediction`, {
       method: "POST",
       body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     return await res.json();
   }
