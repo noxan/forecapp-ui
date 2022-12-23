@@ -72,14 +72,15 @@ export default function Visualization() {
           <CCol style={{ position: "relative" }}>
             <h1>Forecast</h1>
             {status === "loading" && <LoadingOverlay />}
-            {predictionData && predictionData.status === "ok" && (
-              <PredictionChart predictionData={predictionData} />
-            )}
             {((predictionData && predictionData.status !== "ok") || error) && (
               <div>
-                {predictionData && JSON.stringify(predictionData)}
+                <h3>Something went wrong...</h3>
+                {!error && predictionData && JSON.stringify(predictionData)}
                 {error && JSON.stringify(error)}
               </div>
+            )}
+            {predictionData && predictionData.status === "ok" && (
+              <PredictionChart predictionData={predictionData} />
             )}
           </CCol>
         </CRow>
