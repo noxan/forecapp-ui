@@ -30,23 +30,12 @@ export const importDatasetWithAutodetect =
 
 type PredictionQueryArg = { dataset: any[]; configuration: object };
 
-const transformApiPayload = (payload: any) => {
-  if (
-    payload?.training?.epochs === "" ||
-    payload?.training?.epochs === "auto"
-  ) {
-    payload.training.epochs = null;
-  }
-  console.log(payload?.training?.epochs);
-  return payload;
-};
-
 export const apiPrediction = createAsyncThunk<any, PredictionQueryArg>(
   "datasets/apiPrediction",
   async (payload) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prediction`, {
       method: "POST",
-      body: JSON.stringify(transformApiPayload(payload)),
+      body: JSON.stringify(payload),
       headers: {
         "Content-Type": "application/json",
       },

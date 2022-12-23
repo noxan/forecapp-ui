@@ -12,6 +12,13 @@ import { editModelConfig } from "../../src/store/models";
 import { selectModelConfiguration } from "../../src/store/selectors";
 import HolidayBuilder from "./HolidayBuilder";
 
+const tranformEpochs = (value: any) => {
+  if (value === "") {
+    return null;
+  }
+  return value;
+};
+
 const PredictionBuilder = () => {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dispatch = useAppDispatch();
@@ -160,7 +167,9 @@ const PredictionBuilder = () => {
             defaultValue={modelConfiguration.training.epochs}
             onChange={(e) =>
               dispatch(
-                editModelConfig({ training: { epochs: e.target.value } })
+                editModelConfig({
+                  training: { epochs: tranformEpochs(e.target.value) },
+                })
               )
             }
           />
