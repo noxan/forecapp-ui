@@ -7,6 +7,7 @@ import PlotlyChart from "../Plotly";
 const filterColumns = (columns: string[]) =>
   columns.filter((column) =>
     [
+      "residual1",
       "yhat1",
       "season_daily",
       "season_weekly",
