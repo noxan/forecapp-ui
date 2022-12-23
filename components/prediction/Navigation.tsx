@@ -46,11 +46,7 @@ const PredictioNavigation = ({ metrics, status, apiPredictionAction }: any) => (
       </CHeaderNav>
       <CHeaderNav>
         <CForm className="d-flex">
-          <CButton
-            variant="outline"
-            onClick={apiPredictionAction}
-            disabled={status === "loading"}
-          >
+          <CButton variant="outline" onClick={apiPredictionAction}>
             Update forecast
           </CButton>
         </CForm>
