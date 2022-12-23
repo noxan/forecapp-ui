@@ -159,6 +159,7 @@ const PredictionBuilder = () => {
           <CFormInput
             type="number"
             placeholder="auto"
+            min={1}
             defaultValue={modelConfiguration.training.epochs}
             onChange={(e) =>
               dispatch(
