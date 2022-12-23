@@ -30,12 +30,23 @@ export const importDatasetWithAutodetect =
 
 type PredictionQueryArg = { dataset: any[]; configuration: object };
 
+const transformApiPayload = (payload: any) => {
+  if (
+    payload?.training?.epochs === "" ||
+    payload?.training?.epochs === "auto"
+  ) {
+    payload.training.epochs = null;
+  }
+  console.log(payload?.training?.epochs);
+  return payload;
+};
+
 export const apiPrediction = createAsyncThunk<any, PredictionQueryArg>(
   "datasets/apiPrediction",
   async (payload) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prediction`, {
       method: "POST",
-      body: JSON.stringify(payload),
+      body: JSON.stringify(transformApiPayload(payload)),
       headers: {
         "Content-Type": "application/json",
       },
@@ -46,6 +57,7 @@ export const apiPrediction = createAsyncThunk<any, PredictionQueryArg>(
 
 export interface DatasetsState {
   status: "idle" | "loading";
+  error?: any;
   raw?: any[];
   columns: {
     timeColumn: string;
@@ -105,13 +117,19 @@ export const datasetSlice = createSlice({
     });
     builder.addCase(apiPrediction.fulfilled, (state, { payload }) => {
       state.status = "idle";
-      state.prediction = payload as any;
+      if (payload.status !== "ok") {
+        state.error = payload;
+      } else {
+        state.error = null;
+        state.prediction = payload as any;
+      }
     });
     builder.addCase(apiPrediction.pending, (state) => {
+      state.error = null;
       state.status = "loading";
     });
     builder.addCase(apiPrediction.rejected, (state, action) => {
-      alert("API request failed" + action.error);
+      state.error = action.error;
       state.status = "idle";
     });
   },

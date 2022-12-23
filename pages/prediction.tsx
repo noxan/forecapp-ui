@@ -24,6 +24,7 @@ export default function Visualization() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const dataset = useAppSelector(selectDataset);
+  const error = useAppSelector((state) => state.datasets?.error);
   const status = useAppSelector(selectStatus);
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const columns = useAppSelector((state) => state.datasets.columns);
@@ -74,8 +75,11 @@ export default function Visualization() {
             {predictionData && predictionData.status === "ok" && (
               <PredictionChart predictionData={predictionData} />
             )}
-            {predictionData && predictionData.status !== "ok" && (
-              <div>{JSON.stringify(predictionData)}</div>
+            {((predictionData && predictionData.status !== "ok") || error) && (
+              <div>
+                {predictionData && JSON.stringify(predictionData)}
+                {error && JSON.stringify(error)}
+              </div>
             )}
           </CCol>
         </CRow>

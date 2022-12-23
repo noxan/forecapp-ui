@@ -40,8 +40,6 @@ const transformPredictionData = (forecast: any): Plotly.Data[] => {
     x,
   })) as Plotly.Data[];
 
-  console.log(res);
-
   return res;
 };
 
