@@ -18,7 +18,7 @@ const LoadingOverlay = () => (
     }}
   >
     <CSpinner color="primary" />
-    <p>Refreshing your chart...</p>
+    <p>Generating your forecast...</p>
   </div>
 );
 
