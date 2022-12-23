@@ -12,14 +12,14 @@ export const colors2 = [
 ];
 
 export const colors = [
+  "#f39c12",
   "#16a085",
+  "#2c3e50",
+  "#c0392b",
+  "#bdc3c7",
   "#27ae60",
   "#2980b9",
   "#8e44ad",
-  "#2c3e50",
-  "#f39c12",
   "#d35400",
-  "#c0392b",
-  "#bdc3c7",
   "#7f8c8d",
-].reverse();
+];

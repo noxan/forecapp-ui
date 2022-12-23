@@ -43,7 +43,7 @@ const transformPredictionData = (prediction: any[]): Plotly.Data[] => {
     type: "scattergl",
     mode: "lines",
     marker: {
-      color: colors[index],
+      color: colors[index] + "cc",
     },
     // TODO: Add meaningful time values for x-axis
     // x,
