@@ -2,8 +2,6 @@ import { colors } from "../../src/colors";
 import { capitalize } from "../../src/helpers";
 import PlotlyChart from "../Plotly";
 
-// const x = dataset.map((item: any) => item[timeColumn]);
-
 const filterColumns = (columns: string[]) =>
   columns.filter((column) =>
     [
@@ -18,51 +16,33 @@ const filterColumns = (columns: string[]) =>
   );
 
 const columnRenameMap = {
-  y: "Actual",
-  yhat1: "Prediction",
+  // y: "Actual",
+  // yhat1: "Prediction",
   season_daily: "Seasonality (Daily)",
   season_weekly: "Seasonality (Weekly)",
   season_yearly: "Seasonality (Yearly)",
-
-  residual1: "Error (Residual)",
+  // residual1: "Error (Residual)",
 } as Record<string, string>;
 const renameColumn = (column: string) =>
   Object.keys(columnRenameMap).includes(column)
     ? columnRenameMap[column]
     : column;
 
-const transformPredictionData = (prediction: any[]): Plotly.Data[] => {
-  // TODO: Filter non relevant prediction return columns
-  const columnHeaders = Object.keys(prediction[0]).splice(1);
+const transformPredictionData = (forecast: any): Plotly.Data[] => {
+  const columnHeaders = Object.keys(forecast).filter((item) => item !== "ds");
+  const x = Object.values(forecast.ds);
 
-  const lastForecastColumn = columnHeaders
-    .filter((columnHeader) => columnHeader.startsWith("yhat"))
-    .map((columnHeader) => parseInt(columnHeader.replace("yhat", ""), 10))
-    .sort((a, b) => b - a)[0];
-
-  return filterColumns(columnHeaders).map((columnHeader, index) => ({
+  const res = columnHeaders.map((columnHeader) => ({
     type: "scattergl",
     mode: "lines",
-    marker: {
-      color: colors[index] + "cc",
-    },
-    // TODO: Add meaningful time values for x-axis
-    // x,
-    y: (() => {
-      // TOOD: Clean up this mess: merges yhat_1 and yhat_max to have a single prediction
-      if (columnHeader === "yhat1" && lastForecastColumn > 1) {
-        return prediction.map((item: any, index) => {
-          if (index > lastForecastColumn) {
-            return item[`yhat${lastForecastColumn}`];
-          }
-          return item[columnHeader];
-        });
-      }
-      return prediction.map((item: any) => item[columnHeader]);
-    })(),
     name: capitalize(renameColumn(columnHeader)),
-    // visible: ["y", "yhat1"].includes(columnHeader.toLowerCase()) ? true : "legendonly",
-  }));
+    y: Object.values(forecast[columnHeader]),
+    x,
+  })) as Plotly.Data[];
+
+  console.log(res);
+
+  return res;
 };
 
 const PredictionChart = ({ predictionData }: { predictionData: any }) => (
