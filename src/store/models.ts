@@ -13,7 +13,7 @@ export const modelSlice = createSlice({
       growth: "linear",
       changepoints: 2,
     },
-    autoRegression: {
+    autoregression: {
       lags: undefined,
       regularization: 0,
     },

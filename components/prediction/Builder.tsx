@@ -103,10 +103,10 @@ const PredictionBuilder = () => {
             type="number"
             placeholder="off"
             min={0}
-            defaultValue={modelConfiguration?.autoRegression?.lags}
+            defaultValue={modelConfiguration?.autoregression?.lags}
             onChange={(e) =>
               dispatch(
-                editModelConfig({ autoRegression: { lags: e.target.value } })
+                editModelConfig({ autoregression: { lags: e.target.value } })
               )
             }
           />
@@ -115,11 +115,11 @@ const PredictionBuilder = () => {
             max={1}
             step={0.01}
             label="Regularization"
-            defaultValue={modelConfiguration?.autoRegression?.regularization}
+            defaultValue={modelConfiguration?.autoregression?.regularization}
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  autoRegression: { regularization: e.target.value },
+                  autoregression: { regularization: e.target.value },
                 })
               )
             }
