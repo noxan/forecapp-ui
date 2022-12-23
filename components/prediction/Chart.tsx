@@ -61,9 +61,7 @@ const transformPredictionData = (prediction: any[]): Plotly.Data[] => {
       return prediction.map((item: any) => item[columnHeader]);
     })(),
     name: capitalize(renameColumn(columnHeader)),
-    visible: ["y", "yhat1"].includes(columnHeader.toLowerCase())
-      ? true
-      : "legendonly",
+    // visible: ["y", "yhat1"].includes(columnHeader.toLowerCase()) ? true : "legendonly",
   }));
 };
 
