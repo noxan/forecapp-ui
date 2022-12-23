@@ -12,12 +12,7 @@ import { editModelConfig } from "../../src/store/models";
 import { selectModelConfiguration } from "../../src/store/selectors";
 import HolidayBuilder from "./HolidayBuilder";
 
-const tranformEpochs = (value: any) => {
-  if (value === "") {
-    return null;
-  }
-  return value;
-};
+const transformEmptyToNull = (value: any) => (value === "" ? null : value);
 
 const PredictionBuilder = () => {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
@@ -168,7 +163,7 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  training: { epochs: tranformEpochs(e.target.value) },
+                  training: { epochs: transformEmptyToNull(e.target.value) },
                 })
               )
             }
@@ -193,7 +188,11 @@ const PredictionBuilder = () => {
             defaultValue={modelConfiguration.training.learningRate}
             onChange={(e) =>
               dispatch(
-                editModelConfig({ training: { learningRate: e.target.value } })
+                editModelConfig({
+                  training: {
+                    learningRate: transformEmptyToNull(e.target.value),
+                  },
+                })
               )
             }
           />
@@ -204,7 +203,9 @@ const PredictionBuilder = () => {
             defaultValue={modelConfiguration.training.batchSize}
             onChange={(e) =>
               dispatch(
-                editModelConfig({ training: { batchSize: e.target.value } })
+                editModelConfig({
+                  training: { batchSize: transformEmptyToNull(e.target.value) },
+                })
               )
             }
           />
