@@ -53,7 +53,7 @@ const PredictionChart = ({ predictionData }: { predictionData: any }) => (
       hovermode: "x",
       showlegend: true,
       legend: { orientation: "h", y: -0.05 },
-      margin: { t: 10, b: 10, l: 30, r: 30, pad: 10 },
+      margin: { t: 10, r: 30 }, // b: 10, l: 30, pad: 10
     }}
     config={{
       responsive: true,
