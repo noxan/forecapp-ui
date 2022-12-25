@@ -24,9 +24,9 @@ export const modelSlice = createSlice({
       yearly: "auto",
     },
     training: {
-      learningRate: "auto",
+      learningRate: undefined,
       epochs: 20,
-      batchSize: "auto",
+      batchSize: undefined,
       earlyStopping: true,
     },
     events: [],
