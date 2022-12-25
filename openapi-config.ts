@@ -7,8 +7,8 @@ const config: ConfigFile = {
   schemaFile: `${apiUrl}/openapi.json`,
   apiFile: "./src/store/emptyApi.ts",
   apiImport: "emptySplitApi",
-  outputFile: "./src/store/api.ts",
-  exportName: "api",
+  outputFile: "./src/store/forecappApi.ts",
+  exportName: "forecappApi",
   hooks: true,
 };
 

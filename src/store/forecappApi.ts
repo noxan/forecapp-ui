@@ -17,7 +17,7 @@ const injectedRtkApi = api.injectEndpoints({
   }),
   overrideExisting: false,
 });
-export { injectedRtkApi as api };
+export { injectedRtkApi as forecappApi };
 export type ReadRootGetApiResponse = /** status 200 Successful Response */ any;
 export type ReadRootGetApiArg = void;
 export type PredictionPredictionPostApiResponse =
