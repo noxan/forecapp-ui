@@ -31,8 +31,8 @@ specifiers:
   lodash.merge: ^4.6.2
   next: 13.0.1
   papaparse: ^5.3.2
-  plotly.js: ^2.16.5
-  plotly.js-gl2d-dist: ^2.16.5
+  plotly.js: ^2.17.0
+  plotly.js-gl2d-dist: ^2.17.0
   postcss: ^8.4.20
   prettier: ^2.8.1
   react: 18.2.0
@@ -77,12 +77,12 @@ dependencies:
   lodash.merge: 4.6.2
   next: 13.0.1_3duxcpitbtplz62feflag7fwby
   papaparse: 5.3.2
-  plotly.js: 2.16.5
-  plotly.js-gl2d-dist: 2.16.5
+  plotly.js: 2.17.0
+  plotly.js-gl2d-dist: 2.17.0
   postcss: 8.4.20
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  react-plotly.js: 2.6.0_xcsy5kyl2ibqwf7r4z6msmlkde
+  react-plotly.js: 2.6.0_fkcxkukmqheyiyshrwtcx75gwe
   react-redux: 8.0.5_nsgh7lqw2e2kb5wanadocemtdi
   redux-persist-indexeddb-storage: 1.0.4
   reduxjs-toolkit-persist: 7.2.1_@reduxjs+toolkit@1.9.1
@@ -133,7 +133,7 @@ packages:
     resolution: {integrity: sha512-jr9lCZ4RbRQmCR28Q8U8Fu49zvFqLxTY9AMOUz+iyMohMoAgpEcVxY+wJNay99oXOpOcCTODkk70NDN2aaJEeg==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      core-js-pure: 3.26.1
+      core-js-pure: 3.27.0
       regenerator-runtime: 0.13.11
     dev: false
 
@@ -768,7 +768,7 @@ packages:
       '@tensorflow/tfjs-layers': 3.21.0_aipmo6igpprgzt4umpaa3m6sn4
       argparse: 1.0.10
       chalk: 4.1.2
-      core-js: 3.26.1
+      core-js: 3.27.0
       regenerator-runtime: 0.13.11
       yargs: 16.2.0
     transitivePeerDependencies:
@@ -1590,13 +1590,13 @@ packages:
     resolution: {integrity: sha512-wfs+V4HdSN7C3CWJWR7hVa24yTPn3mDJthwhRIObZBh6UjTjkUMUrCP3UrNGozB/HjTpcScnGXtQUNa+yjsIJQ==}
     dev: false
 
-  /core-js-pure/3.26.1:
-    resolution: {integrity: sha512-VVXcDpp/xJ21KdULRq/lXdLzQAtX7+37LzpyfFM973il0tWSsDEoyzG38G14AjTpK9VTfiNM9jnFauq/CpaWGQ==}
+  /core-js-pure/3.27.0:
+    resolution: {integrity: sha512-fJml7FM6v1HI3Gkg5/Ifc/7Y2qXcJxaDwSROeZGAZfNykSTvUk94WT55TYzJ2lFHK0voSr/d4nOVChLuNCWNpA==}
     requiresBuild: true
     dev: false
 
-  /core-js/3.26.1:
-    resolution: {integrity: sha512-21491RRQVzUn0GGM9Z1Jrpr6PNPxPi+Za8OM9q4tksTSnlbXXGKK1nXNg/QvwFYettXvSX6zWKCtHHfjN4puyA==}
+  /core-js/3.27.0:
+    resolution: {integrity: sha512-wY6cKosevs430KRkHUIsvepDXHGjlXOZO3hYXNyqpD6JvB0X28aXyv0t1Y1vZMwE7SoKmtfa6IASHCPN52FwBQ==}
     requiresBuild: true
     dev: false
 
@@ -3144,8 +3144,8 @@ packages:
     resolution: {integrity: sha512-qenGE7CstVm1NrHQbMh8YaSzTZTFNP3zPqr3YU0S0UY441j4bJTg4A2Hh5KAhwgaiU6ZZ1Ar6y/2f4TblnMReQ==}
     dev: false
 
-  /immutable/4.2.0:
-    resolution: {integrity: sha512-h4ujZ0OZ3kpvdFcwJAHXEdvawH7J8TYTB62e8xI03OSZhuGpuPY9DPXnonMN8s+uQ56gMUqMK71mXU8ob20xfA==}
+  /immutable/4.2.1:
+    resolution: {integrity: sha512-7WYV7Q5BTs0nlQm7tl92rDYYoyELLKHoDMBKhrxEoiV4mrfVdRz8hzPiYOzH7yWjzoVEamxRuAqhxL2PLRwZYQ==}
     dev: false
 
   /import-fresh/3.3.0:
@@ -4218,12 +4218,12 @@ packages:
     resolution: {integrity: sha512-6OOg/D7OEffYq1WJt4XKNHzJAd9uN3kCuKZcCr0RGvnSB3wvP7fDmfsUpxZR2q0M+3j7SKejJ8qv1HGkarnObg==}
     dev: false
 
-  /plotly.js-gl2d-dist/2.16.5:
-    resolution: {integrity: sha512-k8PncF2cKonMSXHJzDlbtREGbK+biEofweNb7ga4am0xki4NYrCb3uejghAd17811l1D0tiEeFBX53/hgtAk2g==}
+  /plotly.js-gl2d-dist/2.17.0:
+    resolution: {integrity: sha512-1A3IOrMMyspKnJRjBi8tZgyNDbPqb0uIxrrTbu0/QXQOqDmLQy65zfITPnWoKck05bnBrFRdJiyMmQ+oVdYK2A==}
     dev: false
 
-  /plotly.js/2.16.5:
-    resolution: {integrity: sha512-dG0Bg8Sz2PbzQnDaTGAZ5LIvOc96Svh1iFj6hm3pDFMlvX2wl4Sj8GxB9p8v4GpGIKk/HIUXkT9voo2ddkNjWA==}
+  /plotly.js/2.17.0:
+    resolution: {integrity: sha512-YeSlcriGJFpLFrprhvMIjbJF1uH498enCKwZ9627/PkP9UXsbFMCHeetSmjkNUrJWhVRfo9LRg9kGPx1vSu2YQ==}
     dependencies:
       '@plotly/d3': 3.8.0
       '@plotly/d3-sankey': 0.7.2
@@ -4467,13 +4467,13 @@ packages:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
     dev: false
 
-  /react-plotly.js/2.6.0_xcsy5kyl2ibqwf7r4z6msmlkde:
+  /react-plotly.js/2.6.0_fkcxkukmqheyiyshrwtcx75gwe:
     resolution: {integrity: sha512-g93xcyhAVCSt9kV1svqG1clAEdL6k3U+jjuSzfTV7owaSU9Go6Ph8bl25J+jKfKvIGAEYpe4qj++WHJuc9IaeA==}
     peerDependencies:
       plotly.js: '>1.34.0'
       react: '>0.13.0'
     dependencies:
-      plotly.js: 2.16.5
+      plotly.js: 2.17.0
       prop-types: 15.8.1
       react: 18.2.0
     dev: false
@@ -4827,7 +4827,7 @@ packages:
     hasBin: true
     dependencies:
       chokidar: 3.5.3
-      immutable: 4.2.0
+      immutable: 4.2.1
       source-map-js: 1.0.2
     dev: false
 
