@@ -1,9 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import merge from "lodash.merge";
 
-export type ModelState = {
-  laggedRegressors: any[];
-};
+import { api } from "./api";
 
 export const modelSlice = createSlice({
   name: "models",
@@ -33,7 +31,7 @@ export const modelSlice = createSlice({
     holidays: [],
     futureRegressors: {},
     laggedRegressors: [],
-  } as ModelState,
+  },
   reducers: {
     editModelConfig: (state, { payload }) => merge(state, payload),
     editModelConfigJsonView: (_, { payload: { updated_src: newState } }: any) =>
