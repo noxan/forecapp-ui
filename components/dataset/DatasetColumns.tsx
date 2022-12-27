@@ -28,7 +28,7 @@ const DatasetColumns = () => {
   const activeColumn = columns[activeKey];
 
   return (
-    <CContainer>
+    <CContainer fluid>
       {isColumnValid(timeColumn) && (
         <>
           <CRow className="my-2">
