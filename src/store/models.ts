@@ -1,9 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import merge from "lodash.merge";
 
-import { api } from "./api";
+import { forecappApi } from "./forecappApi";
 
-export type ModelState = {};
+forecappApi.endpoints.predictionPredictionPost.useMutation;
+
+export type ModelState = {
+  laggedRegressors: any[];
+  holidays: string[];
+};
 
 export const modelSlice = createSlice({
   name: "models",
@@ -31,7 +36,6 @@ export const modelSlice = createSlice({
     },
     events: [],
     holidays: [],
-    futureRegressors: {},
     laggedRegressors: [],
   } as ModelState,
   reducers: {
