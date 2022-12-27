@@ -9,7 +9,7 @@ import {
   CNavLink,
 } from "@coreui/react";
 import { useState } from "react";
-import DatasetExplorer from "../dataset/DatasetExplorer";
+import DatasetExplorer from "../DatasetExplorer";
 import { vars } from "../Navigation";
 
 type Metrics = {
