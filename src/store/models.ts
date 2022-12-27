@@ -3,7 +3,7 @@ import merge from "lodash.merge";
 
 import { api } from "./api";
 
-type ModelState = {};
+export type ModelState = {};
 
 export const modelSlice = createSlice({
   name: "models",
