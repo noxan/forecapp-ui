@@ -8,6 +8,7 @@ import {
   CNavLink,
 } from "@coreui/react";
 import DatasetColumns from "./DatasetColumns";
+import DatasetVisualize from "./DatasetVisualize";
 
 const DatasetExplorer = ({
   modalVisible,
@@ -39,7 +40,9 @@ const DatasetExplorer = ({
         </CNav>
       </CModalHeader>
       <CModalBody>
-        <DatasetColumns />
+        {/* <DatasetColumns /> */}
+        <DatasetVisualize />
+        ...
       </CModalBody>
     </CModal>
   );
