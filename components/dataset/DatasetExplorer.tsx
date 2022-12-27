@@ -1,4 +1,12 @@
-import { CModal, CModalBody, CModalHeader, CModalTitle } from "@coreui/react";
+import {
+  CModal,
+  CModalBody,
+  CModalHeader,
+  CModalTitle,
+  CNav,
+  CNavItem,
+  CNavLink,
+} from "@coreui/react";
 
 const DatasetExplorer = ({
   modalVisible,
@@ -16,6 +24,19 @@ const DatasetExplorer = ({
     >
       <CModalHeader>
         <CModalTitle>Dataset explorer</CModalTitle>
+        <CNav variant="pills" className="mx-4">
+          <CNavItem>
+            <CNavLink href="#" active>
+              Columns
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink href="#">Visualization</CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink href="#">Table</CNavLink>
+          </CNavItem>
+        </CNav>
       </CModalHeader>
       <CModalBody>...</CModalBody>
     </CModal>
