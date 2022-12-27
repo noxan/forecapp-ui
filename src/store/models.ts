@@ -3,6 +3,8 @@ import merge from "lodash.merge";
 
 import { api } from "./api";
 
+type ModelState = {};
+
 export const modelSlice = createSlice({
   name: "models",
   initialState: {
@@ -31,7 +33,7 @@ export const modelSlice = createSlice({
     holidays: [],
     futureRegressors: {},
     laggedRegressors: [],
-  },
+  } as ModelState,
   reducers: {
     editModelConfig: (state, { payload }) => merge(state, payload),
     editModelConfigJsonView: (_, { payload: { updated_src: newState } }: any) =>
