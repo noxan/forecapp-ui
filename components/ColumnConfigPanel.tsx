@@ -31,11 +31,6 @@ const ColumnConfigPanel = ({
   const specialColumn = specialColumnMapping
     ? SPECIAL_COLUMN_CONFIGURATIONS[specialColumnMapping]
     : false;
-  const datatypesAutodetected = dataset
-    .map((row: any) => typeof row[column])
-    .filter(
-      (value: any, index: number, self: any) => self.indexOf(value) === index
-    );
 
   const rows = dataset.map((row: any) => row[column]);
   const timeLabels = dataset.map((row: any) => row[timeColumn]);
@@ -43,26 +38,12 @@ const ColumnConfigPanel = ({
   return (
     <CTabContent>
       <CTabPane visible>
-        <h3>{capitalize(column)}</h3>
+        <h3 style={{ display: "inline-block" }}>{capitalize(column)}</h3>
         {specialColumn && (
-          <div>
-            <CBadge color="primary">{specialColumn.label}</CBadge>
-          </div>
+          <CBadge color="primary" className="mx-2">
+            {specialColumn.label}
+          </CBadge>
         )}
-        <h4>Column data type</h4>
-        {specialColumn ? (
-          <div>Datatype: {specialColumn.datatype}</div>
-        ) : (
-          <>
-            <div>
-              Auto detected datatypes: {datatypesAutodetected.join(", ")}
-            </div>
-          </>
-        )}
-        <div>
-          Output column name:{" "}
-          {specialColumn ? specialColumn.outputName : "unknown"}
-        </div>
         <h4>Data series</h4>
         <CChartLine
           data={generateChartFormatForSeries(
@@ -74,7 +55,6 @@ const ColumnConfigPanel = ({
         />
         <h4>Value distribution</h4>
         <ColumnHistogram rows={rows} chartColor={chartColor} />
-        <h4>Validation errors</h4>
       </CTabPane>
     </CTabContent>
   );
