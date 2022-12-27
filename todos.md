@@ -17,8 +17,8 @@ Stick to essential model configurations.
 - [x] Add cancel button during loading state
 - [x] Get api working again and not time out after 30s
 - [x] Add time information to x-axis
+- [x] Fix 0 or empty values for integer fields (e.g. "training.epochs")
 - [ ] Remove unused code (after data explorer refactor)
-- [ ] Fix 0 or empty values for integer fields (e.g. "training.epochs")
 
 ## For beginners
 
