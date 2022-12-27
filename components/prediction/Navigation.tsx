@@ -8,8 +8,9 @@ import {
   CNavItem,
   CNavLink,
 } from "@coreui/react";
+import { useState } from "react";
+import DatasetExplorer from "../dataset/DatasetExplorer";
 import { vars } from "../Navigation";
-import NavigationItem from "../NavigationItem";
 
 type Metrics = {
   [key: string]: number;
@@ -33,36 +34,48 @@ const displayMetrics = (metrics: any) => {
     ));
 };
 
-const PredictioNavigation = ({ metrics, status, apiPredictionAction }: any) => (
-  <CHeader position="sticky" className="mb-4" style={vars}>
-    <CContainer fluid>
-      <CHeaderBrand className="mx-auto d-md-none">Header</CHeaderBrand>
-      <CHeaderNav className="d-none d-md-flex me-auto">
-        <NavigationItem href="/dataset" label="Explore dataset" />
-        {/* <CNavItem>
+const PredictioNavigation = ({ metrics, status, apiPredictionAction }: any) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  return (
+    <CHeader position="sticky" className="mb-4" style={vars}>
+      <CContainer fluid>
+        <DatasetExplorer
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+        <CHeaderBrand className="mx-auto d-md-none">Header</CHeaderBrand>
+        <CHeaderNav className="d-none d-md-flex me-auto">
+          <CNavItem>
+            <CNavLink onClick={() => setModalVisible(true)}>
+              Explore dataset
+            </CNavLink>
+          </CNavItem>
+          {/* <CNavItem>
           <CNavLink>Adjust parameters</CNavLink>
         </CNavItem> */}
-      </CHeaderNav>
-      <CHeaderNav>
-        <CForm className="d-flex">
-          <CButton variant="outline" onClick={apiPredictionAction}>
-            Update forecast
-          </CButton>
-        </CForm>
-        {metrics && (
+        </CHeaderNav>
+        <CHeaderNav>
+          <CForm className="d-flex">
+            <CButton variant="outline" onClick={apiPredictionAction}>
+              Update forecast
+            </CButton>
+          </CForm>
+          {metrics && (
+            <CNavItem>
+              <CNavLink>Metrics: {displayMetrics(metrics)}</CNavLink>
+            </CNavItem>
+          )}
           <CNavItem>
-            <CNavLink>Metrics: {displayMetrics(metrics)}</CNavLink>
+            <CNavLink>History</CNavLink>
           </CNavItem>
-        )}
-        <CNavItem>
-          <CNavLink>History</CNavLink>
-        </CNavItem>
-        <CNavItem>
-          <CNavLink>Export</CNavLink>
-        </CNavItem>
-      </CHeaderNav>
-    </CContainer>
-  </CHeader>
-);
+          <CNavItem>
+            <CNavLink>Export</CNavLink>
+          </CNavItem>
+        </CHeaderNav>
+      </CContainer>
+    </CHeader>
+  );
+};
 
 export default PredictioNavigation;
