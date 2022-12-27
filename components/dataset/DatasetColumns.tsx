@@ -29,11 +29,6 @@ const DatasetColumns = () => {
 
   return (
     <CContainer>
-      <CRow className="my-2">
-        <CCol>
-          <h1>Dataset</h1>
-        </CCol>
-      </CRow>
       {isColumnValid(timeColumn) && (
         <>
           <CRow className="my-2">
