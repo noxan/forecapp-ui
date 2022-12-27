@@ -36,9 +36,9 @@ export default function Table({ data }: { data: any[] }) {
       <style>
         {`
         .table-header-content {
-          max-height: 40px;
+          // max-height: 40px;
           font-weight: normal;
-          line-height: 0.9rem;
+          // line-height: 0.9rem;
           overflow: hidden;
         }
         tbody > tr > td {
