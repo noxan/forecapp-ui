@@ -30,7 +30,7 @@ export default function WizardTimeColumnPage() {
         <CRow className="my-2">
           <CCol>
             <p>
-              {`Info: To pick the primary time series column from a dataset, you can first identify which column contains the time series data. This can typically be done by looking at the column headers and identifying the one that represents the time variable. Once you have identified the time series column, you can select it for further analysis or visualization. Some common names for time series columns in a dataset are "time," "date," "timestamp," and "datetime."`}
+              {`Info: To pick the primary time series column from a dataset, you can first identify which column contains the time series data. This can typically be done by looking at the column headers and identifying the one that represents the time variable. Once you have identified the time series column, you can select it for further analysis or visualization. Some common names for time series columns in a dataset are "time", "date", "timestamp", and "datetime."`}
             </p>
           </CCol>
         </CRow>
