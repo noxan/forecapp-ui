@@ -9,6 +9,7 @@ import {
   CNavLink,
 } from "@coreui/react";
 import { vars } from "../Navigation";
+import NavigationItem from "../NavigationItem";
 
 type Metrics = {
   [key: string]: number;
@@ -37,10 +38,8 @@ const PredictioNavigation = ({ metrics, status, apiPredictionAction }: any) => (
     <CContainer fluid>
       <CHeaderBrand className="mx-auto d-md-none">Header</CHeaderBrand>
       <CHeaderNav className="d-none d-md-flex me-auto">
+        <NavigationItem href="/dataset" label="Explore dataset" />
         {/* <CNavItem>
-          <CNavLink>Explore dataset</CNavLink>
-        </CNavItem>
-        <CNavItem>
           <CNavLink>Adjust parameters</CNavLink>
         </CNavItem> */}
       </CHeaderNav>
