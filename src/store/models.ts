@@ -6,8 +6,23 @@ import { forecappApi } from "./forecappApi";
 forecappApi.endpoints.predictionPredictionPost.useMutation;
 
 export type ModelState = {
+  forecasts?: number;
+  trend: {
+    growth: "off" | "linear";
+  };
+  autoregression: {
+    lags?: number;
+    regularization: number;
+  };
+  seasonality: {
+    daily: "auto" | "off";
+    weekly: "auto" | "off";
+    yearly: "auto" | "off";
+  };
+  training: object;
   laggedRegressors: any[];
   holidays: string[];
+  events: any[];
 };
 
 export const modelSlice = createSlice({
@@ -34,9 +49,9 @@ export const modelSlice = createSlice({
       batchSize: undefined,
       earlyStopping: true,
     },
-    events: [],
-    holidays: [],
     laggedRegressors: [],
+    holidays: [],
+    events: [],
   } as ModelState,
   reducers: {
     editModelConfig: (state, { payload }) => merge(state, payload),

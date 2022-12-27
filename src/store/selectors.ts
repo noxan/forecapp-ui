@@ -1,4 +1,5 @@
 import { RootState } from ".";
+import { ModelState } from "./models";
 
 export const selectDataset = (state: RootState) => state.datasets?.raw;
 
@@ -11,4 +12,5 @@ export const selectTargetColumn = (state: RootState): string =>
 export const selectStatus = (state: RootState): string =>
   state.datasets?.status;
 
-export const selectModelConfiguration = (state: RootState) => state.models;
+export const selectModelConfiguration = (state: RootState): ModelState =>
+  state.models;

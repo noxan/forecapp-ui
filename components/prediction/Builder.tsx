@@ -41,7 +41,7 @@ const PredictionBuilder = () => {
           <CFormCheck
             id="trend"
             label="Enable trend"
-            defaultChecked={modelConfiguration.trend?.growth === "linear"}
+            defaultChecked={modelConfiguration.trend.growth === "linear"}
             onChange={(e) =>
               dispatch(
                 editModelConfig({
@@ -60,7 +60,7 @@ const PredictionBuilder = () => {
           <CFormCheck
             id="seasonalityDaily"
             label="Enable daily seasonality"
-            defaultChecked={modelConfiguration.seasonality?.daily}
+            defaultChecked={modelConfiguration.seasonality.daily}
             onChange={(e) =>
               dispatch(
                 editModelConfig({
@@ -72,7 +72,7 @@ const PredictionBuilder = () => {
           <CFormCheck
             id="seasonalityWeekly"
             label="Enable weekly seasonality"
-            defaultChecked={modelConfiguration.seasonality?.weekly}
+            defaultChecked={modelConfiguration.seasonality.weekly}
             onChange={(e) =>
               dispatch(
                 editModelConfig({
@@ -84,7 +84,7 @@ const PredictionBuilder = () => {
           <CFormCheck
             id="seasonalityYearly"
             label="Enable yearly seasonality"
-            defaultChecked={modelConfiguration.seasonality?.yearly}
+            defaultChecked={modelConfiguration.seasonality.yearly}
             onChange={(e) =>
               dispatch(
                 editModelConfig({
@@ -105,7 +105,7 @@ const PredictionBuilder = () => {
             type="number"
             placeholder="off"
             min={0}
-            defaultValue={modelConfiguration?.autoregression?.lags}
+            defaultValue={modelConfiguration.autoregression.lags}
             onChange={(e) =>
               dispatch(
                 editModelConfig({ autoregression: { lags: e.target.value } })
