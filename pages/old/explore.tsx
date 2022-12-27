@@ -1,8 +1,8 @@
 import { CCol, CContainer, CRow } from "@coreui/react";
-import Layout from "../components/Layout";
-import { useAppSelector } from "../src/hooks";
-import { default as TableComponent } from "../components/Table";
-import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
+import Layout from "../../components/Layout";
+import { useAppSelector } from "../../src/hooks";
+import { default as TableComponent } from "../../components/Table";
+import MissingDatasetPlaceholder from "../../components/MissingDatasetPlaceholder";
 
 export default function Explore() {
   const dataset = useAppSelector((state) => state.datasets?.raw);

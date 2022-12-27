@@ -1,15 +1,15 @@
 import { CCol, CContainer, CRow } from "@coreui/react";
-import Layout from "../components/Layout";
-import { useAppSelector } from "../src/hooks";
-import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
+import Layout from "../../components/Layout";
+import { useAppSelector } from "../../src/hooks";
+import MissingDatasetPlaceholder from "../../components/MissingDatasetPlaceholder";
 import {
   selectDataset,
   selectTargetColumn,
   selectTimeColumn,
-} from "../src/store/selectors";
-import { validateColumnDefinitions } from "../src/definitions";
-import MissingColumnPlaceholder from "../components/MissingColumnPlaceholder";
-import DatasetChart from "../components/DatasetChart";
+} from "../../src/store/selectors";
+import { validateColumnDefinitions } from "../../src/definitions";
+import MissingColumnPlaceholder from "../../components/MissingColumnPlaceholder";
+import DatasetChart from "../../components/DatasetChart";
 
 export default function Visualization() {
   const dataset = useAppSelector(selectDataset);

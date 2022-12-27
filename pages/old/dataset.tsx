@@ -8,23 +8,23 @@ import {
   CRow,
 } from "@coreui/react";
 import { useState } from "react";
-import ColumnConfigPanel from "../components/ColumnConfigPanel";
-import Layout from "../components/Layout";
-import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
-import PrimaryColumnConfig from "../components/PrimaryColumnConfig";
-import { isColumnValid } from "../src/definitions";
-import { capitalize } from "../src/helpers";
-import { useAppDispatch, useAppSelector } from "../src/hooks";
+import ColumnConfigPanel from "../../components/ColumnConfigPanel";
+import Layout from "../../components/Layout";
+import MissingDatasetPlaceholder from "../../components/MissingDatasetPlaceholder";
+import PrimaryColumnConfig from "../../components/PrimaryColumnConfig";
+import { isColumnValid } from "../../src/definitions";
+import { capitalize } from "../../src/helpers";
+import { useAppDispatch, useAppSelector } from "../../src/hooks";
 import {
   resetAndDetectColumnConfig,
   setTargetColumn,
   setTimeColumn,
-} from "../src/store/datasets";
+} from "../../src/store/datasets";
 import {
   selectDataset,
   selectTargetColumn,
   selectTimeColumn,
-} from "../src/store/selectors";
+} from "../../src/store/selectors";
 
 export default function Dataset() {
   const timeColumn = useAppSelector(selectTimeColumn);
