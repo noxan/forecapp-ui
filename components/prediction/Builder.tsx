@@ -26,7 +26,6 @@ const PredictionBuilder = () => {
   const dispatch = useAppDispatch();
 
   const resolution = detectResolution(dataset, timeColumn);
-  console.log(resolution);
 
   return (
     <CAccordion activeItemKey={10}>
