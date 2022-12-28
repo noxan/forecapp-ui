@@ -19,7 +19,6 @@ export default function DatasetChart({
     visible: columnHeader === targetColumn ? true : "legendonly",
   })) as Plotly.Data[];
 
-  const y = dataset.map((item: any) => item[targetColumn]);
   return (
     <PlotlyChart
       useResizeHandler
