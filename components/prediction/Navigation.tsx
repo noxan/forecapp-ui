@@ -89,11 +89,11 @@ const PredictioNavigation = ({
           <CForm className="d-flex">
             <CButton onClick={apiPredictionAction}>Update forecast</CButton>
           </CForm>
-          {metrics && (
-            <CNavItem>
-              <CNavLink>Metrics: {displayMetrics(metrics)}</CNavLink>
-            </CNavItem>
-          )}
+          <CNavItem>
+            <CNavLink>
+              Metrics: {metrics ? displayMetrics(metrics) : "Loading"}
+            </CNavLink>
+          </CNavItem>
           {/* <CNavItem>
             <CNavLink>History</CNavLink>
           </CNavItem> */}
