@@ -99,6 +99,7 @@ const PredictioNavigation = ({
             <CButton
               variant="outline"
               color="secondary"
+              disabled={!forecastData}
               onClick={() => exportCSV(forecastData)}
             >
               Export CSV
