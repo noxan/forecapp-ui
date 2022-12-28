@@ -3,7 +3,7 @@
 Stick to essential model configurations.
 
 - [x] Data explorer (high)
-- [ ] Better describe, name and organize model configuration (high) (possibly )
+- [ ] Add help texts for people to understand feature better (high)
 - [ ] Simplify energy dataset (high)
 - [x] Exports for CSV (high)
 
@@ -11,7 +11,8 @@ Stick to essential model configurations.
 
 - [ ] Recruit new people for user interviews (high)
 
-- [ ] Validation for model configuration (medium)
+- [ ] Form validation for model configuration (medium)
+
 - [ ] History of model scores (low priority)
 - [ ] Configuration wizard (skip for now)
 
@@ -21,10 +22,11 @@ Stick to essential model configurations.
 - [x] Get api working again and not time out after 30s
 - [x] Add time information to x-axis
 - [x] Fix 0 or empty values for integer fields (e.g. "training.epochs")
-- [ ] Remove unused code (after data explorer refactor)
-- [ ] Rename "y" and "yhat" to "actual" and "prediction" in plots
-- [ ] "Reset axes" button on chart does nothing
+- [x] Remove unused code (after data explorer refactor)
 - [ ] Unclear time horizon resolution / unit
+- [ ] Rename "y" and "yhat" to "actual" and "prediction" in plots
+- [ ] Fix "yhat1" and "yhat2" if AR is enabled
+- [ ] "Reset axes" button on chart does nothing
 - [ ] Trend disabled does still show flat trend line in chart
 
 ## Improvements
@@ -41,7 +43,6 @@ Stick to essential model configurations.
 ## For beginners
 
 - Test if people understand forecasting vocabulary, e.g. "regularization", "autoregression" - not a problem if experts get it, discussion: where is the line between expert and beginner? and how do such tools differ for experts and beginners? -> show help
-
 
 ## Further ideas
 
