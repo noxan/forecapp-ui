@@ -117,7 +117,7 @@ const PredictionBuilder = () => {
             max={1}
             step={0.01}
             label="Regularization"
-            defaultValue={modelConfiguration?.autoregression?.regularization}
+            defaultValue={modelConfiguration.autoregression.regularization}
             onChange={(e) =>
               dispatch(
                 editModelConfig({
@@ -172,7 +172,7 @@ const PredictionBuilder = () => {
           <CFormCheck
             id="earlyStopping"
             label="Stop training early if no improvement is seen"
-            defaultChecked={modelConfiguration.training?.earlyStopping}
+            defaultChecked={modelConfiguration.training.earlyStopping}
             onChange={(e) =>
               dispatch(
                 editModelConfig({

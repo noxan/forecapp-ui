@@ -15,11 +15,16 @@ export type ModelState = {
     regularization: number;
   };
   seasonality: {
-    daily: boolean | "auto";
-    weekly: boolean | "auto";
-    yearly: boolean | "auto";
+    daily: any;
+    weekly: any;
+    yearly: any;
   };
-  training: object;
+  training: {
+    earlyStopping: boolean;
+    epochs: any;
+    batchSize: any;
+    learningRate: any;
+  };
   laggedRegressors: any[];
   holidays: string[];
   events: any[];
