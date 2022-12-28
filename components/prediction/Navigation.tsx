@@ -94,9 +94,9 @@ const PredictioNavigation = ({
               <CNavLink>Metrics: {displayMetrics(metrics)}</CNavLink>
             </CNavItem>
           )}
-          <CNavItem>
+          {/* <CNavItem>
             <CNavLink>History</CNavLink>
-          </CNavItem>
+          </CNavItem> */}
           <CForm className="d-flex">
             <CButton
               variant="outline"
