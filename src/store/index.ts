@@ -12,6 +12,8 @@ import storage from "reduxjs-toolkit-persist/lib/storage";
 import datasets from "./datasets";
 import models from "./models";
 
+export const databaseName = "forecapp-db";
+
 const isSSR = typeof window === "undefined";
 
 const configurePersistedReducers = () => {
@@ -30,7 +32,7 @@ const configureDatasetReducer = () => {
 
   const datasetsPersistConfig = {
     key: "datasets",
-    storage: storageIndexedDB("forecapp-db"),
+    storage: storageIndexedDB(databaseName),
   };
 
   return persistReducer(datasetsPersistConfig, datasets);

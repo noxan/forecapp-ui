@@ -3,6 +3,7 @@ import { useAppSelector } from "../src/hooks";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import ColumnPickerDebug from "../components/ColumnPickerDebug";
+import { databaseName } from "../src/store";
 
 const ReactJson = dynamic(() => import("@microlink/react-json-view"), {
   ssr: false,
@@ -10,6 +11,7 @@ const ReactJson = dynamic(() => import("@microlink/react-json-view"), {
 
 const resetApplication = () => {
   window.localStorage.clear();
+  window.indexedDB.deleteDatabase(databaseName);
   window.location.reload();
 };
 
