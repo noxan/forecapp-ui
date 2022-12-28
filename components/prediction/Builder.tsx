@@ -33,7 +33,8 @@ const PredictionBuilder = () => {
       <CAccordionItem itemKey={10}>
         <CAccordionHeader>Forecast horizon</CAccordionHeader>
         <CAccordionBody>
-          How far should the model predict into the future?
+          How far should the model predict into the future? The unit is based on
+          your dataset in <b>{resolution}</b>.
           <CFormInput
             type="number"
             defaultValue={modelConfiguration.forecasts}
