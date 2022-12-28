@@ -36,10 +36,17 @@ const displayMetrics = (metrics: any) => {
 };
 
 const exportCSV = (data: any) => {
-  const csv = papaUnparse({
-    fields: Object.keys(data),
-    data: Object.values(data).map((item: any) => Object.values(item)),
+  // Transform data into CSV format
+  const keys = Object.keys(data);
+  const tmp = Object.values(data[keys[0]]).map((_, index) => {
+    const obj: any = {};
+    keys.forEach((key: any) => {
+      obj[key] = data[key][index];
+    });
+    return obj;
   });
+  const csv = papaUnparse(tmp);
+  // Download CSV
   const blob = new Blob([csv]);
   const href = URL.createObjectURL(blob);
   const tempLink = document.createElement("a");
