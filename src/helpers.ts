@@ -115,3 +115,32 @@ export const generateChartFormatForSeries = (
     },
   ],
 });
+
+export const detectResolution = (dataset: any[], timeColumn: string) => {
+  // milliseconds
+  const diff =
+    new Date(dataset[1][timeColumn]).getTime() -
+    new Date(dataset[0][timeColumn]).getTime();
+
+  const seconds = diff / 1000;
+  const minutes = seconds / 60;
+  const hours = minutes / 60;
+  const days = hours / 24;
+  const weeks = days / 7;
+  const months = days / 30;
+
+  if (months >= 1) {
+    return "months";
+  } else if (weeks >= 1) {
+    return "weeks";
+  } else if (days >= 1) {
+    return "days";
+  } else if (hours >= 1) {
+    return "hours";
+  } else if (minutes >= 1) {
+    return "minutes";
+  } else if (seconds >= 1) {
+    return "seconds";
+  }
+  return "milliseconds";
+};

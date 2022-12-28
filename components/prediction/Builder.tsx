@@ -7,16 +7,26 @@ import {
   CFormInput,
   CFormRange,
 } from "@coreui/react";
+import { detectResolution } from "../../src/helpers";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
 import { editModelConfig } from "../../src/store/models";
-import { selectModelConfiguration } from "../../src/store/selectors";
+import {
+  selectDataset,
+  selectModelConfiguration,
+  selectTimeColumn,
+} from "../../src/store/selectors";
 import HolidayBuilder from "./HolidayBuilder";
 
 const transformEmptyToNull = (value: any) => (value === "" ? null : value);
 
 const PredictionBuilder = () => {
+  const dataset = useAppSelector(selectDataset);
+  const timeColumn = useAppSelector(selectTimeColumn);
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dispatch = useAppDispatch();
+
+  const resolution = detectResolution(dataset, timeColumn);
+  console.log(resolution);
 
   return (
     <CAccordion activeItemKey={10}>
