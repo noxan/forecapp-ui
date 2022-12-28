@@ -145,12 +145,13 @@ const PredictionBuilder = () => {
         </CAccordionBody>
       </CAccordionItem>
 
-      {/* <CAccordionItem itemKey={55}>
-        <CAccordionHeader>Indicators (regressors)</CAccordionHeader>
+      <CAccordionItem itemKey={55}>
+        <CAccordionHeader>Regressors</CAccordionHeader>
         <CAccordionBody>
-          Which other columns should be used to enhance the prediction?
+          Are there any variables or values which have an influence on our
+          prediction? (e.g. weather forecast for solar power production)
         </CAccordionBody>
-      </CAccordionItem> */}
+      </CAccordionItem>
 
       <CAccordionItem itemKey={60}>
         <CAccordionHeader>Training</CAccordionHeader>
