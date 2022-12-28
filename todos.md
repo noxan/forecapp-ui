@@ -3,9 +3,10 @@
 Stick to essential model configurations.
 
 - [ ] Data explorer (high)
-- [ ] Better describe, name and organize model configuration (high)
+- [ ] Better describe, name and organize model configuration (high) (possibly )
 - [ ] Simplify energy dataset (high)
 - [ ] Exports for CSV (high)
+
 - [ ] Recruit new people for user interviews (high)
 
 - [ ] Validation for model configuration (medium)
@@ -19,6 +20,21 @@ Stick to essential model configurations.
 - [x] Add time information to x-axis
 - [x] Fix 0 or empty values for integer fields (e.g. "training.epochs")
 - [ ] Remove unused code (after data explorer refactor)
+- [ ] Rename "y" and "yhat" to "actual" and "prediction" in plots
+- [ ] "Reset axes" button on chart does nothing
+- [ ] Unclear time horizon resolution / unit
+- [ ] Trend disabled does still show flat trend line in chart
+
+## Improvements
+
+- [ ] Unclear how to update forecasts
+  - [ ] Pressing enter on input fields does nothing
+  - [ ] Make "Update forecasts" button more prominent
+- [ ] Unclear to people if seasonality is enabled or not (if it does not automatically get detected)
+- [ ] Unclear what is a good value for auto regression (also trend moves a lot once autoregression or regularization gets enabled)
+- [ ] Unclear what epochs are? Add some help text / info icon
+- [ ] Unclear what the metrics stand for (MAE, RMSE, Loss, RegLoss, etc)? Add some help text / info icon - add some judgement if it is a good or bad value
+- [ ] Onboarding for the tool, see some examples and instructions how to interprete the results
 
 ## For beginners
 
@@ -33,3 +49,4 @@ Stick to essential model configurations.
 ## Charly
 
 - Besser leute direkt anschreiben für interviews
+- Participatory design -> mit leuten zusammen das Design erarbeiten, da noch mal reinschauen? Das Paper entsprechend aufbauen, z.B. am Anfang hatten sich alle gefragt was z.B. "RMSE" heißt, dann haben wir tooltips eingebaut, Fragen hatten sich nicht mehr gestellt und verschoben nach XYZ
