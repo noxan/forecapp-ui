@@ -31,7 +31,7 @@ Stick to essential model configurations.
 
 - [ ] Unclear how to update forecasts
   - [ ] Pressing enter on input fields does nothing
-  - [ ] Make "Update forecasts" button more prominent
+  - [x] Make "Update forecasts" button more prominent
 - [ ] Unclear to people if seasonality is enabled or not (if it does not automatically get detected)
 - [ ] Unclear what is a good value for auto regression (also trend moves a lot once autoregression or regularization gets enabled)
 - [ ] Unclear what epochs are? Add some help text / info icon
