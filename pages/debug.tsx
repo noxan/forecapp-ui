@@ -1,5 +1,4 @@
 import { CBadge, CButton, CCol, CContainer, CRow } from "@coreui/react";
-import Layout from "../components/Layout";
 import { useAppSelector } from "../src/hooks";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
@@ -18,7 +17,7 @@ export default function Debug() {
   const state = useAppSelector((state) => state);
 
   return (
-    <Layout>
+    <>
       <CContainer>
         <CRow className="my-2">
           <CCol>
@@ -48,6 +47,6 @@ export default function Debug() {
         </CRow>
       </CContainer>
       <ColumnPickerDebug />
-    </Layout>
+    </>
   );
 }

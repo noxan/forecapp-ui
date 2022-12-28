@@ -11,7 +11,11 @@ import {
 import { useState } from "react";
 import { unparse as papaUnparse } from "papaparse";
 import DatasetExplorer from "../DatasetExplorer";
-import { vars } from "../Navigation";
+
+export const vars: any = {
+  "--cui-header-min-height": "3rem",
+  "--cui-header-padding-y": "0.25rem",
+};
 
 type Metrics = {
   [key: string]: number;
