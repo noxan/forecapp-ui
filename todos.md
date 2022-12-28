@@ -5,7 +5,7 @@ Stick to essential model configurations.
 - [x] Data explorer (high)
 - [ ] Better describe, name and organize model configuration (high) (possibly )
 - [ ] Simplify energy dataset (high)
-- [ ] Exports for CSV (high)
+- [x] Exports for CSV (high)
 
 - [ ] Recruit new people for user interviews (high)
 

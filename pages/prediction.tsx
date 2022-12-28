@@ -60,6 +60,7 @@ export default function Visualization() {
     <>
       <PredictionNavigation
         metrics={predictionData?.metrics}
+        forecastData={predictionData?.forecast}
         status={status}
         apiPredictionAction={predictAction}
       />

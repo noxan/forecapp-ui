@@ -9,6 +9,7 @@ import {
   CNavLink,
 } from "@coreui/react";
 import { useState } from "react";
+import { unparse as papaUnparse } from "papaparse";
 import DatasetExplorer from "../DatasetExplorer";
 import { vars } from "../Navigation";
 
@@ -34,7 +35,25 @@ const displayMetrics = (metrics: any) => {
     ));
 };
 
-const PredictioNavigation = ({ metrics, status, apiPredictionAction }: any) => {
+const exportCSV = (data: any) => {
+  const csv = papaUnparse({
+    fields: Object.keys(data),
+    data: Object.values(data).map((item: any) => Object.values(item)),
+  });
+  const blob = new Blob([csv]);
+  const href = URL.createObjectURL(blob);
+  const tempLink = document.createElement("a");
+  tempLink.href = href;
+  tempLink.setAttribute("download", "forecapp-export.csv");
+  tempLink.click();
+};
+
+const PredictioNavigation = ({
+  metrics,
+  status,
+  forecastData,
+  apiPredictionAction,
+}: any) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -69,9 +88,15 @@ const PredictioNavigation = ({ metrics, status, apiPredictionAction }: any) => {
           <CNavItem>
             <CNavLink>History</CNavLink>
           </CNavItem>
-          <CNavItem>
-            <CNavLink>Export</CNavLink>
-          </CNavItem>
+          <CForm className="d-flex">
+            <CButton
+              variant="outline"
+              color="secondary"
+              onClick={() => exportCSV(forecastData)}
+            >
+              Export CSV
+            </CButton>
+          </CForm>
         </CHeaderNav>
       </CContainer>
     </CHeader>
