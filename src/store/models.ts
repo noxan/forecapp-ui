@@ -15,9 +15,9 @@ export type ModelState = {
     regularization: number;
   };
   seasonality: {
-    daily: "auto" | "off";
-    weekly: "auto" | "off";
-    yearly: "auto" | "off";
+    daily: boolean | "auto";
+    weekly: boolean | "auto";
+    yearly: boolean | "auto";
   };
   training: object;
   laggedRegressors: any[];
