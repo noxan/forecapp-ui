@@ -1,4 +1,6 @@
-import { CCol, CContainer, CRow } from "@coreui/react";
+import { CButton, CCol, CContainer, CRow } from "@coreui/react";
+import { useState } from "react";
+import DatasetExplorer from "../../components/DatasetExplorer";
 import LinkButton from "../../components/LinkButton";
 import MissingDatasetPlaceholder from "../../components/MissingDatasetPlaceholder";
 import PrimaryColumnConfig from "../../components/PrimaryColumnConfig";
@@ -12,6 +14,7 @@ import {
 } from "../../src/store/selectors";
 
 export default function WizardTimeColumnPage() {
+  const [modalVisible, setModalVisible] = useState(false);
   const targetColumn = useAppSelector(selectTargetColumn);
   const timeColumn = useAppSelector(selectTimeColumn);
   const dataset = useAppSelector(selectDataset);
@@ -28,6 +31,10 @@ export default function WizardTimeColumnPage() {
 
   return (
     <main>
+      <DatasetExplorer
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
       <CContainer className="mt-5">
         <CRow className="my-2">
           <CCol>
@@ -73,6 +80,14 @@ export default function WizardTimeColumnPage() {
             >
               Back
             </LinkButton>
+          </CCol>
+        </CRow>
+        <CRow className="my-4">
+          <CCol>
+            <div>You can also explore the dataset in detail.</div>
+            <CButton onClick={() => setModalVisible(true)} variant="outline">
+              Browse dataset
+            </CButton>
           </CCol>
         </CRow>
       </CContainer>
