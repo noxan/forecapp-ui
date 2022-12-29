@@ -42,7 +42,32 @@ const transformPredictionData = (forecast: any): Plotly.Data[] => {
   return res;
 };
 
-const PredictionChart = ({ predictionData }: { predictionData: any }) => (
+const generateHistoryMarker = (ds: any[], forecasts: number | undefined) => {
+  const offset = forecasts || 0;
+  return {
+    layer: "below",
+    type: "rect",
+    yref: "paper",
+    y1: 1,
+    y0: 0,
+    xref: "x",
+    x0: ds[ds.length - 1],
+    x1: ds[ds.length - offset - 1],
+    opacity: 0.25,
+    fillcolor: "grey",
+    line: {
+      width: 0,
+    },
+  } as any; // as Partial<Shape>;
+};
+
+const PredictionChart = ({
+  predictionData,
+  forecasts,
+}: {
+  predictionData: any;
+  forecasts: number | undefined;
+}) => (
   <PlotlyChart
     useResizeHandler
     data={transformPredictionData(predictionData.forecast)}
@@ -51,6 +76,12 @@ const PredictionChart = ({ predictionData }: { predictionData: any }) => (
       showlegend: true,
       legend: { orientation: "h", y: -0.05 },
       margin: { t: 10, r: 30 }, // b: 10, l: 30, pad: 10
+      shapes: [
+        generateHistoryMarker(
+          Object.values(predictionData.forecast.ds),
+          forecasts
+        ),
+      ],
     }}
     config={{
       responsive: true,

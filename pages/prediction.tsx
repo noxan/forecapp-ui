@@ -81,7 +81,10 @@ export default function Visualization() {
               </div>
             )}
             {predictionData && predictionData.status === "ok" && (
-              <PredictionChart predictionData={predictionData} />
+              <PredictionChart
+                predictionData={predictionData}
+                forecasts={modelConfiguration.forecasts}
+              />
             )}
           </CCol>
         </CRow>
