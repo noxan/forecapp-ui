@@ -45,13 +45,13 @@ export const modelSlice = createSlice({
     },
     seasonality: {
       mode: "additive",
-      daily: "auto",
-      weekly: "auto",
-      yearly: "auto",
+      daily: false,
+      weekly: false,
+      yearly: false,
     },
     training: {
       learningRate: undefined,
-      epochs: 20,
+      epochs: 10,
       batchSize: undefined,
       earlyStopping: true,
     },
