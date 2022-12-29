@@ -76,11 +76,11 @@ const PredictioNavigation = ({
         />
         <CHeaderBrand className="mx-auto d-md-none">Header</CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
-          <CNavItem>
-            <CNavLink onClick={() => setModalVisible(true)}>
+          <CForm className="d-flex">
+            <CButton variant="outline" onClick={() => setModalVisible(true)}>
               Explore dataset
-            </CNavLink>
-          </CNavItem>
+            </CButton>
+          </CForm>
           {/* <CNavItem>
           <CNavLink>Adjust parameters</CNavLink>
         </CNavItem> */}
