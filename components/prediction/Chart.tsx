@@ -1,4 +1,3 @@
-import { colors } from "../../src/colors";
 import { capitalize } from "../../src/helpers";
 import PlotlyChart from "../Plotly";
 
