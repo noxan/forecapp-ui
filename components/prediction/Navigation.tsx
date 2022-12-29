@@ -70,10 +70,12 @@ const PredictioNavigation = ({
   return (
     <CHeader position="sticky" className="mb-4" style={vars}>
       <CContainer fluid>
-        <DatasetExplorer
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-        />
+        {modalVisible && (
+          <DatasetExplorer
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+          />
+        )}
         <CHeaderBrand className="mx-auto d-md-none">Header</CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CForm className="d-flex">
