@@ -13,17 +13,25 @@ import { editModelConfig } from "../../src/store/models";
 import {
   selectDataset,
   selectModelConfiguration,
+  selectTargetColumn,
   selectTimeColumn,
 } from "../../src/store/selectors";
 import HolidayBuilder from "./HolidayBuilder";
+import LaggedRegressorBuilder from "./LaggedRegressorBuilder";
 
 const transformEmptyToNull = (value: any) => (value === "" ? null : value);
 
 const PredictionBuilder = () => {
   const dataset = useAppSelector(selectDataset);
+  const columnHeaders = Object.keys(dataset[0]);
   const timeColumn = useAppSelector(selectTimeColumn);
+  const targetColumn = useAppSelector(selectTargetColumn);
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dispatch = useAppDispatch();
+
+  const laggedRegressorColumns = columnHeaders.filter(
+    (column) => column !== timeColumn && column !== targetColumn
+  );
 
   const resolution = detectResolution(dataset, timeColumn);
 
@@ -160,6 +168,11 @@ const PredictionBuilder = () => {
         <CAccordionBody>
           Are there any variables or values which have an influence on our
           prediction? (e.g. weather forecast for solar power production)
+          <LaggedRegressorBuilder
+            laggedRegressorColumns={laggedRegressorColumns}
+            modelConfiguration={modelConfiguration}
+            updateConfig={(config: any) => dispatch(editModelConfig(config))}
+          />
         </CAccordionBody>
       </CAccordionItem>
 
