@@ -7,7 +7,7 @@ Stick to essential model configurations.
 - [ ] Simplify energy dataset (high)
 - [x] Exports for CSV (high)
 
-- [ ] Add configuration entry for lagged regressors
+- [x] Add configuration entry for lagged regressors
 
 - [ ] Recruit new people for user interviews (high)
 
