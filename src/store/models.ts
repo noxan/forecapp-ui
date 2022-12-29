@@ -59,7 +59,18 @@ export const modelSlice = createSlice({
     events: [],
   } as ModelState,
   reducers: {
-    editModelConfig: (state, { payload }) => merge(state, payload),
+    editModelConfig: (state, { payload }) => {
+      const keys = Object.keys(payload);
+      if (keys.includes("laggedRegressors")) {
+        const { laggedRegressors } = payload;
+        state.laggedRegressors = laggedRegressors;
+      } else if (keys.includes("holidays")) {
+        const { holidays } = payload;
+        state.holidays = holidays;
+      } else {
+        return merge(state, payload);
+      }
+    },
     editModelConfigJsonView: (_, { payload: { updated_src: newState } }: any) =>
       newState,
   },
