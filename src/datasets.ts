@@ -2,6 +2,11 @@ export const datasetBaseUrl = "/datasets/";
 
 const datasetExamples = [
   {
+    title: "Energy (2018)",
+    filename: "energy_dataset_2018.csv",
+    image: "photo-1508791290064-c27cc1ef7a9a",
+  },
+  {
     title: "Energy (full)",
     filename: "energy_dataset.csv",
     image: "photo-1473341304170-971dccb5ac1e",
