@@ -9,6 +9,7 @@ export type ModelState = {
   forecasts?: number;
   trend: {
     growth: "off" | "linear";
+    numberOfChangepoints: number;
   };
   autoregression: {
     lags?: number;
@@ -36,7 +37,7 @@ export const modelSlice = createSlice({
     forecasts: undefined,
     trend: {
       growth: "linear",
-      changepoints: 2,
+      numberOfChangepoints: 0,
     },
     autoregression: {
       lags: undefined,

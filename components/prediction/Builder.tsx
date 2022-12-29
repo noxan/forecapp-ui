@@ -68,7 +68,21 @@ const PredictionBuilder = () => {
               )
             }
           />
-          {/* <div>Changepoints - auto</div> */}
+          Number of changepoints
+          <CFormInput
+            type="number"
+            min={0}
+            defaultValue={modelConfiguration.trend.numberOfChangepoints}
+            onChange={(e) =>
+              dispatch(
+                editModelConfig({
+                  trend: {
+                    numberOfChangepoints: e.target.value,
+                  },
+                })
+              )
+            }
+          />
         </CAccordionBody>
       </CAccordionItem>
 
