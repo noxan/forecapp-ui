@@ -14,22 +14,24 @@ const LaggedRegressorBuilder = ({
 }: LaggedRegressorBuilderProps) => (
   <>
     <div>
-      {modelConfiguration?.laggedRegressors.map((laggedRegressor: any) => (
-        <CBadge
-          key={laggedRegressor.name}
-          color="secondary"
-          style={{ marginRight: "0.25rem" }}
-          onClick={() =>
-            updateConfig({
-              laggedRegressors: (
-                modelConfiguration?.laggedRegressors || []
-              ).filter((item: any) => item.name !== laggedRegressor.name),
-            })
-          }
-        >
-          {laggedRegressor.name}
-        </CBadge>
-      ))}
+      {modelConfiguration?.laggedRegressors.map(
+        (laggedRegressor: any, index: number) => (
+          <CBadge
+            key={`${laggedRegressor.name}-${index}`}
+            color="secondary"
+            style={{ cursor: "not-allowed", marginRight: "0.25rem" }}
+            onClick={() =>
+              updateConfig({
+                laggedRegressors: (
+                  modelConfiguration?.laggedRegressors || []
+                ).filter((item: any) => item.name !== laggedRegressor.name),
+              })
+            }
+          >
+            {capitalize(laggedRegressor.name)}
+          </CBadge>
+        )
+      )}
     </div>
     <CFormSelect
       className="mt-2"
