@@ -66,8 +66,8 @@ export const transformDataset = (
 
       // Lagged regressors
       modelConfig.laggedRegressors.forEach((laggedRegressor: any) => {
-        const outputName = laggedRegressor.dataColumnRef;
-        const identifier = laggedRegressor.dataColumnRef;
+        const outputName = laggedRegressor.name;
+        const identifier = laggedRegressor.name;
         newRow[outputName] = row[identifier];
         if (!row[identifier]) {
           newRow["ERROR"] = true;
