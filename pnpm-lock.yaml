@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@coreui/chartjs': ^3.0.0
-  '@coreui/coreui': ^4.2.4
+  '@coreui/coreui': ^4.2.6
   '@coreui/react': ^4.5.0
   '@coreui/react-chartjs': ^2.1.1
   '@microlink/react-json-view': ^1.22.2
@@ -49,7 +49,7 @@ specifiers:
 
 dependencies:
   '@coreui/chartjs': 3.0.0_@popperjs+core@2.11.6
-  '@coreui/coreui': 4.2.4_bqw6sqyaxpvismltzrts2sffu4
+  '@coreui/coreui': 4.2.6_bqw6sqyaxpvismltzrts2sffu4
   '@coreui/react': 4.5.0_biqbaboplfbrettd7655fr4n2y
   '@coreui/react-chartjs': 2.1.1_r6q5zrenym2zg7je7hgi674bti
   '@microlink/react-json-view': 1.22.2_knhnagtyfncgg2hpin7s37uixq
@@ -133,7 +133,7 @@ packages:
     resolution: {integrity: sha512-jr9lCZ4RbRQmCR28Q8U8Fu49zvFqLxTY9AMOUz+iyMohMoAgpEcVxY+wJNay99oXOpOcCTODkk70NDN2aaJEeg==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      core-js-pure: 3.27.0
+      core-js-pure: 3.27.1
       regenerator-runtime: 0.13.11
     dev: false
 
@@ -168,8 +168,8 @@ packages:
       '@popperjs/core': 2.11.6
     dev: false
 
-  /@coreui/coreui/4.2.4_bqw6sqyaxpvismltzrts2sffu4:
-    resolution: {integrity: sha512-ENXa+SJab0Wv4TggVmY2umrWKEapWaCYPDwfdxGWd9SywsJX16R35lejpeSaHSZpgTZq+8WlFu/AyOhI1M/d9A==}
+  /@coreui/coreui/4.2.6_bqw6sqyaxpvismltzrts2sffu4:
+    resolution: {integrity: sha512-h9j1BVnaDi9vSr1t0H8NL3hlDD4lU9kIdGLXn7g9k5iaFq5EDlRDcSBDer6lR2O4sIEl7W7YqTlevLxFC+1cIA==}
     peerDependencies:
       '@popperjs/core': ^2.11.6
     dependencies:
@@ -768,7 +768,7 @@ packages:
       '@tensorflow/tfjs-layers': 3.21.0_aipmo6igpprgzt4umpaa3m6sn4
       argparse: 1.0.10
       chalk: 4.1.2
-      core-js: 3.27.0
+      core-js: 3.27.1
       regenerator-runtime: 0.13.11
       yargs: 16.2.0
     transitivePeerDependencies:
@@ -1590,13 +1590,13 @@ packages:
     resolution: {integrity: sha512-wfs+V4HdSN7C3CWJWR7hVa24yTPn3mDJthwhRIObZBh6UjTjkUMUrCP3UrNGozB/HjTpcScnGXtQUNa+yjsIJQ==}
     dev: false
 
-  /core-js-pure/3.27.0:
-    resolution: {integrity: sha512-fJml7FM6v1HI3Gkg5/Ifc/7Y2qXcJxaDwSROeZGAZfNykSTvUk94WT55TYzJ2lFHK0voSr/d4nOVChLuNCWNpA==}
+  /core-js-pure/3.27.1:
+    resolution: {integrity: sha512-BS2NHgwwUppfeoqOXqi08mUqS5FiZpuRuJJpKsaME7kJz0xxuk0xkhDdfMIlP/zLa80krBqss1LtD7f889heAw==}
     requiresBuild: true
     dev: false
 
-  /core-js/3.27.0:
-    resolution: {integrity: sha512-wY6cKosevs430KRkHUIsvepDXHGjlXOZO3hYXNyqpD6JvB0X28aXyv0t1Y1vZMwE7SoKmtfa6IASHCPN52FwBQ==}
+  /core-js/3.27.1:
+    resolution: {integrity: sha512-GutwJLBChfGCpwwhbYoqfv03LAfmiz7e7D/BNxzeMxwQf10GRSzqiOjx7AmtEk+heiD/JWmBuyBPgFtx0Sg1ww==}
     requiresBuild: true
     dev: false
 
