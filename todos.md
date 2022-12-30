@@ -24,7 +24,7 @@ Stick to essential model configurations.
 - [x] Fix 0 or empty values for integer fields (e.g. "training.epochs")
 - [x] Remove unused code (after data explorer refactor)
 - [ ] Unclear time horizon resolution / unit
-- [ ] Rename "y" and "yhat" to "actual" and "prediction" in plots
+- [x] Rename "y" and "yhat" to "actual" and "prediction" in plots
 - [ ] Fix "yhat1" and "yhat2" if AR is enabled
 - [ ] "Reset axes" button on chart does nothing
 - [ ] Trend disabled does still show flat trend line in chart
