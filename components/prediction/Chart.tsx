@@ -15,8 +15,8 @@ const filterColumns = (columns: string[]) =>
   );
 
 const columnRenameMap = {
-  // y: "Actual",
-  // yhat1: "Prediction",
+  y: "Actual (y)",
+  yhat1: "Prediction (yhat)",
   season_daily: "Seasonality (Daily)",
   season_weekly: "Seasonality (Weekly)",
   season_yearly: "Seasonality (Yearly)",
