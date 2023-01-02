@@ -20,6 +20,7 @@ const configurePersistedReducers = () => {
   const persistConfig = {
     key: "root",
     storage,
+    blacklist: ["datasets"],
   };
 
   const persistedReducers = persistReducer(persistConfig, reducers);
