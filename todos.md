@@ -28,6 +28,7 @@ Stick to essential model configurations.
 - [ ] Fix "yhat1" and "yhat2" if AR is enabled
 - [ ] "Reset axes" button on chart does nothing
 - [ ] Trend disabled does still show flat trend line in chart
+- [ ] Chart history/future background should only update when prediction changes (not directly with forecasting horizon setting)
 
 ## Improvements
 
