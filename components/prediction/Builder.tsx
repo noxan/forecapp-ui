@@ -77,7 +77,7 @@ const PredictionBuilder = () => {
               dispatch(
                 editModelConfig({
                   trend: {
-                    numberOfChangepoints: e.target.value,
+                    numberOfChangepoints: parseInt(e.target.value, 10),
                   },
                 })
               )
