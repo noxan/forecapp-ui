@@ -14,7 +14,6 @@ Stick to essential model configurations.
 - [ ] Form validation for model configuration (medium)
 
 - [ ] History of model scores (low priority)
-- [ ] Configuration wizard (skip for now)
 
 ## Bugfixes
 
@@ -23,12 +22,13 @@ Stick to essential model configurations.
 - [x] Add time information to x-axis
 - [x] Fix 0 or empty values for integer fields (e.g. "training.epochs")
 - [x] Remove unused code (after data explorer refactor)
-- [ ] Unclear time horizon resolution / unit
 - [x] Rename "y" and "yhat" to "actual" and "prediction" in plots
 - [ ] Fix "yhat1" and "yhat2" if AR is enabled
-- [ ] "Reset axes" button on chart does nothing
-- [ ] Trend disabled does still show flat trend line in chart
 - [ ] Chart history/future background should only update when prediction changes (not directly with forecasting horizon setting)
+- [ ] Unclear time horizon resolution / unit
+- [ ] Trend disabled does still show flat trend line in chart
+- [ ] Add default or autodetected parameter ranges (e.g. epochs, learning rate, etc)
+- [ ] "Reset axes" button on chart does nothing
 
 ## Improvements
 
@@ -47,6 +47,7 @@ Stick to essential model configurations.
 
 ## Further ideas
 
+- Configuration wizard (skip for now)
 - Explainable charts directly via python plot: https://stackoverflow.com/questions/72930513/how-to-plot-plotly-chart-on-react-from-json-response-from-flask-api
 
 
