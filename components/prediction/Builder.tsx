@@ -72,6 +72,7 @@ const PredictionBuilder = () => {
           <CFormInput
             type="number"
             min={0}
+            disabled={modelConfiguration.trend.growth === "off"}
             defaultValue={modelConfiguration.trend.numberOfChangepoints}
             onChange={(e) =>
               dispatch(
