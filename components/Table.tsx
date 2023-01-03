@@ -22,9 +22,6 @@ export default function Table({ data }: { data: any[] }) {
     })
   );
 
-  console.log(data);
-  console.log(columns);
-
   const table = useReactTable({
     data,
     columns,
