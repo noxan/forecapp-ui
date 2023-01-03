@@ -71,7 +71,6 @@ export default function Visualization() {
             <PredictionBuilder />
           </CCol>
           <CCol style={{ position: "relative" }}>
-            <h1>Forecast</h1>
             {status === "loading" && <LoadingOverlay />}
             {((predictionData && predictionData.status !== "ok") || error) && (
               <div>
