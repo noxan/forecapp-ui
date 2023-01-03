@@ -4,7 +4,7 @@ Stick to essential model configurations.
 
 - [x] Data explorer (high)
 - [ ] Add help texts for people to understand feature better (high)
-- [ ] Simplify energy dataset (high)
+- [ ] Simplify energy dataset (high) -> remove other energy dataset variations
 - [x] Exports for CSV (high)
 
 - [x] Add configuration entry for lagged regressors
