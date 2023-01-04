@@ -1,19 +1,6 @@
 import { capitalize } from "../../src/helpers";
 import PlotlyChart from "../Plotly";
 
-const filterColumns = (columns: string[]) =>
-  columns.filter((column) =>
-    [
-      "residual1",
-      "yhat1",
-      "season_daily",
-      "season_weekly",
-      "season_yearly",
-      "trend",
-      "y",
-    ].includes(column)
-  );
-
 const columnRenameMap = {
   y: "Actual (y)",
   yhat1: "Prediction (yhat)",
