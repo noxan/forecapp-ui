@@ -23,13 +23,15 @@ Stick to essential model configurations.
 - [x] Fix 0 or empty values for integer fields (e.g. "training.epochs")
 - [x] Remove unused code (after data explorer refactor)
 - [x] Rename "y" and "yhat" to "actual" and "prediction" in plots
-- [ ] Add labels and units to axis
+- [x] Unclear time horizon resolution / unit
+- [x] Add labels to axis
 - [ ] Fix "yhat1" and "yhat2" if AR is enabled
 - [ ] Chart history/future background should only update when prediction changes (not directly with forecasting horizon setting)
-- [ ] Unclear time horizon resolution / unit
 - [ ] Trend disabled does still show flat trend line in chart
 - [ ] Add default or autodetected parameter ranges (e.g. epochs, learning rate, etc)
 - [ ] "Reset axes" button on chart does nothing
+- [ ] Remove plotly info button from chart
+- [ ] Add units to axis (pretty impossible with the dataset)
 
 ## Improvements
 
