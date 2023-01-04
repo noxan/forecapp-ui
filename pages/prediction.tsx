@@ -81,6 +81,7 @@ export default function Visualization() {
             )}
             {predictionData && predictionData.status === "ok" && (
               <PredictionChart
+                targetColumn={targetColumn}
                 predictionData={predictionData}
                 forecasts={modelConfiguration.forecasts}
               />

@@ -62,9 +62,11 @@ const generateHistoryMarker = (ds: any[], forecasts: number | undefined) => {
 };
 
 const PredictionChart = ({
+  targetColumn,
   predictionData,
   forecasts,
 }: {
+  targetColumn: string;
   predictionData: any;
   forecasts: number | undefined;
 }) => (
@@ -82,6 +84,9 @@ const PredictionChart = ({
           forecasts
         ),
       ],
+      yaxis: {
+        title: { text: targetColumn },
+      },
     }}
     config={{
       responsive: true,
