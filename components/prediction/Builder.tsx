@@ -6,7 +6,6 @@ import {
   CFormCheck,
   CFormInput,
   CFormRange,
-  CTooltip,
 } from "@coreui/react";
 import { detectResolution } from "../../src/helpers";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
@@ -19,7 +18,7 @@ import {
 } from "../../src/store/selectors";
 import HolidayBuilder from "./HolidayBuilder";
 import LaggedRegressorBuilder from "./LaggedRegressorBuilder";
-import Image from "next/image";
+import Info from "../Info";
 
 const transformEmptyToNull = (value: any) => (value === "" ? null : value);
 
@@ -44,19 +43,7 @@ const PredictionBuilder = () => {
         <CAccordionBody>
           How far should the model predict into the future? The unit is based on
           your dataset in <b>{resolution}</b>.
-          <CTooltip
-            content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
-            placement="right"
-          >
-            <a>
-              <Image
-                src="/icon-info.svg"
-                width="30"
-                height="30"
-                alt="Help text"
-              />
-            </a>
-          </CTooltip>
+          <Info text="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." />
           <CFormInput
             type="number"
             defaultValue={modelConfiguration.forecasts}
