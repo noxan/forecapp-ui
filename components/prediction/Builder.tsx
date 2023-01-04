@@ -3,10 +3,14 @@ import {
   CAccordionBody,
   CAccordionHeader,
   CAccordionItem,
+  CButton,
   CFormCheck,
   CFormInput,
   CFormRange,
+  CTooltip,
 } from "@coreui/react";
+import CIcon from "@coreui/icons-react";
+import { cilInfo } from "@coreui/icons";
 import { detectResolution } from "../../src/helpers";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
 import { editModelConfig } from "../../src/store/models";
@@ -42,6 +46,14 @@ const PredictionBuilder = () => {
         <CAccordionBody>
           How far should the model predict into the future? The unit is based on
           your dataset in <b>{resolution}</b>.
+          <CTooltip
+            content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+            placement="right"
+          >
+            <CButton color="secondary" shape="rounded-pill">
+              <CIcon icon={cilInfo} />
+            </CButton>
+          </CTooltip>
           <CFormInput
             type="number"
             defaultValue={modelConfiguration.forecasts}

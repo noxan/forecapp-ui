@@ -3,6 +3,8 @@ lockfileVersion: 5.4
 specifiers:
   '@coreui/chartjs': ^3.0.0
   '@coreui/coreui': ^4.2.6
+  '@coreui/icons': ^2.1.0
+  '@coreui/icons-react': ^2.1.0
   '@coreui/react': ^4.5.0
   '@coreui/react-chartjs': ^2.1.1
   '@microlink/react-json-view': ^1.22.2
@@ -50,6 +52,8 @@ specifiers:
 dependencies:
   '@coreui/chartjs': 3.0.0_@popperjs+core@2.11.6
   '@coreui/coreui': 4.2.6_bqw6sqyaxpvismltzrts2sffu4
+  '@coreui/icons': 2.1.0
+  '@coreui/icons-react': 2.1.0_biqbaboplfbrettd7655fr4n2y
   '@coreui/react': 4.5.0_biqbaboplfbrettd7655fr4n2y
   '@coreui/react-chartjs': 2.1.1_r6q5zrenym2zg7je7hgi674bti
   '@microlink/react-json-view': 1.22.2_knhnagtyfncgg2hpin7s37uixq
@@ -177,6 +181,20 @@ packages:
       postcss-combine-duplicated-selectors: 10.0.3_postcss@8.4.20
     transitivePeerDependencies:
       - postcss
+    dev: false
+
+  /@coreui/icons-react/2.1.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-x7qhVB6IJFbGBh/An3QZHtuUISM+TBgc4x3ecrBel+wMdJm4Qpmg9Km0GFfOkP6/fNOfy2fLb2wZ2bbe5+sgQA==}
+    peerDependencies:
+      react: '>=17'
+      react-dom: '>=17'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@coreui/icons/2.1.0:
+    resolution: {integrity: sha512-3yY9J0088TSY403jwJeP5YERH3RLOvxdhOa4VIQsGOX4fuQZiyVUM+vwlzyCSpgAv9NwKPkCor+gc+JJaYf0TA==}
     dev: false
 
   /@coreui/react-chartjs/2.1.1_r6q5zrenym2zg7je7hgi674bti:

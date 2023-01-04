@@ -11,6 +11,8 @@
   "dependencies": {
     "@coreui/chartjs": "^3.0.0",
     "@coreui/coreui": "^4.2.6",
+    "@coreui/icons": "^2.1.0",
+    "@coreui/icons-react": "^2.1.0",
     "@coreui/react": "^4.5.0",
     "@coreui/react-chartjs": "^2.1.1",
     "@microlink/react-json-view": "^1.22.2",
