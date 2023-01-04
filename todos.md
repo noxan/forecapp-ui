@@ -23,6 +23,7 @@ Stick to essential model configurations.
 - [x] Fix 0 or empty values for integer fields (e.g. "training.epochs")
 - [x] Remove unused code (after data explorer refactor)
 - [x] Rename "y" and "yhat" to "actual" and "prediction" in plots
+- [ ] Add labels and units to axis
 - [ ] Fix "yhat1" and "yhat2" if AR is enabled
 - [ ] Chart history/future background should only update when prediction changes (not directly with forecasting horizon setting)
 - [ ] Unclear time horizon resolution / unit
