@@ -25,7 +25,7 @@ export const importDatasetWithAutodetect =
     const state = getState();
     // TODO: initialize empty header columns if dataset does not provide any
     const columnHeaders = Object.keys(state.datasets.raw[0]);
-    dispatch(resetAndDetectColumnConfig({ columnHeaders }));
+    await dispatch(resetAndDetectColumnConfig({ columnHeaders }));
   };
 
 type PredictionQueryArg = { dataset: any[]; configuration: object };
