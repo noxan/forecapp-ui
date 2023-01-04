@@ -25,13 +25,14 @@ Stick to essential model configurations.
 - [x] Rename "y" and "yhat" to "actual" and "prediction" in plots
 - [x] Unclear time horizon resolution / unit
 - [x] Add labels to axis
-- [ ] Fix "yhat1" and "yhat2" if AR is enabled
+- [x] Fix "yhat1" and "yhat2" if AR is enabled
 - [ ] Chart history/future background should only update when prediction changes (not directly with forecasting horizon setting)
 - [ ] Trend disabled does still show flat trend line in chart
 - [ ] Add default or autodetected parameter ranges (e.g. epochs, learning rate, etc)
 - [ ] "Reset axes" button on chart does nothing
 - [ ] Remove plotly info button from chart
 - [ ] Add units to axis (pretty impossible with the dataset)
+- [ ] Add instructions for people on how to approach time series forecasting (start with trend, then seasonality, then AR, then regularization, etc)
 
 ## Improvements
 
