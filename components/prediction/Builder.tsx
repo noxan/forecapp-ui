@@ -3,14 +3,11 @@ import {
   CAccordionBody,
   CAccordionHeader,
   CAccordionItem,
-  CButton,
   CFormCheck,
   CFormInput,
   CFormRange,
   CTooltip,
 } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
-import { cilInfo } from "@coreui/icons";
 import { detectResolution } from "../../src/helpers";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
 import { editModelConfig } from "../../src/store/models";
@@ -22,6 +19,7 @@ import {
 } from "../../src/store/selectors";
 import HolidayBuilder from "./HolidayBuilder";
 import LaggedRegressorBuilder from "./LaggedRegressorBuilder";
+import Image from "next/image";
 
 const transformEmptyToNull = (value: any) => (value === "" ? null : value);
 
@@ -50,9 +48,14 @@ const PredictionBuilder = () => {
             content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
             placement="right"
           >
-            <CButton color="secondary" shape="rounded-pill">
-              <CIcon icon={cilInfo} />
-            </CButton>
+            <a>
+              <Image
+                src="/icon-info.svg"
+                width="30"
+                height="30"
+                alt="Help text"
+              />
+            </a>
           </CTooltip>
           <CFormInput
             type="number"
