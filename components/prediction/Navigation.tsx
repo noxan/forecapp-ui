@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import { unparse as papaUnparse } from "papaparse";
 import DatasetExplorer from "../DatasetExplorer";
+import Info from "../Info";
 
 export const vars: any = {
   "--cui-header-min-height": "3rem",
@@ -94,6 +95,11 @@ const PredictioNavigation = ({
           <CNavItem>
             <CNavLink>
               Metrics: {metrics ? displayMetrics(metrics) : "Loading"}
+              <Info placement="bottom">
+                MAE = Mean absolute error (less is better)
+                <br />
+                RMSE = Root-mean-square deviation (less is better)
+              </Info>
             </CNavLink>
           </CNavItem>
           {/* <CNavItem>
