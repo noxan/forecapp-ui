@@ -83,7 +83,7 @@ export default function Visualization() {
               <PredictionChart
                 targetColumn={targetColumn}
                 predictionData={predictionData}
-                forecasts={modelConfiguration.forecasts}
+                forecasts={predictionData?.configuration?.forecasts}
               />
             )}
           </CCol>
