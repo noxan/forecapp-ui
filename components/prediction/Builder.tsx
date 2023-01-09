@@ -136,6 +136,7 @@ const PredictionBuilder = () => {
         <CAccordionHeader>Auto regression</CAccordionHeader>
         <CAccordionBody>
           How many previous values should be used to predict the next value?
+          <Info text="Autoregression uses previous values of a time-series to predict the value of the next time point. It is based on the assumption that the past values of a time-series are related to the future values in a linear way. The optimal value for an autoregressive model is determined by the complexity of the relationship between the past and future values in the time-series data. A larger value may capture more of this complexity, but it may also increase the risk of overfitting, where the model fits the training data too closely and may not generalize well to new data. On the other hand, a smaller value may not capture enough complexity and may result in a model with lower accuracy." />
           <CFormInput
             className="mb-4"
             type="number"
