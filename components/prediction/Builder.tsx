@@ -137,6 +137,7 @@ const PredictionBuilder = () => {
         <CAccordionBody>
           How many previous values should be used to predict the next value?
           <CFormInput
+            className="mb-4"
             type="number"
             placeholder="off"
             min={0}
@@ -151,7 +152,7 @@ const PredictionBuilder = () => {
             min={0}
             max={1}
             step={0.01}
-            label="Regularization"
+            label={`Regularization (${modelConfiguration.autoregression.regularization})`}
             defaultValue={modelConfiguration.autoregression.regularization}
             onChange={(e) =>
               dispatch(
