@@ -45,7 +45,7 @@ export const modelSlice = createSlice({
     },
     seasonality: {
       mode: "additive",
-      daily: false,
+      daily: true,
       weekly: false,
       yearly: false,
     },
