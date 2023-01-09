@@ -34,7 +34,7 @@ export type ModelState = {
 export const modelSlice = createSlice({
   name: "models",
   initialState: {
-    forecasts: undefined,
+    forecasts: 168,
     trend: {
       growth: "linear",
       numberOfChangepoints: 0,
