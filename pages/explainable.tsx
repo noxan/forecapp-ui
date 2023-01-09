@@ -30,8 +30,8 @@ export default function Visualization() {
           <h1>Explainable</h1>
           <PlotlyChart
             useResizeHandler
-            data={predictionData.explainable?.components.data}
-            layout={predictionData.explainable?.components.layout}
+            data={predictionData.explainable?.parameters.data}
+            layout={predictionData.explainable?.parameters.layout}
             config={{
               responsive: true,
             }}
