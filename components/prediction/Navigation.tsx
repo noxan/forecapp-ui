@@ -60,7 +60,7 @@ const exportCSV = (data: any) => {
   tempLink.click();
 };
 
-const PredictioNavigation = ({
+const PredictionNavigation = ({
   metrics,
   status,
   forecastData,
@@ -121,4 +121,4 @@ const PredictioNavigation = ({
   );
 };
 
-export default PredictioNavigation;
+export default PredictionNavigation;
