@@ -25,7 +25,7 @@ export default function Visualization() {
   }
 
   return (
-    <CContainer fluid>
+    <CContainer>
       <CRow>
         <CCol>
           <h1>Explain forecast parameters</h1>
