@@ -34,8 +34,11 @@ export default function Visualization() {
           </LinkButton>
           <PlotlyChart
             useResizeHandler
-            data={predictionData.explainable?.parameters.data}
-            layout={predictionData.explainable?.parameters.layout}
+            data={[...predictionData.explainable?.parameters.data]}
+            layout={Object.assign(
+              {},
+              predictionData.explainable?.parameters.layout
+            )}
             config={{
               responsive: true,
             }}
