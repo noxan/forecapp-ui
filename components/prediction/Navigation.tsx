@@ -12,6 +12,7 @@ import { useState } from "react";
 import { unparse as papaUnparse } from "papaparse";
 import DatasetExplorer from "../DatasetExplorer";
 import Info from "../Info";
+import LinkButton from "../LinkButton";
 
 export const vars: any = {
   "--cui-header-min-height": "3rem",
@@ -83,10 +84,10 @@ const PredictionNavigation = ({
             <CButton variant="outline" onClick={() => setModalVisible(true)}>
               Explore dataset
             </CButton>
+            <LinkButton className="mx-2" href="/explainable" variant="outline">
+              Explain forecast parameters
+            </LinkButton>
           </CForm>
-          {/* <CNavItem>
-          <CNavLink>Adjust parameters</CNavLink>
-        </CNavItem> */}
         </CHeaderNav>
         <CHeaderNav>
           <CForm className="d-flex">

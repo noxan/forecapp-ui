@@ -9,6 +9,7 @@ import { validateColumnDefinitions } from "../src/definitions";
 import { CCol, CContainer, CRow } from "@coreui/react";
 import MissingColumnPlaceholder from "../components/MissingColumnPlaceholder";
 import PlotlyChart from "../components/Plotly";
+import LinkButton from "../components/LinkButton";
 
 export default function Visualization() {
   const dataset = useAppSelector(selectDataset);
@@ -27,7 +28,10 @@ export default function Visualization() {
     <CContainer fluid>
       <CRow>
         <CCol>
-          <h1>Explainable</h1>
+          <h1>Explain forecast parameters</h1>
+          <LinkButton href="/prediction" variant="outline">
+            Back to prediction
+          </LinkButton>
           <PlotlyChart
             useResizeHandler
             data={predictionData.explainable?.parameters.data}
