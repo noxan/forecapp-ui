@@ -29,8 +29,6 @@
     "@types/react-plotly.js": "^2.6.0",
     "chart.js": "^3.9.1",
     "csv-parse": "^5.3.4",
-    "danfojs": "^1.1.2",
-    "danfojs-node": "^1.1.2",
     "eslint": "8.26.0",
     "eslint-config-next": "13.0.1",
     "glyphicons-only-bootstrap": "^1.0.1",
