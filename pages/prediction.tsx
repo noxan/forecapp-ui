@@ -19,6 +19,7 @@ import PredictionChart from "../components/prediction/Chart";
 import LoadingOverlay from "../components/prediction/LoadingOverlay";
 import MissingForecastPlaceholder from "../components/MissingForecastPlaceholder";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function Visualization() {
   const router = useRouter();
@@ -41,10 +42,14 @@ export default function Visualization() {
     );
 
   const isFirstRun = Object.keys(router.query).includes("first-run");
-  if (isFirstRun) {
-    router.replace({ query: {} });
-    predictAction();
-  }
+
+  useEffect(() => {
+    if(isFirstRun) {
+      router.replace({query: {}});
+      predictAction();
+    }
+  }, []);
+  
 
   if (!dataset) {
     return <MissingDatasetPlaceholder />;
