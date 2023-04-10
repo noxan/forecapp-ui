@@ -20,6 +20,7 @@ import LoadingOverlay from "../components/prediction/LoadingOverlay";
 import MissingForecastPlaceholder from "../components/MissingForecastPlaceholder";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { LaggedRegressorState } from "../src/store/models";
 
 export default function Visualization() {
   const router = useRouter();
@@ -33,13 +34,21 @@ export default function Visualization() {
   const targetColumn = useAppSelector(selectTargetColumn);
   const predictionData = useAppSelector((state) => state.datasets.prediction);
 
-  const predictAction = () =>
+  const predictAction = () => {
+    // First check that there is enough data to satisfy the given number of lags and forecasts
+    // For Neural Prophet we need n_samples = data - max(lags) - forecast + 1 to be positive
+    let max_lags = Math.max(modelConfiguration.autoregression.lags, ...modelConfiguration.laggedRegressors.map((lr : LaggedRegressorState) => lr.lags))
+    if(dataset.length - max_lags - modelConfiguration.forecasts <= -1) {
+      // TODO: Need some sort of error message to the user here
+      return;
+    }
     dispatch(
       apiPrediction({
         dataset: transformDataset(dataset, modelConfiguration, columns),
         configuration: modelConfiguration,
       })
     );
+  }
 
   const isFirstRun = Object.keys(router.query).includes("first-run");
 

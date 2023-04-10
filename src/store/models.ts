@@ -5,14 +5,21 @@ import { forecappApi } from "./forecappApi";
 
 forecappApi.endpoints.predictionPredictionPost.useMutation;
 
+export type LaggedRegressorState = {
+  name: string;
+  lags: number;
+  regularization: number;
+  normalization: boolean | "auto";
+}
+
 export type ModelState = {
-  forecasts?: number;
+  forecasts: number;
   trend: {
     growth: "off" | "linear";
     numberOfChangepoints: number;
   };
   autoregression: {
-    lags?: number;
+    lags: number;
     regularization: number;
   };
   seasonality: {
@@ -26,7 +33,7 @@ export type ModelState = {
     batchSize: any;
     learningRate: any;
   };
-  laggedRegressors: any[];
+  laggedRegressors: LaggedRegressorState[];
   holidays: string[];
   events: any[];
 };
@@ -40,7 +47,7 @@ export const modelSlice = createSlice({
       numberOfChangepoints: 0,
     },
     autoregression: {
-      lags: undefined,
+      lags: 0,
       regularization: 0,
     },
     seasonality: {

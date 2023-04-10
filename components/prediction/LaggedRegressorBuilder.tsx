@@ -1,9 +1,11 @@
 import { CBadge, CFormSelect } from "@coreui/react";
 import { capitalize } from "../../src/helpers";
+import { LaggedRegressorState, ModelState } from "../../src/store/models";
+import { time } from "console";
 
 type LaggedRegressorBuilderProps = {
   laggedRegressorColumns: string[];
-  modelConfiguration: any;
+  modelConfiguration: ModelState;
   updateConfig: (config: any) => void;
 };
 
@@ -38,10 +40,10 @@ const LaggedRegressorBuilder = ({
       onChange={async (evt) => {
         const value = evt.target.value;
         if (value !== "Add regressor column") {
-          if (!modelConfiguration?.laggedRegressors.includes(value)) {
+          if (modelConfiguration?.laggedRegressors.filter((item : LaggedRegressorState) => item.name === value).length == 0) {
             await updateConfig({
               laggedRegressors: [
-                { name: value },
+                { name: value, lags: 3, regularization: 0.1, normalization: "auto" },
                 ...(modelConfiguration?.laggedRegressors || []),
               ],
             });
