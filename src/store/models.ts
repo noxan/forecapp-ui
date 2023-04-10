@@ -9,7 +9,7 @@ export type LaggedRegressorState = {
   name: string;
   lags: number;
   regularization: number;
-  normalization: boolean | "auto";
+  normalize: boolean | "auto";
 }
 
 export type ModelState = {

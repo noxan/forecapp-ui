@@ -43,7 +43,7 @@ const LaggedRegressorBuilder = ({
           if (modelConfiguration?.laggedRegressors.filter((item : LaggedRegressorState) => item.name === value).length == 0) {
             await updateConfig({
               laggedRegressors: [
-                { name: value, lags: 3, regularization: 0.1, normalization: "auto" },
+                { name: value, lags: 3, regularization: 0.1, normalize: "auto" },
                 ...(modelConfiguration?.laggedRegressors || []),
               ],
             });
