@@ -10,7 +10,7 @@ import {
 } from "../src/store/selectors";
 import { validateColumnDefinitions } from "../src/definitions";
 import MissingColumnPlaceholder from "../components/MissingColumnPlaceholder";
-import { CCol, CContainer, CRow } from "@coreui/react";
+import { CCol, CContainer, CRow, CToast, CToastHeader, CToastBody, CToaster } from "@coreui/react";
 import PredictionNavigation from "../components/prediction/Navigation";
 import PredictionWizardCard from "../components/prediction/WizardCard";
 import PredictionBuilder from "../components/prediction/Builder";
@@ -19,7 +19,7 @@ import PredictionChart from "../components/prediction/Chart";
 import LoadingOverlay from "../components/prediction/LoadingOverlay";
 import MissingForecastPlaceholder from "../components/MissingForecastPlaceholder";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 
 export default function Visualization() {
   const router = useRouter();
@@ -33,6 +33,24 @@ export default function Visualization() {
   const targetColumn = useAppSelector(selectTargetColumn);
   const predictionData = useAppSelector((state) => state.datasets.prediction);
 
+  const [errorMessage, setErrorMessage] = useState<ReactElement>();
+  const showErrorMessage = (message : string) => {
+    setErrorMessage(
+      <CToast autohide={true} color="danger" animation={true}>
+        <CToastHeader closeButton/>
+        <CToastBody>
+          {message}
+        </CToastBody>
+      </CToast>
+    )
+  };
+  useEffect(() => {
+    if(error) {
+      showErrorMessage("Something went wrong.");
+    }
+  }, [error]);
+
+  // Calls the prediction API
   const predictAction = () =>
     dispatch(
       apiPrediction({
@@ -41,8 +59,8 @@ export default function Visualization() {
       })
     );
 
+  // The first time the user enters the page, run a prediction with the default configuration
   const isFirstRun = Object.keys(router.query).includes("first-run");
-
   useEffect(() => {
     if(isFirstRun) {
       router.replace({query: {}});
@@ -77,13 +95,6 @@ export default function Visualization() {
           </CCol>
           <CCol style={{ position: "relative" }}>
             {status === "loading" && <LoadingOverlay />}
-            {((predictionData && predictionData.status !== "ok") || error) && (
-              <div>
-                <h3>Something went wrong...</h3>
-                {!error && predictionData && JSON.stringify(predictionData)}
-                {error && JSON.stringify(error)}
-              </div>
-            )}
             {predictionData && predictionData.status === "ok" && (
               <PredictionChart
                 targetColumn={targetColumn}
@@ -93,6 +104,7 @@ export default function Visualization() {
             )}
           </CCol>
         </CRow>
+        <CToaster push={errorMessage} placement="bottom-end"/>
       </CContainer>
     </>
   );
