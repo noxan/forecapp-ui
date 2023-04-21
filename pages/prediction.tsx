@@ -42,23 +42,23 @@ export default function Visualization() {
   const predictionData = useAppSelector((state) => state.datasets.prediction);
 
   const [errorMessage, setErrorMessage] = useState<ReactElement>();
-  useEffect(() => {
-    if (error) {
-      setErrorMessage(
-        <CToast
-          autohide={true}
-          color="danger"
-          animation={true}
-          className="text-white align-items-center"
-        >
-          <div className="d-flex">
-            <CToastBody>Something went wrong: {error.message}</CToastBody>
-            <CToastClose className="me-2 m-auto" white />
-          </div>
-        </CToast>
-      );
-    }
-  }, [error]);
+  const [prevError, setPrevError] = useState(error);
+  if (error && error !== prevError) {
+    setErrorMessage(
+      <CToast
+        autohide={true}
+        color="danger"
+        animation={true}
+        className="text-white align-items-center"
+      >
+        <div className="d-flex">
+          <CToastBody>Something went wrong: {error.message}</CToastBody>
+          <CToastClose className="me-2 m-auto" white />
+        </div>
+      </CToast>
+    );
+    setPrevError(error);
+  }
 
   // Calls the prediction API
   const predictAction = () =>
