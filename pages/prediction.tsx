@@ -10,7 +10,15 @@ import {
 } from "../src/store/selectors";
 import { validateColumnDefinitions } from "../src/definitions";
 import MissingColumnPlaceholder from "../components/MissingColumnPlaceholder";
-import { CCol, CContainer, CRow, CToast, CToastHeader, CToastBody, CToaster } from "@coreui/react";
+import {
+  CCol,
+  CContainer,
+  CRow,
+  CToast,
+  CToastClose,
+  CToastBody,
+  CToaster,
+} from "@coreui/react";
 import PredictionNavigation from "../components/prediction/Navigation";
 import PredictionWizardCard from "../components/prediction/WizardCard";
 import PredictionBuilder from "../components/prediction/Builder";
@@ -34,19 +42,21 @@ export default function Visualization() {
   const predictionData = useAppSelector((state) => state.datasets.prediction);
 
   const [errorMessage, setErrorMessage] = useState<ReactElement>();
-  const showErrorMessage = (message : string) => {
-    setErrorMessage(
-      <CToast autohide={true} color="danger" animation={true}>
-        <CToastHeader closeButton/>
-        <CToastBody>
-          {message}
-        </CToastBody>
-      </CToast>
-    )
-  };
   useEffect(() => {
-    if(error) {
-      showErrorMessage("Something went wrong.");
+    if (error) {
+      setErrorMessage(
+        <CToast
+          autohide={true}
+          color="danger"
+          animation={true}
+          className="text-white align-items-center"
+        >
+          <div className="d-flex">
+            <CToastBody>Something went wrong: {error.message}</CToastBody>
+            <CToastClose className="me-2 m-auto" white />
+          </div>
+        </CToast>
+      );
     }
   }, [error]);
 
@@ -62,12 +72,11 @@ export default function Visualization() {
   // The first time the user enters the page, run a prediction with the default configuration
   const isFirstRun = Object.keys(router.query).includes("first-run");
   useEffect(() => {
-    if(isFirstRun) {
-      router.replace({query: {}});
+    if (isFirstRun) {
+      router.replace({ query: {} });
       predictAction();
     }
   }, []);
-  
 
   if (!dataset) {
     return <MissingDatasetPlaceholder />;
@@ -104,7 +113,7 @@ export default function Visualization() {
             )}
           </CCol>
         </CRow>
-        <CToaster push={errorMessage} placement="bottom-end"/>
+        <CToaster push={errorMessage} placement="bottom-end" />
       </CContainer>
     </>
   );
