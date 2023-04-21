@@ -37,8 +37,13 @@ export default function Visualization() {
   const predictAction = () => {
     // First check that there is enough data to satisfy the given number of lags and forecasts
     // For Neural Prophet we need n_samples = data - max(lags) - forecast + 1 to be positive
-    let max_lags = Math.max(modelConfiguration.autoregression.lags, ...modelConfiguration.laggedRegressors.map((lr : LaggedRegressorState) => lr.lags))
-    if(dataset.length - max_lags - modelConfiguration.forecasts <= -1) {
+    const max_lags = Math.max(
+      modelConfiguration.autoregression.lags,
+      ...modelConfiguration.laggedRegressors.map(
+        (lr: LaggedRegressorState) => lr.lags
+      )
+    );
+    if (dataset.length - max_lags - modelConfiguration.forecasts < 0) {
       // TODO: Need some sort of error message to the user here
       return;
     }
@@ -48,17 +53,16 @@ export default function Visualization() {
         configuration: modelConfiguration,
       })
     );
-  }
+  };
 
   const isFirstRun = Object.keys(router.query).includes("first-run");
 
   useEffect(() => {
-    if(isFirstRun) {
-      router.replace({query: {}});
+    if (isFirstRun) {
+      router.replace({ query: {} });
       predictAction();
     }
   }, []);
-  
 
   if (!dataset) {
     return <MissingDatasetPlaceholder />;
