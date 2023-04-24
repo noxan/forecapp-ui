@@ -22,12 +22,12 @@ import {
 import PredictionNavigation from "../components/prediction/Navigation";
 import PredictionWizardCard from "../components/prediction/WizardCard";
 import PredictionBuilder from "../components/prediction/Builder";
-import { apiPrediction } from "../src/store/datasets";
+import { apiPrediction, resetError } from "../src/store/datasets";
 import PredictionChart from "../components/prediction/Chart";
 import LoadingOverlay from "../components/prediction/LoadingOverlay";
 import MissingForecastPlaceholder from "../components/MissingForecastPlaceholder";
 import { useRouter } from "next/router";
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 
 export default function Visualization() {
   const router = useRouter();
@@ -42,32 +42,33 @@ export default function Visualization() {
   const predictionData = useAppSelector((state) => state.datasets.prediction);
 
   const [errorMessage, setErrorMessage] = useState<ReactElement>();
-  const [prevError, setPrevError] = useState(error);
-  if (error && error !== prevError) {
-    setErrorMessage(
-      <CToast
-        autohide={true}
-        color="danger"
-        animation={true}
-        className="text-white align-items-center"
-      >
-        <div className="d-flex">
-          <CToastBody>Something went wrong: {error.message}</CToastBody>
-          <CToastClose className="me-2 m-auto" white />
-        </div>
-      </CToast>
-    );
-    setPrevError(error);
-  }
 
   // Calls the prediction API
-  const predictAction = () =>
-    dispatch(
-      apiPrediction({
-        dataset: transformDataset(dataset, modelConfiguration, columns),
-        configuration: modelConfiguration,
-      })
-    );
+  const predictAction = async () => {
+    try {
+      const res = await dispatch(
+        apiPrediction({
+          dataset: transformDataset(dataset, modelConfiguration, columns),
+          configuration: modelConfiguration,
+        })
+      ).unwrap();
+    } catch (err) {
+      // TODO: Make the error message informative
+      setErrorMessage(
+        <CToast
+          autohide={true}
+          color="danger"
+          animation={true}
+          className="text-white align-items-center"
+        >
+          <div className="d-flex">
+            <CToastBody>Something went wrong</CToastBody>
+            <CToastClose className="me-2 m-auto" white />
+          </div>
+        </CToast>
+      );
+    }
+  };
 
   // The first time the user enters the page, run a prediction with the default configuration
   const isFirstRun = Object.keys(router.query).includes("first-run");
@@ -76,6 +77,7 @@ export default function Visualization() {
       router.replace({ query: {} });
       predictAction();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!dataset) {
