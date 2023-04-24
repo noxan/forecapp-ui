@@ -72,11 +72,15 @@ export const modelSlice = createSlice({
         return merge(state, payload);
       }
     },
+    setModelConfig: (state, action: { payload: ModelState }) => {
+      merge(state, action.payload);
+    },
     editModelConfigJsonView: (_, { payload: { updated_src: newState } }: any) =>
       newState,
   },
 });
 
-export const { editModelConfig, editModelConfigJsonView } = modelSlice.actions;
+export const { editModelConfig, editModelConfigJsonView, setModelConfig } =
+  modelSlice.actions;
 
 export default modelSlice.reducer;

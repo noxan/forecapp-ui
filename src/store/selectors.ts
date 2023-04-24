@@ -1,5 +1,5 @@
 import { RootState } from ".";
-import { ModelHistoryState } from "./history";
+import { HistoricModel, ModelHistoryState } from "./history";
 import { ModelState } from "./models";
 
 export const selectDataset = (state: RootState) => state.datasets?.raw;
@@ -18,3 +18,11 @@ export const selectModelConfiguration = (state: RootState): ModelState =>
 
 export const selectHistoricModels = (state: RootState): ModelHistoryState =>
   state.history;
+
+export const selectNthHistoricModel =
+  (state: RootState): ((n: number) => HistoricModel) =>
+  (n) =>
+    state.history.models[n];
+
+export const selectNumHistoricModels = (state: RootState): number =>
+  state.history.models.length;

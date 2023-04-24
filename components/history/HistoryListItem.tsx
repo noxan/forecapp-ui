@@ -1,10 +1,16 @@
 import { CButton, CCol, CListGroupItem, CRow } from "@coreui/react";
-import { HistoricModel } from "../../src/store/history";
+import {
+  selectModelConfiguration,
+  selectNthHistoricModel,
+} from "../../src/store/selectors";
+import { useAppSelector } from "../../src/hooks";
+import { useDispatch } from "react-redux";
+import { removeModel } from "../../src/store/history";
+import { setModelConfig } from "../../src/store/models";
+import { useRouter } from "next/router";
 
 export type HistoryListItemProps = {
-  model: HistoricModel;
   index: number;
-  removeSelf: () => void;
 };
 
 type Metrics = {
@@ -30,14 +36,32 @@ const displayMetrics = (metrics: any) => {
 };
 
 export const HistoryListItem = (props: HistoryListItemProps) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const model = useAppSelector(selectNthHistoricModel)(props.index);
+  const modelConfig = useAppSelector(selectModelConfiguration);
   return (
     <CListGroupItem key={props.index}>
       <CRow>
         <CCol sm={3}>{props.index}</CCol>
-        <CCol>Metrics: {displayMetrics(props.model.metrics)}</CCol>
+        <CCol>Metrics: {displayMetrics(model.metrics)}</CCol>
         <CCol>
-          <CButton color="danger" onClick={props.removeSelf}>
+          <CButton
+            color="danger"
+            onClick={() => dispatch(removeModel(props.index))}
+          >
             Delete
+          </CButton>
+        </CCol>
+        <CCol>
+          <CButton
+            color="primary"
+            onClick={() => {
+              dispatch(setModelConfig(model.modelConfig));
+              router.back();
+            }}
+          >
+            Apply
           </CButton>
         </CCol>
       </CRow>
