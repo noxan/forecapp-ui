@@ -87,6 +87,9 @@ const PredictionNavigation = ({
             <LinkButton className="mx-2" href="/explainable" variant="outline">
               Explain forecast parameters
             </LinkButton>
+            <LinkButton className="mx-2" href="/history" variant="outline">
+              Model history
+            </LinkButton>
           </CForm>
         </CHeaderNav>
         <CHeaderNav>
