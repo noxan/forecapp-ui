@@ -22,12 +22,13 @@ import {
 import PredictionNavigation from "../components/prediction/Navigation";
 import PredictionWizardCard from "../components/prediction/WizardCard";
 import PredictionBuilder from "../components/prediction/Builder";
-import { apiPrediction, resetError } from "../src/store/datasets";
+import { apiPrediction } from "../src/store/datasets";
 import PredictionChart from "../components/prediction/Chart";
 import LoadingOverlay from "../components/prediction/LoadingOverlay";
 import MissingForecastPlaceholder from "../components/MissingForecastPlaceholder";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useState } from "react";
+import { ValidationError } from "../src/error";
 
 export default function Visualization() {
   const router = useRouter();
@@ -42,31 +43,50 @@ export default function Visualization() {
   const predictionData = useAppSelector((state) => state.datasets.prediction);
 
   const [errorMessage, setErrorMessage] = useState<ReactElement>();
+  const errorToastWithMessage = (message: string) => {
+    return (
+      <CToast
+        autohide={true}
+        color="danger"
+        animation={true}
+        className="text-white align-items-center"
+      >
+        <div className="d-flex">
+          <CToastBody>{message}</CToastBody>
+          <CToastClose className="me-2 m-auto" white />
+        </div>
+      </CToast>
+    );
+  };
 
   // Calls the prediction API
   const predictAction = async () => {
     try {
-      const res = await dispatch(
+      await dispatch(
         apiPrediction({
           dataset: transformDataset(dataset, modelConfiguration, columns),
           configuration: modelConfiguration,
         })
       ).unwrap();
-    } catch (err) {
-      // TODO: Make the error message informative
-      setErrorMessage(
-        <CToast
-          autohide={true}
-          color="danger"
-          animation={true}
-          className="text-white align-items-center"
-        >
-          <div className="d-flex">
-            <CToastBody>Something went wrong</CToastBody>
-            <CToastClose className="me-2 m-auto" white />
-          </div>
-        </CToast>
-      );
+    } catch (err: any) {
+      if (err.message) {
+        setErrorMessage(
+          errorToastWithMessage("Something went wrong: " + err.message)
+        );
+      } else if (err.detail) {
+        if (err.detail instanceof Array) {
+          const processedError = err as ValidationError;
+          setErrorMessage(
+            errorToastWithMessage("The model configuration was invalid.")
+          );
+        } else {
+          setErrorMessage(
+            errorToastWithMessage("Neural Prophet failed: " + err.detail)
+          );
+        }
+      } else {
+        setErrorMessage(errorToastWithMessage("An unknown error occured."));
+      }
     }
   };
 
