@@ -28,7 +28,7 @@ import LoadingOverlay from "../components/prediction/LoadingOverlay";
 import MissingForecastPlaceholder from "../components/MissingForecastPlaceholder";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useState } from "react";
-import { ValidationError } from "../src/error";
+import { HTTPError, ValidationError, NeuralProphetError } from "../src/error";
 
 export default function Visualization() {
   const router = useRouter();
@@ -70,18 +70,20 @@ export default function Visualization() {
       ).unwrap();
     } catch (err: any) {
       if (err.message) {
+        const error = err as HTTPError;
         setErrorMessage(
-          errorToastWithMessage("Something went wrong: " + err.message)
+          errorToastWithMessage("Something went wrong: " + error.message)
         );
       } else if (err.detail) {
         if (err.detail instanceof Array) {
-          const processedError = err as ValidationError;
+          const error = err as ValidationError;
           setErrorMessage(
             errorToastWithMessage("The model configuration was invalid.")
           );
         } else {
+          const error = err as NeuralProphetError;
           setErrorMessage(
-            errorToastWithMessage("Neural Prophet failed: " + err.detail)
+            errorToastWithMessage("Neural Prophet failed: " + error.detail)
           );
         }
       } else {
