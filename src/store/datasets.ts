@@ -99,9 +99,6 @@ export const datasetSlice = createSlice({
     setTargetColumn: (state, action) => {
       state.columns.targetColumn = action.payload;
     },
-    resetError: (state, action) => {
-      state.error = null;
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(importDataset.fulfilled, (state, { payload }) => {
@@ -127,11 +124,7 @@ export const datasetSlice = createSlice({
   },
 });
 
-export const {
-  resetAndDetectColumnConfig,
-  setTimeColumn,
-  setTargetColumn,
-  resetError,
-} = datasetSlice.actions;
+export const { resetAndDetectColumnConfig, setTimeColumn, setTargetColumn } =
+  datasetSlice.actions;
 
 export default datasetSlice.reducer;
