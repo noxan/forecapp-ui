@@ -34,7 +34,7 @@ export const events = z.array(z.any());
 
 export const trend = z
   .object({
-    growth: growth,
+    growth: z.literal('linear'),
     numberOfChangepoints: numberOfChangepoints
   })
   .or(
