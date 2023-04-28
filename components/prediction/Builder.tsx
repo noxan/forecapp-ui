@@ -27,28 +27,8 @@ import {
   modelParameterValidationStatus
 } from '../../src/schemas/modelParameters';
 
-const transformEmptyToNull = (value: any) => (value === '' ? null : value);
-const transformEmptyToUndefined = (value: string) =>
-  value === '' ? undefined : value;
 const parseStringToNumber = (value: string) =>
   value === '' ? null : Number(value);
-
-const validateInput = (input: any) => {
-  try {
-    const fieldName = 'numberOfChangepoints';
-    switch (fieldName) {
-      case 'numberOfChangepoints':
-        const val = numberOfChangepoints.parse(input);
-        console.log(val);
-        break;
-      default:
-        break;
-    }
-    return { valid: true, error: '' };
-  } catch (e: any) {
-    return { valid: false, error: e.issues[0].message };
-  }
-};
 
 var validationStatus: modelParameterValidationStatus;
 
