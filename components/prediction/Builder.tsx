@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import {
   CAccordion,
   CAccordionBody,
@@ -5,22 +6,51 @@ import {
   CAccordionItem,
   CFormCheck,
   CFormInput,
-  CFormRange,
-} from "@coreui/react";
-import { detectResolution } from "../../src/helpers";
-import { useAppDispatch, useAppSelector } from "../../src/hooks";
-import { editModelConfig } from "../../src/store/models";
+  CFormRange
+} from '@coreui/react';
+import { detectResolution } from '../../src/helpers';
+import { useAppDispatch, useAppSelector } from '../../src/hooks';
+import { editModelConfig } from '../../src/store/models';
 import {
   selectDataset,
   selectModelConfiguration,
   selectTargetColumn,
-  selectTimeColumn,
-} from "../../src/store/selectors";
-import HolidayBuilder from "./HolidayBuilder";
-import LaggedRegressorBuilder from "./LaggedRegressorBuilder";
-import Info from "../Info";
+  selectTimeColumn
+} from '../../src/store/selectors';
+import HolidayBuilder from './HolidayBuilder';
+import LaggedRegressorBuilder from './LaggedRegressorBuilder';
+import Info from '../Info';
+import {
+  numberOfChangepoints,
+  ModelParameters,
+  validateModelParameters,
+  modelParameterValidationStatus
+} from '../../src/schemas/modelParameters';
 
-const transformEmptyToNull = (value: any) => (value === "" ? null : value);
+const transformEmptyToNull = (value: any) => (value === '' ? null : value);
+const transformEmptyToUndefined = (value: string) =>
+  value === '' ? undefined : value;
+const parseStringToNumber = (value: string) =>
+  value === '' ? null : Number(value);
+
+const validateInput = (input: any) => {
+  try {
+    const fieldName = 'numberOfChangepoints';
+    switch (fieldName) {
+      case 'numberOfChangepoints':
+        const val = numberOfChangepoints.parse(input);
+        console.log(val);
+        break;
+      default:
+        break;
+    }
+    return { valid: true, error: '' };
+  } catch (e: any) {
+    return { valid: false, error: e.issues[0].message };
+  }
+};
+
+var validationStatus: modelParameterValidationStatus;
 
 const PredictionBuilder = () => {
   const dataset = useAppSelector(selectDataset);
@@ -29,6 +59,7 @@ const PredictionBuilder = () => {
   const targetColumn = useAppSelector(selectTargetColumn);
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dispatch = useAppDispatch();
+  validationStatus = validateModelParameters(modelConfiguration);
 
   const laggedRegressorColumns = columnHeaders.filter(
     (column) => column !== timeColumn && column !== targetColumn
@@ -48,8 +79,16 @@ const PredictionBuilder = () => {
             defaultValue={modelConfiguration.forecasts}
             placeholder="Number of values to forecast..."
             onChange={(e) =>
-              dispatch(editModelConfig({ forecasts: e.target.value }))
+              dispatch(
+                editModelConfig({
+                  forecasts: parseStringToNumber(e.target.value)
+                })
+              )
             }
+            valid={validationStatus.forecasts.valid}
+            invalid={!validationStatus.forecasts.valid}
+            feedbackValid=""
+            feedbackInvalid={validationStatus.forecasts.error}
           />
         </CAccordionBody>
       </CAccordionItem>
@@ -60,16 +99,16 @@ const PredictionBuilder = () => {
           <CFormCheck
             id="trend"
             label="Enable trend"
-            defaultChecked={modelConfiguration.trend.growth === "linear"}
+            defaultChecked={modelConfiguration.trend.growth === 'linear'}
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  trend: { growth: e.target.checked ? "linear" : "off" },
+                  trend: { growth: e.target.checked ? 'linear' : 'off' }
                 })
               )
             }
           />
-          Number of changepoints{" "}
+          Number of changepoints{' '}
           <Info>
             Trend change points, also known as inflection points, are points in
             a data series where the direction of the trend changes. For example,
@@ -80,18 +119,33 @@ const PredictionBuilder = () => {
           <CFormInput
             type="number"
             min={0}
-            disabled={modelConfiguration.trend.growth === "off"}
+            disabled={modelConfiguration.trend.growth === 'off'}
             defaultValue={modelConfiguration.trend.numberOfChangepoints}
-            onChange={(e) =>
+            onChange={(e) => {
+              validationStatus.trend.numberOfChangepoints = validateInput(
+                Number(e.target.value)
+              );
               dispatch(
                 editModelConfig({
                   trend: {
-                    numberOfChangepoints: parseInt(e.target.value, 10),
-                  },
+                    numberOfChangepoints: parseStringToNumber(e.target.value)
+                  }
                 })
-              )
+              );
+            }}
+            valid={
+              modelConfiguration.trend.growth === 'off'
+                ? undefined
+                : validationStatus.trend.numberOfChangepoints.valid
             }
-          />
+            invalid={
+              modelConfiguration.trend.growth === 'off'
+                ? undefined
+                : !validationStatus.trend.numberOfChangepoints.valid
+            }
+            feedbackValid=""
+            feedbackInvalid={validationStatus.trend.numberOfChangepoints.error}
+          ></CFormInput>
         </CAccordionBody>
       </CAccordionItem>
 
@@ -105,7 +159,7 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  seasonality: { daily: e.target.checked },
+                  seasonality: { daily: e.target.checked }
                 })
               )
             }
@@ -117,7 +171,7 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  seasonality: { weekly: e.target.checked },
+                  seasonality: { weekly: e.target.checked }
                 })
               )
             }
@@ -129,7 +183,7 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  seasonality: { yearly: e.target.checked },
+                  seasonality: { yearly: e.target.checked }
                 })
               )
             }
@@ -158,14 +212,20 @@ const PredictionBuilder = () => {
           <CFormInput
             className="mb-4"
             type="number"
-            placeholder="off"
+            placeholder="Number of lags"
             min={0}
             defaultValue={modelConfiguration.autoregression.lags}
             onChange={(e) =>
               dispatch(
-                editModelConfig({ autoregression: { lags: e.target.value } })
+                editModelConfig({
+                  autoregression: { lags: parseStringToNumber(e.target.value) }
+                })
               )
             }
+            valid={validationStatus.autoregression.lags.valid}
+            invalid={!validationStatus.autoregression.lags.valid}
+            feedbackValid=""
+            feedbackInvalid={validationStatus.autoregression.lags.error}
           />
           <CFormRange
             min={0}
@@ -176,18 +236,13 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  autoregression: { regularization: e.target.value },
+                  autoregression: { regularization: Number(e.target.value) }
                 })
               )
             }
           />
         </CAccordionBody>
       </CAccordionItem>
-
-      {/* <CAccordionItem itemKey={40}>
-        <CAccordionHeader>Events</CAccordionHeader>
-        <CAccordionBody>TODO</CAccordionBody>
-      </CAccordionItem> */}
 
       <CAccordionItem itemKey={50}>
         <CAccordionHeader>Holidays</CAccordionHeader>
@@ -225,10 +280,24 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  training: { epochs: transformEmptyToNull(e.target.value) },
+                  training: {
+                    epochs: parseStringToNumber(e.target.value)
+                  }
                 })
               )
             }
+            valid={
+              modelConfiguration.training.epochs !== null
+                ? validationStatus.training.epochs.valid
+                : undefined
+            }
+            invalid={
+              modelConfiguration.training.epochs !== null
+                ? !validationStatus.training.epochs.valid
+                : undefined
+            }
+            feedbackValid=""
+            feedbackInvalid={validationStatus.training.epochs.error}
           />
           <CFormCheck
             id="earlyStopping"
@@ -237,7 +306,7 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  training: { earlyStopping: e.target.checked },
+                  training: { earlyStopping: e.target.checked }
                 })
               )
             }
@@ -250,13 +319,21 @@ const PredictionBuilder = () => {
             defaultValue={modelConfiguration.training.learningRate}
             onChange={(e) =>
               dispatch(
-                editModelConfig({
-                  training: {
-                    learningRate: transformEmptyToNull(e.target.value),
-                  },
-                })
+                editModelConfig({ training: { learningRate: undefined } })
               )
             }
+            valid={
+              modelConfiguration.training.learningRate !== null
+                ? validationStatus.training.learningRate.valid
+                : undefined
+            }
+            invalid={
+              modelConfiguration.training.learningRate !== null
+                ? !validationStatus.training.learningRate.valid
+                : undefined
+            }
+            feedbackValid=""
+            feedbackInvalid={validationStatus.training.learningRate.error}
           />
           Batch size
           <CFormInput
@@ -266,10 +343,24 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  training: { batchSize: transformEmptyToNull(e.target.value) },
+                  training: {
+                    batchSize: parseStringToNumber(e.target.value)
+                  }
                 })
               )
             }
+            valid={
+              modelConfiguration.training.batchSize !== null
+                ? validationStatus.training.batchSize.valid
+                : undefined
+            }
+            invalid={
+              modelConfiguration.training.batchSize !== null
+                ? !validationStatus.training.batchSize.valid
+                : undefined
+            }
+            feedbackValid=""
+            feedbackInvalid={validationStatus.training.batchSize.error}
           />
         </CAccordionBody>
       </CAccordionItem>
