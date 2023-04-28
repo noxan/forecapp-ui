@@ -122,13 +122,10 @@ const PredictionBuilder = () => {
             disabled={modelConfiguration.trend.growth === 'off'}
             defaultValue={modelConfiguration.trend.numberOfChangepoints}
             onChange={(e) => {
-              validationStatus.trend.numberOfChangepoints = validateInput(
-                Number(e.target.value)
-              );
               dispatch(
                 editModelConfig({
                   trend: {
-                    numberOfChangepoints: parseStringToNumber(e.target.value)
+                    numberOfChangepoints: Number(e.target.value)
                   }
                 })
               );

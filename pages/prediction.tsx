@@ -38,7 +38,6 @@ export default function Visualization() {
     try {
       // check that form inputs are valid before calling api
       ModelParameters.parse(modelConfiguration);
-      // then store values in redux store
       // then call api
       dispatch(
         apiPrediction({
@@ -47,7 +46,7 @@ export default function Visualization() {
         })
       );
     } catch (e) {
-      // TODO: show notification banner here
+      // TODO: show toast notification banner here
       console.log(e);
     }
   };

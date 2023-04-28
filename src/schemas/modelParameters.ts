@@ -32,12 +32,21 @@ export const laggedRegressors = z.array(z.any());
 export const holidays = z.array(z.string());
 export const events = z.array(z.any());
 
-export const ModelParameters = z.object({
-  forecasts: forecasts.optional(),
-  trend: z.object({
+export const trend = z
+  .object({
     growth: growth,
     numberOfChangepoints: numberOfChangepoints
-  }),
+  })
+  .or(
+    z.object({
+      growth: z.literal('off'),
+      numberOfChangepoints: z.any()
+    })
+  );
+
+export const ModelParameters = z.object({
+  forecasts: forecasts.optional(),
+  trend: trend,
   autoregression: z.object({
     lags: lags,
     regularization: z.number()
