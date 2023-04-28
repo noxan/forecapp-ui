@@ -3,7 +3,7 @@ import { ModelState } from '../store/models';
 import { extractValidationStatus } from './helpers';
 
 export const forecasts = z
-  .number()
+  .number({ invalid_type_error: 'Must be a number' })
   .gt(0, { message: 'Must be greater than 0' });
 export const growth = z.enum(['off', 'linear']);
 export const numberOfChangepoints = z
@@ -11,9 +11,15 @@ export const numberOfChangepoints = z
   .int({ message: 'Must be an integer' })
   .gte(0, { message: 'Must be greater than or equal to 0' })
   .lte(20, { message: 'Must be less than or equal to 20' });
-export const lags = z.number().gte(0, { message: 'Must be greater than 0' });
-export const regularization = z.number();
-export const earlyStopping = z.boolean();
+export const lags = z
+  .number({ invalid_type_error: 'Must be a number' })
+  .gte(0, { message: 'Must be greater than 0' });
+export const regularization = z.number({
+  invalid_type_error: 'Must be a number'
+});
+export const earlyStopping = z.boolean({
+  invalid_type_error: 'Must be a boolean'
+});
 export const epochs = z
   .number({ invalid_type_error: 'Must be a number' })
   .int({ message: 'Must be an integer' })
