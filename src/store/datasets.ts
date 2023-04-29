@@ -6,27 +6,29 @@ import {
 } from "../definitions";
 import { autodetectColumn } from "../helpers";
 import { parse } from "../parser";
+import { ParseError, ParseResult } from "papaparse";
 
-const importDataset = createAsyncThunk<any[], { source: string | File }>(
-  "datasets/importDataset",
-  async ({ source }) => {
-    if (source instanceof File) {
-      const text = await source.text();
-      return await parse(text.trim());
-    }
-    return await parse(source, { download: true });
+export type ErrorLevel = "Info" | "Warning" | "Error";
+
+export type DataValidationError = {
+  level: ErrorLevel;
+  msg: string;
+  row?: number;
+};
+
+export type DataErrors = ParseError | DataValidationError;
+
+export const parseDataset = createAsyncThunk<
+  ParseResult<{ [key: string]: any }>,
+  string | File
+>("datasets/parseDataset", async (source, { rejectWithValue }) => {
+  // TODO : Check file extension is actual a csv
+  if (source instanceof File) {
+    const text = await source.text();
+    return await parse(text.trim());
   }
-);
-
-export const importDatasetWithAutodetect =
-  ({ source }: { source: string | File }) =>
-  async (dispatch: Function, getState: Function) => {
-    await dispatch(importDataset({ source }));
-    const state = getState();
-    // TODO: initialize empty header columns if dataset does not provide any
-    const columnHeaders = Object.keys(state.datasets.raw[0]);
-    await dispatch(resetAndDetectColumnConfig({ columnHeaders }));
-  };
+  return await parse(source, true);
+});
 
 type PredictionQueryArg = { dataset: any[]; configuration: object };
 
@@ -50,8 +52,9 @@ export const apiPrediction = createAsyncThunk<any, PredictionQueryArg>(
 
 export interface DatasetsState {
   status: "idle" | "loading";
+  dataErrors?: DataErrors[];
   error?: any;
-  raw?: any[];
+  raw?: { [key: string]: any }[];
   columns: {
     timeColumn: string;
     targetColumn: string;
@@ -72,26 +75,25 @@ export const datasetSlice = createSlice({
   initialState,
   reducers: {
     // TODO: reset column configuration on new dataset import
-    resetAndDetectColumnConfig: (state, action) => {
-      if (action.payload && "columnHeaders" in action.payload) {
-        const { columnHeaders } = action.payload;
-        autodetectColumn(
-          COLUMN_PRIMARY_TIME,
-          columnHeaders,
-          (timeColumn: string) => {
-            state.columns.timeColumn = timeColumn;
-          }
-        );
-        autodetectColumn(
-          COLUMN_PRIMARY_TARGET,
-          columnHeaders,
-          (targetColumn: string) => {
-            state.columns.targetColumn = targetColumn;
-          }
-        );
-      } else {
-        state.columns = initialState.columns;
-      }
+    detectColumnConfig: (state, action: { payload: string[] }) => {
+      const columnHeaders = action.payload;
+      autodetectColumn(
+        COLUMN_PRIMARY_TIME,
+        columnHeaders,
+        (timeColumn: string) => {
+          state.columns.timeColumn = timeColumn;
+        }
+      );
+      autodetectColumn(
+        COLUMN_PRIMARY_TARGET,
+        columnHeaders,
+        (targetColumn: string) => {
+          state.columns.targetColumn = targetColumn;
+        }
+      );
+    },
+    resetColumnConfig: (state, action) => {
+      state.columns = initialState.columns;
     },
     setTimeColumn: (state, action: { payload: string }) => {
       state.columns.timeColumn = action.payload;
@@ -101,11 +103,13 @@ export const datasetSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(importDataset.fulfilled, (state, { payload }) => {
+    builder.addCase(parseDataset.fulfilled, (state, { payload }) => {
       state.status = "idle";
-      state.raw = payload as any;
+      state.raw = payload.data;
+      state.dataErrors = payload.errors;
+      console.log(payload.errors);
     });
-    builder.addCase(importDataset.pending, (state) => {
+    builder.addCase(parseDataset.pending, (state) => {
       state.status = "loading";
     });
     builder.addCase(apiPrediction.fulfilled, (state, { payload }) => {
@@ -124,7 +128,7 @@ export const datasetSlice = createSlice({
   },
 });
 
-export const { resetAndDetectColumnConfig, setTimeColumn, setTargetColumn } =
+export const { detectColumnConfig, setTimeColumn, setTargetColumn } =
   datasetSlice.actions;
 
 export default datasetSlice.reducer;

@@ -1,7 +1,7 @@
 import { CCol, CContainer, CFormInput, CRow } from "@coreui/react";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import DatasetCard from "../components/DatasetCard";
-import { importDatasetWithAutodetect } from "../src/store/datasets";
+import { detectColumnConfig, parseDataset } from "../src/store/datasets";
 import {
   selectDataset,
   selectTargetColumn,
@@ -27,9 +27,15 @@ export default function Home() {
   );
   const resumeHref = isColumnDefinitions ? "/prediction" : "/wizard/pick-time";
 
-  const importAction = async (source: any) => {
-    await dispatch(importDatasetWithAutodetect({ source }));
-    router.push("/wizard/pick-time");
+  const importAction = async (source: string | File) => {
+    try {
+      const parsedData = (await dispatch(parseDataset(source)).unwrap()).data;
+      const columnHeaders = Object.keys(parsedData[0]);
+      dispatch(detectColumnConfig(columnHeaders));
+      router.push("/wizard/pick-time");
+    } catch (err: any) {
+      // This will catch any file errors (file doesn't exists, can't download from url, etc...)
+    }
   };
 
   return (
