@@ -22,6 +22,7 @@ export function errorLevelColor(level: ErrorLevel) {
 }
 
 export type DataValidationError = {
+  type: "Validation";
   level: ErrorLevel;
   message: string;
   row?: number;

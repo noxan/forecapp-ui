@@ -22,6 +22,7 @@ export function validate(
   const nRows = dataset.length;
   if (settings.minCols && nCols < settings.minCols) {
     errors.push({
+      type: "Validation",
       level: "Error",
       message:
         "Not enough columns in your dataset (Expected: >${settings.minCols - 1}, Recieved: ${nCols})",
@@ -29,6 +30,7 @@ export function validate(
   }
   if (settings.maxCols && nCols > settings.maxCols) {
     errors.push({
+      type: "Validation",
       level: "Error",
       message:
         "Too many columns in your dataset (Expected: <${settings.maxCols + 1}, Recieved: ${nCols})",
@@ -36,6 +38,7 @@ export function validate(
   }
   if (settings.minRows && nCols < settings.minRows) {
     errors.push({
+      type: "Validation",
       level: "Error",
       message:
         "Not enough rows in your dataset (Expected: >${settings.minRows - 1}, Recieved: ${nRows})",
@@ -46,12 +49,14 @@ export function validate(
       dataset.splice(settings.maxRows);
       const removedCnt = nRows - settings.maxRows;
       errors.push({
+        type: "Validation",
         level: "Warning",
         message:
           "Removed ${removedCnt} rows from your dataset as it had too many rows.",
       });
     } else {
       errors.push({
+        type: "Validation",
         level: "Error",
         message:
           "Too many rows in your dataset (Expected: <${settings.maxRows + 1}, Recieved: ${nRows})",
