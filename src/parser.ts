@@ -1,5 +1,5 @@
-import { ParseResult, parse as papaParse } from "papaparse";
-import { stringify } from "querystring";
+import { ParseError, ParseResult, parse as papaParse } from "papaparse";
+import { ErrorLevel } from "./store/datasets";
 
 export const parse = async (source: any, download: boolean = false) =>
   new Promise<ParseResult<{ [key: string]: any }>>((resolve, reject) =>
@@ -16,3 +16,7 @@ export const parse = async (source: any, download: boolean = false) =>
       },
     })
   );
+
+export const parseErrorLevel = (e: ParseError): ErrorLevel => {
+  return "Error";
+};

@@ -5,18 +5,31 @@ import {
   SELECT_STATE_INITIALIZE,
 } from "../definitions";
 import { autodetectColumn } from "../helpers";
-import { parse } from "../parser";
+import { parse, parseErrorLevel } from "../parser";
 import { ParseError, ParseResult } from "papaparse";
+import { ValidationSettings, validate } from "../data-validator";
 
 export type ErrorLevel = "Info" | "Warning" | "Error";
 
+export function errorLevelColor(level: ErrorLevel) {
+  if (level === "Error") {
+    return "danger";
+  } else if (level === "Warning") {
+    return "warning";
+  } else {
+    return "info";
+  }
+}
+
 export type DataValidationError = {
   level: ErrorLevel;
-  msg: string;
+  message: string;
   row?: number;
 };
 
-export type DataErrors = ParseError | DataValidationError;
+export type DataError =
+  | (ParseError & { level: ErrorLevel })
+  | DataValidationError;
 
 export const parseDataset = createAsyncThunk<
   ParseResult<{ [key: string]: any }>,
@@ -29,6 +42,12 @@ export const parseDataset = createAsyncThunk<
   }
   return await parse(source, true);
 });
+
+const defaultValidationSettings: ValidationSettings = {
+  cutToSize: true,
+  strictDateTime: true,
+  minCols: 2,
+};
 
 type PredictionQueryArg = { dataset: any[]; configuration: object };
 
@@ -52,7 +71,7 @@ export const apiPrediction = createAsyncThunk<any, PredictionQueryArg>(
 
 export interface DatasetsState {
   status: "idle" | "loading";
-  dataErrors?: DataErrors[];
+  dataErrors: DataError[];
   error?: any;
   raw?: { [key: string]: any }[];
   columns: {
@@ -68,6 +87,7 @@ const initialState = {
     timeColumn: SELECT_STATE_INITIALIZE,
     targetColumn: SELECT_STATE_INITIALIZE,
   },
+  dataErrors: [],
 } as DatasetsState;
 
 export const datasetSlice = createSlice({
@@ -92,7 +112,7 @@ export const datasetSlice = createSlice({
         }
       );
     },
-    resetColumnConfig: (state, action) => {
+    resetColumnConfig: (state) => {
       state.columns = initialState.columns;
     },
     setTimeColumn: (state, action: { payload: string }) => {
@@ -101,16 +121,27 @@ export const datasetSlice = createSlice({
     setTargetColumn: (state, action) => {
       state.columns.targetColumn = action.payload;
     },
+    validateData: (state) => {
+      if (state.raw)
+        state.dataErrors.concat(validate(state.raw, defaultValidationSettings));
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(parseDataset.fulfilled, (state, { payload }) => {
       state.status = "idle";
       state.raw = payload.data;
-      state.dataErrors = payload.errors;
-      console.log(payload.errors);
+      state.dataErrors = payload.errors.map((e, _) => {
+        const castedError: DataError = e as DataError;
+        castedError.level = parseErrorLevel(e);
+        return castedError;
+      });
     });
     builder.addCase(parseDataset.pending, (state) => {
       state.status = "loading";
+    });
+    builder.addCase(parseDataset.rejected, (state, action) => {
+      state.error = action.error;
+      state.status = "idle";
     });
     builder.addCase(apiPrediction.fulfilled, (state, { payload }) => {
       state.status = "idle";
