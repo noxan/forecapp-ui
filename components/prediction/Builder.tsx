@@ -30,8 +30,6 @@ import {
 const parseStringToNumber = (value: string) =>
   value === '' ? null : Number(value);
 
-var validationStatus: modelParameterValidationStatus;
-
 const PredictionBuilder = () => {
   const dataset = useAppSelector(selectDataset);
   const columnHeaders = Object.keys(dataset[0]);
@@ -39,7 +37,7 @@ const PredictionBuilder = () => {
   const targetColumn = useAppSelector(selectTargetColumn);
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dispatch = useAppDispatch();
-  validationStatus = validateModelParameters(modelConfiguration);
+  const validationStatus = validateModelParameters(modelConfiguration);
 
   const laggedRegressorColumns = columnHeaders.filter(
     (column) => column !== timeColumn && column !== targetColumn
