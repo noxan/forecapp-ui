@@ -296,7 +296,11 @@ const PredictionBuilder = () => {
             defaultValue={modelConfiguration.training.learningRate}
             onChange={(e) =>
               dispatch(
-                editModelConfig({ training: { learningRate: undefined } })
+                editModelConfig({
+                  training: {
+                    learningRate: parseStringToNumber(e.target.value)
+                  }
+                })
               )
             }
             valid={
