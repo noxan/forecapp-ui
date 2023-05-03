@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   CAccordion,
   CAccordionBody,
@@ -25,10 +25,13 @@ import {
 import HolidayBuilder from "./HolidayBuilder";
 import LaggedRegressorBuilder from "./LaggedRegressorBuilder";
 import Info from "../Info";
+import { validateModelParameters } from "../../src/schemas/modelParameters";
 
-const transformEmptyToNull = (value: any) => (value === "" ? null : value);
+const parseStringToNumber = (value: string | null) =>
+  value === "" || value === null ? null : Number(value);
 
-const timeUnitConversion = (value: number, unit: string) => {
+const timeToHour = (value: number | null, unit: string) => {
+  if (value === null) return null;
   //converts given unit to hours
   switch (unit) {
     case "ms":
@@ -50,6 +53,29 @@ const timeUnitConversion = (value: number, unit: string) => {
   }
 };
 
+const hourToTime = (value: number | null, unit: string) => {
+  //converts from hours to given unit
+  if (value === null) return null;
+  switch (unit) {
+    case "ms":
+      return value * 1000 * 60 * 60;
+    case "s":
+      return value * 60 * 60;
+    case "min":
+      return value * 60;
+    case "h":
+      return value;
+    case "d":
+      return value / 24;
+    case "mo":
+      return value / 24 / 30;
+    case "y":
+      return value / 24 / 365;
+    default:
+      return 0;
+  }
+};
+
 const PredictionBuilder = () => {
   const dataset = useAppSelector(selectDataset);
   const columnHeaders = Object.keys(dataset[0]);
@@ -58,12 +84,20 @@ const PredictionBuilder = () => {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const [forecastUnit, setForecastUnit] = useState("h");
   const dispatch = useAppDispatch();
+  const validationStatus = validateModelParameters(modelConfiguration);
 
   const laggedRegressorColumns = columnHeaders.filter(
     (column) => column !== timeColumn && column !== targetColumn
   );
 
   const resolution = detectResolution(dataset, timeColumn);
+
+  const changeUnit = (newUnit: string) => {
+    const originalTime = hourToTime(modelConfiguration.forecasts, forecastUnit);
+    const newTimeH = timeToHour(originalTime, newUnit);
+    dispatch(editModelConfig({ forecasts: newTimeH }));
+    setForecastUnit(newUnit);
+  };
 
   return (
     <CAccordion activeItemKey={10}>
@@ -78,39 +112,35 @@ const PredictionBuilder = () => {
               defaultValue={modelConfiguration.forecasts}
               placeholder="Number of values to forecast..."
               onChange={(e) => {
-                const timeH = timeUnitConversion(
-                  Number(e.target.value),
+                const timeH = timeToHour(
+                  parseStringToNumber(e.target.value),
                   forecastUnit
                 );
                 dispatch(editModelConfig({ forecasts: timeH }));
               }}
+              valid={validationStatus.forecasts.valid}
+              invalid={!validationStatus.forecasts.valid}
+              feedbackValid=""
+              feedbackInvalid={validationStatus.forecasts.error}
             />
             <CDropdown variant="input-group">
               <CDropdownToggle color="secondary">
                 {forecastUnit}
               </CDropdownToggle>
               <CDropdownMenu>
-                <CDropdownItem onClick={() => setForecastUnit("ms")}>
+                <CDropdownItem onClick={() => changeUnit("ms")}>
                   ms
                 </CDropdownItem>
-                <CDropdownItem onClick={() => setForecastUnit("s")}>
-                  s
-                </CDropdownItem>
-                <CDropdownItem onClick={() => setForecastUnit("min")}>
+                <CDropdownItem onClick={() => changeUnit("s")}>s</CDropdownItem>
+                <CDropdownItem onClick={() => changeUnit("min")}>
                   min
                 </CDropdownItem>
-                <CDropdownItem onClick={() => setForecastUnit("h")}>
-                  h
-                </CDropdownItem>
-                <CDropdownItem onClick={() => setForecastUnit("d")}>
-                  d
-                </CDropdownItem>
-                <CDropdownItem onClick={() => setForecastUnit("mo")}>
+                <CDropdownItem onClick={() => changeUnit("h")}>h</CDropdownItem>
+                <CDropdownItem onClick={() => changeUnit("d")}>d</CDropdownItem>
+                <CDropdownItem onClick={() => changeUnit("mo")}>
                   mo
                 </CDropdownItem>
-                <CDropdownItem onClick={() => setForecastUnit("y")}>
-                  y
-                </CDropdownItem>
+                <CDropdownItem onClick={() => changeUnit("y")}>y</CDropdownItem>
               </CDropdownMenu>
             </CDropdown>
           </CInputGroup>
@@ -145,16 +175,28 @@ const PredictionBuilder = () => {
             min={0}
             disabled={modelConfiguration.trend.growth === "off"}
             defaultValue={modelConfiguration.trend.numberOfChangepoints}
-            onChange={(e) =>
+            onChange={(e) => {
               dispatch(
                 editModelConfig({
                   trend: {
-                    numberOfChangepoints: parseInt(e.target.value, 10),
+                    numberOfChangepoints: Number(e.target.value),
                   },
                 })
-              )
+              );
+            }}
+            valid={
+              modelConfiguration.trend.growth === "off"
+                ? undefined
+                : validationStatus.trend.numberOfChangepoints.valid
             }
-          />
+            invalid={
+              modelConfiguration.trend.growth === "off"
+                ? undefined
+                : !validationStatus.trend.numberOfChangepoints.valid
+            }
+            feedbackValid=""
+            feedbackInvalid={validationStatus.trend.numberOfChangepoints.error}
+          ></CFormInput>
         </CAccordionBody>
       </CAccordionItem>
 
@@ -221,14 +263,20 @@ const PredictionBuilder = () => {
           <CFormInput
             className="mb-4"
             type="number"
-            placeholder="off"
+            placeholder="Number of lags"
             min={0}
             defaultValue={modelConfiguration.autoregression.lags}
             onChange={(e) =>
               dispatch(
-                editModelConfig({ autoregression: { lags: e.target.value } })
+                editModelConfig({
+                  autoregression: { lags: parseStringToNumber(e.target.value) },
+                })
               )
             }
+            valid={validationStatus.autoregression.lags.valid}
+            invalid={!validationStatus.autoregression.lags.valid}
+            feedbackValid=""
+            feedbackInvalid={validationStatus.autoregression.lags.error}
           />
           <CFormRange
             min={0}
@@ -239,18 +287,13 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  autoregression: { regularization: e.target.value },
+                  autoregression: { regularization: Number(e.target.value) },
                 })
               )
             }
           />
         </CAccordionBody>
       </CAccordionItem>
-
-      {/* <CAccordionItem itemKey={40}>
-        <CAccordionHeader>Events</CAccordionHeader>
-        <CAccordionBody>TODO</CAccordionBody>
-      </CAccordionItem> */}
 
       <CAccordionItem itemKey={50}>
         <CAccordionHeader>Holidays</CAccordionHeader>
@@ -288,10 +331,24 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  training: { epochs: transformEmptyToNull(e.target.value) },
+                  training: {
+                    epochs: parseStringToNumber(e.target.value),
+                  },
                 })
               )
             }
+            valid={
+              modelConfiguration.training.epochs !== null
+                ? validationStatus.training.epochs.valid
+                : undefined
+            }
+            invalid={
+              modelConfiguration.training.epochs !== null
+                ? !validationStatus.training.epochs.valid
+                : undefined
+            }
+            feedbackValid=""
+            feedbackInvalid={validationStatus.training.epochs.error}
           />
           <CFormCheck
             id="earlyStopping"
@@ -315,11 +372,23 @@ const PredictionBuilder = () => {
               dispatch(
                 editModelConfig({
                   training: {
-                    learningRate: transformEmptyToNull(e.target.value),
+                    learningRate: parseStringToNumber(e.target.value),
                   },
                 })
               )
             }
+            valid={
+              modelConfiguration.training.learningRate !== null
+                ? validationStatus.training.learningRate.valid
+                : undefined
+            }
+            invalid={
+              modelConfiguration.training.learningRate !== null
+                ? !validationStatus.training.learningRate.valid
+                : undefined
+            }
+            feedbackValid=""
+            feedbackInvalid={validationStatus.training.learningRate.error}
           />
           Batch size
           <CFormInput
@@ -329,10 +398,24 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  training: { batchSize: transformEmptyToNull(e.target.value) },
+                  training: {
+                    batchSize: parseStringToNumber(e.target.value),
+                  },
                 })
               )
             }
+            valid={
+              modelConfiguration.training.batchSize !== null
+                ? validationStatus.training.batchSize.valid
+                : undefined
+            }
+            invalid={
+              modelConfiguration.training.batchSize !== null
+                ? !validationStatus.training.batchSize.valid
+                : undefined
+            }
+            feedbackValid=""
+            feedbackInvalid={validationStatus.training.batchSize.error}
           />
         </CAccordionBody>
       </CAccordionItem>
