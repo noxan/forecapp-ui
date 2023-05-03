@@ -7,6 +7,9 @@ import {
   CFormInput,
   CFormRange,
 } from "@coreui/react";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers";
 import { detectResolution } from "../../src/helpers";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
 import { editModelConfig } from "../../src/store/models";
@@ -158,6 +161,16 @@ const PredictionBuilder = () => {
             }
           />
           {/* <div>Custom - TODO</div> */}
+        </CAccordionBody>
+      </CAccordionItem>
+      <CAccordionItem>
+        <CAccordionHeader>Events</CAccordionHeader>
+        <CAccordionBody>
+          Specify a list of special events that may have had an effect on the
+          time-series.
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker></DatePicker>
+          </LocalizationProvider>
         </CAccordionBody>
       </CAccordionItem>
 
