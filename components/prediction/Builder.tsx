@@ -1,11 +1,17 @@
+import { useState } from "react";
 import {
   CAccordion,
   CAccordionBody,
   CAccordionHeader,
   CAccordionItem,
+  CDropdown,
+  CDropdownItem,
+  CDropdownMenu,
+  CDropdownToggle,
   CFormCheck,
   CFormInput,
   CFormRange,
+  CInputGroup,
 } from "@coreui/react";
 import { detectResolution } from "../../src/helpers";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
@@ -22,12 +28,35 @@ import Info from "../Info";
 
 const transformEmptyToNull = (value: any) => (value === "" ? null : value);
 
+const timeUnitConversion = (value: number, unit: string) => {
+  //converts given unit to hours
+  switch (unit) {
+    case "ms":
+      return value / 1000 / 60 / 60;
+    case "s":
+      return value / 60 / 60;
+    case "min":
+      return value / 60;
+    case "h":
+      return value;
+    case "d":
+      return value * 24;
+    case "mo":
+      return value * 24 * 30;
+    case "y":
+      return value * 24 * 365;
+    default:
+      return 0;
+  }
+};
+
 const PredictionBuilder = () => {
   const dataset = useAppSelector(selectDataset);
   const columnHeaders = Object.keys(dataset[0]);
   const timeColumn = useAppSelector(selectTimeColumn);
   const targetColumn = useAppSelector(selectTargetColumn);
   const modelConfiguration = useAppSelector(selectModelConfiguration);
+  const [forecastUnit, setForecastUnit] = useState("h");
   const dispatch = useAppDispatch();
 
   const laggedRegressorColumns = columnHeaders.filter(
@@ -43,14 +72,48 @@ const PredictionBuilder = () => {
         <CAccordionBody>
           How far should the model predict into the future? The unit is based on
           your dataset in <b>{resolution}</b>.
-          <CFormInput
-            type="number"
-            defaultValue={modelConfiguration.forecasts}
-            placeholder="Number of values to forecast..."
-            onChange={(e) =>
-              dispatch(editModelConfig({ forecasts: e.target.value }))
-            }
-          />
+          <CInputGroup>
+            <CFormInput
+              type="number"
+              defaultValue={modelConfiguration.forecasts}
+              placeholder="Number of values to forecast..."
+              onChange={(e) => {
+                const timeH = timeUnitConversion(
+                  Number(e.target.value),
+                  forecastUnit
+                );
+                dispatch(editModelConfig({ forecasts: timeH }));
+              }}
+            />
+            <CDropdown variant="input-group">
+              <CDropdownToggle color="secondary">
+                {forecastUnit}
+              </CDropdownToggle>
+              <CDropdownMenu>
+                <CDropdownItem onClick={() => setForecastUnit("ms")}>
+                  ms
+                </CDropdownItem>
+                <CDropdownItem onClick={() => setForecastUnit("s")}>
+                  s
+                </CDropdownItem>
+                <CDropdownItem onClick={() => setForecastUnit("min")}>
+                  min
+                </CDropdownItem>
+                <CDropdownItem onClick={() => setForecastUnit("h")}>
+                  h
+                </CDropdownItem>
+                <CDropdownItem onClick={() => setForecastUnit("d")}>
+                  d
+                </CDropdownItem>
+                <CDropdownItem onClick={() => setForecastUnit("mo")}>
+                  mo
+                </CDropdownItem>
+                <CDropdownItem onClick={() => setForecastUnit("y")}>
+                  y
+                </CDropdownItem>
+              </CDropdownMenu>
+            </CDropdown>
+          </CInputGroup>
         </CAccordionBody>
       </CAccordionItem>
 
