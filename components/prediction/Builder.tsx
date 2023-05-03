@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import {
   CAccordion,
   CAccordionBody,
@@ -20,12 +19,7 @@ import {
 import HolidayBuilder from "./HolidayBuilder";
 import LaggedRegressorBuilder from "./LaggedRegressorBuilder";
 import Info from "../Info";
-import {
-  numberOfChangepoints,
-  ModelParameters,
-  validateModelParameters,
-  modelParameterValidationStatus,
-} from "../../src/schemas/modelParameters";
+import { validateModelParameters } from "../../src/schemas/modelParameters";
 
 const parseStringToNumber = (value: string) =>
   value === "" ? null : Number(value);
