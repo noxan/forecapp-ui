@@ -1,24 +1,34 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useAppSelector } from "../../src/hooks";
 import { selectDataErrors } from "../../src/store/selectors";
 import { CCol, CListGroup, CListGroupItem, CRow, CBadge } from "@coreui/react";
 import LinkButton from "../../components/LinkButton";
-import { DataError, errorLevelColor } from "../../src/store/datasets";
+import { DataError, ErrorLevel } from "../../src/store/datasets";
+
+const errorLevelColor: Record<ErrorLevel, string> = {
+  Error: "danger",
+  Info: "info",
+  Warning: "warning",
+};
 
 export default function DataErrorPage() {
   const [modalVisible, setModalVisible] = useState(false);
   const dataErrors = useAppSelector(selectDataErrors);
   const [hasErrors, setHasErrors] = useState(false);
 
-  const groupErrors = (errors: DataError[]) => {
+  const groupErrors = () => {
     const groupedErrors: { [key: string]: DataError[] } = {};
-    for (let i = 0; i < errors.length; i++) {
-      (groupedErrors[errors[i].type] ||= []).push(errors[i]);
+    for (let i = 0; i < dataErrors.length; i++) {
+      (groupedErrors[dataErrors[i].type] ||= []).push(dataErrors[i]);
     }
     return groupedErrors;
   };
 
-  const groupedErrors = groupErrors(dataErrors);
+  const groupedErrors = useMemo(groupErrors, [dataErrors]);
+  useMemo(
+    () => setHasErrors(dataErrors.some((e) => e.level === "Error")),
+    [dataErrors]
+  );
 
   return (
     <main>
@@ -26,18 +36,27 @@ export default function DataErrorPage() {
         <CListGroup>
           {groupedErrors["Validation"] &&
             groupedErrors["Validation"].map((e, ind) => (
-              <CListGroupItem key={ind}>{e.message}</CListGroupItem>
+              <CListGroupItem
+                key={ind}
+                color={e.level}
+                className="d-flex justify-content-between align-items-center"
+              >
+                {e.message}
+              </CListGroupItem>
             ))}
           {["Quotes", "Delimiter", "FieldMismatch"].map(
             (type, ind) =>
               groupedErrors[type] && (
                 <CListGroupItem
                   key={type}
-                  color="danger"
+                  color={errorLevelColor[groupedErrors[type][0].level]}
                   className="d-flex justify-content-between align-items-center"
                 >
-                  {type}
-                  <CBadge shape="rounded-pill" color="danger">
+                  {groupedErrors[type][0].level}: {type}
+                  <CBadge
+                    shape="rounded-pill"
+                    color={errorLevelColor[groupedErrors[type][0].level]}
+                  >
                     {groupedErrors[type].length}
                   </CBadge>
                 </CListGroupItem>

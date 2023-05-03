@@ -16,7 +16,3 @@ export const parse = async (source: any, download: boolean = false) =>
       },
     })
   );
-
-export const parseErrorLevel = (e: ParseError): ErrorLevel => {
-  return "Error";
-};

@@ -5,21 +5,12 @@ import {
   SELECT_STATE_INITIALIZE,
 } from "../definitions";
 import { autodetectColumn } from "../helpers";
-import { parse, parseErrorLevel } from "../parser";
+import { parse } from "../parser";
 import { ParseError, ParseResult } from "papaparse";
 import { ValidationSettings, validate } from "../data-validator";
+import { Warning } from "postcss";
 
 export type ErrorLevel = "Info" | "Warning" | "Error";
-
-export function errorLevelColor(level: ErrorLevel) {
-  if (level === "Error") {
-    return "danger";
-  } else if (level === "Warning") {
-    return "warning";
-  } else {
-    return "info";
-  }
-}
 
 export type DataValidationError = {
   type: "Validation";
@@ -31,6 +22,17 @@ export type DataValidationError = {
 export type DataError =
   | (ParseError & { level: ErrorLevel })
   | DataValidationError;
+export type DataErrorType =
+  | "Validation"
+  | "Quotes"
+  | "Delimiter"
+  | "FieldMismatch";
+export const dataErrorTypeWarningLevel: { [key: string]: ErrorLevel } = {
+  Validation: "Error",
+  Quotes: "Warning",
+  Delimiter: "Error",
+  FieldMismatch: "Warning",
+};
 
 export const parseDataset = createAsyncThunk<
   ParseResult<{ [key: string]: any }>,
@@ -133,7 +135,7 @@ export const datasetSlice = createSlice({
       state.raw = payload.data;
       state.dataErrors = payload.errors.map((e, _) => {
         const castedError: DataError = e as DataError;
-        castedError.level = parseErrorLevel(e);
+        castedError.level = dataErrorTypeWarningLevel[e.type];
         return castedError;
       });
     });
