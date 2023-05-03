@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
   FLUSH,
   PAUSE,
@@ -6,21 +6,21 @@ import {
   persistReducer,
   PURGE,
   REGISTER,
-  REHYDRATE
-} from 'reduxjs-toolkit-persist';
-import storage from 'reduxjs-toolkit-persist/lib/storage';
-import datasets from './datasets';
-import models from './models';
+  REHYDRATE,
+} from "reduxjs-toolkit-persist";
+import storage from "reduxjs-toolkit-persist/lib/storage";
+import datasets from "./datasets";
+import models from "./models";
 
-export const databaseName = 'forecapp-db';
+export const databaseName = "forecapp-db";
 
-const isSSR = typeof window === 'undefined';
+const isSSR = typeof window === "undefined";
 
 const configurePersistedReducers = () => {
   const persistConfig = {
-    key: 'root',
+    key: "root",
     storage,
-    blacklist: ['datasets']
+    blacklist: ["datasets"],
   };
 
   const persistedReducers = persistReducer(persistConfig, reducers);
@@ -29,11 +29,11 @@ const configurePersistedReducers = () => {
 };
 
 const configureDatasetReducer = () => {
-  const storageIndexedDB = require('redux-persist-indexeddb-storage').default;
+  const storageIndexedDB = require("redux-persist-indexeddb-storage").default;
 
   const datasetsPersistConfig = {
-    key: 'datasets',
-    storage: storageIndexedDB(databaseName)
+    key: "datasets",
+    storage: storageIndexedDB(databaseName),
   };
 
   return persistReducer(datasetsPersistConfig, datasets);
@@ -41,7 +41,7 @@ const configureDatasetReducer = () => {
 
 const reducers = combineReducers({
   datasets: isSSR ? datasets : configureDatasetReducer(),
-  models
+  models,
 });
 
 const reducer = isSSR ? reducers : configurePersistedReducers();
@@ -51,9 +51,9 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-      }
-    })
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

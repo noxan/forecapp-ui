@@ -1,5 +1,5 @@
-import { RootState } from '.';
-import { ModelState } from './models';
+import { RootState } from ".";
+import { ModelState } from "./models";
 
 export const selectDataset = (state: RootState) => state.datasets?.raw;
 

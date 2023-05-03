@@ -1,38 +1,38 @@
-import { number, z } from 'zod';
-import { ModelState } from '../store/models';
-import { extractValidationStatus } from './helpers';
+import { number, z } from "zod";
+import { ModelState } from "../store/models";
+import { extractValidationStatus } from "./helpers";
 
 export const forecasts = z
-  .number({ invalid_type_error: 'Must be a number' })
-  .gt(0, { message: 'Must be greater than 0' });
-export const growth = z.enum(['off', 'linear']);
+  .number({ invalid_type_error: "Must be a number" })
+  .gt(0, { message: "Must be greater than 0" });
+export const growth = z.enum(["off", "linear"]);
 export const numberOfChangepoints = z
-  .number({ invalid_type_error: 'Must be a number' })
-  .int({ message: 'Must be an integer' })
-  .gte(0, { message: 'Must be greater than or equal to 0' })
-  .lte(20, { message: 'Must be less than or equal to 20' });
+  .number({ invalid_type_error: "Must be a number" })
+  .int({ message: "Must be an integer" })
+  .gte(0, { message: "Must be greater than or equal to 0" })
+  .lte(20, { message: "Must be less than or equal to 20" });
 export const lags = z
-  .number({ invalid_type_error: 'Must be a number' })
-  .gte(0, { message: 'Must be greater than 0' });
+  .number({ invalid_type_error: "Must be a number" })
+  .gte(0, { message: "Must be greater than 0" });
 export const regularization = z.number({
-  invalid_type_error: 'Must be a number'
+  invalid_type_error: "Must be a number",
 });
 export const earlyStopping = z.boolean({
-  invalid_type_error: 'Must be a boolean'
+  invalid_type_error: "Must be a boolean",
 });
 export const epochs = z
-  .number({ invalid_type_error: 'Must be a number' })
-  .int({ message: 'Must be an integer' })
-  .gt(0, { message: 'Must be greater than 0' })
+  .number({ invalid_type_error: "Must be a number" })
+  .int({ message: "Must be an integer" })
+  .gt(0, { message: "Must be greater than 0" })
   .nullable();
 export const batchSize = z
-  .number({ invalid_type_error: 'Must be a number' })
-  .int({ message: 'Must be an integer' })
-  .gt(0, { message: 'Must be greater than 0' })
+  .number({ invalid_type_error: "Must be a number" })
+  .int({ message: "Must be an integer" })
+  .gt(0, { message: "Must be greater than 0" })
   .nullable();
 export const learningRate = z
-  .number({ invalid_type_error: 'Must be a number' })
-  .gt(0, { message: 'Must be greater than 0' })
+  .number({ invalid_type_error: "Must be a number" })
+  .gt(0, { message: "Must be greater than 0" })
   .nullable();
 export const laggedRegressors = z.array(z.any());
 export const holidays = z.array(z.string());
@@ -40,13 +40,13 @@ export const events = z.array(z.any());
 
 export const trend = z
   .object({
-    growth: z.literal('linear'),
-    numberOfChangepoints: numberOfChangepoints
+    growth: z.literal("linear"),
+    numberOfChangepoints: numberOfChangepoints,
   })
   .or(
     z.object({
-      growth: z.literal('off'),
-      numberOfChangepoints: z.any()
+      growth: z.literal("off"),
+      numberOfChangepoints: z.any(),
     })
   );
 
@@ -55,22 +55,22 @@ export const ModelParameters = z.object({
   trend: trend,
   autoregression: z.object({
     lags: lags,
-    regularization: z.number()
+    regularization: z.number(),
   }),
   seasonality: z.object({
     daily: z.any(),
     weekly: z.any(),
-    yearly: z.any()
+    yearly: z.any(),
   }),
   training: z.object({
     earlyStopping: earlyStopping,
     epochs: epochs,
     batchSize: batchSize,
-    learningRate: learningRate
+    learningRate: learningRate,
   }),
   laggedRegressors: laggedRegressors,
   holidays: holidays,
-  events: events
+  events: events,
 });
 
 export type modelParameterValidationStatus = {
@@ -115,38 +115,38 @@ export const validateModelParameters = (modelParameters: ModelState) => {
   const validationStatus: modelParameterValidationStatus = {
     forecasts: {
       valid: false,
-      error: ''
+      error: "",
     },
     trend: {
       numberOfChangepoints: {
         valid: false,
-        error: ''
-      }
+        error: "",
+      },
     },
     autoregression: {
       lags: {
         valid: false,
-        error: ''
+        error: "",
       },
       regularization: {
         valid: false,
-        error: ''
-      }
+        error: "",
+      },
     },
     training: {
       learningRate: {
         valid: false,
-        error: ''
+        error: "",
       },
       epochs: {
         valid: false,
-        error: ''
+        error: "",
       },
       batchSize: {
         valid: false,
-        error: ''
-      }
-    }
+        error: "",
+      },
+    },
   };
   // validate model parameters using zod schema
   validationStatus.forecasts = extractValidationStatus(

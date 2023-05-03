@@ -1,4 +1,4 @@
-import { ZodError } from 'zod';
+import { ZodError } from "zod";
 export const extractValidationStatus = (
   validationResult:
     | { success: true; data: any }
@@ -6,7 +6,7 @@ export const extractValidationStatus = (
 ) => {
   // extract success and error from validationResult
   if (validationResult.success) {
-    return { valid: true, error: '' };
+    return { valid: true, error: "" };
   } else {
     // extract the first error message from the ZodError object
     const errorMsg = validationResult.error.issues[0].message;

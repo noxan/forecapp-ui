@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback } from "react";
 import {
   CAccordion,
   CAccordionBody,
@@ -6,29 +6,29 @@ import {
   CAccordionItem,
   CFormCheck,
   CFormInput,
-  CFormRange
-} from '@coreui/react';
-import { detectResolution } from '../../src/helpers';
-import { useAppDispatch, useAppSelector } from '../../src/hooks';
-import { editModelConfig } from '../../src/store/models';
+  CFormRange,
+} from "@coreui/react";
+import { detectResolution } from "../../src/helpers";
+import { useAppDispatch, useAppSelector } from "../../src/hooks";
+import { editModelConfig } from "../../src/store/models";
 import {
   selectDataset,
   selectModelConfiguration,
   selectTargetColumn,
-  selectTimeColumn
-} from '../../src/store/selectors';
-import HolidayBuilder from './HolidayBuilder';
-import LaggedRegressorBuilder from './LaggedRegressorBuilder';
-import Info from '../Info';
+  selectTimeColumn,
+} from "../../src/store/selectors";
+import HolidayBuilder from "./HolidayBuilder";
+import LaggedRegressorBuilder from "./LaggedRegressorBuilder";
+import Info from "../Info";
 import {
   numberOfChangepoints,
   ModelParameters,
   validateModelParameters,
-  modelParameterValidationStatus
-} from '../../src/schemas/modelParameters';
+  modelParameterValidationStatus,
+} from "../../src/schemas/modelParameters";
 
 const parseStringToNumber = (value: string) =>
-  value === '' ? null : Number(value);
+  value === "" ? null : Number(value);
 
 const PredictionBuilder = () => {
   const dataset = useAppSelector(selectDataset);
@@ -59,7 +59,7 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  forecasts: parseStringToNumber(e.target.value)
+                  forecasts: parseStringToNumber(e.target.value),
                 })
               )
             }
@@ -77,16 +77,16 @@ const PredictionBuilder = () => {
           <CFormCheck
             id="trend"
             label="Enable trend"
-            defaultChecked={modelConfiguration.trend.growth === 'linear'}
+            defaultChecked={modelConfiguration.trend.growth === "linear"}
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  trend: { growth: e.target.checked ? 'linear' : 'off' }
+                  trend: { growth: e.target.checked ? "linear" : "off" },
                 })
               )
             }
           />
-          Number of changepoints{' '}
+          Number of changepoints{" "}
           <Info>
             Trend change points, also known as inflection points, are points in
             a data series where the direction of the trend changes. For example,
@@ -97,24 +97,24 @@ const PredictionBuilder = () => {
           <CFormInput
             type="number"
             min={0}
-            disabled={modelConfiguration.trend.growth === 'off'}
+            disabled={modelConfiguration.trend.growth === "off"}
             defaultValue={modelConfiguration.trend.numberOfChangepoints}
             onChange={(e) => {
               dispatch(
                 editModelConfig({
                   trend: {
-                    numberOfChangepoints: Number(e.target.value)
-                  }
+                    numberOfChangepoints: Number(e.target.value),
+                  },
                 })
               );
             }}
             valid={
-              modelConfiguration.trend.growth === 'off'
+              modelConfiguration.trend.growth === "off"
                 ? undefined
                 : validationStatus.trend.numberOfChangepoints.valid
             }
             invalid={
-              modelConfiguration.trend.growth === 'off'
+              modelConfiguration.trend.growth === "off"
                 ? undefined
                 : !validationStatus.trend.numberOfChangepoints.valid
             }
@@ -134,7 +134,7 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  seasonality: { daily: e.target.checked }
+                  seasonality: { daily: e.target.checked },
                 })
               )
             }
@@ -146,7 +146,7 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  seasonality: { weekly: e.target.checked }
+                  seasonality: { weekly: e.target.checked },
                 })
               )
             }
@@ -158,7 +158,7 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  seasonality: { yearly: e.target.checked }
+                  seasonality: { yearly: e.target.checked },
                 })
               )
             }
@@ -193,7 +193,7 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  autoregression: { lags: parseStringToNumber(e.target.value) }
+                  autoregression: { lags: parseStringToNumber(e.target.value) },
                 })
               )
             }
@@ -211,7 +211,7 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  autoregression: { regularization: Number(e.target.value) }
+                  autoregression: { regularization: Number(e.target.value) },
                 })
               )
             }
@@ -256,8 +256,8 @@ const PredictionBuilder = () => {
               dispatch(
                 editModelConfig({
                   training: {
-                    epochs: parseStringToNumber(e.target.value)
-                  }
+                    epochs: parseStringToNumber(e.target.value),
+                  },
                 })
               )
             }
@@ -281,7 +281,7 @@ const PredictionBuilder = () => {
             onChange={(e) =>
               dispatch(
                 editModelConfig({
-                  training: { earlyStopping: e.target.checked }
+                  training: { earlyStopping: e.target.checked },
                 })
               )
             }
@@ -296,8 +296,8 @@ const PredictionBuilder = () => {
               dispatch(
                 editModelConfig({
                   training: {
-                    learningRate: parseStringToNumber(e.target.value)
-                  }
+                    learningRate: parseStringToNumber(e.target.value),
+                  },
                 })
               )
             }
@@ -323,8 +323,8 @@ const PredictionBuilder = () => {
               dispatch(
                 editModelConfig({
                   training: {
-                    batchSize: parseStringToNumber(e.target.value)
-                  }
+                    batchSize: parseStringToNumber(e.target.value),
+                  },
                 })
               )
             }
