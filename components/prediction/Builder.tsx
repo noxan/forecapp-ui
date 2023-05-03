@@ -20,6 +20,7 @@ import HolidayBuilder from "./HolidayBuilder";
 import LaggedRegressorBuilder from "./LaggedRegressorBuilder";
 import Info from "../Info";
 import { validateModelParameters } from "../../src/schemas/modelParameters";
+import throttle from "lodash.throttle";
 
 const parseStringToNumber = (value: string) =>
   value === "" ? null : Number(value);
@@ -32,6 +33,15 @@ const PredictionBuilder = () => {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dispatch = useAppDispatch();
   const validationStatus = validateModelParameters(modelConfiguration);
+  const throttledSliderChange = throttle(
+    (e) =>
+      dispatch(
+        editModelConfig({
+          autoregression: { regularization: Number(e.target.value) },
+        })
+      ),
+    100
+  );
 
   const laggedRegressorColumns = columnHeaders.filter(
     (column) => column !== timeColumn && column !== targetColumn
@@ -202,13 +212,7 @@ const PredictionBuilder = () => {
             step={0.01}
             label={`Regularization (${modelConfiguration.autoregression.regularization})`}
             defaultValue={modelConfiguration.autoregression.regularization}
-            onChange={(e) =>
-              dispatch(
-                editModelConfig({
-                  autoregression: { regularization: Number(e.target.value) },
-                })
-              )
-            }
+            onChange={(e) => throttledSliderChange(e)}
           />
         </CAccordionBody>
       </CAccordionItem>

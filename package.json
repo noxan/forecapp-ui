@@ -34,6 +34,7 @@
     "glyphicons-only-bootstrap": "^1.0.1",
     "iwanthue": "^2.0.0",
     "lodash.merge": "^4.6.2",
+    "lodash.throttle": "^4.1.1",
     "next": "13.0.1",
     "papaparse": "^5.4.1",
     "plotly.js": "^2.20.0",
@@ -53,6 +54,7 @@
   },
   "devDependencies": {
     "@types/lodash.merge": "^4.6.7",
+    "@types/lodash.throttle": "^4.1.7",
     "prettier": "^2.8.7",
     "ts-node": "^10.9.1"
   }
