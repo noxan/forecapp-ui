@@ -1,3 +1,4 @@
+import { ReactElement, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import { transformDataset } from "../src/helpers";
 import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
@@ -10,7 +11,15 @@ import {
 } from "../src/store/selectors";
 import { validateColumnDefinitions } from "../src/definitions";
 import MissingColumnPlaceholder from "../components/MissingColumnPlaceholder";
-import { CCol, CContainer, CRow } from "@coreui/react";
+import {
+  CCol,
+  CContainer,
+  CRow,
+  CToast,
+  CToastClose,
+  CToastBody,
+  CToaster,
+} from "@coreui/react";
 import PredictionNavigation from "../components/prediction/Navigation";
 import PredictionWizardCard from "../components/prediction/WizardCard";
 import PredictionBuilder from "../components/prediction/Builder";
@@ -19,8 +28,9 @@ import PredictionChart from "../components/prediction/Chart";
 import LoadingOverlay from "../components/prediction/LoadingOverlay";
 import MissingForecastPlaceholder from "../components/MissingForecastPlaceholder";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { ModelParameters } from "../src/schemas/modelParameters";
+import { HTTPError, ValidationError, NeuralProphetError } from "../src/error";
+import { ZodError } from "zod";
 
 export default function Visualization() {
   const router = useRouter();
@@ -34,30 +44,71 @@ export default function Visualization() {
   const targetColumn = useAppSelector(selectTargetColumn);
   const predictionData = useAppSelector((state) => state.datasets.prediction);
 
-  const predictAction = () => {
+  const [errorMessage, setErrorMessage] = useState<ReactElement>();
+  const errorToastWithMessage = (message: string) => {
+    return (
+      <CToast
+        autohide={true}
+        color="danger"
+        animation={true}
+        className="text-white align-items-center"
+      >
+        <div className="d-flex">
+          <CToastBody>{message}</CToastBody>
+          <CToastClose className="me-2 m-auto" white />
+        </div>
+      </CToast>
+    );
+  };
+
+  // Calls the prediction API
+  const predictAction = async () => {
     try {
       // check that form inputs are valid before calling api
       ModelParameters.parse(modelConfiguration);
       // then call api
-      dispatch(
+      await dispatch(
         apiPrediction({
           dataset: transformDataset(dataset, modelConfiguration, columns),
           configuration: modelConfiguration,
         })
-      );
-    } catch (e) {
-      // TODO: show toast notification banner here
-      console.log(e);
+      ).unwrap();
+    } catch (err: any) {
+      if (err instanceof ZodError) {
+        setErrorMessage(
+          errorToastWithMessage("The model configuration was invalid.")
+        );
+      } else if (err.message) {
+        const error = err as HTTPError;
+        setErrorMessage(
+          errorToastWithMessage("Something went wrong: " + error.message)
+        );
+      } else if (err.detail) {
+        if (err.detail instanceof Array) {
+          const error = err as ValidationError;
+          setErrorMessage(
+            errorToastWithMessage("The model configuration was invalid.")
+          );
+        } else {
+          const error = err as NeuralProphetError;
+          setErrorMessage(
+            errorToastWithMessage("Neural Prophet failed: " + error.detail)
+          );
+        }
+      } else {
+        setErrorMessage(errorToastWithMessage("An unknown error occured."));
+      }
     }
   };
 
+  // The first time the user enters the page, run a prediction with the default configuration
   const isFirstRun = Object.keys(router.query).includes("first-run");
-
   useEffect(() => {
     if (isFirstRun) {
       router.replace({ query: {} });
       predictAction();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!dataset) {
@@ -86,13 +137,6 @@ export default function Visualization() {
           </CCol>
           <CCol style={{ position: "relative" }}>
             {status === "loading" && <LoadingOverlay />}
-            {((predictionData && predictionData.status !== "ok") || error) && (
-              <div>
-                <h3>Something went wrong...</h3>
-                {!error && predictionData && JSON.stringify(predictionData)}
-                {error && JSON.stringify(error)}
-              </div>
-            )}
             {predictionData && predictionData.status === "ok" && (
               <PredictionChart
                 targetColumn={targetColumn}
@@ -102,6 +146,7 @@ export default function Visualization() {
             )}
           </CCol>
         </CRow>
+        <CToaster push={errorMessage} placement="bottom-end" />
       </CContainer>
     </>
   );
