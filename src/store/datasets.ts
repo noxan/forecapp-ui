@@ -32,7 +32,7 @@ type PredictionQueryArg = { dataset: any[]; configuration: object };
 
 export const apiPrediction = createAsyncThunk<any, PredictionQueryArg>(
   "datasets/apiPrediction",
-  async (payload) => {
+  async (payload, { rejectWithValue }) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prediction`, {
       method: "POST",
       body: JSON.stringify(payload),
@@ -40,7 +40,11 @@ export const apiPrediction = createAsyncThunk<any, PredictionQueryArg>(
         "Content-Type": "application/json",
       },
     });
-    return await res.json();
+    const resJSON = await res.json();
+    if (resJSON.status !== "ok") {
+      return rejectWithValue(resJSON);
+    }
+    return resJSON;
   }
 );
 
@@ -106,12 +110,8 @@ export const datasetSlice = createSlice({
     });
     builder.addCase(apiPrediction.fulfilled, (state, { payload }) => {
       state.status = "idle";
-      if (payload.status !== "ok") {
-        state.error = payload;
-      } else {
-        state.error = null;
-        state.prediction = payload as any;
-      }
+      state.error = null;
+      state.prediction = payload as any;
     });
     builder.addCase(apiPrediction.pending, (state) => {
       state.error = null;
