@@ -1,3 +1,4 @@
+import { ReactElement, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import { transformDataset } from "../src/helpers";
 import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
@@ -27,8 +28,9 @@ import PredictionChart from "../components/prediction/Chart";
 import LoadingOverlay from "../components/prediction/LoadingOverlay";
 import MissingForecastPlaceholder from "../components/MissingForecastPlaceholder";
 import { useRouter } from "next/router";
-import { ReactElement, useEffect, useState } from "react";
+import { ModelParameters } from "../src/schemas/modelParameters";
 import { HTTPError, ValidationError, NeuralProphetError } from "../src/error";
+import { ZodError } from "zod";
 
 export default function Visualization() {
   const router = useRouter();
@@ -62,6 +64,9 @@ export default function Visualization() {
   // Calls the prediction API
   const predictAction = async () => {
     try {
+      // check that form inputs are valid before calling api
+      ModelParameters.parse(modelConfiguration);
+      // then call api
       await dispatch(
         apiPrediction({
           dataset: transformDataset(dataset, modelConfiguration, columns),
@@ -69,7 +74,11 @@ export default function Visualization() {
         })
       ).unwrap();
     } catch (err: any) {
-      if (err.message) {
+      if (err instanceof ZodError) {
+        setErrorMessage(
+          errorToastWithMessage("The model configuration was invalid.")
+        );
+      } else if (err.message) {
         const error = err as HTTPError;
         setErrorMessage(
           errorToastWithMessage("Something went wrong: " + error.message)
