@@ -24,24 +24,27 @@ export function validate(
     errors.push({
       type: "Validation",
       level: "Error",
-      message:
-        "Not enough columns in your dataset (Expected: >${settings.minCols - 1}, Recieved: ${nCols})",
+      message: `Not enough columns in your dataset (Expected: >${
+        settings.minCols - 1
+      }, Recieved: ${nCols})`,
     });
   }
   if (settings.maxCols && nCols > settings.maxCols) {
     errors.push({
       type: "Validation",
       level: "Error",
-      message:
-        "Too many columns in your dataset (Expected: <${settings.maxCols + 1}, Recieved: ${nCols})",
+      message: `Too many columns in your dataset (Expected: <${
+        settings.maxCols + 1
+      }, Recieved: ${nCols})`,
     });
   }
   if (settings.minRows && nCols < settings.minRows) {
     errors.push({
       type: "Validation",
       level: "Error",
-      message:
-        "Not enough rows in your dataset (Expected: >${settings.minRows - 1}, Recieved: ${nRows})",
+      message: `Not enough rows in your dataset (Expected: >${
+        settings.minRows - 1
+      }, Recieved: ${nRows})`,
     });
   }
   if (settings.maxRows && nCols > settings.maxRows) {
@@ -51,18 +54,17 @@ export function validate(
       errors.push({
         type: "Validation",
         level: "Warning",
-        message:
-          "Removed ${removedCnt} rows from your dataset as it had too many rows.",
+        message: `Removed ${removedCnt} rows from your dataset as it had too many rows.`,
       });
     } else {
       errors.push({
         type: "Validation",
         level: "Error",
-        message:
-          "Too many rows in your dataset (Expected: <${settings.maxRows + 1}, Recieved: ${nRows})",
+        message: `Too many rows in your dataset (Expected: <${
+          settings.maxRows + 1
+        }, Recieved: ${nRows})`,
       });
     }
   }
-
   return errors;
 }

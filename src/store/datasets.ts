@@ -29,8 +29,8 @@ export type DataErrorType =
   | "FieldMismatch";
 export const dataErrorTypeWarningLevel: { [key: string]: ErrorLevel } = {
   Validation: "Error",
-  Quotes: "Warning",
-  Delimiter: "Error",
+  Quotes: "Error",
+  Delimiter: "Warning",
   FieldMismatch: "Warning",
 };
 
@@ -126,7 +126,9 @@ export const datasetSlice = createSlice({
     },
     validateData: (state) => {
       if (state.raw)
-        state.dataErrors.concat(validate(state.raw, defaultValidationSettings));
+        state.dataErrors = state.dataErrors.concat(
+          validate(state.raw, defaultValidationSettings)
+        );
     },
   },
   extraReducers: (builder) => {
@@ -162,7 +164,11 @@ export const datasetSlice = createSlice({
   },
 });
 
-export const { detectColumnConfig, setTimeColumn, setTargetColumn } =
-  datasetSlice.actions;
+export const {
+  detectColumnConfig,
+  setTimeColumn,
+  setTargetColumn,
+  validateData,
+} = datasetSlice.actions;
 
 export default datasetSlice.reducer;

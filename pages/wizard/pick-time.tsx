@@ -64,7 +64,7 @@ export default function WizardTimeColumnPage() {
             <LinkButton
               color="primary"
               variant="ghost"
-              href="/"
+              href="/wizard/data-errors"
               className="mx-2"
             >
               Back

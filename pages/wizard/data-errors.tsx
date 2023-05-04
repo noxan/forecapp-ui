@@ -1,7 +1,14 @@
 import { useMemo, useState } from "react";
 import { useAppSelector } from "../../src/hooks";
 import { selectDataErrors } from "../../src/store/selectors";
-import { CCol, CListGroup, CListGroupItem, CRow, CBadge } from "@coreui/react";
+import {
+  CCol,
+  CListGroup,
+  CListGroupItem,
+  CRow,
+  CBadge,
+  CContainer,
+} from "@coreui/react";
 import LinkButton from "../../components/LinkButton";
 import { DataError, ErrorLevel } from "../../src/store/datasets";
 
@@ -32,57 +39,59 @@ export default function DataErrorPage() {
 
   return (
     <main>
-      <CRow>
-        <CListGroup>
-          {groupedErrors["Validation"] &&
-            groupedErrors["Validation"].map((e, ind) => (
-              <CListGroupItem
-                key={ind}
-                color={e.level}
-                className="d-flex justify-content-between align-items-center"
-              >
-                {e.message}
-              </CListGroupItem>
-            ))}
-          {["Quotes", "Delimiter", "FieldMismatch"].map(
-            (type, ind) =>
-              groupedErrors[type] && (
+      <CContainer className="mt-5">
+        <CRow>
+          <CListGroup>
+            {groupedErrors["Validation"] &&
+              groupedErrors["Validation"].map((e, ind) => (
                 <CListGroupItem
-                  key={type}
-                  color={errorLevelColor[groupedErrors[type][0].level]}
+                  key={ind}
+                  color={errorLevelColor[e.level]}
                   className="d-flex justify-content-between align-items-center"
                 >
-                  {groupedErrors[type][0].level}: {type}
-                  <CBadge
-                    shape="rounded-pill"
-                    color={errorLevelColor[groupedErrors[type][0].level]}
-                  >
-                    {groupedErrors[type].length}
-                  </CBadge>
+                  {e.message}
                 </CListGroupItem>
-              )
-          )}
-        </CListGroup>
-      </CRow>
-      <CRow className="my-2">
-        <CCol>
-          <LinkButton
-            color="primary"
-            disabled={hasErrors}
-            href="/prediction?first-run"
-          >
-            Confirm
-          </LinkButton>
-          <LinkButton
-            color="primary"
-            variant="ghost"
-            href="/wizard/pick-target"
-            className="mx-2"
-          >
-            Back
-          </LinkButton>
-        </CCol>
-      </CRow>
+              ))}
+            {["Quotes", "Delimiter", "FieldMismatch"].map(
+              (type, ind) =>
+                groupedErrors[type] && (
+                  <CListGroupItem
+                    key={type}
+                    color={errorLevelColor[groupedErrors[type][0].level]}
+                    className="d-flex justify-content-between align-items-center"
+                  >
+                    {groupedErrors[type][0].level}: {type}
+                    <CBadge
+                      shape="rounded-pill"
+                      color={errorLevelColor[groupedErrors[type][0].level]}
+                    >
+                      {groupedErrors[type].length}
+                    </CBadge>
+                  </CListGroupItem>
+                )
+            )}
+          </CListGroup>
+        </CRow>
+        <CRow className="my-2">
+          <CCol>
+            <LinkButton
+              color="primary"
+              disabled={hasErrors}
+              href="/wizard/pick-time"
+            >
+              Confirm
+            </LinkButton>
+            <LinkButton
+              color="primary"
+              variant="ghost"
+              href="/"
+              className="mx-2"
+            >
+              Back
+            </LinkButton>
+          </CCol>
+        </CRow>
+      </CContainer>
     </main>
   );
 }

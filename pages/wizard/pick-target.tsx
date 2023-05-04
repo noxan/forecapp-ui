@@ -68,7 +68,7 @@ export default function WizardTimeColumnPage() {
             <LinkButton
               color="primary"
               disabled={!isValid}
-              href="/wizard/data-errors"
+              href="/prediction?first-run"
             >
               Confirm
             </LinkButton>
