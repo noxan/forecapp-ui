@@ -1,4 +1,4 @@
-import { CCol, CContainer, CFormInput, CRow } from "@coreui/react";
+import { CButton, CCol, CContainer, CFormInput, CRow } from "@coreui/react";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import DatasetCard from "../components/DatasetCard";
 import {
@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import LinkButton from "../components/LinkButton";
 import { validateColumnDefinitions } from "../src/definitions";
 import datasetExamples from "../src/datasets";
+import { useState } from "react";
 
 export default function Home() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function Home() {
   const targetColumn = useAppSelector(selectTargetColumn);
   const status = useAppSelector((state) => state.datasets.status);
   const dispatch = useAppDispatch();
+  const [url, setUrl] = useState("");
 
   const isDatasetLoaded = !!dataset;
   const isColumnDefinitions = validateColumnDefinitions(
@@ -42,6 +44,7 @@ export default function Home() {
       router.push("/wizard/data-errors");
     } catch (err: any) {
       // This will catch any file errors (file doesn't exists, can't download from url, etc...)
+      console.log(err);
     }
   };
 
@@ -83,7 +86,6 @@ export default function Home() {
             <h5>Import from your computer</h5>
             <CFormInput
               type="file"
-              label="Select a file to import"
               disabled={status === "loading"}
               onChange={(evt) => {
                 if (evt.target.files && evt.target.files.length > 0) {
@@ -92,6 +94,28 @@ export default function Home() {
               }}
               accept=".csv"
             />
+          </CCol>
+        </CRow>
+        <CRow>
+          <h5>Import online dataset</h5>
+          <CCol>
+            <CFormInput
+              type="text"
+              onChange={(evt) => {
+                setUrl(evt.target.value);
+              }}
+            />
+          </CCol>
+          <CCol>
+            <CButton
+              color="primary"
+              disabled={status === "loading"}
+              onClick={(_) => {
+                importAction(url);
+              }}
+            >
+              Submit
+            </CButton>
           </CCol>
         </CRow>
       </CContainer>
