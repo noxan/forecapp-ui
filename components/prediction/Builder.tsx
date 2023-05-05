@@ -6,6 +6,7 @@ import {
   CFormCheck,
   CFormInput,
   CFormRange,
+  CButton,
 } from "@coreui/react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -23,6 +24,8 @@ import HolidayBuilder from "./HolidayBuilder";
 import LaggedRegressorBuilder from "./LaggedRegressorBuilder";
 import Info from "../Info";
 import { validateModelParameters } from "../../src/schemas/modelParameters";
+import EventsBuilderModal from "./EventsBuilderModal";
+import { useState } from "react";
 
 const parseStringToNumber = (value: string) =>
   value === "" ? null : Number(value);
@@ -35,6 +38,8 @@ const PredictionBuilder = () => {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dispatch = useAppDispatch();
   const validationStatus = validateModelParameters(modelConfiguration);
+  const [eventsBuilderModalVisible, setEventsBuilderModalVisible] =
+    useState(false);
 
   const laggedRegressorColumns = columnHeaders.filter(
     (column) => column !== timeColumn && column !== targetColumn
@@ -171,6 +176,13 @@ const PredictionBuilder = () => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker></DatePicker>
           </LocalizationProvider>
+          <CButton onClick={() => setEventsBuilderModalVisible(true)}>
+            Show Event Builder Modal
+          </CButton>
+          <EventsBuilderModal
+            visible={eventsBuilderModalVisible}
+            setVisible={setEventsBuilderModalVisible}
+          ></EventsBuilderModal>
         </CAccordionBody>
       </CAccordionItem>
 

@@ -16,6 +16,7 @@
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
     "@microlink/react-json-view": "^1.22.2",
+    "@mui/material": "^5.12.3",
     "@mui/x-date-pickers": "^6.3.0",
     "@popperjs/core": "^2.11.7",
     "@reduxjs/toolkit": "^1.9.3",

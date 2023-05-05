@@ -1,0 +1,58 @@
+.events-builder-modal__body {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 10px;
+    gap: 10px;
+
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.events-builder-modal__body__event-settings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+
+    width: 220px;
+    height: 300px;
+
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.events-builder-modal__body__dates-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    gap: 10px;
+    
+    width: 274px;
+    height: 300px;
+    
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0; 
+}
+
+.events-builder-modal__body__dates-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    
+    width: 254px;
+    height: 210px;
+    
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}

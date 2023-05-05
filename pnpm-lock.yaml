@@ -22,6 +22,9 @@ dependencies:
   '@microlink/react-json-view':
     specifier: ^1.22.2
     version: 1.22.2(@types/react@18.0.24)(react-dom@18.2.0)(react@18.2.0)
+  '@mui/material':
+    specifier: ^5.12.3
+    version: 5.12.3(@emotion/react@11.10.8)(@emotion/styled@11.10.8)(@types/react@18.0.24)(react-dom@18.2.0)(react@18.2.0)
   '@mui/x-date-pickers':
     specifier: ^6.3.0
     version: 6.3.0(@emotion/react@11.10.8)(@emotion/styled@11.10.8)(@mui/base@5.0.0-alpha.128)(@mui/material@5.12.3)(@mui/system@5.12.3)(dayjs@1.11.7)(react-dom@18.2.0)(react@18.2.0)

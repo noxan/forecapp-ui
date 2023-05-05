@@ -1,4 +1,5 @@
 import "../styles/globals.sass";
+import "../styles/prediction.css";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { PersistGate } from "reduxjs-toolkit-persist/integration/react";
