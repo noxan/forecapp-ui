@@ -8,7 +8,6 @@ import { autodetectColumn } from "../helpers";
 import { parse } from "../parser";
 import { ParseError, ParseResult } from "papaparse";
 import { ValidationSettings, validate } from "../data-validator";
-import { Warning } from "postcss";
 
 export type ErrorLevel = "Info" | "Warning" | "Error";
 
