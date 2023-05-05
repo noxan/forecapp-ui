@@ -1,4 +1,11 @@
-import { CButton, CCol, CContainer, CFormInput, CRow } from "@coreui/react";
+import {
+  CButton,
+  CCol,
+  CContainer,
+  CFormInput,
+  CRow,
+  CToaster,
+} from "@coreui/react";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import DatasetCard from "../components/DatasetCard";
 import {
@@ -15,7 +22,8 @@ import { useRouter } from "next/router";
 import LinkButton from "../components/LinkButton";
 import { validateColumnDefinitions } from "../src/definitions";
 import datasetExamples from "../src/datasets";
-import { useState } from "react";
+import { ReactElement, useState } from "react";
+import { errorToastWithMessage } from "../components/ErrorToast";
 
 export default function Home() {
   const router = useRouter();
@@ -25,6 +33,7 @@ export default function Home() {
   const status = useAppSelector((state) => state.datasets.status);
   const dispatch = useAppDispatch();
   const [url, setUrl] = useState("");
+  const [errorToast, pushErrorToast] = useState<ReactElement>();
 
   const isDatasetLoaded = !!dataset;
   const isColumnDefinitions = validateColumnDefinitions(
@@ -43,8 +52,7 @@ export default function Home() {
       dispatch(validateData());
       router.push("/wizard/data-errors");
     } catch (err: any) {
-      // This will catch any file errors (file doesn't exists, can't download from url, etc...)
-      console.log(err);
+      pushErrorToast(errorToastWithMessage("Error: " + err.message));
     }
   };
 
@@ -119,6 +127,7 @@ export default function Home() {
           </CCol>
         </CRow>
       </CContainer>
+      <CToaster push={errorToast} placement="bottom-end" />
     </main>
   );
 }
