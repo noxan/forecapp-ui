@@ -13,17 +13,14 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
 import Chip from "@mui/material/Chip";
 
 const removeDate = (dateArray: string[], date: string) => {
   //removes specified date from dateArray and returns the new array
-  console.log(date);
   const index = dateArray.indexOf(date);
   if (index > -1) {
     dateArray.splice(index, 1);
   }
-  console.log(dateArray);
   return dateArray;
 };
 
@@ -69,7 +66,10 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
                 maxDate={dayjs(new Date())}
                 onChange={(date) =>
                   date !== null &&
-                  setEventDates([...eventDates, date.toString()])
+                  setEventDates([
+                    ...eventDates,
+                    date.format("MM-DD-YYYY").toString(),
+                  ])
                 }
               ></DatePicker>
             </LocalizationProvider>
