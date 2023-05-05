@@ -14,6 +14,7 @@ import {
   validateData,
 } from "../src/store/datasets";
 import {
+  selectDataErrors,
   selectDataset,
   selectTargetColumn,
   selectTimeColumn,
@@ -31,6 +32,7 @@ export default function Home() {
   const timeColumn = useAppSelector(selectTimeColumn);
   const targetColumn = useAppSelector(selectTargetColumn);
   const status = useAppSelector((state) => state.datasets.status);
+  const dataErrors = useAppSelector(selectDataErrors);
   const dispatch = useAppDispatch();
   const [url, setUrl] = useState("");
   const [errorToast, pushErrorToast] = useState<ReactElement>();
@@ -42,7 +44,9 @@ export default function Home() {
   );
   const resumeHref = isColumnDefinitions
     ? "/prediction"
-    : "/wizard/data-errors";
+    : dataErrors.length > 0
+    ? "/wizard/data-errors"
+    : "/wizard/column-picker";
 
   const importAction = async (source: string | File) => {
     try {
@@ -50,7 +54,9 @@ export default function Home() {
       const columnHeaders = Object.keys(parsedData[0]);
       dispatch(detectColumnConfig(columnHeaders));
       dispatch(validateData());
-      router.push("/wizard/data-errors");
+      router.push(
+        dataErrors.length > 0 ? "/wizard/data-errors" : "/wizard/pick-time"
+      );
     } catch (err: any) {
       pushErrorToast(errorToastWithMessage("Error: " + err.message));
     }
