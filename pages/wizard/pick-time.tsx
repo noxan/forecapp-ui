@@ -8,11 +8,13 @@ import { isColumnValid } from "../../src/definitions";
 import { useAppSelector } from "../../src/hooks";
 import { setTimeColumn } from "../../src/store/datasets";
 import { selectDataset, selectTimeColumn } from "../../src/store/selectors";
+import { useRouter } from "next/router";
 
 export default function WizardTimeColumnPage() {
   const [modalVisible, setModalVisible] = useState(false);
   const timeColumn = useAppSelector(selectTimeColumn);
   const dataset = useAppSelector(selectDataset);
+  const router = useRouter();
 
   const isValid = isColumnValid(timeColumn);
 
@@ -61,14 +63,14 @@ export default function WizardTimeColumnPage() {
               Confirm
             </LinkButton>
 
-            <LinkButton
+            <CButton
               color="primary"
               variant="ghost"
-              href="/wizard/data-errors"
+              onClick={() => router.back()}
               className="mx-2"
             >
               Back
-            </LinkButton>
+            </CButton>
           </CCol>
         </CRow>
         <CRow className="my-4">
