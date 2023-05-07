@@ -8,10 +8,18 @@ import {
   CFormInput,
   CButton,
   CFormRange,
+  CAccordion,
+  CAccordionItem,
+  CAccordionBody,
+  CCollapse,
+  CCard,
+  CCardBody,
 } from "@coreui/react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers";
+import { useAppSelector, useAppDispatch } from "../../src/hooks";
+import { selectModelConfiguration } from "../../src/store/selectors";
 import dayjs from "dayjs";
 import Chip from "@mui/material/Chip";
 
@@ -24,9 +32,45 @@ const removeDate = (dateArray: string[], date: string) => {
   return dateArray;
 };
 
+const addDateRange = (
+  dateRangeArray: string[],
+  dateRange: [string, string]
+) => {
+  //concatenates both string entries of dateRange and adds them to dateRangeArray
+  // both dates have to specified
+  if (dateRange[0] === "" || dateRange[1] === "") {
+    return dateRangeArray;
+  }
+  // check for invalid date
+  if (dateRange[0] === "Invalid Date" || dateRange[1] === "Invalid Date") {
+    return dateRangeArray;
+  }
+  const startDate = new Date(dateRange[0]);
+  const endDate = new Date(dateRange[1]);
+  // start date can't be after end date
+  if (startDate > endDate) {
+    return dateRangeArray;
+  }
+  const dateRangeString = dateRange[0] + "/" + dateRange[1];
+  // check if dateRange is already in dateRangeArray, no duplicates allowed
+  if (dateRangeArray.includes(dateRangeString)) {
+    return dateRangeArray;
+  }
+  dateRangeArray.push(dateRangeString);
+  return dateRangeArray;
+};
+
 const EventsBuilderModal = ({ visible, setVisible }: any) => {
-  const [eventDates, setEventDates] = useState<string[]>([]);
   // Creates a modal for specifying event parameters name, window size, regularization, mode and dates
+  const [eventDates, setEventDates] = useState<string[]>([]);
+  const [eventDateRanges, setEventDateRanges] = useState<string[]>([]);
+  const [eventDateRange, setEventDateRange] = useState<[string, string]>([
+    "",
+    "",
+  ]);
+  const [showAdv, setShowAdv] = useState<boolean>(false);
+  const [regularization, setRegularization] = useState<number>(0);
+  const modelConfiguration = useAppSelector(selectModelConfiguration);
   return (
     <CModal
       className="show d-block"
@@ -46,35 +90,66 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
               size="sm"
               placeholder="Event name"
             ></CFormInput>
-            <CFormRange
-              min={0}
-              max={1}
-              step={0.01}
-              label={`Regularization`}
-              defaultValue={0.5}
-            ></CFormRange>
-            <CFormInput
-              type="number"
-              size="sm"
-              placeholder="Event duration (days)"
-              defaultValue={1}
-            ></CFormInput>
+            <CButton onClick={() => setShowAdv(!showAdv)}>
+              {showAdv ? "Hide Advanced" : "Show Advanced"}
+            </CButton>
+            <CCollapse visible={showAdv}>
+              <CCard className="mt-3">
+                <CCardBody>
+                  <CFormRange
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    label={`Regularization ${regularization}`}
+                    defaultValue={0}
+                    onChange={(e) => setRegularization(Number(e.target.value))}
+                  ></CFormRange>
+                  <p>Event duration (days)</p>
+                  <CFormInput
+                    type="number"
+                    size="sm"
+                    placeholder="Event duration (days)"
+                    defaultValue={1}
+                  ></CFormInput>
+                </CCardBody>
+              </CCard>
+            </CCollapse>
           </div>
           <div className="events-builder-moald__body__dates-box">
+            <h5>Add Date</h5>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 maxDate={dayjs(new Date())}
                 onChange={(date) =>
                   date !== null &&
-                  setEventDates([
-                    ...eventDates,
+                  setEventDateRange([
+                    date.format("MM-DD-YYYY").toString(),
+                    eventDateRange[1],
+                  ])
+                }
+              ></DatePicker>
+              <DatePicker
+                maxDate={dayjs(new Date())}
+                onChange={(date) =>
+                  date !== null &&
+                  setEventDateRange([
+                    eventDateRange[0],
                     date.format("MM-DD-YYYY").toString(),
                   ])
                 }
               ></DatePicker>
             </LocalizationProvider>
+            <CButton
+              onClick={() =>
+                setEventDateRanges(
+                  addDateRange([...eventDateRanges], eventDateRange)
+                )
+              }
+            >
+              Add Date Range
+            </CButton>
             <div className="events-builder-modal__body__dates-list">
-              {eventDates.map((date, index) => {
+              {eventDateRanges.map((date, index) => {
                 return (
                   <Chip
                     key={index}
@@ -84,7 +159,7 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
                         [...eventDates],
                         eventDates[index]
                       );
-                      setEventDates(newDates);
+                      setEventDateRanges(newDates);
                     }}
                   />
                 );
