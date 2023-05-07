@@ -8,12 +8,10 @@ import {
   CFormRange,
   CButton,
 } from "@coreui/react";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers";
+import Chip from "@mui/material/Chip";
 import { detectResolution } from "../../src/helpers";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
-import { editModelConfig } from "../../src/store/models";
+import { editModelConfig, removeEvent } from "../../src/store/models";
 import {
   selectDataset,
   selectModelConfiguration,
@@ -173,12 +171,22 @@ const PredictionBuilder = () => {
         <CAccordionBody>
           Specify a list of special events that may have had an effect on the
           time-series.
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker></DatePicker>
-          </LocalizationProvider>
           <CButton onClick={() => setEventsBuilderModalVisible(true)}>
             Show Event Builder Modal
           </CButton>
+          {Object.keys(modelConfiguration.events).map((eventKey) => (
+            <Chip
+              key={eventKey}
+              label={eventKey}
+              onDelete={() =>
+                dispatch(
+                  removeEvent({
+                    eventKey,
+                  })
+                )
+              }
+            />
+          ))}
           <EventsBuilderModal
             visible={eventsBuilderModalVisible}
             setVisible={setEventsBuilderModalVisible}

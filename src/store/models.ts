@@ -1,14 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit';
-import merge from 'lodash.merge';
+import { createSlice } from "@reduxjs/toolkit";
+import merge from "lodash.merge";
 
-import { forecappApi } from './forecappApi';
+import { forecappApi } from "./forecappApi";
 
 forecappApi.endpoints.predictionPredictionPost.useMutation;
+
+export type event = {
+  dates: string[];
+  regularization: number;
+  lowerWindow: number;
+  upperWindow: number;
+  mode: "additive" | "multiplicative";
+};
 
 export type ModelState = {
   forecasts: number;
   trend: {
-    growth: 'off' | 'linear';
+    growth: "off" | "linear";
     numberOfChangepoints: number;
   };
   autoregression: {
@@ -20,6 +28,9 @@ export type ModelState = {
     weekly: any;
     yearly: any;
   };
+  events: {
+    [key: string]: event[];
+  };
   training: {
     earlyStopping: boolean;
     epochs?: any;
@@ -28,44 +39,43 @@ export type ModelState = {
   };
   laggedRegressors: any[];
   holidays: string[];
-  events: any[];
 };
 
 export const modelSlice = createSlice({
-  name: 'models',
+  name: "models",
   initialState: {
     forecasts: 168,
     trend: {
-      growth: 'linear',
-      numberOfChangepoints: 0
+      growth: "linear",
+      numberOfChangepoints: 0,
     },
     autoregression: {
       lags: 0,
-      regularization: 0
+      regularization: 0,
     },
     seasonality: {
-      mode: 'additive',
+      mode: "additive",
       daily: true,
       weekly: false,
-      yearly: false
+      yearly: false,
     },
+    events: {},
     training: {
       learningRate: null,
       epochs: 10,
       batchSize: null,
-      earlyStopping: true
+      earlyStopping: true,
     },
     laggedRegressors: [],
     holidays: [],
-    events: []
   } as ModelState,
   reducers: {
     editModelConfig: (state: ModelState, { payload }) => {
       const keys = Object.keys(payload);
-      if (keys.includes('laggedRegressors')) {
+      if (keys.includes("laggedRegressors")) {
         const { laggedRegressors } = payload;
         state.laggedRegressors = laggedRegressors;
-      } else if (keys.includes('holidays')) {
+      } else if (keys.includes("holidays")) {
         const { holidays } = payload;
         state.holidays = holidays;
       } else {
@@ -73,10 +83,15 @@ export const modelSlice = createSlice({
       }
     },
     editModelConfigJsonView: (_, { payload: { updated_src: newState } }: any) =>
-      newState
-  }
+      newState,
+    removeEvent: (state: ModelState, { payload: { eventKey } }) => {
+      const { [eventKey]: _, ...newEvents } = state.events;
+      state.events = newEvents;
+    },
+  },
 });
 
-export const { editModelConfig, editModelConfigJsonView } = modelSlice.actions;
+export const { editModelConfig, editModelConfigJsonView, removeEvent } =
+  modelSlice.actions;
 
 export default modelSlice.reducer;

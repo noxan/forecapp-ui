@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CModal,
   CModalBody,
@@ -8,9 +8,6 @@ import {
   CFormInput,
   CButton,
   CFormRange,
-  CAccordion,
-  CAccordionItem,
-  CAccordionBody,
   CCollapse,
   CCard,
   CCardBody,
@@ -22,6 +19,7 @@ import { useAppSelector, useAppDispatch } from "../../src/hooks";
 import { selectModelConfiguration } from "../../src/store/selectors";
 import dayjs from "dayjs";
 import Chip from "@mui/material/Chip";
+import { editModelConfig } from "../../src/store/models";
 
 const removeDate = (dateArray: string[], date: string) => {
   //removes specified date from dateArray and returns the new array
@@ -60,9 +58,26 @@ const addDateRange = (
   return dateRangeArray;
 };
 
+const extractDatesList = (dateRange: string) => {
+  // extracts all dates from a dateRange string
+  const dates = dateRange.split("/");
+  const startDate = new Date(dates[0]);
+  const endDate = new Date(dates[1]);
+  const datesList: string[] = [];
+  for (
+    let date = startDate;
+    date <= endDate;
+    date.setDate(date.getDate() + 1)
+  ) {
+    const formattedDate = dayjs(date).format("YYYY-MM-DD").toString();
+    datesList.push(formattedDate);
+  }
+  return datesList;
+};
+
 const EventsBuilderModal = ({ visible, setVisible }: any) => {
   // Creates a modal for specifying event parameters name, window size, regularization, mode and dates
-  const [eventDates, setEventDates] = useState<string[]>([]);
+  const [eventName, setEventName] = useState<string>("");
   const [eventDateRanges, setEventDateRanges] = useState<string[]>([]);
   const [eventDateRange, setEventDateRange] = useState<[string, string]>([
     "",
@@ -71,6 +86,38 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
   const [showAdv, setShowAdv] = useState<boolean>(false);
   const [regularization, setRegularization] = useState<number>(0);
   const modelConfiguration = useAppSelector(selectModelConfiguration);
+  const dispatch = useAppDispatch();
+
+  // reset state on render
+  useEffect(() => {
+    setEventName("");
+    setEventDateRanges([]);
+    setEventDateRange(["", ""]);
+  }, []);
+
+  const saveEvent = () => {
+    // Saves event to modelConfiguration
+    // convert dateRanges to dates
+    const stringDates = eventDateRanges.reduce(
+      (accumulator: string[], dateRange) => [
+        ...accumulator,
+        ...extractDatesList(dateRange),
+      ],
+      []
+    );
+    const newEvent = {
+      dates: stringDates,
+      regularization: 0,
+      lowerWindow: 0,
+      upperWindow: 0,
+      mode: "additive",
+    };
+    dispatch(
+      editModelConfig({
+        events: { [eventName]: newEvent },
+      })
+    );
+  };
   return (
     <CModal
       className="show d-block"
@@ -89,6 +136,7 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
               type="text"
               size="sm"
               placeholder="Event name"
+              onChange={(e) => setEventName(e.target.value)}
             ></CFormInput>
             <CButton onClick={() => setShowAdv(!showAdv)}>
               {showAdv ? "Hide Advanced" : "Show Advanced"}
@@ -156,8 +204,8 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
                     label={date}
                     onDelete={() => {
                       const newDates = removeDate(
-                        [...eventDates],
-                        eventDates[index]
+                        [...eventDateRanges],
+                        eventDateRanges[index]
                       );
                       setEventDateRanges(newDates);
                     }}
@@ -172,7 +220,13 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
         <CButton color="secondary" onClick={() => setVisible(false)}>
           Close
         </CButton>
-        <CButton color="primary" onClick={() => setVisible(false)}>
+        <CButton
+          color="primary"
+          onClick={() => {
+            saveEvent();
+            setVisible(false);
+          }}
+        >
           Save Changes
         </CButton>
       </CModalFooter>
