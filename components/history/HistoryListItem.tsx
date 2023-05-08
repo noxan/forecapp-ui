@@ -1,11 +1,11 @@
-import { CButton, CCol, CListGroupItem, CRow } from "@coreui/react";
+import { CButton, CCallout, CCol, CListGroupItem, CRow } from "@coreui/react";
 import {
-  selectModelConfiguration,
   selectNthHistoricModel,
+  currentModel,
 } from "../../src/store/selectors";
 import { useAppSelector } from "../../src/hooks";
 import { useDispatch } from "react-redux";
-import { removeModel } from "../../src/store/history";
+import { removeModel, selectModel } from "../../src/store/history";
 import { setModelConfig } from "../../src/store/models";
 import { useRouter } from "next/router";
 
@@ -39,11 +39,11 @@ export const HistoryListItem = (props: HistoryListItemProps) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const model = useAppSelector(selectNthHistoricModel)(props.index);
-  const modelConfig = useAppSelector(selectModelConfiguration);
+  const active = props.index === useAppSelector(currentModel);
   return (
     <CListGroupItem key={props.index}>
       <CRow>
-        <CCol sm={3}>{model.time.toUTCString()}</CCol>
+        <CCol sm={3}>{new Date(model.time).toUTCString()}</CCol>
         <CCol>Metrics: {displayMetrics(model.metrics)}</CCol>
         <CCol>
           <CButton
@@ -57,8 +57,9 @@ export const HistoryListItem = (props: HistoryListItemProps) => {
           <CButton
             color="primary"
             onClick={() => {
+              dispatch(selectModel(props.index));
               dispatch(setModelConfig(model.modelConfig));
-              router.back();
+              router.push("/prediction?first-run");
             }}
           >
             Apply

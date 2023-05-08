@@ -1,10 +1,10 @@
-import { selectNumHistoricModels } from "../src/store/selectors";
+import { numHistoricModels } from "../src/store/selectors";
 import { CContainer, CListGroup } from "@coreui/react";
 import { HistoryListItem } from "../components/history/HistoryListItem";
 import { useAppSelector } from "../src/hooks";
 
 export default function History() {
-  const numModels = useAppSelector(selectNumHistoricModels);
+  const numModels = useAppSelector(numHistoricModels);
 
   const itemList = [];
   for (let i = 0; i < numModels; i++) {

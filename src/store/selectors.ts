@@ -24,5 +24,8 @@ export const selectNthHistoricModel =
   (n) =>
     state.history.models[n];
 
-export const selectNumHistoricModels = (state: RootState): number =>
+export const numHistoricModels = (state: RootState): number =>
   state.history.models.length;
+
+export const currentModel = (state: RootState): number | undefined =>
+  state.history.currentModel;
