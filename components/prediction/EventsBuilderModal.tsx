@@ -30,6 +30,12 @@ import {
 import { extractValidationStatus } from "../../src/schemas/helpers";
 import { eventNames } from "process";
 
+type eventValidationParameters = {
+  eventName: string;
+  eventDateRanges: string[];
+  regularization: number;
+};
+
 const removeDate = (dateArray: string[], date: string) => {
   //removes specified date from dateArray and returns the new array
   const index = dateArray.indexOf(date);
@@ -88,7 +94,7 @@ const validateEventParameters = ({
   eventName,
   eventDateRanges,
   regularization,
-}) => {
+}: eventValidationParameters) => {
   // validates event parameters and returns a validation status
   const validationStatus = {
     eventName: {
