@@ -5,6 +5,7 @@ import { apiPrediction } from "./datasets";
 export type HistoricModel = {
   modelConfig: ModelState;
   metrics: any;
+  time: Date;
 };
 
 export type ModelHistoryState = {
@@ -29,6 +30,7 @@ export const historySlice = createSlice({
       state.models.push({
         modelConfig: payload.configuration,
         metrics: payload.metrics,
+        time: new Date(),
       });
     });
   },

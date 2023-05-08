@@ -43,7 +43,7 @@ export const HistoryListItem = (props: HistoryListItemProps) => {
   return (
     <CListGroupItem key={props.index}>
       <CRow>
-        <CCol sm={3}>{props.index}</CCol>
+        <CCol sm={3}>{model.time.toUTCString()}</CCol>
         <CCol>Metrics: {displayMetrics(model.metrics)}</CCol>
         <CCol>
           <CButton
