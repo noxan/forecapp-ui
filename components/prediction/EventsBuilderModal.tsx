@@ -181,7 +181,9 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
       }}
     >
       <CModalHeader>
-        <CModalTitle>Add an Event with all associated dates</CModalTitle>
+        <CModalTitle>
+          Add a one time or recurring event with all assoicated dates
+        </CModalTitle>
       </CModalHeader>
       <CModalBody>
         <div className="events-builder-modal__body">
