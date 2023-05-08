@@ -49,6 +49,7 @@ const defaultValidationSettings: ValidationSettings = {
   cutToSize: true,
   strictDateTime: true,
   minCols: 2,
+  maxCols: 1000000,
   rowsToCheck: -1,
 };
 
