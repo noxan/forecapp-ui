@@ -20,6 +20,15 @@ import { selectModelConfiguration } from "../../src/store/selectors";
 import dayjs from "dayjs";
 import Chip from "@mui/material/Chip";
 import { editModelConfig } from "../../src/store/models";
+import {
+  eventNameSchema,
+  eventDatesSchema,
+  eventRegularization,
+  eventLowerWindow,
+  eventUpperWindow,
+} from "../../src/schemas/modelParameters";
+import { extractValidationStatus } from "../../src/schemas/helpers";
+import { eventNames } from "process";
 
 const removeDate = (dateArray: string[], date: string) => {
   //removes specified date from dateArray and returns the new array
@@ -75,6 +84,38 @@ const extractDatesList = (dateRange: string) => {
   return datesList;
 };
 
+const validateEventParameters = ({
+  eventName,
+  eventDateRanges,
+  regularization,
+}) => {
+  // validates event parameters and returns a validation status
+  const validationStatus = {
+    eventName: {
+      valid: false,
+      error: "",
+    },
+    eventDateRanges: {
+      valid: false,
+      error: "",
+    },
+    regularization: {
+      valid: false,
+      error: "",
+    },
+  };
+  validationStatus.eventName = extractValidationStatus(
+    eventNameSchema.safeParse(eventName)
+  );
+  validationStatus.eventDateRanges = extractValidationStatus(
+    eventDatesSchema.safeParse(eventDateRanges)
+  );
+  validationStatus.regularization = extractValidationStatus(
+    eventRegularization.safeParse(regularization)
+  );
+  return validationStatus;
+};
+
 const EventsBuilderModal = ({ visible, setVisible }: any) => {
   // Creates a modal for specifying event parameters name, window size, regularization, mode and dates
   const [eventName, setEventName] = useState<string>("");
@@ -88,12 +129,17 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dispatch = useAppDispatch();
 
-  // reset state on render
-  useEffect(() => {
+  const clear = () => {
     setEventName("");
-    setEventDateRanges([]);
     setEventDateRange(["", ""]);
-  }, []);
+    setEventDateRanges([]);
+  };
+
+  const validationStatus = validateEventParameters({
+    eventName,
+    eventDateRanges,
+    regularization,
+  });
 
   const saveEvent = () => {
     // Saves event to modelConfiguration
@@ -123,7 +169,10 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
       className="show d-block"
       backdrop={"static"}
       visible={visible}
-      onClose={() => setVisible(false)}
+      onClose={() => {
+        clear();
+        setVisible(false);
+      }}
     >
       <CModalHeader>
         <CModalTitle>Add an Event with all associated dates</CModalTitle>
@@ -137,6 +186,10 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
               size="sm"
               placeholder="Event name"
               onChange={(e) => setEventName(e.target.value)}
+              valid={validationStatus.eventName.valid}
+              invalid={!validationStatus.eventName.valid}
+              feedbackValid=""
+              feedbackInvalid={validationStatus.eventName.error}
             ></CFormInput>
             <CButton onClick={() => setShowAdv(!showAdv)}>
               {showAdv ? "Hide Advanced" : "Show Advanced"}
@@ -217,14 +270,29 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
         </div>
       </CModalBody>
       <CModalFooter>
-        <CButton color="secondary" onClick={() => setVisible(false)}>
+        <CButton
+          color="secondary"
+          onClick={() => {
+            clear();
+            setVisible(false);
+          }}
+        >
           Close
         </CButton>
         <CButton
           color="primary"
           onClick={() => {
-            saveEvent();
-            setVisible(false);
+            // check that inputs are valid and event doesn't already exist
+            // TODO: add error popups
+            if (
+              validationStatus.eventName.valid &&
+              validationStatus.eventDateRanges.valid &&
+              validationStatus.regularization.valid &&
+              modelConfiguration.events[eventName] === undefined
+            ) {
+              saveEvent();
+              setVisible(false);
+            }
           }}
         >
           Save Changes
