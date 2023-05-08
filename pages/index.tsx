@@ -46,16 +46,18 @@ export default function Home() {
     ? "/prediction"
     : dataErrors.length > 0
     ? "/wizard/data-errors"
-    : "/wizard/column-picker";
+    : "/wizard/pick-time";
 
   const importAction = async (source: string | File) => {
     try {
-      const parsedData = (await dispatch(parseDataset(source)).unwrap()).data;
-      const columnHeaders = Object.keys(parsedData[0]);
+      const parseResult = await dispatch(parseDataset(source)).unwrap();
+      const columnHeaders = Object.keys(parseResult.data[0]);
       dispatch(detectColumnConfig(columnHeaders));
       dispatch(validateData());
       router.push(
-        dataErrors.length > 0 ? "/wizard/data-errors" : "/wizard/pick-time"
+        parseResult.errors.length > 0
+          ? "/wizard/data-errors"
+          : "/wizard/pick-time"
       );
     } catch (err: any) {
       pushErrorToast(errorToastWithMessage("Error: " + err.message));

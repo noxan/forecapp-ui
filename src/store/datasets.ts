@@ -36,7 +36,7 @@ export const dataErrorTypeWarningLevel: { [key: string]: ErrorLevel } = {
 export const parseDataset = createAsyncThunk<
   ParseResult<{ [key: string]: any }>,
   string | File
->("datasets/parseDataset", async (source, { rejectWithValue }) => {
+>("datasets/parseDataset", async (source) => {
   // TODO : Check file extension is actual a csv
   if (source instanceof File) {
     const text = await source.text();

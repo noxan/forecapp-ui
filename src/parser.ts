@@ -6,6 +6,7 @@ export const parse = async (source: any, download: boolean = false) =>
     papaParse<{ [key: string]: any }>(source, {
       dynamicTyping: false,
       header: true,
+      skipEmptyLines: true,
       // Have to do this weird thing to get the typing to work correctly
       ...{ download: download },
       complete(results) {
