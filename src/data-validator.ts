@@ -1,3 +1,4 @@
+import { isColumnValid } from "./definitions";
 import { DataValidationError } from "./store/datasets";
 
 export type ValidationSettings = {
@@ -11,6 +12,7 @@ export type ValidationSettings = {
 
   // Set strictDateTime to true to throw an error if no viable datetime column is found
   strictDateTime: boolean;
+  rowsToCheck: number;
 };
 
 export function validate(
@@ -18,7 +20,8 @@ export function validate(
   settings: ValidationSettings
 ): DataValidationError[] {
   const errors: DataValidationError[] = [];
-  const nCols = Object.keys(dataset[0]).length;
+  const columns = Object.keys(dataset[0]);
+  const nCols = columns.length;
   const nRows = dataset.length;
   if (settings.minCols && nCols < settings.minCols) {
     errors.push({
@@ -66,5 +69,34 @@ export function validate(
       });
     }
   }
+
+  if (
+    !columns.some((col) => isColumnDateTime(dataset, col, settings.rowsToCheck))
+  ) {
+    const levelToUse = settings.strictDateTime ? "Error" : "Warning";
+    errors.push({
+      type: "Validation",
+      level: levelToUse,
+      message: "We didn't find any viable time columns in your dataset.",
+    });
+  }
   return errors;
+}
+
+// Returns whether a column is a valid datetime column for neuralprophet
+export function isColumnDateTime(
+  dataset: { [key: string]: any }[],
+  column: string,
+  rowsToCheck: number = -1
+): boolean {
+  let prevDate = Number.NEGATIVE_INFINITY;
+  rowsToCheck = rowsToCheck === -1 ? dataset.length : rowsToCheck;
+  for (let i = 0; i < rowsToCheck; i++) {
+    const row = dataset[i];
+    if (!row[column]) return false;
+    const date = Date.parse(row[column]);
+    if (Number.isNaN(date) || date <= prevDate) return false;
+    prevDate = date;
+  }
+  return true;
 }

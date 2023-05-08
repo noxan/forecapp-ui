@@ -49,6 +49,7 @@ const defaultValidationSettings: ValidationSettings = {
   cutToSize: true,
   strictDateTime: true,
   minCols: 2,
+  rowsToCheck: -1,
 };
 
 type PredictionQueryArg = { dataset: any[]; configuration: object };

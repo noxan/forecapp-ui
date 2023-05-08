@@ -1,5 +1,12 @@
-import { CButton, CCol, CContainer, CRow } from "@coreui/react";
-import { useState } from "react";
+import {
+  CAlert,
+  CButton,
+  CCol,
+  CCollapse,
+  CContainer,
+  CRow,
+} from "@coreui/react";
+import { useMemo, useState } from "react";
 import DatasetExplorer from "../../components/DatasetExplorer";
 import LinkButton from "../../components/LinkButton";
 import MissingDatasetPlaceholder from "../../components/MissingDatasetPlaceholder";
@@ -9,14 +16,22 @@ import { useAppSelector } from "../../src/hooks";
 import { setTimeColumn } from "../../src/store/datasets";
 import { selectDataset, selectTimeColumn } from "../../src/store/selectors";
 import { useRouter } from "next/router";
+import { isColumnDateTime } from "../../src/data-validator";
 
 export default function WizardTimeColumnPage() {
   const [modalVisible, setModalVisible] = useState(false);
+  const [columnWarningVisible, setColumnWarningVisible] = useState(false);
   const timeColumn = useAppSelector(selectTimeColumn);
   const dataset = useAppSelector(selectDataset);
   const router = useRouter();
 
   const isValid = isColumnValid(timeColumn);
+  const isTimeCol = useMemo(() => {
+    if (!isColumnValid) return true;
+    const res = isColumnDateTime(dataset, timeColumn);
+    if (!res) setColumnWarningVisible(true);
+    return res;
+  }, [dataset, timeColumn]);
 
   if (!dataset) {
     return <MissingDatasetPlaceholder />;
@@ -53,6 +68,15 @@ export default function WizardTimeColumnPage() {
             />
           </CCol>
         </CRow>
+        <CAlert
+          dismissible
+          color="danger"
+          visible={columnWarningVisible}
+          onClose={() => setColumnWarningVisible(false)}
+        >
+          The selected column isn&apos;t a valid time column. Choose another, or
+          try editing the dataset!
+        </CAlert>
         <CRow className="my-2">
           <CCol>
             <LinkButton
