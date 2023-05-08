@@ -41,36 +41,45 @@ export default function DataErrorPage() {
     <main>
       <CContainer className="mt-5">
         <CRow>
-          <CListGroup>
-            {groupedErrors["Validation"] &&
-              groupedErrors["Validation"].map((e, ind) => (
-                <CListGroupItem
-                  key={ind}
-                  color={errorLevelColor[e.level]}
-                  className="d-flex justify-content-between align-items-center"
-                >
-                  {e.message}
-                </CListGroupItem>
-              ))}
-            {["Quotes", "Delimiter", "FieldMismatch"].map(
-              (type, ind) =>
-                groupedErrors[type] && (
+          <CCol>
+            <h5>
+              Forecapp ran into the following errors importing your dataset:
+            </h5>
+          </CCol>
+        </CRow>
+        <CRow>
+          <CCol>
+            <CListGroup>
+              {groupedErrors["Validation"] &&
+                groupedErrors["Validation"].map((e, ind) => (
                   <CListGroupItem
-                    key={type}
-                    color={errorLevelColor[groupedErrors[type][0].level]}
+                    key={ind}
+                    color={errorLevelColor[e.level]}
                     className="d-flex justify-content-between align-items-center"
                   >
-                    {groupedErrors[type][0].level}: {type}
-                    <CBadge
-                      shape="rounded-pill"
-                      color={errorLevelColor[groupedErrors[type][0].level]}
-                    >
-                      {groupedErrors[type].length}
-                    </CBadge>
+                    {e.message}
                   </CListGroupItem>
-                )
-            )}
-          </CListGroup>
+                ))}
+              {["Quotes", "Delimiter", "FieldMismatch"].map(
+                (type, ind) =>
+                  groupedErrors[type] && (
+                    <CListGroupItem
+                      key={type}
+                      color={errorLevelColor[groupedErrors[type][0].level]}
+                      className="d-flex justify-content-between align-items-center"
+                    >
+                      {groupedErrors[type][0].level}: {type}
+                      <CBadge
+                        shape="rounded-pill"
+                        color={errorLevelColor[groupedErrors[type][0].level]}
+                      >
+                        {groupedErrors[type].length}
+                      </CBadge>
+                    </CListGroupItem>
+                  )
+              )}
+            </CListGroup>
+          </CCol>
         </CRow>
         <CRow className="my-2">
           <CCol>
