@@ -81,6 +81,16 @@ export const ModelParameters = z.object({
     weekly: z.any(),
     yearly: z.any(),
   }),
+  events: z.record(
+    eventNameSchema,
+    z.object({
+      dates: eventDatesSchema,
+      regularization: eventRegularization,
+      lowerWindow: eventLowerWindow,
+      upperWindow: eventUpperWindow,
+      mode: eventMode,
+    })
+  ),
   training: z.object({
     earlyStopping: earlyStopping,
     epochs: epochs,
@@ -89,7 +99,6 @@ export const ModelParameters = z.object({
   }),
   laggedRegressors: laggedRegressors,
   holidays: holidays,
-  events: events,
 });
 
 export type modelParameterValidationStatus = {
