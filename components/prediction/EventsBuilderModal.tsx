@@ -11,6 +11,8 @@ import {
   CCollapse,
   CCard,
   CCardBody,
+  CForm,
+  CFormTextarea,
 } from "@coreui/react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -73,6 +75,25 @@ const addDateRange = (
   return dateRangeArray;
 };
 
+const extractDatesListFromData = (
+  dateRange: string,
+  datasetTime: { [key: number]: string }
+) => {
+  // extracts all dates from a dateRange string
+  const dataTimeArray = Object.values(datasetTime);
+  const dates = dateRange.split("/");
+  let datesList: string[] = [];
+  const startDate = new Date(dates[0]);
+  const endDate = new Date(dates[1]);
+  for (let i = 0; i < dataTimeArray.length; i++) {
+    const date = new Date(dataTimeArray[i]);
+    if (date >= startDate && date <= endDate) {
+      datesList.push(dataTimeArray[i]);
+    }
+  }
+  return datesList;
+};
+
 const extractDatesList = (dateRange: string) => {
   // extracts all dates from a dateRange string
   const dates = dateRange.split("/");
@@ -133,6 +154,7 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
   const [showAdv, setShowAdv] = useState<boolean>(false);
   const [regularization, setRegularization] = useState<number>(0);
   const modelConfiguration = useAppSelector(selectModelConfiguration);
+  const predictionData = useAppSelector((state) => state.datasets.prediction);
   const dispatch = useAppDispatch();
 
   const clear = () => {
@@ -153,7 +175,7 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
     const stringDates = eventDateRanges.reduce(
       (accumulator: string[], dateRange) => [
         ...accumulator,
-        ...extractDatesList(dateRange),
+        ...extractDatesListFromData(dateRange, predictionData?.forecast.ds),
       ],
       []
     );
