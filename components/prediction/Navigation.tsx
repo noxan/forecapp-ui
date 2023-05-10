@@ -61,12 +61,19 @@ const exportCSV = (data: any) => {
   tempLink.click();
 };
 
+export type PredictionNavigationProps = {
+  metrics: { [key: string]: number };
+  forecastData: any;
+  apiPredictionAction: () => Promise<void>;
+  historyOnClick: () => void;
+};
+
 const PredictionNavigation = ({
   metrics,
-  status,
   forecastData,
   apiPredictionAction,
-}: any) => {
+  historyOnClick,
+}: PredictionNavigationProps) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -87,9 +94,9 @@ const PredictionNavigation = ({
             <LinkButton className="mx-2" href="/explainable" variant="outline">
               Explain forecast parameters
             </LinkButton>
-            <LinkButton className="mx-2" href="/history" variant="outline">
+            <CButton variant="outline" onClick={() => historyOnClick()}>
               Model history
-            </LinkButton>
+            </CButton>
           </CForm>
         </CHeaderNav>
         <CHeaderNav>

@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 
 export type HistoryListItemProps = {
   index: number;
+  onClick: () => void;
 };
 
 type Metrics = {
@@ -59,7 +60,7 @@ export const HistoryListItem = (props: HistoryListItemProps) => {
             onClick={() => {
               dispatch(selectModel(props.index));
               dispatch(setModelConfig(model.modelConfig));
-              router.push("/prediction?first-run");
+              props.onClick();
             }}
           >
             Apply
