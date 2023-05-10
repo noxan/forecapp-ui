@@ -10,14 +10,13 @@ export type HistoricModel = {
 
 export type ModelHistoryState = {
   models: HistoricModel[];
-  currentModel: number;
+  currentModel?: number;
 };
 
 export const historySlice = createSlice({
   name: "history",
   initialState: {
     models: [],
-    currentModel: -1,
   } as ModelHistoryState,
   reducers: {
     addModel: (state, action: { payload: HistoricModel }) => {
