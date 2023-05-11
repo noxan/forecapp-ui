@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ModelState } from "./models";
+import { ModelState, editModelConfig, setModelConfig } from "./models";
 import { apiPrediction } from "./datasets";
 
 export type HistoricModel = {
@@ -31,12 +31,17 @@ export const historySlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(apiPrediction.fulfilled, (state, { payload }) => {
-      state.models.push({
-        modelConfig: payload.configuration,
-        metrics: payload.metrics,
-        time: Date.now(),
-      });
-      state.currentModel = state.models.length - 1;
+      if (!state.currentModel) {
+        state.models.push({
+          modelConfig: payload.configuration,
+          metrics: payload.metrics,
+          time: Date.now(),
+        });
+        state.currentModel = state.models.length - 1;
+      }
+    });
+    builder.addCase(editModelConfig, (state, _) => {
+      state.currentModel = undefined;
     });
   },
 });
