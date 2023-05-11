@@ -64,6 +64,7 @@ const exportCSV = (data: any) => {
 export type PredictionNavigationProps = {
   metrics: { [key: string]: number };
   forecastData: any;
+  canPredict: boolean;
   apiPredictionAction: () => Promise<void>;
   historyOnClick: () => void;
 };
@@ -71,6 +72,7 @@ export type PredictionNavigationProps = {
 const PredictionNavigation = ({
   metrics,
   forecastData,
+  canPredict,
   apiPredictionAction,
   historyOnClick,
 }: PredictionNavigationProps) => {
@@ -101,7 +103,9 @@ const PredictionNavigation = ({
         </CHeaderNav>
         <CHeaderNav>
           <CForm className="d-flex">
-            <CButton onClick={apiPredictionAction}>Update forecast</CButton>
+            <CButton onClick={apiPredictionAction} disabled={!canPredict}>
+              Update forecast
+            </CButton>
           </CForm>
           <CNavItem>
             <CNavLink>

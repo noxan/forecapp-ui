@@ -1,5 +1,5 @@
 import { numHistoricModels } from "../../src/store/selectors";
-import { CContainer, CListGroup, CRow } from "@coreui/react";
+import { CListGroup } from "@coreui/react";
 import { HistoryListItem } from "./HistoryListItem";
 import { useAppSelector } from "../../src/hooks";
 
@@ -17,5 +17,5 @@ export default function VersionHistory(props: VersionHistoryProps) {
     );
   }
 
-  return <CListGroup>{itemList}</CListGroup>;
+  return <CListGroup className="version-history">{itemList}</CListGroup>;
 }

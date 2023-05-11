@@ -7,7 +7,6 @@ import { useAppSelector } from "../../src/hooks";
 import { useDispatch } from "react-redux";
 import { removeModel, selectModel } from "../../src/store/history";
 import { setModelConfig } from "../../src/store/models";
-import { useRouter } from "next/router";
 
 export type HistoryListItemProps = {
   index: number;
@@ -37,12 +36,11 @@ const displayMetrics = (metrics: any) => {
 };
 
 export const HistoryListItem = (props: HistoryListItemProps) => {
-  const router = useRouter();
   const dispatch = useDispatch();
   const model = useAppSelector(selectNthHistoricModel)(props.index);
   const active = props.index === useAppSelector(currentModel);
   return (
-    <CListGroupItem key={props.index}>
+    <CListGroupItem key={props.index} active={active}>
       <CRow>
         <CCol sm={3}>{new Date(model.time).toUTCString()}</CCol>
         <CCol>Metrics: {displayMetrics(model.metrics)}</CCol>

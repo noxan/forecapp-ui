@@ -130,6 +130,7 @@ export default function Visualization() {
         metrics={predictionData?.metrics}
         forecastData={predictionData?.forecast}
         apiPredictionAction={predictAction}
+        canPredict={!historyVisible}
         historyOnClick={() => setHistoryVisible(!historyVisible)}
       />
       <CContainer fluid>
