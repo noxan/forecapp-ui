@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   CModal,
   CModalBody,
@@ -14,9 +14,13 @@ import {
   CForm,
   CFormTextarea,
 } from "@coreui/react";
-import { LocalizationProvider } from "@mui/x-date-pickers";
+import {
+  DateTimeValidationError,
+  DateValidationError,
+  LocalizationProvider,
+} from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers";
+import { DatePicker, DateTimeField } from "@mui/x-date-pickers";
 import { useAppSelector, useAppDispatch } from "../../src/hooks";
 import { selectModelConfiguration } from "../../src/store/selectors";
 import dayjs from "dayjs";
@@ -31,6 +35,11 @@ import {
 } from "../../src/schemas/modelParameters";
 import { extractValidationStatus } from "../../src/schemas/helpers";
 import { eventNames } from "process";
+import {
+  dateTimeFormatStrings,
+  timeResolution,
+} from "../../src/timeResolution";
+import { setStartEndDates } from "../../src/helpers";
 
 type eventValidationParameters = {
   eventName: string;
@@ -77,14 +86,18 @@ const addDateRange = (
 
 const extractDatesListFromData = (
   dateRange: string,
-  datasetTime: { [key: number]: string }
+  datasetTime: { [key: number]: string },
+  timeResolution: timeResolution
 ) => {
   // extracts all dates from a dateRange string
   const dataTimeArray = Object.values(datasetTime);
   const dates = dateRange.split("/");
   let datesList: string[] = [];
-  const startDate = new Date(dates[0]);
-  const endDate = new Date(dates[1]);
+  const { startDate, endDate } = setStartEndDates(
+    dates[0],
+    dates[1],
+    timeResolution
+  );
   for (let i = 0; i < dataTimeArray.length; i++) {
     const date = new Date(dataTimeArray[i]);
     if (date >= startDate && date <= endDate) {
@@ -143,7 +156,17 @@ const validateEventParameters = ({
   return validationStatus;
 };
 
-const EventsBuilderModal = ({ visible, setVisible }: any) => {
+const EventsBuilderModal = ({
+  visible,
+  setVisible,
+  timeResolution,
+  datasetTimeRange,
+}: {
+  visible: boolean;
+  setVisible: any;
+  timeResolution: timeResolution;
+  datasetTimeRange: [string, string];
+}) => {
   // Creates a modal for specifying event parameters name, window size, regularization, mode and dates
   const [eventName, setEventName] = useState<string>("");
   const [eventDateRanges, setEventDateRanges] = useState<string[]>([]);
@@ -155,6 +178,10 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
   const [regularization, setRegularization] = useState<number>(0);
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const predictionData = useAppSelector((state) => state.datasets.prediction);
+  const [startDateFieldError, setStartDateFieldError] =
+    useState<DateTimeValidationError | null>(null);
+  const [endDateFieldError, setEndDateFieldError] =
+    useState<DateTimeValidationError | null>(null);
   const dispatch = useAppDispatch();
 
   const clear = () => {
@@ -162,6 +189,32 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
     setEventDateRange(["", ""]);
     setEventDateRanges([]);
   };
+
+  const startDateFieldErrorHandler = useMemo(() => {
+    switch (startDateFieldError) {
+      case "maxDate":
+        return "Date is after the end date of the dataset";
+      case "minDate":
+        return "Date is before the start date of the dataset";
+      case "invalidDate":
+        return "Date is invalid";
+      default:
+        return "";
+    }
+  }, [startDateFieldError]);
+
+  const endDateFieldErrorHandler = useMemo(() => {
+    switch (endDateFieldError) {
+      case "maxDate":
+        return "Date is after the end date of the dataset";
+      case "minDate":
+        return "Date is before the start date of the dataset";
+      case "invalidDate":
+        return "Date is invalid";
+      default:
+        return "";
+    }
+  }, [endDateFieldError]);
 
   const validationStatus = validateEventParameters({
     eventName,
@@ -175,7 +228,11 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
     const stringDates = eventDateRanges.reduce(
       (accumulator: string[], dateRange) => [
         ...accumulator,
-        ...extractDatesListFromData(dateRange, predictionData?.forecast.ds),
+        ...extractDatesListFromData(
+          dateRange,
+          predictionData?.forecast.ds,
+          timeResolution
+        ),
       ],
       []
     );
@@ -249,8 +306,7 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
           <div className="events-builder-moald__body__dates-box">
             <h5>Add Date</h5>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                maxDate={dayjs(new Date())}
+              <DateTimeField
                 onChange={(date) =>
                   date !== null &&
                   setEventDateRange([
@@ -258,9 +314,19 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
                     eventDateRange[1],
                   ])
                 }
-              ></DatePicker>
-              <DatePicker
-                maxDate={dayjs(new Date())}
+                maxDate={dayjs(datasetTimeRange[1])}
+                minDate={dayjs(datasetTimeRange[0])}
+                format={dateTimeFormatStrings[timeResolution]}
+                onError={(error) => setStartDateFieldError(error)}
+                slotProps={{
+                  textField: {
+                    helperText: startDateFieldErrorHandler,
+                  },
+                }}
+              ></DateTimeField>
+              <DateTimeField
+                maxDate={dayjs(datasetTimeRange[1])}
+                minDate={dayjs(datasetTimeRange[0])}
                 onChange={(date) =>
                   date !== null &&
                   setEventDateRange([
@@ -268,10 +334,19 @@ const EventsBuilderModal = ({ visible, setVisible }: any) => {
                     date.format("MM-DD-YYYY").toString(),
                   ])
                 }
-              ></DatePicker>
+                format={dateTimeFormatStrings[timeResolution]}
+                onError={(error) => setEndDateFieldError(error)}
+                slotProps={{
+                  textField: {
+                    helperText: endDateFieldErrorHandler,
+                  },
+                }}
+              ></DateTimeField>
             </LocalizationProvider>
             <CButton
               onClick={() =>
+                startDateFieldError === null &&
+                endDateFieldError === null &&
                 setEventDateRanges(
                   addDateRange([...eventDateRanges], eventDateRange)
                 )

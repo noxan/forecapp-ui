@@ -9,7 +9,7 @@ import {
   CButton,
 } from "@coreui/react";
 import Chip from "@mui/material/Chip";
-import { detectResolution } from "../../src/helpers";
+import { detectResolution, datasetTimeRange } from "../../src/helpers";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
 import { editModelConfig, removeEvent } from "../../src/store/models";
 import {
@@ -23,7 +23,7 @@ import LaggedRegressorBuilder from "./LaggedRegressorBuilder";
 import Info from "../Info";
 import { validateModelParameters } from "../../src/schemas/modelParameters";
 import EventsBuilderModal from "./EventsBuilderModal";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 const parseStringToNumber = (value: string) =>
   value === "" ? null : Number(value);
@@ -44,6 +44,11 @@ const PredictionBuilder = () => {
   );
 
   const resolution = detectResolution(dataset, timeColumn);
+  const { startDate: datasetStartDate, endDate: datasetEndDate } = useMemo(
+    () => datasetTimeRange(dataset, timeColumn),
+    [dataset, timeColumn]
+  );
+  console.log(datasetStartDate, datasetEndDate);
 
   return (
     <CAccordion activeItemKey={10}>
@@ -190,6 +195,8 @@ const PredictionBuilder = () => {
           <EventsBuilderModal
             visible={eventsBuilderModalVisible}
             setVisible={setEventsBuilderModalVisible}
+            timeResolution={resolution}
+            datasetTimeRange={[datasetStartDate, datasetEndDate]}
           ></EventsBuilderModal>
         </CAccordionBody>
       </CAccordionItem>
