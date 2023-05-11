@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { ModelState } from "./models";
 import { apiPrediction } from "./datasets";
 
