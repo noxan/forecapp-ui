@@ -47,7 +47,10 @@ export const HistoryListItem = (props: HistoryListItemProps) => {
         <CCol>
           <CButton
             color="danger"
-            onClick={() => dispatch(removeModel(props.index))}
+            onClick={() => {
+              if (confirm("This will delete this model!"))
+                dispatch(removeModel(props.index));
+            }}
           >
             Delete
           </CButton>
