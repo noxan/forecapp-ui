@@ -33,7 +33,7 @@
     padding: 10px;
     gap: 10px;
     
-    width: 500px;
+    width: 300px;
     height: 300px;
     
     flex: none;
@@ -51,6 +51,33 @@
     
     width: 254px;
     height: 210px;
+    
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.events-builder-modal__body__dates-box__dates {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+
+    width: 294px;
+    height: 60px;
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.events-item__events-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    gap: 10px;
     
     flex: none;
     order: 1;

@@ -254,6 +254,7 @@ const EventsBuilderModal = ({
       className="show d-block"
       backdrop={"static"}
       visible={visible}
+      scrollable
       onClose={() => {
         clear();
         setVisible(false);
@@ -303,7 +304,7 @@ const EventsBuilderModal = ({
               </CCard>
             </CCollapse>
           </div>
-          <div className="events-builder-moald__body__dates-box">
+          <div className="events-builder-modal__body__dates-box">
             <h5>Add Date</h5>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimeField

@@ -174,24 +174,28 @@ const PredictionBuilder = () => {
       <CAccordionItem>
         <CAccordionHeader>Events</CAccordionHeader>
         <CAccordionBody>
-          Specify a list of special events that may have had an effect on the
-          time-series.
+          <p>
+            Specify a list of special events that may have had an effect on the
+            time-series.
+          </p>
           <CButton onClick={() => setEventsBuilderModalVisible(true)}>
-            Show Event Builder Modal
+            Add a recurring event
           </CButton>
-          {Object.keys(modelConfiguration.events).map((eventKey) => (
-            <Chip
-              key={eventKey}
-              label={eventKey}
-              onDelete={() =>
-                dispatch(
-                  removeEvent({
-                    eventKey,
-                  })
-                )
-              }
-            />
-          ))}
+          <div className="events-item__events-list">
+            {Object.keys(modelConfiguration.events).map((eventKey) => (
+              <Chip
+                key={eventKey}
+                label={eventKey}
+                onDelete={() =>
+                  dispatch(
+                    removeEvent({
+                      eventKey,
+                    })
+                  )
+                }
+              />
+            ))}
+          </div>
           <EventsBuilderModal
             visible={eventsBuilderModalVisible}
             setVisible={setEventsBuilderModalVisible}
