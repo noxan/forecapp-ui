@@ -1,4 +1,4 @@
-import { CButton, CCallout, CCol, CListGroupItem, CRow } from "@coreui/react";
+import { CButton, CCol, CListGroupItem, CRow } from "@coreui/react";
 import {
   selectNthHistoricModel,
   currentModel,

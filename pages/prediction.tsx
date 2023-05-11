@@ -4,7 +4,6 @@ import { transformDataset } from "../src/helpers";
 import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
 import {
   selectDataset,
-  selectHistoricModels,
   selectModelConfiguration,
   selectStatus,
   selectTargetColumn,
