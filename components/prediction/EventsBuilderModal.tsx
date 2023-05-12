@@ -120,27 +120,32 @@ const computeRepeatOptions = (
 };
 
 const repeatEvent = (
-  dateRange: string,
+  dateRange: [string, string],
   repeatOption: repeatOptionsType,
   datasetTimeRange: [string, string],
   datasetTime: { [key: number]: string },
+  dateTimeFormat: string,
   timeResolution: timeResolution
 ) => {
   // repeats event based on repeatOption and then calls extractDatesListFromData to extract dates from datasetTime
-  const dates = dateRange.split("/");
+  // const dates = dateRange.split("/");
   const { startDate, endDate } = setStartEndDates(
-    dates[0],
-    dates[1],
+    dayjs(dateRange[0], dateTimeFormat).toDate().toString(),
+    dayjs(dateRange[1], dateTimeFormat).toDate().toString(),
     timeResolution
   );
   const datasetStartDate = new Date(datasetTimeRange[0]);
   const datasetEndDate = new Date(datasetTimeRange[1]);
-  const dateRangesList = [dateRange];
+  let dateRangesList = addDateRange([], [dateRange[0], dateRange[1]]);
   let repeatUnit: number;
   if (repeatOption === "unique") {
-    return extractDatesListFromData(dateRange, datasetTime, timeResolution);
+    return dateRangesList;
   } else {
     repeatUnit = msTimeDurations[repeatOption];
+  }
+  // check whether event duration is shorter than repeat time unit
+  if (endDate.getTime() - startDate.getTime() > repeatUnit) {
+    return dateRangesList;
   }
   // compute how many times the event can be repeated using repeatUnit
   const repeatCount = Math.floor(
@@ -148,37 +153,30 @@ const repeatEvent = (
   );
   // repeat event
   for (let i = 1; i <= repeatCount; i++) {
-    const newStartDate = dayjs(new Date(startDate.getTime() + repeatUnit * i));
-    const newEndDate = dayjs(new Date(endDate.getTime() + repeatUnit * i));
-    const newDateRange =
-      newStartDate.format("MM-DD-YYYY").toString() +
-      "/" +
-      newEndDate.format("MM-DD-YYYY").toString();
-    dateRangesList.push(newDateRange);
+    const newStartDate = dayjs(
+      new Date(startDate.getTime() + repeatUnit * i)
+    ).format(dateTimeFormat);
+    const newEndDate = dayjs(
+      new Date(endDate.getTime() + repeatUnit * i)
+    ).format(dateTimeFormat);
+    dateRangesList = addDateRange(dateRangesList, [newStartDate, newEndDate]);
   }
-  // extract all associated time stamps from datasetTime
-  const eventDatesList = dateRangesList.reduce(
-    (accumulator: string[], value) => [
-      ...accumulator,
-      ...extractDatesListFromData(value, datasetTime, timeResolution),
-    ],
-    []
-  );
-  return eventDatesList;
+  return dateRangesList;
 };
 
 const extractDatesListFromData = (
   dateRange: string,
   datasetTime: { [key: number]: string },
-  timeResolution: timeResolution
+  timeResolution: timeResolution,
+  dateTimeFormat: string
 ) => {
   // extracts all dates from a dateRange string
   const dataTimeArray = Object.values(datasetTime);
   const dates = dateRange.split("/");
   let datesList: string[] = [];
   const { startDate, endDate } = setStartEndDates(
-    dates[0],
-    dates[1],
+    dayjs(dates[0], dateTimeFormat).toDate().toString(),
+    dayjs(dates[1], dateTimeFormat).toDate().toString(),
     timeResolution
   );
   for (let i = 0; i < dataTimeArray.length; i++) {
@@ -329,7 +327,8 @@ const EventsBuilderModal = ({
         ...extractDatesListFromData(
           dateRange,
           predictionData?.forecast.ds,
-          timeResolution
+          timeResolution,
+          dateTimeFormatStrings[timeResolution]
         ),
       ],
       []
@@ -409,7 +408,9 @@ const EventsBuilderModal = ({
                 onChange={(date) =>
                   date !== null &&
                   setEventDateRange([
-                    date.format("MM-DD-YYYY").toString(),
+                    date
+                      .format(dateTimeFormatStrings[timeResolution])
+                      .toString(),
                     eventDateRange[1],
                   ])
                 }
@@ -430,7 +431,9 @@ const EventsBuilderModal = ({
                   date !== null &&
                   setEventDateRange([
                     eventDateRange[0],
-                    date.format("MM-DD-YYYY").toString(),
+                    date
+                      .format(dateTimeFormatStrings[timeResolution])
+                      .toString(),
                   ])
                 }
                 format={dateTimeFormatStrings[timeResolution]}
@@ -444,19 +447,23 @@ const EventsBuilderModal = ({
             </LocalizationProvider>
             <CDropdown variant="btn-group">
               <CButton
-                onClick={() =>
-                  startDateFieldError === null &&
-                  endDateFieldError === null &&
-                  repeatEvent(
-                    addDateRange([], eventDateRange)[0],
-                    selectedRepeatOption,
-                    datasetTimeRange,
-                    predictionData?.forecast.ds,
-                    timeResolution
-                  ) !== null &&
-                  setEventDateRanges(
-                    addDateRange([...eventDateRanges], eventDateRange)
-                  )
+                onClick={
+                  () =>
+                    startDateFieldError === null &&
+                    endDateFieldError === null &&
+                    setEventDateRanges([
+                      ...repeatEvent(
+                        eventDateRange,
+                        selectedRepeatOption,
+                        datasetTimeRange,
+                        predictionData?.forecast.ds,
+                        dateTimeFormatStrings[timeResolution],
+                        timeResolution
+                      ),
+                    ])
+                  // setEventDateRanges(
+                  //   addDateRange([...eventDateRanges], eventDateRange)
+                  // )
                 }
               >
                 Add Date Range
