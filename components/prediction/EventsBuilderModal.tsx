@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import {
   CModal,
   CModalBody,
@@ -13,6 +13,10 @@ import {
   CCardBody,
   CForm,
   CFormTextarea,
+  CDropdown,
+  CDropdownToggle,
+  CDropdownItem,
+  CDropdownMenu,
 } from "@coreui/react";
 import {
   DateTimeValidationError,
@@ -38,6 +42,8 @@ import { eventNames } from "process";
 import {
   dateTimeFormatStrings,
   timeResolution,
+  msTimeDurations,
+  timeUnits,
 } from "../../src/timeResolution";
 import { setStartEndDates } from "../../src/helpers";
 
@@ -46,6 +52,8 @@ type eventValidationParameters = {
   eventDateRanges: string[];
   regularization: number;
 };
+
+type repeatOptionsType = timeResolution | "unique";
 
 const removeDate = (dateArray: string[], date: string) => {
   //removes specified date from dateArray and returns the new array
@@ -82,6 +90,81 @@ const addDateRange = (
   }
   dateRangeArray.push(dateRangeString);
   return dateRangeArray;
+};
+
+const computeRepeatOptions = (
+  startDate: Date,
+  endDate: Date,
+  timeResolution: timeResolution
+) => {
+  // checks event duration and timeResolution to compute repeat options
+  const duration = endDate.getTime() - startDate.getTime();
+  const largestRepeatUnit = timeUnits.find(
+    (unit) => duration / msTimeDurations[unit] >= 2
+  );
+  const repeatOptions =
+    largestRepeatUnit !== undefined
+      ? timeUnits.filter(
+          (unit) => msTimeDurations[unit] <= msTimeDurations[largestRepeatUnit]
+        )
+      : timeUnits;
+  // further filter repeatOptions based on timeResolution
+  const repeatOptionsFiltered = repeatOptions.filter(
+    (option) => msTimeDurations[option] >= msTimeDurations[timeResolution]
+  );
+  const finalRepeatOptions: repeatOptionsType[] = [
+    "unique",
+    ...repeatOptionsFiltered,
+  ];
+  return finalRepeatOptions;
+};
+
+const repeatEvent = (
+  dateRange: string,
+  repeatOption: repeatOptionsType,
+  datasetTimeRange: [string, string],
+  datasetTime: { [key: number]: string },
+  timeResolution: timeResolution
+) => {
+  // repeats event based on repeatOption and then calls extractDatesListFromData to extract dates from datasetTime
+  const dates = dateRange.split("/");
+  const { startDate, endDate } = setStartEndDates(
+    dates[0],
+    dates[1],
+    timeResolution
+  );
+  const datasetStartDate = new Date(datasetTimeRange[0]);
+  const datasetEndDate = new Date(datasetTimeRange[1]);
+  const dateRangesList = [dateRange];
+  let repeatUnit: number;
+  if (repeatOption === "unique") {
+    return extractDatesListFromData(dateRange, datasetTime, timeResolution);
+  } else {
+    repeatUnit = msTimeDurations[repeatOption];
+  }
+  // compute how many times the event can be repeated using repeatUnit
+  const repeatCount = Math.floor(
+    (datasetEndDate.getTime() - endDate.getTime()) / repeatUnit
+  );
+  // repeat event
+  for (let i = 1; i <= repeatCount; i++) {
+    const newStartDate = dayjs(new Date(startDate.getTime() + repeatUnit * i));
+    const newEndDate = dayjs(new Date(endDate.getTime() + repeatUnit * i));
+    const newDateRange =
+      newStartDate.format("MM-DD-YYYY").toString() +
+      "/" +
+      newEndDate.format("MM-DD-YYYY").toString();
+    dateRangesList.push(newDateRange);
+  }
+  // extract all associated time stamps from datasetTime
+  const eventDatesList = dateRangesList.reduce(
+    (accumulator: string[], value) => [
+      ...accumulator,
+      ...extractDatesListFromData(value, datasetTime, timeResolution),
+    ],
+    []
+  );
+  return eventDatesList;
 };
 
 const extractDatesListFromData = (
@@ -182,6 +265,11 @@ const EventsBuilderModal = ({
     useState<DateTimeValidationError | null>(null);
   const [endDateFieldError, setEndDateFieldError] =
     useState<DateTimeValidationError | null>(null);
+  const [repeatOptions, setRepeatOptions] = useState<repeatOptionsType[]>([
+    "unique",
+  ]);
+  const [selectedRepeatOption, setSelectedRepeatOption] =
+    useState<repeatOptionsType>("unique");
   const dispatch = useAppDispatch();
 
   const clear = () => {
@@ -189,6 +277,16 @@ const EventsBuilderModal = ({
     setEventDateRange(["", ""]);
     setEventDateRanges([]);
   };
+
+  useEffect(() => {
+    setRepeatOptions(
+      computeRepeatOptions(
+        new Date(datasetTimeRange[0]),
+        new Date(datasetTimeRange[1]),
+        timeResolution
+      )
+    );
+  }, [datasetTimeRange, timeResolution]);
 
   const startDateFieldErrorHandler = useMemo(() => {
     switch (startDateFieldError) {
@@ -344,17 +442,40 @@ const EventsBuilderModal = ({
                 }}
               ></DateTimeField>
             </LocalizationProvider>
-            <CButton
-              onClick={() =>
-                startDateFieldError === null &&
-                endDateFieldError === null &&
-                setEventDateRanges(
-                  addDateRange([...eventDateRanges], eventDateRange)
-                )
-              }
-            >
-              Add Date Range
-            </CButton>
+            <CDropdown variant="btn-group">
+              <CButton
+                onClick={() =>
+                  startDateFieldError === null &&
+                  endDateFieldError === null &&
+                  repeatEvent(
+                    addDateRange([], eventDateRange)[0],
+                    selectedRepeatOption,
+                    datasetTimeRange,
+                    predictionData?.forecast.ds,
+                    timeResolution
+                  ) !== null &&
+                  setEventDateRanges(
+                    addDateRange([...eventDateRanges], eventDateRange)
+                  )
+                }
+              >
+                Add Date Range
+              </CButton>
+              <CDropdownToggle color="primary" split>
+                {selectedRepeatOption}
+              </CDropdownToggle>
+              <CDropdownMenu>
+                {repeatOptions.length > 0 &&
+                  repeatOptions.map((option, index) => (
+                    <CDropdownItem
+                      key={index}
+                      onClick={() => setSelectedRepeatOption(option)}
+                    >
+                      {option}
+                    </CDropdownItem>
+                  ))}
+              </CDropdownMenu>
+            </CDropdown>
             <div className="events-builder-modal__body__dates-list">
               {eventDateRanges.map((date, index) => {
                 return (
