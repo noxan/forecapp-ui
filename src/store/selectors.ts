@@ -1,4 +1,5 @@
 import { RootState } from ".";
+import { DataError } from "./datasets";
 import { ModelState } from "./models";
 
 export const selectDataset = (state: RootState) => state.datasets?.raw;
@@ -14,3 +15,6 @@ export const selectStatus = (state: RootState): string =>
 
 export const selectModelConfiguration = (state: RootState): ModelState =>
   state.models;
+
+export const selectDataErrors = (state: RootState): DataError[] =>
+  state.datasets.dataErrors;
