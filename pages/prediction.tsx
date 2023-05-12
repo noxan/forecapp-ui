@@ -121,7 +121,7 @@ export default function Visualization() {
       // check that form inputs are valid before calling api
       ModelParameters.parse(modelConfiguration);
       // then call api
-      if (usingWS) {
+      if (usingWS.current) {
         websocket.current.send(
           JSON.stringify({ type: "Configuration", data: modelConfiguration })
         );
