@@ -31,7 +31,7 @@ export const historySlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(apiPrediction.fulfilled, (state, { payload }) => {
-      if (!state.currentModel) {
+      if (state.currentModel === undefined) {
         state.models.push({
           modelConfig: payload.configuration,
           metrics: payload.metrics,
