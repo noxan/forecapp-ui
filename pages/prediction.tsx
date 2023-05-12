@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import { transformDataset } from "../src/helpers";
 import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
@@ -19,6 +19,8 @@ import {
   CToastClose,
   CToastBody,
   CToaster,
+  CProgress,
+  CProgressBar,
 } from "@coreui/react";
 import PredictionNavigation from "../components/prediction/Navigation";
 import PredictionWizardCard from "../components/prediction/WizardCard";
@@ -32,6 +34,11 @@ import { ModelParameters } from "../src/schemas/modelParameters";
 import { HTTPError, ValidationError, NeuralProphetError } from "../src/error";
 import { ZodError } from "zod";
 
+export type WebSocketMessage = {
+  type: "Progress" | "ForecastResult";
+  data: any;
+};
+
 export default function Visualization() {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -43,6 +50,53 @@ export default function Visualization() {
   const timeColumn = useAppSelector(selectTimeColumn);
   const targetColumn = useAppSelector(selectTargetColumn);
   const predictionData = useAppSelector((state) => state.datasets.prediction);
+
+  const usingWS = useRef(false);
+  const websocket = useRef(new WebSocket("ws://localhost:8000/prediction"));
+  const [progress, setProgress] = useState(0);
+
+  function handlePredictionMessage(event: MessageEvent<any>) {
+    const msg = JSON.parse(event.data) as WebSocketMessage;
+    switch (msg.type) {
+      case "Progress":
+        setProgress(msg.data);
+        break;
+      case "ForecastResult":
+        break;
+    }
+  }
+
+  useEffect(() => {
+    websocket.current.onerror = (e) => {
+      usingWS.current = false;
+      setErrorMessage(
+        errorToastWithMessage("WebSocket connection failed: " + e.type)
+      );
+    };
+    websocket.current.onopen = (_) => {
+      console.log("Websocket open.");
+      usingWS.current = true;
+      const datasetMessage = {
+        type: "Dataset",
+        data: dataset,
+      };
+      websocket.current.send(JSON.stringify(datasetMessage));
+    };
+    websocket.current.onclose = (_) => {
+      console.log("Websocket closed.");
+      usingWS.current = false;
+    };
+    websocket.current.onmessage = handlePredictionMessage;
+
+    return () => {
+      if (usingWS.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        websocket.current.close();
+        usingWS.current = false;
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [errorMessage, setErrorMessage] = useState<ReactElement>();
   const errorToastWithMessage = (message: string) => {
@@ -67,12 +121,18 @@ export default function Visualization() {
       // check that form inputs are valid before calling api
       ModelParameters.parse(modelConfiguration);
       // then call api
-      await dispatch(
-        apiPrediction({
-          dataset: transformDataset(dataset, modelConfiguration, columns),
-          configuration: modelConfiguration,
-        })
-      ).unwrap();
+      if (usingWS) {
+        websocket.current.send(
+          JSON.stringify({ type: "Configuration", data: modelConfiguration })
+        );
+      } else {
+        await dispatch(
+          apiPrediction({
+            dataset: transformDataset(dataset, modelConfiguration, columns),
+            configuration: modelConfiguration,
+          })
+        ).unwrap();
+      }
     } catch (err: any) {
       if (err instanceof ZodError) {
         setErrorMessage(
@@ -143,6 +203,11 @@ export default function Visualization() {
                 predictionData={predictionData}
                 forecasts={predictionData?.configuration?.forecasts}
               />
+            )}
+            {status === "loading" && (
+              <CProgress className="mb-3">
+                <CProgressBar value={progress} />
+              </CProgress>
             )}
           </CCol>
         </CRow>
