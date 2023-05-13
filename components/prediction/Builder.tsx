@@ -1,11 +1,17 @@
+import { useState, useEffect } from "react";
 import {
   CAccordion,
   CAccordionBody,
   CAccordionHeader,
   CAccordionItem,
+  CDropdown,
+  CDropdownItem,
+  CDropdownMenu,
+  CDropdownToggle,
   CFormCheck,
   CFormInput,
   CFormRange,
+  CInputGroup,
 } from "@coreui/react";
 import { detectResolution } from "../../src/helpers";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
@@ -21,8 +27,54 @@ import LaggedRegressorBuilder from "./LaggedRegressorBuilder";
 import Info from "../Info";
 import { validateModelParameters } from "../../src/schemas/modelParameters";
 
-const parseStringToNumber = (value: string) =>
-  value === "" ? null : Number(value);
+const parseStringToNumber = (value: string | null) =>
+  value === "" || value === null ? null : Number(value);
+
+const timeToHour = (value: number | null, unit: string) => {
+  if (value === null) return null;
+  //converts given unit to hours
+  switch (unit) {
+    case "ms":
+      return value / 1000 / 60 / 60;
+    case "s":
+      return value / 60 / 60;
+    case "min":
+      return value / 60;
+    case "h":
+      return value;
+    case "d":
+      return value * 24;
+    case "mo":
+      return value * 24 * 30;
+    case "y":
+      return value * 24 * 365;
+    default:
+      return 0;
+  }
+};
+
+const hourToTime = (value: number | null, unit: string) => {
+  //converts from hours to given unit
+  if (value === null) return null;
+  switch (unit) {
+    case "ms":
+      return value * 1000 * 60 * 60;
+    case "s":
+      return value * 60 * 60;
+    case "min":
+      return value * 60;
+    case "h":
+      return value;
+    case "d":
+      return value / 24;
+    case "mo":
+      return value / 24 / 30;
+    case "y":
+      return value / 24 / 365;
+    default:
+      return 0;
+  }
+};
 
 const PredictionBuilder = () => {
   const dataset = useAppSelector(selectDataset);
@@ -30,6 +82,7 @@ const PredictionBuilder = () => {
   const timeColumn = useAppSelector(selectTimeColumn);
   const targetColumn = useAppSelector(selectTargetColumn);
   const modelConfiguration = useAppSelector(selectModelConfiguration);
+  const [forecastUnit, setForecastUnit] = useState("h");
   const dispatch = useAppDispatch();
   const validationStatus = validateModelParameters(modelConfiguration);
 
@@ -39,29 +92,57 @@ const PredictionBuilder = () => {
 
   const resolution = detectResolution(dataset, timeColumn);
 
+  const changeUnit = (newUnit: string) => {
+    const originalTime = hourToTime(modelConfiguration.forecasts, forecastUnit);
+    const newTimeH = timeToHour(originalTime, newUnit);
+    dispatch(editModelConfig({ forecasts: newTimeH }));
+    setForecastUnit(newUnit);
+  };
+
   return (
     <CAccordion activeItemKey={10}>
       <CAccordionItem itemKey={10}>
         <CAccordionHeader>Forecast horizon</CAccordionHeader>
         <CAccordionBody>
-          How far should the model predict into the future? The unit is based on
-          your dataset in <b>{resolution}</b>.
-          <CFormInput
-            type="number"
-            defaultValue={modelConfiguration.forecasts}
-            placeholder="Number of values to forecast..."
-            onChange={(e) =>
-              dispatch(
-                editModelConfig({
-                  forecasts: parseStringToNumber(e.target.value),
-                })
-              )
-            }
-            valid={validationStatus.forecasts.valid}
-            invalid={!validationStatus.forecasts.valid}
-            feedbackValid=""
-            feedbackInvalid={validationStatus.forecasts.error}
-          />
+          How far should the model predict into the future?
+          <CInputGroup>
+            <CFormInput
+              type="number"
+              defaultValue={modelConfiguration.forecasts}
+              placeholder="Number of values to forecast..."
+              onChange={(e) => {
+                const timeH = timeToHour(
+                  parseStringToNumber(e.target.value),
+                  forecastUnit
+                );
+                dispatch(editModelConfig({ forecasts: timeH }));
+              }}
+              valid={validationStatus.forecasts.valid}
+              invalid={!validationStatus.forecasts.valid}
+              feedbackValid=""
+              feedbackInvalid={validationStatus.forecasts.error}
+            />
+            <CDropdown variant="input-group">
+              <CDropdownToggle color="secondary">
+                {forecastUnit}
+              </CDropdownToggle>
+              <CDropdownMenu>
+                <CDropdownItem onClick={() => changeUnit("ms")}>
+                  ms
+                </CDropdownItem>
+                <CDropdownItem onClick={() => changeUnit("s")}>s</CDropdownItem>
+                <CDropdownItem onClick={() => changeUnit("min")}>
+                  min
+                </CDropdownItem>
+                <CDropdownItem onClick={() => changeUnit("h")}>h</CDropdownItem>
+                <CDropdownItem onClick={() => changeUnit("d")}>d</CDropdownItem>
+                <CDropdownItem onClick={() => changeUnit("mo")}>
+                  mo
+                </CDropdownItem>
+                <CDropdownItem onClick={() => changeUnit("y")}>y</CDropdownItem>
+              </CDropdownMenu>
+            </CDropdown>
+          </CInputGroup>
         </CAccordionBody>
       </CAccordionItem>
 
