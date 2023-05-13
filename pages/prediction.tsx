@@ -45,6 +45,8 @@ export default function Visualization() {
   const targetColumn = useAppSelector(selectTargetColumn);
   const predictionData = useAppSelector((state) => state.datasets.prediction);
 
+  const [gettingStartedVisible, setGettingStartedVisible] = useState(true);
+
   const [errorMessage, setErrorMessage] = useState<ReactElement>();
 
   // Calls the prediction API
@@ -118,7 +120,12 @@ export default function Visualization() {
       <CContainer fluid>
         <CRow>
           <CCol sm={3}>
-            <PredictionWizardCard className="mb-2" />
+            {gettingStartedVisible && (
+              <PredictionWizardCard
+                className="mb-3 border-top-primary border-top-3"
+                closeSelf={() => setGettingStartedVisible(false)}
+              />
+            )}
             <PredictionBuilder />
           </CCol>
           <CCol style={{ position: "relative" }}>
