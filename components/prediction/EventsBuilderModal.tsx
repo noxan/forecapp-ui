@@ -51,6 +51,7 @@ type eventValidationParameters = {
   eventName: string;
   eventDateRanges: string[];
   regularization: number;
+  window: [number, number];
 };
 
 type repeatOptionsType = timeResolution | "unique";
@@ -123,7 +124,6 @@ const repeatEvent = (
   dateRange: [string, string],
   repeatOption: repeatOptionsType,
   datasetTimeRange: [string, string],
-  datasetTime: { [key: number]: string },
   dateTimeFormat: string,
   timeResolution: timeResolution
 ) => {
@@ -209,6 +209,7 @@ const validateEventParameters = ({
   eventName,
   eventDateRanges,
   regularization,
+  window,
 }: eventValidationParameters) => {
   // validates event parameters and returns a validation status
   const validationStatus = {
@@ -224,6 +225,14 @@ const validateEventParameters = ({
       valid: false,
       error: "",
     },
+    lowerWindow: {
+      valid: false,
+      error: "",
+    },
+    upperWindow: {
+      valid: false,
+      error: "",
+    },
   };
   validationStatus.eventName = extractValidationStatus(
     eventNameSchema.safeParse(eventName)
@@ -233,6 +242,12 @@ const validateEventParameters = ({
   );
   validationStatus.regularization = extractValidationStatus(
     eventRegularization.safeParse(regularization)
+  );
+  validationStatus.lowerWindow = extractValidationStatus(
+    eventLowerWindow.safeParse(window[0])
+  );
+  validationStatus.upperWindow = extractValidationStatus(
+    eventUpperWindow.safeParse(window[1])
   );
   return validationStatus;
 };
@@ -257,6 +272,7 @@ const EventsBuilderModal = ({
   ]);
   const [showAdv, setShowAdv] = useState<boolean>(false);
   const [regularization, setRegularization] = useState<number>(0);
+  const [window, setWindow] = useState<[number, number]>([0, 0]);
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const predictionData = useAppSelector((state) => state.datasets.prediction);
   const [startDateFieldError, setStartDateFieldError] =
@@ -274,6 +290,8 @@ const EventsBuilderModal = ({
     setEventName("");
     setEventDateRange(["", ""]);
     setEventDateRanges([]);
+    setRegularization(0);
+    setWindow([0, 0]);
   };
 
   useEffect(() => {
@@ -292,6 +310,10 @@ const EventsBuilderModal = ({
         return "Date is after the end date of the dataset";
       case "minDate":
         return "Date is before the start date of the dataset";
+      case "maxTime":
+        return "Date is after the end date of the dataset";
+      case "minTime":
+        return "Date is before the start date of the dataset";
       case "invalidDate":
         return "Date is invalid";
       default:
@@ -305,6 +327,10 @@ const EventsBuilderModal = ({
         return "Date is after the end date of the dataset";
       case "minDate":
         return "Date is before the start date of the dataset";
+      case "maxTime":
+        return "Date is after the end date of the dataset";
+      case "minTime":
+        return "Date is before the start date of the dataset";
       case "invalidDate":
         return "Date is invalid";
       default:
@@ -316,6 +342,7 @@ const EventsBuilderModal = ({
     eventName,
     eventDateRanges,
     regularization,
+    window,
   });
 
   const saveEvent = () => {
@@ -335,9 +362,9 @@ const EventsBuilderModal = ({
     );
     const newEvent = {
       dates: stringDates,
-      regularization: 0,
-      lowerWindow: 0,
-      upperWindow: 0,
+      regularization: regularization,
+      lowerWindow: window[0],
+      upperWindow: window[1],
       mode: "additive",
     };
     dispatch(
@@ -390,12 +417,33 @@ const EventsBuilderModal = ({
                     defaultValue={0}
                     onChange={(e) => setRegularization(Number(e.target.value))}
                   ></CFormRange>
-                  <p>Event duration (days)</p>
+                  <p>Window Start {timeResolution}</p>
                   <CFormInput
                     type="number"
                     size="sm"
-                    placeholder="Event duration (days)"
-                    defaultValue={1}
+                    placeholder={`Window start ${timeResolution}`}
+                    defaultValue={0}
+                    onChange={(e) => {
+                      setWindow([Number(e.target.value), window[1]]);
+                    }}
+                    valid={validationStatus.lowerWindow.valid}
+                    invalid={!validationStatus.lowerWindow.valid}
+                    feedbackValid=""
+                    feedbackInvalid={validationStatus.lowerWindow.error}
+                  ></CFormInput>
+                  <p>Window End {timeResolution}</p>
+                  <CFormInput
+                    type="number"
+                    size="sm"
+                    placeholder={`Window end ${timeResolution}`}
+                    defaultValue={0}
+                    onChange={(e) => {
+                      setWindow([window[0], Number(e.target.value)]);
+                    }}
+                    valid={validationStatus.upperWindow.valid}
+                    invalid={!validationStatus.upperWindow.valid}
+                    feedbackValid=""
+                    feedbackInvalid={validationStatus.upperWindow.error}
                   ></CFormInput>
                 </CCardBody>
               </CCard>
@@ -406,16 +454,24 @@ const EventsBuilderModal = ({
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimeField
                 onChange={(date) =>
-                  date !== null &&
-                  setEventDateRange([
-                    date
-                      .format(dateTimeFormatStrings[timeResolution])
-                      .toString(),
-                    eventDateRange[1],
-                  ])
+                  date !== null
+                    ? setEventDateRange([
+                        date
+                          .format(dateTimeFormatStrings[timeResolution])
+                          .toString(),
+                        eventDateRange[1],
+                      ])
+                    : setEventDateRange(["", eventDateRange[1]])
                 }
-                maxDate={dayjs(datasetTimeRange[1])}
-                minDate={dayjs(datasetTimeRange[0])}
+                maxDateTime={
+                  eventDateRange[1] === ""
+                    ? dayjs(datasetTimeRange[1])
+                    : dayjs(
+                        eventDateRange[1],
+                        dateTimeFormatStrings[timeResolution]
+                      )
+                }
+                minDateTime={dayjs(datasetTimeRange[0])}
                 format={dateTimeFormatStrings[timeResolution]}
                 onError={(error) => setStartDateFieldError(error)}
                 slotProps={{
@@ -425,16 +481,24 @@ const EventsBuilderModal = ({
                 }}
               ></DateTimeField>
               <DateTimeField
-                maxDate={dayjs(datasetTimeRange[1])}
-                minDate={dayjs(datasetTimeRange[0])}
+                maxDateTime={dayjs(datasetTimeRange[1])}
+                minDateTime={
+                  eventDateRange[0] === ""
+                    ? dayjs(datasetTimeRange[0])
+                    : dayjs(
+                        eventDateRange[0],
+                        dateTimeFormatStrings[timeResolution]
+                      )
+                }
                 onChange={(date) =>
-                  date !== null &&
-                  setEventDateRange([
-                    eventDateRange[0],
-                    date
-                      .format(dateTimeFormatStrings[timeResolution])
-                      .toString(),
-                  ])
+                  date !== null
+                    ? setEventDateRange([
+                        eventDateRange[0],
+                        date
+                          .format(dateTimeFormatStrings[timeResolution])
+                          .toString(),
+                      ])
+                    : setEventDateRange([eventDateRange[0], ""])
                 }
                 format={dateTimeFormatStrings[timeResolution]}
                 onError={(error) => setEndDateFieldError(error)}
@@ -447,23 +511,19 @@ const EventsBuilderModal = ({
             </LocalizationProvider>
             <CDropdown variant="btn-group">
               <CButton
-                onClick={
-                  () =>
-                    startDateFieldError === null &&
-                    endDateFieldError === null &&
-                    setEventDateRanges([
-                      ...repeatEvent(
-                        eventDateRange,
-                        selectedRepeatOption,
-                        datasetTimeRange,
-                        predictionData?.forecast.ds,
-                        dateTimeFormatStrings[timeResolution],
-                        timeResolution
-                      ),
-                    ])
-                  // setEventDateRanges(
-                  //   addDateRange([...eventDateRanges], eventDateRange)
-                  // )
+                onClick={() =>
+                  startDateFieldError === null &&
+                  endDateFieldError === null &&
+                  setEventDateRanges([
+                    ...eventDateRanges,
+                    ...repeatEvent(
+                      eventDateRange,
+                      selectedRepeatOption,
+                      datasetTimeRange,
+                      dateTimeFormatStrings[timeResolution],
+                      timeResolution
+                    ),
+                  ])
                 }
               >
                 Add Date Range
@@ -522,6 +582,8 @@ const EventsBuilderModal = ({
               validationStatus.eventName.valid &&
               validationStatus.eventDateRanges.valid &&
               validationStatus.regularization.valid &&
+              validationStatus.lowerWindow.valid &&
+              validationStatus.upperWindow.valid &&
               modelConfiguration.events[eventName] === undefined
             ) {
               saveEvent();

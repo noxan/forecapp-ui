@@ -30,7 +30,7 @@ export const eventRegularization = z
 export const eventLowerWindow = z
   .number({ invalid_type_error: "Must be a number" })
   .int({ message: "Must be an integer" })
-  .gte(0, { message: "Must be greater than or equal to 0" });
+  .lte(0, { message: "Must be less than or equal to 0" });
 export const eventUpperWindow = z
   .number({ invalid_type_error: "Must be a number" })
   .int({ message: "Must be an integer" })
