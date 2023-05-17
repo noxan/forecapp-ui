@@ -11,8 +11,6 @@ import {
   CCollapse,
   CCard,
   CCardBody,
-  CForm,
-  CFormTextarea,
   CDropdown,
   CDropdownToggle,
   CDropdownItem,
@@ -20,7 +18,6 @@ import {
 } from "@coreui/react";
 import {
   DateTimeValidationError,
-  DateValidationError,
   LocalizationProvider,
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -184,23 +181,6 @@ const extractDatesListFromData = (
     if (date >= startDate && date <= endDate) {
       datesList.push(dataTimeArray[i]);
     }
-  }
-  return datesList;
-};
-
-const extractDatesList = (dateRange: string) => {
-  // extracts all dates from a dateRange string
-  const dates = dateRange.split("/");
-  const startDate = new Date(dates[0]);
-  const endDate = new Date(dates[1]);
-  const datesList: string[] = [];
-  for (
-    let date = startDate;
-    date <= endDate;
-    date.setDate(date.getDate() + 1)
-  ) {
-    const formattedDate = dayjs(date).format("YYYY-MM-DD").toString();
-    datesList.push(formattedDate);
   }
   return datesList;
 };
