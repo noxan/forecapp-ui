@@ -12,16 +12,17 @@ export type dateTimeFormats = {
 };
 
 export const dateTimeFormatStrings: dateTimeFormats = {
-  ["milliseconds"]: "yyyy-MM-DD hh:mm:ss.SSS a",
-  ["seconds"]: "yyyy-MM-DD hh:mm:ss a",
-  ["minutes"]: "yyyy-MM-DD hh:mm a",
+  ["milliseconds"]: "YYYY-MM-DD hh:mm:ss.SSS a",
+  ["seconds"]: "YYYY-MM-DD hh:mm:ss a",
+  ["minutes"]: "YYYY-MM-DD hh:mm a",
   ["hours"]: "YYYY-MM-DD hh a",
-  ["days"]: "yyyy-MM-DD a",
-  ["weeks"]: "yyyy-MM-DD a",
-  ["months"]: "yyyy-MM a",
+  ["days"]: "YYYY-MM-DD",
+  ["weeks"]: "YYYY-MM-DD",
+  ["months"]: "YYYY-MM",
 };
 
-export const timeUnits: timeResolution[] = [
+export const timeUnits: (timeResolution | "years")[] = [
+  "years",
   "months",
   "weeks",
   "days",
@@ -31,7 +32,7 @@ export const timeUnits: timeResolution[] = [
   "milliseconds",
 ];
 
-export const msTimeDurations: { [key in timeResolution]: number } = {
+export const msTimeDurations: { [key in timeResolution | "years"]: number } = {
   ["milliseconds"]: 1,
   ["seconds"]: 1000,
   ["minutes"]: 1000 * 60,
@@ -39,4 +40,5 @@ export const msTimeDurations: { [key in timeResolution]: number } = {
   ["days"]: 1000 * 60 * 60 * 24,
   ["weeks"]: 1000 * 60 * 60 * 24 * 7,
   ["months"]: 1000 * 60 * 60 * 24 * 30,
+  ["years"]: 1000 * 60 * 60 * 24 * 365,
 };

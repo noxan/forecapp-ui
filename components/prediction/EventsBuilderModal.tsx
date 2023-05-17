@@ -1,4 +1,4 @@
-import { use, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   CModal,
   CModalBody,
@@ -51,7 +51,7 @@ type eventValidationParameters = {
   window: [number, number];
 };
 
-type repeatOptionsType = timeResolution | "unique";
+type repeatOptionsType = timeResolution | "years" | "unique";
 
 const removeDate = (dateArray: string[], date: string) => {
   //removes specified date from dateArray and returns the new array
@@ -108,7 +108,7 @@ const computeRepeatOptions = (
       : timeUnits;
   // further filter repeatOptions based on timeResolution
   const repeatOptionsFiltered = repeatOptions.filter(
-    (option) => msTimeDurations[option] >= msTimeDurations[timeResolution]
+    (option) => msTimeDurations[option] > msTimeDurations[timeResolution]
   );
   const finalRepeatOptions: repeatOptionsType[] = [
     "unique",
@@ -131,7 +131,6 @@ const repeatEvent = (
     dayjs(dateRange[1], dateTimeFormat).toDate().toString(),
     timeResolution
   );
-  const datasetStartDate = new Date(datasetTimeRange[0]);
   const datasetEndDate = new Date(datasetTimeRange[1]);
   let dateRangesList = addDateRange([], [dateRange[0], dateRange[1]]);
   let repeatUnit: number;
@@ -150,12 +149,52 @@ const repeatEvent = (
   );
   // repeat event
   for (let i = 1; i <= repeatCount; i++) {
-    const newStartDate = dayjs(
-      new Date(startDate.getTime() + repeatUnit * i)
-    ).format(dateTimeFormat);
-    const newEndDate = dayjs(
-      new Date(endDate.getTime() + repeatUnit * i)
-    ).format(dateTimeFormat);
+    let newStartDate = "";
+    let newEndDate = "";
+    if (repeatOption === "years") {
+      // create two dates with same day and month as startDate and endDate but with year increased by i
+      newStartDate = dayjs(
+        new Date(
+          startDate.getFullYear() + i,
+          startDate.getMonth(),
+          startDate.getDate()
+        )
+      ).format(dateTimeFormat);
+      newEndDate = dayjs(
+        new Date(
+          endDate.getFullYear() + i,
+          endDate.getMonth(),
+          endDate.getDate()
+        )
+      ).format(dateTimeFormat);
+    } else if (repeatOption === "months") {
+      // create two dates with same day as startDate and endDate but with month increased by i
+      newStartDate = dayjs(
+        new Date(
+          startDate.getFullYear(),
+          startDate.getMonth() + i,
+          startDate.getDate()
+        )
+      ).format(dateTimeFormat);
+      newEndDate = dayjs(
+        new Date(
+          endDate.getFullYear(),
+          endDate.getMonth() + i,
+          endDate.getDate()
+        )
+      ).format(dateTimeFormat);
+    } else {
+      newStartDate = dayjs(
+        new Date(startDate.getTime() + repeatUnit * i)
+      ).format(dateTimeFormat);
+      newEndDate = dayjs(new Date(endDate.getTime() + repeatUnit * i)).format(
+        dateTimeFormat
+      );
+    }
+    // check that the event doesn't exceed datasetEndDate
+    if (new Date(newEndDate).getTime() > datasetEndDate.getTime()) {
+      break;
+    }
     dateRangesList = addDateRange(dateRangesList, [newStartDate, newEndDate]);
   }
   return dateRangesList;
