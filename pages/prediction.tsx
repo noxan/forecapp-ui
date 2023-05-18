@@ -1,4 +1,10 @@
-import { ReactElement, useEffect, useRef, useState } from "react";
+import {
+  MutableRefObject,
+  ReactElement,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import { transformDataset } from "../src/helpers";
 import MissingDatasetPlaceholder from "../components/MissingDatasetPlaceholder";
@@ -25,7 +31,7 @@ import {
 import PredictionNavigation from "../components/prediction/Navigation";
 import PredictionWizardCard from "../components/prediction/WizardCard";
 import PredictionBuilder from "../components/prediction/Builder";
-import { apiPrediction } from "../src/store/datasets";
+import { apiPrediction, setPrediction, setStatus } from "../src/store/datasets";
 import PredictionChart from "../components/prediction/Chart";
 import LoadingOverlay from "../components/prediction/LoadingOverlay";
 import MissingForecastPlaceholder from "../components/MissingForecastPlaceholder";
@@ -52,21 +58,26 @@ export default function Visualization() {
   const predictionData = useAppSelector((state) => state.datasets.prediction);
 
   const usingWS = useRef(false);
-  const websocket = useRef(new WebSocket("ws://localhost:8000/prediction"));
+  const websocket: MutableRefObject<WebSocket> = useRef();
   const [progress, setProgress] = useState(0);
 
-  function handlePredictionMessage(event: MessageEvent<any>) {
+  const handlePredictionMessage = (event: MessageEvent<any>) => {
     const msg = JSON.parse(event.data) as WebSocketMessage;
+    console.log(msg);
     switch (msg.type) {
       case "Progress":
         setProgress(msg.data);
         break;
       case "ForecastResult":
+        dispatch(setPrediction(msg.data));
+        dispatch(setStatus("idle"));
+        setProgress(0);
         break;
     }
-  }
+  };
 
   useEffect(() => {
+    websocket.current = new WebSocket("ws://localhost:8000/prediction");
     websocket.current.onerror = (e) => {
       usingWS.current = false;
       setErrorMessage(
@@ -89,7 +100,7 @@ export default function Visualization() {
     websocket.current.onmessage = handlePredictionMessage;
 
     return () => {
-      if (usingWS.current) {
+      if (websocket.current.readyState == WebSocket.OPEN) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         websocket.current.close();
         usingWS.current = false;
@@ -122,6 +133,7 @@ export default function Visualization() {
       ModelParameters.parse(modelConfiguration);
       // then call api
       if (usingWS.current) {
+        dispatch(setStatus("loading"));
         websocket.current.send(
           JSON.stringify({ type: "Configuration", data: modelConfiguration })
         );
@@ -196,18 +208,18 @@ export default function Visualization() {
             <PredictionBuilder />
           </CCol>
           <CCol style={{ position: "relative" }}>
-            {status === "loading" && <LoadingOverlay />}
+            {status === "loading" && (
+              <LoadingOverlay
+                progressBar={usingWS.current}
+                progress={progress}
+              />
+            )}
             {predictionData && predictionData.status === "ok" && (
               <PredictionChart
                 targetColumn={targetColumn}
                 predictionData={predictionData}
                 forecasts={predictionData?.configuration?.forecasts}
               />
-            )}
-            {status === "loading" && (
-              <CProgress className="mb-3">
-                <CProgressBar value={progress} />
-              </CProgress>
             )}
           </CCol>
         </CRow>

@@ -1,6 +1,12 @@
-import { CSpinner } from "@coreui/react";
+import { CProgress, CProgressBar, CSpinner } from "@coreui/react";
 
-const LoadingOverlay = () => (
+const LoadingOverlay = ({
+  progressBar,
+  progress,
+}: {
+  progressBar: boolean;
+  progress: number;
+}): JSX.Element => (
   <div
     style={{
       transform: "translate(-50%, -50%)",
@@ -8,7 +14,7 @@ const LoadingOverlay = () => (
       left: "50%",
       top: "50%",
       zIndex: 100,
-      display: "flex",
+      display: "block",
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
@@ -17,7 +23,13 @@ const LoadingOverlay = () => (
       height: "100%",
     }}
   >
-    <CSpinner color="primary" />
+    {progressBar ? (
+      <CProgress className="mb-3">
+        <CProgressBar value={progress} />
+      </CProgress>
+    ) : (
+      <CSpinner color="primary" />
+    )}
     <p>Generating your forecast...</p>
   </div>
 );
