@@ -1,4 +1,4 @@
-import { number, z } from "zod";
+import { z } from "zod";
 import { ModelState } from "../store/models";
 import { extractValidationStatus } from "./helpers";
 
@@ -17,6 +17,25 @@ export const lags = z
 export const regularization = z.number({
   invalid_type_error: "Must be a number",
 });
+export const eventNameSchema = z
+  .string({ invalid_type_error: "Must be a string" })
+  .nonempty({ message: "Event name cannot be empty" });
+export const eventDatesSchema = z
+  .array(z.string(), { invalid_type_error: "Must be an array of strings" })
+  .nonempty({ message: "Event dates cannot be empty" });
+export const eventRegularization = z
+  .number({ invalid_type_error: "Must be a number" })
+  .gte(0, { message: "Must be greater than or equal to 0" })
+  .lte(1, { message: "Must be less that or equal to 1" });
+export const eventLowerWindow = z
+  .number({ invalid_type_error: "Must be a number" })
+  .int({ message: "Must be an integer" })
+  .lte(0, { message: "Must be less than or equal to 0" });
+export const eventUpperWindow = z
+  .number({ invalid_type_error: "Must be a number" })
+  .int({ message: "Must be an integer" })
+  .gte(0, { message: "Must be greater than or equal to 0" });
+export const eventMode = z.enum(["additive", "multiplicative"]);
 export const earlyStopping = z.boolean({
   invalid_type_error: "Must be a boolean",
 });
@@ -62,6 +81,16 @@ export const ModelParameters = z.object({
     weekly: z.any(),
     yearly: z.any(),
   }),
+  events: z.record(
+    eventNameSchema,
+    z.object({
+      dates: eventDatesSchema,
+      regularization: eventRegularization,
+      lowerWindow: eventLowerWindow,
+      upperWindow: eventUpperWindow,
+      mode: eventMode,
+    })
+  ),
   training: z.object({
     earlyStopping: earlyStopping,
     epochs: epochs,
@@ -70,7 +99,6 @@ export const ModelParameters = z.object({
   }),
   laggedRegressors: laggedRegressors,
   holidays: holidays,
-  events: events,
 });
 
 export type modelParameterValidationStatus = {

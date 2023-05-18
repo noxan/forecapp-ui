@@ -6,6 +6,7 @@ import {
   SPECIAL_COLUMN_CONFIGURATIONS,
 } from "./definitions";
 import { ModelState } from "./store/models";
+import { timeResolution } from "./timeResolution";
 
 export const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
@@ -116,6 +117,29 @@ export const generateChartFormatForSeries = (
   ],
 });
 
+export const datasetTimeRange = (dataset: any[], timeColumn: string) => {
+  // iterates through the dataset and looks for min and max time values
+  const startDate = dataset.reduce(
+    (startDate, row) =>
+      startDate === undefined
+        ? new Date(row[timeColumn])
+        : startDate > new Date(row[timeColumn])
+        ? new Date(row[timeColumn])
+        : startDate,
+    undefined
+  );
+  const endDate = dataset.reduce(
+    (endDate, row) =>
+      endDate === undefined
+        ? new Date(row[timeColumn])
+        : endDate < new Date(row[timeColumn])
+        ? new Date(row[timeColumn])
+        : endDate,
+    undefined
+  );
+  return { startDate, endDate };
+};
+
 export const detectResolution = (dataset: any[], timeColumn: string) => {
   // milliseconds
   const diff =
@@ -129,18 +153,84 @@ export const detectResolution = (dataset: any[], timeColumn: string) => {
   const weeks = days / 7;
   const months = days / 30;
 
+  let unit: timeResolution;
+
   if (months >= 1) {
-    return "months";
+    unit = "months";
   } else if (weeks >= 1) {
-    return "weeks";
+    unit = "weeks";
   } else if (days >= 1) {
-    return "days";
+    unit = "days";
   } else if (hours >= 1) {
-    return "hours";
+    unit = "hours";
   } else if (minutes >= 1) {
-    return "minutes";
+    unit = "minutes";
   } else if (seconds >= 1) {
-    return "seconds";
+    unit = "seconds";
+  } else {
+    unit = "milliseconds";
   }
-  return "milliseconds";
+  return unit;
+};
+
+export const setStartEndDates = (
+  startDate: string,
+  endDate: string,
+  timeResolution: timeResolution
+) => {
+  // depending on the time unit sets all lower units to 0 for start and max for end
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  switch (timeResolution) {
+    case "months":
+      start.setDate(1);
+      end.setDate(daysInMonth(end));
+      start.setHours(0, 0, 0, 0);
+      end.setHours(23, 59, 59, 999);
+      break;
+    case "weeks":
+      let startDay = start.getDay();
+      let endDay = end.getDay();
+      if (start.getDay() === 0) {
+        startDay = 6;
+      } else {
+        startDay -= 1;
+      }
+      if (end.getDay() === 0) {
+        endDay = 6;
+      } else {
+        endDay -= 1;
+      }
+      start.setDate(start.getDate() - startDay);
+      end.setDate(end.getDate() + (6 - endDay));
+      start.setHours(0, 0, 0, 0);
+      end.setHours(23, 59, 59, 999);
+      break;
+    case "days":
+      start.setHours(0, 0, 0, 0);
+      end.setHours(23, 59, 59, 999);
+      break;
+    case "hours":
+      start.setMinutes(0, 0, 0);
+      end.setMinutes(59, 59, 999);
+      break;
+    case "minutes":
+      start.setSeconds(0, 0);
+      end.setSeconds(59, 999);
+      break;
+    case "seconds":
+      start.setMilliseconds(0);
+      end.setMilliseconds(999);
+      break;
+    case "milliseconds":
+      break;
+    default:
+      break;
+  }
+  return { startDate: start, endDate: end };
+};
+
+export const daysInMonth = (date: Date) => {
+  // extracts the maximum number of days for the given date's month
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 };

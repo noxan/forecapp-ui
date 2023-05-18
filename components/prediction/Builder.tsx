@@ -6,10 +6,12 @@ import {
   CFormCheck,
   CFormInput,
   CFormRange,
+  CButton,
 } from "@coreui/react";
-import { detectResolution } from "../../src/helpers";
+import Chip from "@mui/material/Chip";
+import { detectResolution, datasetTimeRange } from "../../src/helpers";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
-import { editModelConfig } from "../../src/store/models";
+import { editModelConfig, removeEvent } from "../../src/store/models";
 import {
   selectDataset,
   selectModelConfiguration,
@@ -20,6 +22,8 @@ import HolidayBuilder from "./HolidayBuilder";
 import LaggedRegressorBuilder from "./LaggedRegressorBuilder";
 import Info from "../Info";
 import { validateModelParameters } from "../../src/schemas/modelParameters";
+import EventsBuilderModal from "./EventsBuilderModal";
+import { useState, useMemo } from "react";
 
 const parseStringToNumber = (value: string) =>
   value === "" ? null : Number(value);
@@ -32,12 +36,19 @@ const PredictionBuilder = () => {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dispatch = useAppDispatch();
   const validationStatus = validateModelParameters(modelConfiguration);
+  const [eventsBuilderModalVisible, setEventsBuilderModalVisible] =
+    useState(false);
 
   const laggedRegressorColumns = columnHeaders.filter(
     (column) => column !== timeColumn && column !== targetColumn
   );
 
   const resolution = detectResolution(dataset, timeColumn);
+  const { startDate: datasetStartDate, endDate: datasetEndDate } = useMemo(
+    () => datasetTimeRange(dataset, timeColumn),
+    [dataset, timeColumn]
+  );
+  console.log(datasetStartDate, datasetEndDate);
 
   return (
     <CAccordion activeItemKey={10}>
@@ -158,6 +169,39 @@ const PredictionBuilder = () => {
             }
           />
           {/* <div>Custom - TODO</div> */}
+        </CAccordionBody>
+      </CAccordionItem>
+      <CAccordionItem>
+        <CAccordionHeader>Events</CAccordionHeader>
+        <CAccordionBody>
+          <p>
+            Specify a list of special events that may have had an effect on the
+            time-series.
+          </p>
+          <CButton onClick={() => setEventsBuilderModalVisible(true)}>
+            Add a recurring event
+          </CButton>
+          <div className="events-item__events-list">
+            {Object.keys(modelConfiguration.events).map((eventKey) => (
+              <Chip
+                key={eventKey}
+                label={eventKey}
+                onDelete={() =>
+                  dispatch(
+                    removeEvent({
+                      eventKey,
+                    })
+                  )
+                }
+              />
+            ))}
+          </div>
+          <EventsBuilderModal
+            visible={eventsBuilderModalVisible}
+            setVisible={setEventsBuilderModalVisible}
+            timeResolution={resolution}
+            datasetTimeRange={[datasetStartDate, datasetEndDate]}
+          ></EventsBuilderModal>
         </CAccordionBody>
       </CAccordionItem>
 

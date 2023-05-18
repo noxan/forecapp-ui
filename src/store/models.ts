@@ -5,6 +5,14 @@ import { forecappApi } from "./forecappApi";
 
 forecappApi.endpoints.predictionPredictionPost.useMutation;
 
+export type event = {
+  dates: string[];
+  regularization: number;
+  lowerWindow: number;
+  upperWindow: number;
+  mode: "additive" | "multiplicative";
+};
+
 export type ModelState = {
   forecasts: number;
   trend: {
@@ -20,6 +28,9 @@ export type ModelState = {
     weekly: any;
     yearly: any;
   };
+  events: {
+    [key: string]: event[];
+  };
   training: {
     earlyStopping: boolean;
     epochs?: any;
@@ -28,7 +39,6 @@ export type ModelState = {
   };
   laggedRegressors: any[];
   holidays: string[];
-  events: any[];
 };
 
 export const modelSlice = createSlice({
@@ -49,6 +59,7 @@ export const modelSlice = createSlice({
       weekly: false,
       yearly: false,
     },
+    events: {},
     training: {
       learningRate: null,
       epochs: 10,
@@ -57,7 +68,6 @@ export const modelSlice = createSlice({
     },
     laggedRegressors: [],
     holidays: [],
-    events: [],
   } as ModelState,
   reducers: {
     editModelConfig: (state: ModelState, { payload }) => {
@@ -77,10 +87,14 @@ export const modelSlice = createSlice({
     },
     editModelConfigJsonView: (_, { payload: { updated_src: newState } }: any) =>
       newState,
+    removeEvent: (state: ModelState, { payload: { eventKey } }) => {
+      const { [eventKey]: _, ...newEvents } = state.events;
+      state.events = newEvents;
+    },
   },
 });
 
-export const { editModelConfig, editModelConfigJsonView, setModelConfig } =
+export const { editModelConfig, editModelConfigJsonView, removeEvent } =
   modelSlice.actions;
 
 export default modelSlice.reducer;
