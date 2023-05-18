@@ -22,30 +22,27 @@ const transformPredictionData = (forecast: any): Plotly.Data[] => {
   });
   const res: Plotly.Data[] = [];
 
-  if (quantiles.length > 1) {
-    res.push({
-      type: "scattergl",
-      mode: "lines",
-      name: "95% Confidence Interval",
-      fillcolor: "rgba(45, 146, 255, 0.2)",
-      fill: "tonexty",
-      line: { color: "rgba(45, 146, 255, 0.2)", width: 1 },
-      y: Object.values(forecast[quantiles[0]]),
-      x,
-    } as Plotly.Data);
-    for (let i = 1; i < quantiles.length; i++) {
-      res.push({
-        type: "scattergl",
-        mode: "lines",
-        showlegend: false,
-        fillcolor: "rgba(45, 146, 255, 0.2)",
-        fill: "tonexty",
-        line: { color: "rgba(45, 146, 255, 0.2)", width: 1 },
-        y: Object.values(forecast[quantiles[i]]),
-        x,
-      } as Plotly.Data);
-    }
-  }
+  res.push({
+    type: "scattergl",
+    mode: "lines",
+    name: "95% Confidence Interval",
+    fillcolor: "rgba(45, 146, 255, 0.2)",
+    fill: "tonexty",
+    line: { color: "rgba(45, 146, 255, 0.2)", width: 1 },
+    y: Object.values(forecast[quantiles[0]]),
+    x,
+  } as Plotly.Data);
+
+  res.push({
+    type: "scattergl",
+    mode: "lines",
+    showlegend: false,
+    fillcolor: "rgba(45, 146, 255, 0.2)",
+    fill: "tonexty",
+    line: { color: "rgba(45, 146, 255, 0.2)", width: 1 },
+    y: Object.values(forecast[quantiles[1]]),
+    x,
+  } as Plotly.Data);
 
   res.push({
     type: "scattergl",
