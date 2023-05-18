@@ -139,29 +139,6 @@ const PredictionChart = ({
       }}
       style={{ width: "100%", minHeight: "85vh" }}
     />
-    <PlotlyChart
-      useResizeHandler
-      data={transformSeasonalityData(predictionData.forecast)}
-      layout={{
-        hovermode: "x",
-        showlegend: true,
-        legend: { orientation: "h", y: -0.05 },
-        margin: { t: 10, r: 30 }, // b: 10, l: 30, pad: 10
-        shapes: [
-          generateHistoryMarker(
-            Object.values(predictionData.forecast.ds),
-            forecasts
-          ),
-        ],
-        yaxis: {
-          title: { text: targetColumn },
-        },
-      }}
-      config={{
-        responsive: true,
-      }}
-      style={{ width: "100%", minHeight: "85vh" }}
-    />
   </>
 );
 
