@@ -18,7 +18,8 @@ const transformPredictionData = (forecast: any): Plotly.Data[] => {
   const columnHeaders = Object.keys(forecast).filter((item) => item !== "ds");
   const x = Object.values(forecast.ds);
   const quantiles = columnHeaders.filter((colName) => {
-    return colName.at(colName.length - 1) === "%";
+    // TODO: Make a better check for quantiles
+    return (colName.at(colName.length - 1) === "%" && colName.startsWith("yhat"));
   });
   const res: Plotly.Data[] = [];
 
