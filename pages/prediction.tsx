@@ -31,19 +31,21 @@ import { useRouter } from "next/router";
 import { ModelParameters } from "../src/schemas/modelParameters";
 import { HTTPError, ValidationError, NeuralProphetError } from "../src/error";
 import { ZodError } from "zod";
+import VersionHistory from "../components/history/VersionHistory";
 import { errorToastWithMessage } from "../components/ErrorToast";
 
 export default function Visualization() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const dataset = useAppSelector(selectDataset);
-  const error = useAppSelector((state) => state.datasets?.error);
   const status = useAppSelector(selectStatus);
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const columns = useAppSelector((state) => state.datasets.columns);
   const timeColumn = useAppSelector(selectTimeColumn);
   const targetColumn = useAppSelector(selectTargetColumn);
   const predictionData = useAppSelector((state) => state.datasets.prediction);
+
+  const [historyVisible, setHistoryVisible] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState<ReactElement>();
 
@@ -112,26 +114,36 @@ export default function Visualization() {
       <PredictionNavigation
         metrics={predictionData?.metrics}
         forecastData={predictionData?.forecast}
-        status={status}
         apiPredictionAction={predictAction}
+        canPredict={!historyVisible}
+        historyOnClick={() => setHistoryVisible(!historyVisible)}
       />
       <CContainer fluid>
-        <CRow>
-          <CCol sm={3}>
-            <PredictionWizardCard className="mb-2" />
-            <PredictionBuilder />
-          </CCol>
-          <CCol style={{ position: "relative" }}>
-            {status === "loading" && <LoadingOverlay />}
-            {predictionData && predictionData.status === "ok" && (
-              <PredictionChart
-                targetColumn={targetColumn}
-                predictionData={predictionData}
-                forecasts={predictionData?.configuration?.forecasts}
-              />
-            )}
-          </CCol>
-        </CRow>
+        {historyVisible ? (
+          <VersionHistory
+            closeSelf={() => {
+              setHistoryVisible(false);
+              predictAction();
+            }}
+          />
+        ) : (
+          <CRow>
+            <CCol sm={3}>
+              <PredictionWizardCard className="mb-2" />
+              <PredictionBuilder />
+            </CCol>
+            <CCol style={{ position: "relative" }}>
+              {status === "loading" && <LoadingOverlay />}
+              {predictionData && predictionData.status === "ok" && (
+                <PredictionChart
+                  targetColumn={targetColumn}
+                  predictionData={predictionData}
+                  forecasts={predictionData?.configuration?.forecasts}
+                />
+              )}
+            </CCol>
+          </CRow>
+        )}
         <CToaster push={errorMessage} placement="bottom-end" />
       </CContainer>
     </>
