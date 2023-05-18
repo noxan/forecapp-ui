@@ -1,5 +1,6 @@
 import { RootState } from ".";
 import { HistoricModel, ModelHistoryState } from "./history";
+import { DataError } from "./datasets";
 import { ModelState } from "./models";
 
 export const selectDataset = (state: RootState) => state.datasets?.raw;
@@ -29,3 +30,7 @@ export const numHistoricModels = (state: RootState): number =>
 
 export const currentModel = (state: RootState): number | undefined =>
   state.history.currentModel;
+
+export const selectDataErrors = (state: RootState): DataError[] =>
+  state.datasets.dataErrors;
+

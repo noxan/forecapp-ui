@@ -32,6 +32,7 @@ import { ModelParameters } from "../src/schemas/modelParameters";
 import { HTTPError, ValidationError, NeuralProphetError } from "../src/error";
 import { ZodError } from "zod";
 import VersionHistory from "../components/history/VersionHistory";
+import { errorToastWithMessage } from "../components/ErrorToast";
 
 export default function Visualization() {
   const router = useRouter();
@@ -47,21 +48,6 @@ export default function Visualization() {
   const [historyVisible, setHistoryVisible] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState<ReactElement>();
-  const errorToastWithMessage = (message: string) => {
-    return (
-      <CToast
-        autohide={true}
-        color="danger"
-        animation={true}
-        className="text-white align-items-center"
-      >
-        <div className="d-flex">
-          <CToastBody>{message}</CToastBody>
-          <CToastClose className="me-2 m-auto" white />
-        </div>
-      </CToast>
-    );
-  };
 
   // Calls the prediction API
   const predictAction = async () => {

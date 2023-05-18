@@ -12,12 +12,14 @@ import {
   selectTargetColumn,
   selectTimeColumn,
 } from "../../src/store/selectors";
+import { useRouter } from "next/router";
 
 export default function WizardTimeColumnPage() {
   const [modalVisible, setModalVisible] = useState(false);
   const targetColumn = useAppSelector(selectTargetColumn);
   const timeColumn = useAppSelector(selectTimeColumn);
   const dataset = useAppSelector(selectDataset);
+  const router = useRouter();
 
   const isValid = isColumnValid(targetColumn);
 
@@ -72,14 +74,14 @@ export default function WizardTimeColumnPage() {
             >
               Confirm
             </LinkButton>
-            <LinkButton
+            <CButton
               color="primary"
               variant="ghost"
-              href="/wizard/pick-time"
+              onClick={() => router.back()}
               className="mx-2"
             >
               Back
-            </LinkButton>
+            </CButton>
           </CCol>
         </CRow>
         <CRow className="my-4">
