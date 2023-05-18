@@ -82,6 +82,9 @@ export const modelSlice = createSlice({
         return merge(state, payload);
       }
     },
+    setModelConfig: (state, action: { payload: ModelState }) => {
+      merge(state, action.payload);
+    },
     editModelConfigJsonView: (_, { payload: { updated_src: newState } }: any) =>
       newState,
     removeEvent: (state: ModelState, { payload: { eventKey } }) => {

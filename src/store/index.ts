@@ -11,6 +11,7 @@ import {
 import storage from "reduxjs-toolkit-persist/lib/storage";
 import datasets from "./datasets";
 import models from "./models";
+import history from "./history";
 
 export const databaseName = "forecapp-db";
 
@@ -42,6 +43,7 @@ const configureDatasetReducer = () => {
 const reducers = combineReducers({
   datasets: isSSR ? datasets : configureDatasetReducer(),
   models,
+  history,
 });
 
 const reducer = isSSR ? reducers : configurePersistedReducers();

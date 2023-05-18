@@ -6,27 +6,52 @@ import {
 } from "../definitions";
 import { autodetectColumn } from "../helpers";
 import { parse } from "../parser";
+import { ParseError, ParseResult } from "papaparse";
+import { ValidationSettings, validate } from "../data-validator";
 
-const importDataset = createAsyncThunk<any[], { source: string | File }>(
-  "datasets/importDataset",
-  async ({ source }) => {
-    if (source instanceof File) {
-      const text = await source.text();
-      return await parse(text.trim());
-    }
-    return await parse(source, { download: true });
+export type ErrorLevel = "Info" | "Warning" | "Error";
+
+export type DataValidationError = {
+  type: "Validation";
+  level: ErrorLevel;
+  message: string;
+  row?: number;
+};
+
+export type DataError =
+  | (ParseError & { level: ErrorLevel })
+  | DataValidationError;
+export type DataErrorType =
+  | "Validation"
+  | "Quotes"
+  | "Delimiter"
+  | "FieldMismatch";
+export const dataErrorTypeWarningLevel: { [key: string]: ErrorLevel } = {
+  Validation: "Error",
+  Quotes: "Error",
+  Delimiter: "Warning",
+  FieldMismatch: "Warning",
+};
+
+export const parseDataset = createAsyncThunk<
+  ParseResult<{ [key: string]: any }>,
+  string | File
+>("datasets/parseDataset", async (source) => {
+  // TODO : Check file extension is actual a csv
+  if (source instanceof File) {
+    const text = await source.text();
+    return await parse(text.trim());
   }
-);
+  return await parse(source, true);
+});
 
-export const importDatasetWithAutodetect =
-  ({ source }: { source: string | File }) =>
-  async (dispatch: Function, getState: Function) => {
-    await dispatch(importDataset({ source }));
-    const state = getState();
-    // TODO: initialize empty header columns if dataset does not provide any
-    const columnHeaders = Object.keys(state.datasets.raw[0]);
-    await dispatch(resetAndDetectColumnConfig({ columnHeaders }));
-  };
+const defaultValidationSettings: ValidationSettings = {
+  cutToSize: true,
+  strictDateTime: true,
+  minCols: 2,
+  maxCols: 1000000,
+  rowsToCheck: -1,
+};
 
 type PredictionQueryArg = { dataset: any[]; configuration: object };
 
@@ -50,8 +75,9 @@ export const apiPrediction = createAsyncThunk<any, PredictionQueryArg>(
 
 export interface DatasetsState {
   status: "idle" | "loading";
+  dataErrors: DataError[];
   error?: any;
-  raw?: any[];
+  raw?: { [key: string]: any }[];
   columns: {
     timeColumn: string;
     targetColumn: string;
@@ -65,6 +91,7 @@ const initialState = {
     timeColumn: SELECT_STATE_INITIALIZE,
     targetColumn: SELECT_STATE_INITIALIZE,
   },
+  dataErrors: [],
 } as DatasetsState;
 
 export const datasetSlice = createSlice({
@@ -72,26 +99,25 @@ export const datasetSlice = createSlice({
   initialState,
   reducers: {
     // TODO: reset column configuration on new dataset import
-    resetAndDetectColumnConfig: (state, action) => {
-      if (action.payload && "columnHeaders" in action.payload) {
-        const { columnHeaders } = action.payload;
-        autodetectColumn(
-          COLUMN_PRIMARY_TIME,
-          columnHeaders,
-          (timeColumn: string) => {
-            state.columns.timeColumn = timeColumn;
-          }
-        );
-        autodetectColumn(
-          COLUMN_PRIMARY_TARGET,
-          columnHeaders,
-          (targetColumn: string) => {
-            state.columns.targetColumn = targetColumn;
-          }
-        );
-      } else {
-        state.columns = initialState.columns;
-      }
+    detectColumnConfig: (state, action: { payload: string[] }) => {
+      const columnHeaders = action.payload;
+      autodetectColumn(
+        COLUMN_PRIMARY_TIME,
+        columnHeaders,
+        (timeColumn: string) => {
+          state.columns.timeColumn = timeColumn;
+        }
+      );
+      autodetectColumn(
+        COLUMN_PRIMARY_TARGET,
+        columnHeaders,
+        (targetColumn: string) => {
+          state.columns.targetColumn = targetColumn;
+        }
+      );
+    },
+    resetColumnConfig: (state) => {
+      state.columns = initialState.columns;
     },
     setTimeColumn: (state, action: { payload: string }) => {
       state.columns.timeColumn = action.payload;
@@ -99,14 +125,29 @@ export const datasetSlice = createSlice({
     setTargetColumn: (state, action) => {
       state.columns.targetColumn = action.payload;
     },
+    validateData: (state) => {
+      if (state.raw)
+        state.dataErrors = state.dataErrors.concat(
+          validate(state.raw, defaultValidationSettings)
+        );
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(importDataset.fulfilled, (state, { payload }) => {
+    builder.addCase(parseDataset.fulfilled, (state, { payload }) => {
       state.status = "idle";
-      state.raw = payload as any;
+      state.raw = payload.data;
+      state.dataErrors = payload.errors.map((e, _) => {
+        const castedError: DataError = e as DataError;
+        castedError.level = dataErrorTypeWarningLevel[e.type];
+        return castedError;
+      });
     });
-    builder.addCase(importDataset.pending, (state) => {
+    builder.addCase(parseDataset.pending, (state) => {
       state.status = "loading";
+    });
+    builder.addCase(parseDataset.rejected, (state, action) => {
+      state.error = action.error;
+      state.status = "idle";
     });
     builder.addCase(apiPrediction.fulfilled, (state, { payload }) => {
       state.status = "idle";
@@ -124,7 +165,11 @@ export const datasetSlice = createSlice({
   },
 });
 
-export const { resetAndDetectColumnConfig, setTimeColumn, setTargetColumn } =
-  datasetSlice.actions;
+export const {
+  detectColumnConfig,
+  setTimeColumn,
+  setTargetColumn,
+  validateData,
+} = datasetSlice.actions;
 
 export default datasetSlice.reducer;
