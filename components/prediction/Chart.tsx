@@ -112,7 +112,6 @@ const PredictionChart = ({
   predictionData: any;
   forecasts: number | undefined;
 }) => (
-  <>
     <PlotlyChart
       useResizeHandler
       data={transformPredictionData(predictionData.forecast)}
@@ -136,7 +135,6 @@ const PredictionChart = ({
       }}
       style={{ width: "100%", minHeight: "85vh" }}
     />
-  </>
 );
 
 export default PredictionChart;
