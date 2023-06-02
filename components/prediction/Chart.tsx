@@ -19,7 +19,7 @@ const transformPredictionData = (forecast: any): Plotly.Data[] => {
   const x = Object.values(forecast.ds);
   const quantiles = columnHeaders.filter((colName) => {
     // TODO: Make a better check for quantiles
-    return (colName.at(colName.length - 1) === "%" && colName.startsWith("yhat"));
+    return colName.at(colName.length - 1) === "%";
   });
   const res: Plotly.Data[] = [];
 
@@ -113,29 +113,29 @@ const PredictionChart = ({
   predictionData: any;
   forecasts: number | undefined;
 }) => (
-    <PlotlyChart
-      useResizeHandler
-      data={transformPredictionData(predictionData.forecast)}
-      layout={{
-        hovermode: "x",
-        showlegend: true,
-        legend: { orientation: "h", y: -0.05 },
-        margin: { t: 10, r: 30 }, // b: 10, l: 30, pad: 10
-        shapes: [
-          generateHistoryMarker(
-            Object.values(predictionData.forecast.ds),
-            forecasts
-          ),
-        ],
-        yaxis: {
-          title: { text: targetColumn },
-        },
-      }}
-      config={{
-        responsive: true,
-      }}
-      style={{ width: "100%", minHeight: "85vh" }}
-    />
+  <PlotlyChart
+    useResizeHandler
+    data={transformPredictionData(predictionData.forecast)}
+    layout={{
+      hovermode: "x",
+      showlegend: true,
+      legend: { orientation: "h", y: -0.05 },
+      margin: { t: 10, r: 30 }, // b: 10, l: 30, pad: 10
+      shapes: [
+        generateHistoryMarker(
+          Object.values(predictionData.forecast.ds),
+          forecasts
+        ),
+      ],
+      yaxis: {
+        title: { text: targetColumn },
+      },
+    }}
+    config={{
+      responsive: true,
+    }}
+    style={{ width: "100%", minHeight: "85vh" }}
+  />
 );
 
 export default PredictionChart;
