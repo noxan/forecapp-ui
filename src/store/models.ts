@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import merge from "lodash.merge";
 
 import { forecappApi } from "./forecappApi";
+import { HistoricModel } from "./history";
 
 forecappApi.endpoints.predictionPredictionPost.useMutation;
 
@@ -82,8 +83,8 @@ export const modelSlice = createSlice({
         return merge(state, payload);
       }
     },
-    setModelConfig: (state, action: { payload: ModelState }) => {
-      merge(state, action.payload);
+    applyPrevModel: (state, action: { payload: HistoricModel }) => {
+      state = action.payload.modelConfig;
     },
     editModelConfigJsonView: (_, { payload: { updated_src: newState } }: any) =>
       newState,
@@ -94,7 +95,7 @@ export const modelSlice = createSlice({
   },
 });
 
-export const { editModelConfig, editModelConfigJsonView, removeEvent } =
+export const { editModelConfig, editModelConfigJsonView, removeEvent, applyPrevModel } =
   modelSlice.actions;
 
 export default modelSlice.reducer;
