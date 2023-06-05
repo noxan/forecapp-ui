@@ -9,8 +9,17 @@ import DatasetTablePreview from "../../components/DatasetExplorer/DatasetTablePr
 import DatasetVisualize from "../../components/DatasetExplorer/DatasetVisualize";
 import MenuProgressBar from "../../components/MenuProgressBar";
 import HomeIcon from "@mui/icons-material/Home";
+import { useAppSelector } from "../../src/hooks";
+import { setTimeColumn, setTargetColumn } from "../../src/store/datasets";
+import {
+  selectTimeColumn,
+  selectTargetColumn,
+} from "../../src/store/selectors";
+import DatasetPreview from "../../components/DatasetExplorer/DatasetPreview";
 
 export default function WizardDataSelectorPage() {
+  const timeColumn = useAppSelector(selectTimeColumn);
+  const targetColumn = useAppSelector(selectTargetColumn);
   return (
     <div className="page-layout">
       <CSidebar>
@@ -24,8 +33,12 @@ export default function WizardDataSelectorPage() {
       </CSidebar>
       <div className="dataset-preview-layout">
         <MenuProgressBar activeStep={3} />
-        <DatasetTablePreview />
-        <DatasetVisualize />
+        <DatasetPreview
+          timeColumn={timeColumn}
+          setTimeColumn={setTimeColumn}
+          targetColumn={targetColumn}
+          setTargetColumn={setTargetColumn}
+        />
       </div>
     </div>
   );
