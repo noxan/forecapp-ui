@@ -20,6 +20,7 @@ const DatasetVisualize = () => {
             dataset={dataset}
             timeColumn={timeColumn}
             targetColumn={targetColumn}
+            showLegend={false}
           />
         </CCol>
       </CRow>

@@ -29,7 +29,7 @@ export default function Table({ data }: { data: any[] }) {
   });
 
   return (
-    <CTable hover small responsive>
+    <CTable bordered hover small responsive>
       <style>
         {`
         .table-header-content {

@@ -1,20 +1,48 @@
-import { CCol, CContainer, CRow } from "@coreui/react";
+import { useState } from "react";
+import { CButton, CButtonGroup, CCol, CContainer, CRow } from "@coreui/react";
 import { useAppSelector } from "../../src/hooks";
+import { useAppDispatch } from "../../src/hooks";
 import { selectDataset } from "../../src/store/selectors";
 import Table from "../Table";
 
-const DatasetTable = () => {
+const DatasetTablePreview = ({
+  timeColumn,
+  setTimeColumn,
+  targetColumn,
+  setTargetColumn,
+}: {
+  timeColumn: string;
+  setTimeColumn: Function;
+  targetColumn: string;
+  setTargetColumn: Function;
+}) => {
+  const [selectTime, setSelectTime] = useState<boolean>(true);
   const dataset = useAppSelector(selectDataset);
   const tableHead = dataset.slice(0, 10);
+  const dispatch = useAppDispatch();
   return (
-    <CContainer fluid={false}>
-      <CRow className="my-2">
-        <CCol onClick={() => console.log("Test")}>
-          <Table data={tableHead} />
-        </CCol>
-      </CRow>
-    </CContainer>
+    <div>
+      <CButtonGroup>
+        <CButton onClick={() => setSelectTime(true)}>Set Time Column</CButton>
+        <CButton onClick={() => setSelectTime(false)}>
+          Set Target Column
+        </CButton>
+      </CButtonGroup>
+      <CContainer fluid={false}>
+        <CRow className="my-2">
+          <CCol
+            onClick={(e: any) =>
+              selectTime
+                ? dispatch(setTimeColumn(e.target.outerText))
+                : dispatch(setTargetColumn(e.target.outerText))
+            }
+          >
+            <Table data={tableHead} />
+          </CCol>
+        </CRow>
+      </CContainer>
+    </div>
   );
 };
 
-export default DatasetTable;
+export default DatasetTablePreview;
