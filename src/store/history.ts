@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ModelState, editModelConfig, setModelConfig } from "./models";
+import { ModelState, editModelConfig } from "./models";
 import { apiPrediction } from "./datasets";
 
 export type HistoricModel = {

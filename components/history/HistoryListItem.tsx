@@ -6,7 +6,7 @@ import {
 import { useAppSelector } from "../../src/hooks";
 import { useDispatch } from "react-redux";
 import { removeModel, selectModel } from "../../src/store/history";
-import { setModelConfig } from "../../src/store/models";
+import { applyPrevModel } from "../../src/store/models";
 
 export type HistoryListItemProps = {
   index: number;
@@ -60,7 +60,7 @@ export const HistoryListItem = (props: HistoryListItemProps) => {
             color="primary"
             onClick={() => {
               dispatch(selectModel(props.index));
-              dispatch(setModelConfig(model.modelConfig));
+              dispatch(applyPrevModel(model));
               props.onClick();
             }}
           >
