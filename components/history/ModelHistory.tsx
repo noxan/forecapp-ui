@@ -3,11 +3,11 @@ import { CListGroup } from "@coreui/react";
 import { HistoryListItem } from "./HistoryListItem";
 import { useAppSelector } from "../../src/hooks";
 
-export type VersionHistoryProps = {
+export type ModelHistoryProps = {
   closeSelf: () => void;
 };
 
-export default function VersionHistory(props: VersionHistoryProps) {
+export default function ModelHistory(props: ModelHistoryProps) {
   const numModels = useAppSelector(numHistoricModels);
 
   const itemList = [];
@@ -17,5 +17,5 @@ export default function VersionHistory(props: VersionHistoryProps) {
     );
   }
 
-  return <CListGroup className="version-history">{itemList}</CListGroup>;
+  return <CListGroup className="model-history">{itemList}</CListGroup>;
 }

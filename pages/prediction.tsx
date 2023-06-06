@@ -31,7 +31,7 @@ import { useRouter } from "next/router";
 import { ModelParameters } from "../src/schemas/modelParameters";
 import { HTTPError, ValidationError, NeuralProphetError } from "../src/error";
 import { ZodError } from "zod";
-import VersionHistory from "../components/history/VersionHistory";
+import ModelHistory from "../components/history/ModelHistory";
 import { errorToastWithMessage } from "../components/ErrorToast";
 
 export default function Visualization() {
@@ -120,7 +120,7 @@ export default function Visualization() {
       />
       <CContainer fluid>
         {historyVisible ? (
-          <VersionHistory
+          <ModelHistory
             closeSelf={() => {
               setHistoryVisible(false);
               predictAction();
