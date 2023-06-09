@@ -87,16 +87,6 @@ export default function Home() {
             <h5>Select a dataset below to get started</h5>
           </CCol>
         </CRow>
-        <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 4 }}>
-          {datasetExamples.map((dataset) => (
-            <DatasetCard
-              key={dataset.filename}
-              dataset={dataset}
-              importAction={() => importAction(dataset.fullUrl)}
-              disabled={status === "loading"}
-            />
-          ))}
-        </CRow>
         <CRow className="my-2">
           <CCol>
             <h5>Import from your computer</h5>
@@ -133,6 +123,18 @@ export default function Home() {
               Submit
             </CButton>
           </CCol>
+          <br />
+          <br />
+        </CRow>
+        <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 4 }}>
+          {datasetExamples.map((dataset) => (
+            <DatasetCard
+              key={dataset.filename}
+              dataset={dataset}
+              importAction={() => importAction(dataset.fullUrl)}
+              disabled={status === "loading"}
+            />
+          ))}
         </CRow>
       </CContainer>
       <CToaster push={errorToast} placement="bottom-end" />
