@@ -28,11 +28,11 @@ export default function WizardDataSelectorPage() {
             <HomeIcon />
             Home
           </CNavItem>
-          <CNavItem href="/prediction">Model Configuration</CNavItem>
+          <CNavItem href="/prediction?first-run">Model Configuration</CNavItem>
         </CSidebarNav>
       </CSidebar>
       <div className="dataset-preview-layout">
-        <MenuProgressBar activeStep={3} />
+        <MenuProgressBar activeStep={0} />
         <DatasetPreview
           timeColumn={timeColumn}
           setTimeColumn={setTimeColumn}
