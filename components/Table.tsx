@@ -81,7 +81,16 @@ export default function Table({ data }: { data: any[] }) {
         {table.getRowModel().rows.map((row) => (
           <CTableRow key={row.id}>
             {row.getVisibleCells().map((cell) => (
-              <CTableDataCell key={cell.id}>
+              <CTableDataCell
+                color={
+                  cell.id.split("_")[1] === timeColumn
+                    ? "info"
+                    : cell.id.split("_")[1] === targetColumn
+                    ? "success"
+                    : ""
+                }
+                key={cell.id}
+              >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </CTableDataCell>
             ))}
