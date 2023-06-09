@@ -14,6 +14,9 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import { useAppSelector } from "../src/hooks";
+import { selectTargetColumn, selectTimeColumn } from "../src/store/selectors";
+
 export default function Table({ data }: { data: any[] }) {
   const columnHelper = createColumnHelper<any>();
   const columns = Object.keys(data[0]).map((name: string) =>
@@ -27,6 +30,9 @@ export default function Table({ data }: { data: any[] }) {
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  const timeColumn = useAppSelector(selectTimeColumn);
+  const targetColumn = useAppSelector(selectTargetColumn);
 
   return (
     <CTable bordered hover small responsive>
@@ -48,7 +54,16 @@ export default function Table({ data }: { data: any[] }) {
         {table.getHeaderGroups().map((headerGroup) => (
           <CTableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <CTableHeaderCell key={header.id}>
+              <CTableHeaderCell
+                color={
+                  header.id === timeColumn
+                    ? "info"
+                    : header.id === targetColumn
+                    ? "success"
+                    : ""
+                }
+                key={header.id}
+              >
                 <div className="table-header-content">
                   {header.isPlaceholder
                     ? null
