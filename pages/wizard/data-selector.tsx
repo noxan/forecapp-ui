@@ -22,7 +22,7 @@ export default function WizardDataSelectorPage() {
   const targetColumn = useAppSelector(selectTargetColumn);
   return (
     <div className="page-layout">
-      <CSidebar>
+      <CSidebar position="fixed">
         <CSidebarNav>
           <CNavItem href="/">
             <HomeIcon />
