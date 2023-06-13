@@ -6,6 +6,7 @@ import { PersistGate } from "reduxjs-toolkit-persist/integration/react";
 import { persistStore } from "reduxjs-toolkit-persist";
 import { store } from "../src/store";
 import "../styles/versionhistory.css";
+import "../styles/general.css";
 
 const persistor = persistStore(store);
 
