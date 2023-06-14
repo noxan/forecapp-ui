@@ -9,7 +9,7 @@ import {
   CSidebarNav,
 } from "@coreui/react";
 import HomeIcon from "@mui/icons-material/Home";
-import { navItem, currentStep } from "../../src/sidebar-types";
+import { currentStep, enabledMenuItems } from "../../src/sidebar-types";
 
 const vars = {
   "--cui-sidebar-padding-x": "0px",
@@ -19,9 +19,11 @@ const vars = {
 export default function Sidebar({
   currentStep,
   navItems,
+  enabledMenuItems,
 }: {
   currentStep: currentStep;
   navItems: ReactElement[];
+  enabledMenuItems: enabledMenuItems;
 }) {
   return (
     <CSidebar style={vars} position="sticky">
@@ -39,10 +41,18 @@ export default function Sidebar({
           Home
         </CNavItem>
         <CNavGroup toggler="Model Builder Steps">
-          <CNavItem href="/">Data Selector</CNavItem>
-          <CNavItem href="/">Model Configuration</CNavItem>
-          <CNavItem href="/">Model Validation</CNavItem>
-          <CNavItem href="/">Prediction</CNavItem>
+          <CNavItem disabled={enabledMenuItems["Data Selector"]} href="/">
+            Data Selector
+          </CNavItem>
+          <CNavItem disabled={enabledMenuItems["Model Configuration"]} href="/">
+            Model Configuration
+          </CNavItem>
+          <CNavItem disabled={enabledMenuItems["Model Validation"]} href="/">
+            Model Validation
+          </CNavItem>
+          <CNavItem disabled={enabledMenuItems["Prediction"]} href="/">
+            Prediction
+          </CNavItem>
         </CNavGroup>
         {navItems}
       </CSidebarNav>

@@ -14,9 +14,20 @@ const navItems = [
   </CNavItem>,
 ];
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+const enabledMenuItems = {
+  ["Data Selector"]: true,
+  ["Model Configuration"]: false,
+  ["Model Validation"]: false,
+  ["Prediction"]: false,
+};
+
+export default function Layout() {
   return (
-    <SidebarLayout currentStep="Data Selector" navItems={navItems}>
+    <SidebarLayout
+      enabledMenuItems={enabledMenuItems}
+      currentStep="Data Selector"
+      navItems={navItems}
+    >
       <p>Test</p>
     </SidebarLayout>
   );
