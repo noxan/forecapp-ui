@@ -8,7 +8,10 @@ import {
   selectTimeColumn,
 } from "../src/store/selectors";
 import { CFormCheck, CFormInput } from "@coreui/react";
-import { trendExplanation } from "../components/ModelConfiguration/ConfigExplanations";
+import {
+  trendExplanation,
+  seasonalityExplanation,
+} from "../components/ModelConfiguration/ConfigExplanations";
 
 export default function ModelConfiguration() {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
@@ -44,6 +47,47 @@ export default function ModelConfiguration() {
             );
           }}
         ></CFormInput>
+      </ConfigurationCard>
+      <ConfigurationCard
+        explanation={seasonalityExplanation}
+        title="Seasonality"
+      >
+        <CFormCheck
+          id="seasonalityDaily"
+          label="Enable daily seasonality"
+          defaultChecked={modelConfiguration.seasonality.daily}
+          onChange={(e) =>
+            dispatch(
+              editModelConfig({
+                seasonality: { daily: e.target.checked },
+              })
+            )
+          }
+        />
+        <CFormCheck
+          id="seasonalityWeekly"
+          label="Enable weekly seasonality"
+          defaultChecked={modelConfiguration.seasonality.weekly}
+          onChange={(e) =>
+            dispatch(
+              editModelConfig({
+                seasonality: { weekly: e.target.checked },
+              })
+            )
+          }
+        />
+        <CFormCheck
+          id="seasonalityYearly"
+          label="Enable yearly seasonality"
+          defaultChecked={modelConfiguration.seasonality.yearly}
+          onChange={(e) =>
+            dispatch(
+              editModelConfig({
+                seasonality: { yearly: e.target.checked },
+              })
+            )
+          }
+        />
       </ConfigurationCard>
     </div>
   );

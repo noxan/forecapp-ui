@@ -4,3 +4,5 @@ export const trendExplanation =
   "trend changes. For example,if a data series is trending " +
   "upwards and then begins to trend downwards, the point where " +
   "the upward trend ends and the downward trend begins is a trend change point.";
+
+export const seasonalityExplanation = "Test123";
