@@ -10,9 +10,11 @@ import { useState } from "react";
 
 export default function ConfigurationCard({
   title,
+  explanation,
   children,
 }: {
   title: string;
+  explanation: string;
   children: any;
 }) {
   const [explanationVisible, setExplanationVisible] = useState(false);
@@ -26,9 +28,7 @@ export default function ConfigurationCard({
             <CButton onClick={() => setExplanationVisible(!explanationVisible)}>
               {explanationVisible ? "Hide" : "Show"} explanation
             </CButton>
-            <CCollapse visible={explanationVisible}>
-              <h3>Placeholder explanation</h3>
-            </CCollapse>
+            <CCollapse visible={explanationVisible}>{explanation}</CCollapse>
           </div>
         </div>
       </CCardBody>
