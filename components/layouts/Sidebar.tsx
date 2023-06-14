@@ -8,6 +8,7 @@ import {
   CSidebarHeader,
   CSidebarNav,
 } from "@coreui/react";
+import HomeIcon from "@mui/icons-material/Home";
 import { navItem, currentStep } from "../../src/sidebar-types";
 
 const vars = {
@@ -26,6 +27,17 @@ export default function Sidebar({
     <CSidebar style={vars} position="sticky">
       <CSidebarBrand>{currentStep}</CSidebarBrand>
       <CSidebarNav>
+        <CNavItem href="/">
+          <HomeIcon
+            sx={{
+              width: "2em",
+              alignContent: "center",
+              justifyContent: "flex-start",
+              display: "flex",
+            }}
+          />
+          Home
+        </CNavItem>
         <CNavGroup toggler="Model Builder Steps">
           <CNavItem href="/">Data Selector</CNavItem>
           <CNavItem href="/">Model Configuration</CNavItem>
