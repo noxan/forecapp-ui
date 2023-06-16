@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ModelState, editModelConfig } from "./models";
-import { apiPrediction } from "./datasets";
+import { apiPrediction, validateModel } from "./datasets";
 
 export type HistoricModel = {
   modelConfig: ModelState;
   metrics: any;
+  testMetrics?: {Loss_test : {[key : number] : number}, RegLoss_test : {[key : number] : number}};
   time: number;
 };
 
@@ -43,6 +44,16 @@ export const historySlice = createSlice({
     builder.addCase(editModelConfig, (state, _) => {
       state.currentModel = undefined;
     });
+    builder.addCase(validateModel.fulfilled, (state, {payload}) => {
+      if (state.currentModel === undefined) {
+        state.models.push({
+          modelConfig: payload.configuration,
+          metrics: payload.trainMetrics,
+          testMetrics : payload.testMetrics,
+          time : Date.now(),
+        })
+      }
+    })
   },
 });
 
