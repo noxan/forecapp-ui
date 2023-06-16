@@ -3,6 +3,7 @@ import { editModelConfig } from "../../src/store/models";
 import { selectModelConfiguration } from "../../src/store/selectors";
 import ConfigurationCard from "../../components/ModelConfiguration/ConfigurationCard";
 import HolidayBuilder from "../../components/prediction/HolidayBuilder";
+import { autoRegressionExplanation } from "../../components/ModelConfiguration/ConfigExplanations";
 
 export default function DatasetInfo() {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
