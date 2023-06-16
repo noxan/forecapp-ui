@@ -8,6 +8,7 @@ import { autodetectColumn } from "../helpers";
 import { parse } from "../parser";
 import { ParseError, ParseResult } from "papaparse";
 import { ValidationSettings, validate } from "../data-validator";
+import { ModelConfig } from "./forecappApi";
 
 export type ErrorLevel = "Info" | "Warning" | "Error";
 
@@ -73,6 +74,28 @@ export const apiPrediction = createAsyncThunk<any, PredictionQueryArg>(
   }
 );
 
+export type ValidationArg = {dataset: any[]; validationConfig: {split : number, modelConfig : ModelConfig}}
+
+export const validateModel = createAsyncThunk<any, ValidationArg>(
+  "datasets/validateModel",
+  async (payload, {rejectWithValue}) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/validate`, {
+      method: "POST",
+      body: JSON.stringify({
+        payload
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const resJSON = await res.json();
+    if(resJSON.status !== "ok") {
+      return rejectWithValue(resJSON);
+    }
+    return resJSON;
+  }
+)
+
 export interface DatasetsState {
   status: "idle" | "loading";
   dataErrors: DataError[];
@@ -83,6 +106,7 @@ export interface DatasetsState {
     targetColumn: string;
   };
   prediction?: object; // results dataset, alias predictions
+  validationResult?: object;
 }
 
 const initialState = {
@@ -162,6 +186,19 @@ export const datasetSlice = createSlice({
       state.error = action.error;
       state.status = "idle";
     });
+    builder.addCase(validateModel.fulfilled, (state, action) => {
+      state.status = "idle";
+      state.error = null;
+      state.validationResult = action.payload;
+    });
+    builder.addCase(validateModel.pending, (state) => {
+      state.status = "loading";
+      state.error = null;
+    })
+    builder.addCase(validateModel.rejected, (state, action) => {
+      state.error = action.error;
+      state.status = "idle";
+    })
   },
 });
 
