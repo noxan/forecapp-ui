@@ -1,19 +1,19 @@
-import ConfigurationCard from "../components/ModelConfiguration/ConfigurationCard";
-import { useAppDispatch, useAppSelector } from "../src/hooks";
-import { editModelConfig } from "../src/store/models";
+import ConfigurationCard from "../../components/ModelConfiguration/ConfigurationCard";
+import { useAppDispatch, useAppSelector } from "../../src/hooks";
+import { editModelConfig } from "../../src/store/models";
 import {
   selectDataset,
   selectModelConfiguration,
   selectTargetColumn,
   selectTimeColumn,
-} from "../src/store/selectors";
+} from "../../src/store/selectors";
 import { CFormCheck, CFormInput } from "@coreui/react";
 import {
   trendExplanation,
   seasonalityExplanation,
-} from "../components/ModelConfiguration/ConfigExplanations";
+} from "../../components/ModelConfiguration/ConfigExplanations";
 
-export default function ModelConfiguration() {
+export default function UnderlyingTrends() {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dispatch = useAppDispatch();
   return (
