@@ -81,9 +81,7 @@ export const validateModel = createAsyncThunk<any, ValidationArg>(
   async (payload, {rejectWithValue}) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/validate`, {
       method: "POST",
-      body: JSON.stringify({
-        payload
-      }),
+      body: JSON.stringify(payload),
       headers: {
         "Content-Type": "application/json",
       },
