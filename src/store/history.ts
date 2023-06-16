@@ -47,7 +47,7 @@ export const historySlice = createSlice({
     builder.addCase(validateModel.fulfilled, (state, {payload}) => {
       if (state.currentModel === undefined) {
         state.models.push({
-          modelConfig: payload.configuration,
+          modelConfig: payload.validationConfiguration.modelConfig,
           metrics: payload.trainMetrics,
           testMetrics : payload.testMetrics,
           time : Date.now(),
