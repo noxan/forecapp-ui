@@ -3,6 +3,11 @@ import { useAppDispatch, useAppSelector } from "../../src/hooks";
 import { editModelConfig } from "../../src/store/models";
 import { selectModelConfiguration } from "../../src/store/selectors";
 import { CFormInput, CFormCheck } from "@coreui/react";
+import {
+  batchSizesExplanation,
+  epochsExplanation,
+  learningRateExplanation,
+} from "../../components/ModelConfiguration/ConfigExplanations";
 
 const parseStringToNumber = (value: string) =>
   value === "" ? null : Number(value);
@@ -12,7 +17,11 @@ export default function TrainingConfiguration() {
   const dispatch = useAppDispatch();
   return (
     <div>
-      <ConfigurationCard explanation="Test123" title="Epochs">
+      <ConfigurationCard
+        explanation={epochsExplanation}
+        documentationLink=""
+        title="Epochs"
+      >
         <CFormInput
           type="number"
           placeholder="auto"
@@ -41,7 +50,11 @@ export default function TrainingConfiguration() {
           }
         />
       </ConfigurationCard>
-      <ConfigurationCard explanation="Test123" title="Learning rate">
+      <ConfigurationCard
+        explanation={learningRateExplanation}
+        documentationLink=""
+        title="Learning rate"
+      >
         <CFormInput
           type="number"
           placeholder="auto"
@@ -57,7 +70,11 @@ export default function TrainingConfiguration() {
           }
         />
       </ConfigurationCard>
-      <ConfigurationCard explanation="Test123" title="Batch size">
+      <ConfigurationCard
+        explanation={batchSizesExplanation}
+        documentationLink=""
+        title="Batch size"
+      >
         <CFormInput
           type="number"
           placeholder="auto"

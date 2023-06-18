@@ -11,6 +11,8 @@ import { CFormCheck, CFormInput } from "@coreui/react";
 import {
   trendExplanation,
   seasonalityExplanation,
+  seasonalityDocumentationLink,
+  trendDocumentationLink,
 } from "../../components/ModelConfiguration/ConfigExplanations";
 
 export default function UnderlyingTrends() {
@@ -18,7 +20,11 @@ export default function UnderlyingTrends() {
   const dispatch = useAppDispatch();
   return (
     <div>
-      <ConfigurationCard explanation={trendExplanation} title="Trend">
+      <ConfigurationCard
+        explanation={trendExplanation}
+        documentationLink={trendDocumentationLink}
+        title="Trend"
+      >
         <CFormCheck
           id="trend"
           label="Enable trend"
@@ -51,6 +57,7 @@ export default function UnderlyingTrends() {
       <ConfigurationCard
         explanation={seasonalityExplanation}
         title="Seasonality"
+        documentationLink={seasonalityDocumentationLink}
       >
         <CFormCheck
           id="seasonalityDaily"

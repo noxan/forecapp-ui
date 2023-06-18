@@ -1,4 +1,11 @@
-import { autoRegressionExplanation } from "../../components/ModelConfiguration/ConfigExplanations";
+import {
+  autoRegressionExplanation,
+  laggedRegressorsExplanation,
+  testExplanation,
+  laggedRegressorsDocumnentationLink,
+  autoRegressionDocumentationLink,
+} from "../../components/ModelConfiguration/ConfigExplanations";
+import ConfigExplanationHTML from "../../components/ModelConfiguration/ConfigExplanationHTML";
 import ConfigurationCard from "../../components/ModelConfiguration/ConfigurationCard";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
 import { editModelConfig } from "../../src/store/models";
@@ -29,6 +36,7 @@ export default function ModelingAssumptions() {
       <ConfigurationCard
         explanation={autoRegressionExplanation}
         title="Auto Regression"
+        documentationLink={autoRegressionDocumentationLink}
       >
         <CFormInput
           className="mb-4"
@@ -59,7 +67,11 @@ export default function ModelingAssumptions() {
           }
         />
       </ConfigurationCard>
-      <ConfigurationCard explanation="Test123" title="Additional regressors">
+      <ConfigurationCard
+        explanation={laggedRegressorsExplanation}
+        title="Lagged regressors"
+        documentationLink={laggedRegressorsDocumnentationLink}
+      >
         <LaggedRegressorBuilder
           laggedRegressorColumns={laggedRegressorColumns}
           modelConfiguration={modelConfiguration}

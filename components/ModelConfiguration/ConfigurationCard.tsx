@@ -5,30 +5,43 @@ import {
   CCardBody,
   CCollapse,
   CButton,
+  CCloseButton,
 } from "@coreui/react";
-import { useState } from "react";
+import IconButton from "@mui/material/IconButton";
+import InfoIcon from "@mui/icons-material/Info";
+import { ReactElement, useState } from "react";
+import ConfigExplanationHTML from "./ConfigExplanationHTML";
 
 export default function ConfigurationCard({
   title,
   explanation,
+  documentationLink,
   children,
 }: {
   title: string;
-  explanation: string;
+  explanation: ReactElement;
+  documentationLink: string;
   children: any;
 }) {
   const [explanationVisible, setExplanationVisible] = useState(false);
   return (
     <CCard className="my-3">
       <CCardBody>
-        <CCardTitle>{title}</CCardTitle>
+        <CCardTitle>
+          {title}
+          <IconButton onClick={() => setExplanationVisible(true)}>
+            <InfoIcon />
+          </IconButton>
+        </CCardTitle>
         <div className="row align-items-start">
           <div className="col-9">{children}</div>
           <div className="col-3">
-            <CButton onClick={() => setExplanationVisible(!explanationVisible)}>
-              {explanationVisible ? "Hide" : "Show"} explanation
-            </CButton>
-            <CCollapse visible={explanationVisible}>{explanation}</CCollapse>
+            <ConfigExplanationHTML
+              explanationText={explanation}
+              documentationLink={documentationLink}
+              visible={explanationVisible}
+              setVisible={setExplanationVisible}
+            />
           </div>
         </div>
       </CCardBody>
