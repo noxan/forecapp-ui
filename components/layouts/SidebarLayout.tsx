@@ -4,6 +4,7 @@ import { CButton } from "@coreui/react";
 import { CNavItem } from "@coreui/react";
 import { currentStep, disabledMenuItems } from "../../src/sidebar-types";
 import AccordionSidebar from "./AccordionSidebar";
+import ContentSidebar from "./ContentSidebar";
 
 export default function SidebarLayout({
   currentStep,
@@ -12,19 +13,19 @@ export default function SidebarLayout({
   children,
 }: {
   currentStep: currentStep;
-  navItems: ReactElement[];
+  navItems: any;
   disabledMenuItems: disabledMenuItems;
   children: React.ReactNode;
 }) {
   return (
     <div className="row align-items-start">
       <div className="col-2 sidebar--div">
-        <Sidebar
+        {/* <Sidebar
           disabledMenuItems={disabledMenuItems}
           currentStep={currentStep}
           navItems={navItems}
-        />
-        {/* <AccordionSidebar /> */}
+        /> */}
+        <ContentSidebar navItems={navItems} />
       </div>
       <div className="col-10">{children}</div>
     </div>
