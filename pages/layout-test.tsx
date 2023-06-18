@@ -14,7 +14,7 @@ const navItems = [
   </CNavItem>,
 ];
 
-const enabledMenuItems = {
+const disabledMenuItems = {
   ["Data Selector"]: true,
   ["Model Configuration"]: false,
   ["Model Validation"]: false,
@@ -24,10 +24,90 @@ const enabledMenuItems = {
 export default function Layout() {
   return (
     <SidebarLayout
-      enabledMenuItems={enabledMenuItems}
+      disabledMenuItems={disabledMenuItems}
       currentStep="Data Selector"
       navItems={navItems}
     >
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
+      <p>Test</p>
       <p>Test</p>
     </SidebarLayout>
   );

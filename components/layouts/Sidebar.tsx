@@ -1,15 +1,24 @@
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import {
+  CAccordion,
+  CAccordionItem,
   CButton,
+  CCollapse,
+  CDropdown,
+  CDropdownItem,
+  CDropdownMenu,
+  CDropdownToggle,
   CNavGroup,
   CNavItem,
+  CNavTitle,
   CSidebar,
   CSidebarBrand,
   CSidebarHeader,
   CSidebarNav,
+  CSidebarToggler,
 } from "@coreui/react";
 import HomeIcon from "@mui/icons-material/Home";
-import { currentStep, enabledMenuItems } from "../../src/sidebar-types";
+import { currentStep, disabledMenuItems } from "../../src/sidebar-types";
 
 const vars = {
   "--cui-sidebar-padding-x": "0px",
@@ -19,16 +28,21 @@ const vars = {
 export default function Sidebar({
   currentStep,
   navItems,
-  enabledMenuItems,
+  disabledMenuItems,
 }: {
   currentStep: currentStep;
   navItems: ReactElement[];
-  enabledMenuItems: enabledMenuItems;
+  disabledMenuItems: disabledMenuItems;
 }) {
+  const [comps, setComps] = useState(true);
+  const [visible, setVisible] = useState(false);
   return (
     <CSidebar style={vars} position="sticky">
-      <CSidebarBrand>{currentStep}</CSidebarBrand>
       <CSidebarNav>
+        <CButton onClick={() => setVisible(!visible)}>Test Button</CButton>
+        <CCollapse visible={visible}>
+          <CButton>Hello World!</CButton>
+        </CCollapse>
         <CNavItem href="/">
           <HomeIcon
             sx={{
@@ -40,20 +54,26 @@ export default function Sidebar({
           />
           Home
         </CNavItem>
-        <CNavGroup toggler="Model Builder Steps">
-          <CNavItem disabled={enabledMenuItems["Data Selector"]} href="/">
+        <CNavGroup visible={comps} toggler="Data Selector">
+          <CNavItem disabled={disabledMenuItems["Data Selector"]} href="/">
             Data Selector
           </CNavItem>
-          <CNavItem disabled={enabledMenuItems["Model Configuration"]} href="/">
+          <CNavItem
+            disabled={disabledMenuItems["Model Configuration"]}
+            href="/"
+          >
             Model Configuration
           </CNavItem>
-          <CNavItem disabled={enabledMenuItems["Model Validation"]} href="/">
+          <CNavItem disabled={disabledMenuItems["Model Validation"]} href="/">
             Model Validation
           </CNavItem>
-          <CNavItem disabled={enabledMenuItems["Prediction"]} href="/">
+          <CNavItem disabled={disabledMenuItems["Prediction"]} href="/">
             Prediction
           </CNavItem>
         </CNavGroup>
+        <CNavGroup toggler="Model Configuration"></CNavGroup>
+        <CNavGroup toggler="Model Validation"></CNavGroup>
+        <CNavGroup toggler="Prediction"></CNavGroup>
         {navItems}
       </CSidebarNav>
     </CSidebar>

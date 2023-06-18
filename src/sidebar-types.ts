@@ -10,7 +10,7 @@ export type navItem = {
   content: any;
 };
 
-export type enabledMenuItems = {
+export type disabledMenuItems = {
   ["Data Selector"]: boolean;
   ["Model Configuration"]: boolean;
   ["Model Validation"]: boolean;
