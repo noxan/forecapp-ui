@@ -13,17 +13,16 @@ const DatasetVisualize = () => {
   const targetColumn = useAppSelector(selectTargetColumn);
 
   return (
-    <CContainer fluid>
-      <CRow className="my-2">
-        <CCol>
-          <DatasetChart
-            dataset={dataset}
-            timeColumn={timeColumn}
-            targetColumn={targetColumn}
-          />
-        </CCol>
-      </CRow>
-    </CContainer>
+    <CRow className="my-2">
+      <CCol>
+        <DatasetChart
+          dataset={dataset}
+          timeColumn={timeColumn}
+          targetColumn={targetColumn}
+          showLegend={false}
+        />
+      </CCol>
+    </CRow>
   );
 };
 

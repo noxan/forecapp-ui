@@ -14,6 +14,9 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import { useAppSelector } from "../src/hooks";
+import { selectTargetColumn, selectTimeColumn } from "../src/store/selectors";
+
 export default function Table({ data }: { data: any[] }) {
   const columnHelper = createColumnHelper<any>();
   const columns = Object.keys(data[0]).map((name: string) =>
@@ -28,8 +31,11 @@ export default function Table({ data }: { data: any[] }) {
     getCoreRowModel: getCoreRowModel(),
   });
 
+  const timeColumn = useAppSelector(selectTimeColumn);
+  const targetColumn = useAppSelector(selectTargetColumn);
+
   return (
-    <CTable hover small responsive>
+    <CTable bordered hover small responsive>
       <style>
         {`
         .table-header-content {
@@ -48,7 +54,16 @@ export default function Table({ data }: { data: any[] }) {
         {table.getHeaderGroups().map((headerGroup) => (
           <CTableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <CTableHeaderCell key={header.id}>
+              <CTableHeaderCell
+                color={
+                  header.id === timeColumn
+                    ? "info"
+                    : header.id === targetColumn
+                    ? "success"
+                    : ""
+                }
+                key={header.id}
+              >
                 <div className="table-header-content">
                   {header.isPlaceholder
                     ? null
@@ -66,7 +81,16 @@ export default function Table({ data }: { data: any[] }) {
         {table.getRowModel().rows.map((row) => (
           <CTableRow key={row.id}>
             {row.getVisibleCells().map((cell) => (
-              <CTableDataCell key={cell.id}>
+              <CTableDataCell
+                color={
+                  cell.id.split("_")[1] === timeColumn
+                    ? "info"
+                    : cell.id.split("_")[1] === targetColumn
+                    ? "success"
+                    : ""
+                }
+                key={cell.id}
+              >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </CTableDataCell>
             ))}

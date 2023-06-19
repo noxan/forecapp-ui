@@ -46,7 +46,7 @@ export default function Home() {
     ? "/prediction"
     : dataErrors.length > 0
     ? "/wizard/data-errors"
-    : "/wizard/pick-time";
+    : "/wizard/data-selector";
 
   const importAction = async (source: string | File) => {
     try {
@@ -57,7 +57,7 @@ export default function Home() {
       router.push(
         parseResult.errors.length > 0
           ? "/wizard/data-errors"
-          : "/wizard/pick-time"
+          : "/wizard/data-selector"
       );
     } catch (err: any) {
       pushErrorToast(errorToastWithMessage("Error: " + err.message));
@@ -86,16 +86,6 @@ export default function Home() {
           <CCol>
             <h5>Select a dataset below to get started</h5>
           </CCol>
-        </CRow>
-        <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 4 }}>
-          {datasetExamples.map((dataset) => (
-            <DatasetCard
-              key={dataset.filename}
-              dataset={dataset}
-              importAction={() => importAction(dataset.fullUrl)}
-              disabled={status === "loading"}
-            />
-          ))}
         </CRow>
         <CRow className="my-2">
           <CCol>
@@ -133,6 +123,18 @@ export default function Home() {
               Submit
             </CButton>
           </CCol>
+          <br />
+          <br />
+        </CRow>
+        <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 4 }}>
+          {datasetExamples.map((dataset) => (
+            <DatasetCard
+              key={dataset.filename}
+              dataset={dataset}
+              importAction={() => importAction(dataset.fullUrl)}
+              disabled={status === "loading"}
+            />
+          ))}
         </CRow>
       </CContainer>
       <CToaster push={errorToast} placement="bottom-end" />
