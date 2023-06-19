@@ -24,7 +24,7 @@ import PredictionNavigation from "../components/prediction/Navigation";
 import PredictionWizardCard from "../components/prediction/WizardCard";
 import PredictionBuilder from "../components/prediction/Builder";
 import { apiPrediction } from "../src/store/datasets";
-import PredictionChart from "../components/prediction/Chart";
+import { PredictionChart } from "../components/prediction/Chart";
 import LoadingOverlay from "../components/prediction/LoadingOverlay";
 import MissingForecastPlaceholder from "../components/MissingForecastPlaceholder";
 import { useRouter } from "next/router";
@@ -137,8 +137,11 @@ export default function Visualization() {
               {predictionData && predictionData.status === "ok" && (
                 <PredictionChart
                   targetColumn={targetColumn}
-                  predictionData={predictionData}
-                  forecasts={predictionData?.configuration?.forecasts}
+                  forecast={predictionData.forecast}
+                  numForecasts={predictionData?.configuration?.forecasts}
+                  showUncertainty={true}
+                  showEvents={true}
+                  showTrend={false}
                 />
               )}
             </CCol>
