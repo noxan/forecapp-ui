@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import Validation, {
   ValidationViewMode,
 } from "../components/validation/Validation";
+import PredictionView from "../components/prediction/PredictionView";
 
 type PageTypes =
   | "Data Selector"
@@ -19,6 +20,8 @@ function getPageComponent(pageInd: number, subPageInd: number) {
   switch (pageName) {
     case "Model Evaluation":
       return <Validation view={subPageName as ValidationViewMode} />;
+    case "Prediction":
+      return <PredictionView />;
     default:
       return <></>;
   }
