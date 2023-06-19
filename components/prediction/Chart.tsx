@@ -14,36 +14,68 @@ const renameColumn = (column: string) =>
     ? columnRenameMap[column]
     : column;
 
-const transformPredictionData = (forecast: any): Plotly.Data[] => {
+export const transformPredictionData = (
+  forecast: any,
+  showUncertainty: boolean,
+  showTrend: boolean,
+  showEvents: boolean
+): Plotly.Data[] => {
   const columnHeaders = Object.keys(forecast).filter((item) => item !== "ds");
   const x = Object.values(forecast.ds);
-  const quantiles = columnHeaders.filter((colName) => {
-    // TODO: Make a better check for quantiles
-    return colName.at(colName.length - 1) === "%";
-  });
+
   const res: Plotly.Data[] = [];
 
-  res.push({
-    type: "scattergl",
-    mode: "lines",
-    name: "95% Confidence Interval",
-    fillcolor: "rgba(45, 146, 255, 0.2)",
-    fill: "tonexty",
-    line: { color: "rgba(45, 146, 255, 0.2)", width: 1 },
-    y: Object.values(forecast[quantiles[0]]),
-    x,
-  } as Plotly.Data);
+  if (showUncertainty) {
+    const quantiles = columnHeaders.filter((colName) => {
+      // TODO: Make a better check for quantiles
+      return colName.at(colName.length - 1) === "%";
+    });
 
-  res.push({
-    type: "scattergl",
-    mode: "lines",
-    showlegend: false,
-    fillcolor: "rgba(45, 146, 255, 0.2)",
-    fill: "tonexty",
-    line: { color: "rgba(45, 146, 255, 0.2)", width: 1 },
-    y: Object.values(forecast[quantiles[1]]),
-    x,
-  } as Plotly.Data);
+    if (quantiles.length === 2) {
+      res.push({
+        type: "scattergl",
+        mode: "lines",
+        name: "95% Confidence Interval",
+        fillcolor: "rgba(45, 146, 255, 0.2)",
+        fill: "tonexty",
+        line: { color: "rgba(45, 146, 255, 0.2)", width: 1 },
+        y: Object.values(forecast[quantiles[0]]),
+        x,
+      } as Plotly.Data);
+
+      res.push({
+        type: "scattergl",
+        mode: "lines",
+        showlegend: false,
+        fillcolor: "rgba(45, 146, 255, 0.2)",
+        fill: "tonexty",
+        line: { color: "rgba(45, 146, 255, 0.2)", width: 1 },
+        y: Object.values(forecast[quantiles[1]]),
+        x,
+      } as Plotly.Data);
+    }
+  }
+
+  if (showTrend && forecast["trend"]) {
+    res.push({
+      type: "scattergl",
+      mode: "lines",
+      line: { width: 2 },
+      showlegend: true,
+      name: "Trend",
+      y: Object.values(forecast["trend"]),
+      x,
+    } as Plotly.Data);
+  }
+
+  if (showEvents) {
+    const eventCols = columnHeaders.filter((name) => {
+      return name.startsWith("events");
+    });
+    eventCols.map((eventCol) => {
+      // TODO
+    });
+  }
 
   res.push({
     type: "scattergl",
@@ -104,31 +136,42 @@ const generateHistoryMarker = (ds: any[], forecasts: number | undefined) => {
   } as any; // as Partial<Shape>;
 };
 
-const PredictionChart = ({
-  targetColumn,
-  predictionData,
-  forecasts,
-}: {
+export type PredictionChartProps = {
+  forecast: any;
+  numForecasts?: number;
   targetColumn: string;
-  predictionData: any;
-  forecasts: number | undefined;
-}) => (
+  showUncertainty: boolean;
+  showTrend: boolean;
+  showEvents: boolean;
+};
+
+export const PredictionChart = (props: PredictionChartProps) => (
   <PlotlyChart
     useResizeHandler
-    data={transformPredictionData(predictionData.forecast)}
+    data={transformPredictionData(
+      props.forecast,
+      props.showUncertainty,
+      props.showTrend,
+      props.showEvents
+    )}
     layout={{
       hovermode: "x",
       showlegend: true,
-      legend: { orientation: "h", y: -0.05 },
+      legend: {
+        itemclick: false,
+        itemdoubleclick: false,
+        orientation: "h",
+        y: -0.05,
+      },
       margin: { t: 10, r: 30 }, // b: 10, l: 30, pad: 10
       shapes: [
         generateHistoryMarker(
-          Object.values(predictionData.forecast.ds),
-          forecasts
+          Object.values(props.forecast.ds),
+          props.numForecasts
         ),
       ],
       yaxis: {
-        title: { text: targetColumn },
+        title: { text: props.targetColumn },
       },
     }}
     config={{
@@ -137,5 +180,3 @@ const PredictionChart = ({
     style={{ width: "100%", minHeight: "85vh" }}
   />
 );
-
-export default PredictionChart;
