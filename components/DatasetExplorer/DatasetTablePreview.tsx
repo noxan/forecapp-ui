@@ -47,21 +47,19 @@ const DatasetTablePreview = ({
           Set Target Column
         </CButton>
       </CButtonGroup>
-      <CContainer fluid={false}>
-        <CRow className="my-2">
-          <CCol
-            onClick={(e: any) =>
-              selectTime
-                ? dispatch(setTimeColumn(e.target.outerText))
-                : selectTarget
-                ? dispatch(setTargetColumn(e.target.outerText))
-                : null
-            }
-          >
-            <Table data={tableHead} />
-          </CCol>
-        </CRow>
-      </CContainer>
+      <CRow className="my-2">
+        <CCol
+          onClick={(e: any) =>
+            selectTime
+              ? dispatch(setTimeColumn(e.target.outerText))
+              : selectTarget
+              ? dispatch(setTargetColumn(e.target.outerText))
+              : null
+          }
+        >
+          <Table data={tableHead} />
+        </CCol>
+      </CRow>
     </div>
   );
 };

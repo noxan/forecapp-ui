@@ -1,13 +1,5 @@
-import {
-  CSidebar,
-  CSidebarBrand,
-  CSidebarNav,
-  CNavItem,
-  CButton,
-} from "@coreui/react";
 import DatasetTablePreview from "../../components/DatasetExplorer/DatasetTablePreview";
 import DatasetVisualize from "../../components/DatasetExplorer/DatasetVisualize";
-import HomeIcon from "@mui/icons-material/Home";
 import { useAppSelector } from "../../src/hooks";
 import { setTimeColumn, setTargetColumn } from "../../src/store/datasets";
 import {
