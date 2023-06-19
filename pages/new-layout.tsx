@@ -6,6 +6,7 @@ import Validation, {
   ValidationViewMode,
 } from "../components/validation/Validation";
 import PredictionView from "../components/prediction/PredictionView";
+import WizardDataSelectorPage from "./wizard/data-selector";
 
 type PageTypes =
   | "Data Selector"
@@ -22,6 +23,8 @@ function getPageComponent(pageInd: number, subPageInd: number) {
       return <Validation view={subPageName as ValidationViewMode} />;
     case "Prediction":
       return <PredictionView />;
+    case "Data Selector":
+      return <WizardDataSelectorPage />;
     default:
       return <></>;
   }
