@@ -6,38 +6,33 @@ import DatasetInfo from "../components/ModelConfiguration/dataset-info";
 import ModelingAssumptions from "../components/ModelConfiguration/modeling-assumptions";
 
 type modelConfigurationMenu =
-  | "underlying-trends"
-  | "training-configuration"
-  | "dataset-info"
-  | "modeling-assumptions";
+  | "Underlying Trends"
+  | "Training Configuration"
+  | "Dataset Info"
+  | "Modeling Assumptions";
 
 const renderSwitch = (selectedConfigMenu: string) => {
   switch (selectedConfigMenu) {
-    case "underlying-trends":
+    case "Underlying Trends":
       return <UnderlyingTrends />;
-    case "training-configuration":
+    case "Training Configuration":
       return <TrainingConfiguration />;
-    case "dataset-info":
+    case "Dataset Info":
       return <DatasetInfo />;
-    case "modeling-assumptions":
+    case "Modeling Assumptions":
       return <ModelingAssumptions />;
     default:
       return <h1>Nothing selected!</h1>;
   }
 };
 
-export default function ModelConfiguration() {
-  const [selectedConfigMenu, setSelectedConfigMenu] =
-    useState("underlying-trends");
+export default function ModelConfiguration(props: {
+  selectedConfigMenu: string;
+}) {
   return (
     <div className="row">
-      <div className="col-3">
-        <ModelConfigurationSidepanel
-          selectedMenuOption={selectedConfigMenu}
-          setSelectedMenuOption={setSelectedConfigMenu}
-        ></ModelConfigurationSidepanel>
-      </div>
-      <div className="col-9">{renderSwitch(selectedConfigMenu)}</div>
+      <div className="col-3"></div>
+      <div className="col-9">{renderSwitch(props.selectedConfigMenu)}</div>
     </div>
   );
 }
