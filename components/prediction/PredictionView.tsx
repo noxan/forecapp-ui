@@ -16,6 +16,7 @@ import { transformDataset } from "../../src/helpers";
 import { ModelParameters } from "../../src/schemas/modelParameters";
 import { apiPrediction } from "../../src/store/datasets";
 import { errorToastWithMessage } from "../ErrorToast";
+import { CToaster } from "@coreui/react";
 
 export type PredictionChartConfig = {
   showUncertainty: boolean;
@@ -72,18 +73,22 @@ export default function PredictionView() {
     }
   };
 
+  // Temporary, while we figure out when exactly this new prediction should be called
   useEffect(() => {
     predictAction();
   }, [modelConfiguration]);
 
   return (
-    <PredictionChart
-      forecast={predictionData.forecast}
-      targetColumn={targetColumn}
-      numForecasts={predictionData.configuration?.forecasts}
-      showUncertainty={true}
-      showEvents={false}
-      showTrend={false}
-    />
+    <>
+      <PredictionChart
+        forecast={predictionData.forecast}
+        targetColumn={targetColumn}
+        numForecasts={predictionData.configuration?.forecasts}
+        showUncertainty={true}
+        showEvents={false}
+        showTrend={false}
+      />
+      <CToaster push={errorMessage} placement="bottom-end" />
+    </>
   );
 }
