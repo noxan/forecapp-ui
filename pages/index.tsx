@@ -46,7 +46,7 @@ export default function Home() {
     ? "/prediction"
     : dataErrors.length > 0
     ? "/wizard/data-errors"
-    : "/wizard/data-selector";
+    : "/wizard/new-layout";
 
   const importAction = async (source: string | File) => {
     try {
@@ -57,7 +57,7 @@ export default function Home() {
       router.push(
         parseResult.errors.length > 0
           ? "/wizard/data-errors"
-          : "/wizard/data-selector"
+          : "/wizard/new-layout"
       );
     } catch (err: any) {
       pushErrorToast(errorToastWithMessage("Error: " + err.message));
