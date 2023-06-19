@@ -31,7 +31,6 @@ export default function ModelConfiguration(props: {
 }) {
   return (
     <div className="row">
-      <div className="col-3"></div>
       <div className="col-9">{renderSwitch(props.selectedConfigMenu)}</div>
     </div>
   );
