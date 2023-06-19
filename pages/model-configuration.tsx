@@ -1,9 +1,9 @@
 import { useState } from "react";
-import ModelConfigurationSidepanel from "../../components/ModelConfiguration/ModelConfigurationSidepanel";
-import UnderlyingTrends from "./underlying-trends";
-import TrainingConfiguration from "./training-configuration";
-import DatasetInfo from "./dataset-info";
-import ModelingAssumptions from "./modeling-assumptions";
+import ModelConfigurationSidepanel from "../components/ModelConfiguration/ModelConfigurationSidepanel";
+import UnderlyingTrends from "../components/ModelConfiguration/underlying-trends";
+import TrainingConfiguration from "../components/ModelConfiguration/training-configuration";
+import DatasetInfo from "../components/ModelConfiguration/dataset-info";
+import ModelingAssumptions from "../components/ModelConfiguration/modeling-assumptions";
 
 type modelConfigurationMenu =
   | "underlying-trends"
