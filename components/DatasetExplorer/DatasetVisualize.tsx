@@ -7,7 +7,7 @@ import {
 } from "../../src/store/selectors";
 import DatasetChart from "../DatasetChart";
 
-const DatasetVisualize = () => {
+const DatasetVisualize = ({ showLegend = false }: { showLegend?: boolean }) => {
   const dataset = useAppSelector(selectDataset);
   const timeColumn = useAppSelector(selectTimeColumn);
   const targetColumn = useAppSelector(selectTargetColumn);
@@ -19,7 +19,7 @@ const DatasetVisualize = () => {
           dataset={dataset}
           timeColumn={timeColumn}
           targetColumn={targetColumn}
-          showLegend={false}
+          showLegend={showLegend}
         />
       </CCol>
     </CRow>
