@@ -7,7 +7,6 @@ import {
   CRow,
 } from "@coreui/react";
 import { useState } from "react";
-import { isColumnValid } from "../../src/definitions";
 import { capitalize } from "../../src/helpers";
 import { useAppSelector } from "../../src/hooks";
 import {
