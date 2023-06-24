@@ -127,3 +127,32 @@ export const batchSizesExplanation = (
     </p>
   </>
 );
+
+export const trainTestSplitExplanation = (
+  <>
+    <p>
+      <b>Train test split</b> is a method for evaluating the performance of a
+      machine learning algorithm. It splits the dataset into two parts: a
+      training set and a test set. The training set is used to train the model,
+      while the test set is used to evaluate the model's performance. The
+      training set is typically larger than the test set.
+    </p>
+  </>
+);
+
+export const trainTestSplitDocumentationLink =
+  "https://neuralprophet.com/tutorials/tutorial10.html";
+
+export const quantilesExplanation = (
+  <>
+    <p>
+      <b>Quantiles</b> are percentage bins for how likely the true result is to
+      be in a certain range. Standard quantiles are 68%, 95%, and 99.7%. The
+      intervals are always symmetric, and centered around the median of the
+      distribution.
+    </p>
+  </>
+);
+
+export const quantilesDocumentationLink =
+  "https://neuralprophet.com/tutorials/tutorial08.html";

@@ -4,12 +4,14 @@ import UnderlyingTrends from "../components/ModelConfiguration/underlying-trends
 import TrainingConfiguration from "../components/ModelConfiguration/training-configuration";
 import DatasetInfo from "../components/ModelConfiguration/dataset-info";
 import ModelingAssumptions from "../components/ModelConfiguration/modeling-assumptions";
+import ValidationConfiguration from "../components/ModelConfiguration/validation-configuration";
 
 type modelConfigurationMenu =
   | "underlying-trends"
   | "training-configuration"
   | "dataset-info"
-  | "modeling-assumptions";
+  | "modeling-assumptions"
+  | "validation-configuration";
 
 const renderSwitch = (selectedConfigMenu: string) => {
   switch (selectedConfigMenu) {
@@ -21,6 +23,8 @@ const renderSwitch = (selectedConfigMenu: string) => {
       return <DatasetInfo />;
     case "modeling-assumptions":
       return <ModelingAssumptions />;
+    case "validation-configuration":
+      return <ValidationConfiguration />;
     default:
       return <h1>Nothing selected!</h1>;
   }
@@ -65,9 +69,46 @@ export default function ModelConfiguration() {
         <div className="overflow-scroll">
           {[
             renderSwitch("dataset-info"),
+            <hr
+              key="line_1"
+              style={{
+                background: "black",
+                color: "black",
+                height: "3px",
+                borderColor: "black",
+              }}
+            />,
             renderSwitch("underlying-trends"),
+            <hr
+              key="line_1"
+              style={{
+                background: "black",
+                color: "black",
+                height: "3px",
+                borderColor: "black",
+              }}
+            />,
             renderSwitch("modeling-assumptions"),
+            <hr
+              key="line_1"
+              style={{
+                background: "black",
+                color: "black",
+                height: "3px",
+                borderColor: "black",
+              }}
+            />,
             renderSwitch("training-configuration"),
+            <hr
+              key="line_1"
+              style={{
+                background: "black",
+                color: "black",
+                height: "3px",
+                borderColor: "black",
+              }}
+            />,
+            renderSwitch("validation-configuration"),
           ]}
         </div>
       </div>
