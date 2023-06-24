@@ -12,6 +12,7 @@ import {
 export default function ValidationConfiguration() {
   return (
     <div data-section id="validation-configuration">
+      <h2 className="mb-4">Validation Configuration</h2>
       <ConfigurationCard
         explanation={trainTestSplitExplanation}
         title="Train / Test Split"

@@ -14,6 +14,7 @@ export default function DatasetInfo() {
   const dispatch = useAppDispatch();
   return (
     <div data-section id="dataset-info">
+      <h2 className="mb-4">Dataset Info</h2>
       <ConfigurationCard
         explanation={holidaysExplanation}
         documentationLink={holidaysDocumentationLink}

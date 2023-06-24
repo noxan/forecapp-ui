@@ -20,6 +20,7 @@ export default function UnderlyingTrends() {
   const dispatch = useAppDispatch();
   return (
     <div data-section id="underlying-trends">
+      <h2 className="mb-4">Underlying Trends</h2>
       <ConfigurationCard
         explanation={trendExplanation}
         documentationLink={trendDocumentationLink}

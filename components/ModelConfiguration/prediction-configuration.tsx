@@ -24,6 +24,7 @@ export default function PredictionConfiguration() {
   const resolution = detectResolution(dataset, timeColumn);
   return (
     <div data-section id="prediction-configuration">
+      <h2 className="mb-4">Prediction Configuration</h2>
       <ConfigurationCard
         explanation={predictionHorizonExplanation}
         title="Prediction Horizon"

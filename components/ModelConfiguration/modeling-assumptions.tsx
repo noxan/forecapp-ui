@@ -31,6 +31,7 @@ export default function ModelingAssumptions() {
   );
   return (
     <div data-section id="modeling-assumptions">
+      <h2 className="mb-4">Modeling Assumptions</h2>
       <ConfigurationCard
         explanation={autoRegressionExplanation}
         title="Auto Regression"

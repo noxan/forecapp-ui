@@ -17,6 +17,7 @@ export default function TrainingConfiguration() {
   const dispatch = useAppDispatch();
   return (
     <div data-section id="training-configuration">
+      <h2 className="mb-4">Training Configuration</h2>
       <ConfigurationCard
         explanation={epochsExplanation}
         documentationLink=""
