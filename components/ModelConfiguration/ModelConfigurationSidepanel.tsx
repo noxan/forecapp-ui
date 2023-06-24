@@ -2,10 +2,8 @@ import { CButton, CButtonGroup } from "@coreui/react";
 
 export default function ModelConfigurationSidepanel({
   selectedMenuOption,
-  setSelectedMenuOption,
 }: {
   selectedMenuOption: string;
-  setSelectedMenuOption: (selectedMenuOption: string) => void;
 }) {
   return (
     <div className="row">
@@ -14,7 +12,7 @@ export default function ModelConfigurationSidepanel({
           className="btn btn-primary"
           shape="rounded-0"
           color={selectedMenuOption === "dataset-info" ? "light" : "dark"}
-          onClick={() => setSelectedMenuOption("dataset-info")}
+          href="#dataset-info"
         >
           Dataset Info
         </CButton>
@@ -22,7 +20,7 @@ export default function ModelConfigurationSidepanel({
           className="btn btn-primary"
           shape="rounded-0"
           color={selectedMenuOption === "underlying-trends" ? "light" : "dark"}
-          onClick={() => setSelectedMenuOption("underlying-trends")}
+          href="#underlying-trends"
         >
           Underlying Trends
         </CButton>
@@ -32,7 +30,7 @@ export default function ModelConfigurationSidepanel({
           color={
             selectedMenuOption === "modeling-assumptions" ? "light" : "dark"
           }
-          onClick={() => setSelectedMenuOption("modeling-assumptions")}
+          href="#modeling-assumptions"
         >
           Modeling Assumptions
         </CButton>
@@ -42,7 +40,7 @@ export default function ModelConfigurationSidepanel({
           color={
             selectedMenuOption === "training-configuration" ? "light" : "dark"
           }
-          onClick={() => setSelectedMenuOption("training-configuration")}
+          href="#training-configuration"
         >
           Training Configuration
         </CButton>

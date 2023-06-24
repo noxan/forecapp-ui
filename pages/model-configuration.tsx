@@ -33,7 +33,7 @@ export default function ModelConfiguration() {
   const sections = useRef([]);
   const handleScroll = () => {
     const pageYOffset = window.scrollY;
-    let newActiveSection = null;
+    let newSelectedConfigMenu = null;
     sections.current.forEach((section) => {
       const sectionOffsetTop = section.offsetTop;
       const sectionHeight = section.offsetHeight;
@@ -41,11 +41,11 @@ export default function ModelConfiguration() {
         pageYOffset + 20 >= sectionOffsetTop &&
         pageYOffset < sectionOffsetTop + sectionHeight
       ) {
-        newActiveSection = section.id;
-        console.log(newActiveSection);
+        newSelectedConfigMenu = section.id;
+        console.log(newSelectedConfigMenu);
       }
     });
-    setActiveSection(newActiveSection);
+    setSelectedConfigMenu(newSelectedConfigMenu);
   };
   useEffect(() => {
     sections.current = document.querySelectorAll("[data-section");
@@ -58,8 +58,7 @@ export default function ModelConfiguration() {
     <div className="row">
       <div className="col-3">
         <ModelConfigurationSidepanel
-          selectedMenuOption={activeSection}
-          setSelectedMenuOption={setSelectedConfigMenu}
+          selectedMenuOption={selectedConfigMenu}
         ></ModelConfigurationSidepanel>
       </div>
       <div className="col-9">
