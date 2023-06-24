@@ -32,7 +32,7 @@ export default function ModelingAssumptions() {
     (column) => column !== timeColumn && column !== targetColumn
   );
   return (
-    <div>
+    <div data-section id="modeling-assumptions">
       <ConfigurationCard
         explanation={autoRegressionExplanation}
         title="Auto Regression"

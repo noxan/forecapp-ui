@@ -16,7 +16,7 @@ export default function TrainingConfiguration() {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dispatch = useAppDispatch();
   return (
-    <div>
+    <div data-section id="training-configuration">
       <ConfigurationCard
         explanation={epochsExplanation}
         documentationLink=""

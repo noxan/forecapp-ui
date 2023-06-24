@@ -19,7 +19,7 @@ export default function UnderlyingTrends() {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dispatch = useAppDispatch();
   return (
-    <div>
+    <div data-section id="underlying-trends">
       <ConfigurationCard
         explanation={trendExplanation}
         documentationLink={trendDocumentationLink}

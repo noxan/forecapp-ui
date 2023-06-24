@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ModelConfigurationSidepanel from "../components/ModelConfiguration/ModelConfigurationSidepanel";
 import UnderlyingTrends from "../components/ModelConfiguration/underlying-trends";
 import TrainingConfiguration from "../components/ModelConfiguration/training-configuration";
@@ -29,15 +29,49 @@ const renderSwitch = (selectedConfigMenu: string) => {
 export default function ModelConfiguration() {
   const [selectedConfigMenu, setSelectedConfigMenu] =
     useState("underlying-trends");
+  const [activeSection, setActiveSection] = useState("");
+  const sections = useRef([]);
+  const handleScroll = () => {
+    const pageYOffset = window.scrollY;
+    let newActiveSection = null;
+    sections.current.forEach((section) => {
+      const sectionOffsetTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+      if (
+        pageYOffset + 20 >= sectionOffsetTop &&
+        pageYOffset < sectionOffsetTop + sectionHeight
+      ) {
+        newActiveSection = section.id;
+        console.log(newActiveSection);
+      }
+    });
+    setActiveSection(newActiveSection);
+  };
+  useEffect(() => {
+    sections.current = document.querySelectorAll("[data-section");
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <div className="row">
       <div className="col-3">
         <ModelConfigurationSidepanel
-          selectedMenuOption={selectedConfigMenu}
+          selectedMenuOption={activeSection}
           setSelectedMenuOption={setSelectedConfigMenu}
         ></ModelConfigurationSidepanel>
       </div>
-      <div className="col-9">{renderSwitch(selectedConfigMenu)}</div>
+      <div className="col-9">
+        <div className="overflow-scroll">
+          {[
+            renderSwitch("dataset-info"),
+            renderSwitch("underlying-trends"),
+            renderSwitch("modeling-assumptions"),
+            renderSwitch("training-configuration"),
+          ]}
+        </div>
+      </div>
     </div>
   );
 }

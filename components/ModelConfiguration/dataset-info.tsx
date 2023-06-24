@@ -13,7 +13,7 @@ export default function DatasetInfo() {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dispatch = useAppDispatch();
   return (
-    <div>
+    <div data-section id="dataset-info">
       <ConfigurationCard
         explanation={holidaysExplanation}
         documentationLink={holidaysDocumentationLink}
