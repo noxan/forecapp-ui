@@ -5,13 +5,15 @@ import TrainingConfiguration from "../components/ModelConfiguration/training-con
 import DatasetInfo from "../components/ModelConfiguration/dataset-info";
 import ModelingAssumptions from "../components/ModelConfiguration/modeling-assumptions";
 import ValidationConfiguration from "../components/ModelConfiguration/validation-configuration";
+import PredictionConfiguration from "../components/ModelConfiguration/prediction-configuration";
 
 type modelConfigurationMenu =
   | "underlying-trends"
   | "training-configuration"
   | "dataset-info"
   | "modeling-assumptions"
-  | "validation-configuration";
+  | "validation-configuration"
+  | "prediction-configuration";
 
 const renderSwitch = (selectedConfigMenu: string) => {
   switch (selectedConfigMenu) {
@@ -25,6 +27,8 @@ const renderSwitch = (selectedConfigMenu: string) => {
       return <ModelingAssumptions />;
     case "validation-configuration":
       return <ValidationConfiguration />;
+    case "prediction-configuration":
+      return <PredictionConfiguration />;
     default:
       return <h1>Nothing selected!</h1>;
   }
@@ -109,6 +113,16 @@ export default function ModelConfiguration() {
               }}
             />,
             renderSwitch("validation-configuration"),
+            <hr
+              key="line_1"
+              style={{
+                background: "black",
+                color: "black",
+                height: "3px",
+                borderColor: "black",
+              }}
+            />,
+            renderSwitch("prediction-configuration"),
           ]}
         </div>
       </div>

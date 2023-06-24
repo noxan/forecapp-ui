@@ -156,3 +156,17 @@ export const quantilesExplanation = (
 
 export const quantilesDocumentationLink =
   "https://neuralprophet.com/tutorials/tutorial08.html";
+
+export const predictionHorizonExplanation = (
+  <>
+    <p>
+      <b>Prediction horizon</b> is the number of time units into the future that
+      the model will predict. For example, if you are predicting the daily sales
+      of an ice cream shop, and you want to predict the sales for the next 7
+      days, the prediction horizon is 7 days.
+    </p>
+  </>
+);
+
+export const predictionHorizonDocumentationLink =
+  "https://neuralprophet.com/tutorials/tutorial01.html";

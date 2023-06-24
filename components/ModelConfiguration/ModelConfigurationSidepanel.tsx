@@ -44,6 +44,26 @@ export default function ModelConfigurationSidepanel({
         >
           Training Configuration
         </CButton>
+        <CButton
+          className="btn btn-primary"
+          shape="rounded-0"
+          color={
+            selectedMenuOption === "validation-configuration" ? "light" : "dark"
+          }
+          href="#validation-configuration"
+        >
+          Validation Configuration
+        </CButton>
+        <CButton
+          className="btn btn-primary"
+          shape="rounded-0"
+          color={
+            selectedMenuOption === "prediction-configuration" ? "light" : "dark"
+          }
+          href="#prediction-configuration"
+        >
+          Prediction Configuration
+        </CButton>
       </CButtonGroup>
     </div>
   );
