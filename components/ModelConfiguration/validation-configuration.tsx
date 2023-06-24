@@ -1,6 +1,3 @@
-import { selectModelConfiguration } from "../../src/store/selectors";
-import { useAppSelector, useAppDispatch } from "../../src/hooks";
-import { editModelConfig } from "../../src/store/models";
 import ConfigurationCard from "../../components/ModelConfiguration/ConfigurationCard";
 import {
   trainTestSplitExplanation,
@@ -8,8 +5,17 @@ import {
   quantilesExplanation,
   quantilesDocumentationLink,
 } from "./ConfigExplanations";
+import { useAppSelector, useAppDispatch } from "../../src/hooks";
+import { selectModelConfiguration } from "../../src/store/selectors";
+import { CFormInput } from "@coreui/react";
+import { editModelConfig } from "../../src/store/models";
+
+const parseStringToNumber = (value: string) =>
+  value === "" ? null : Number(value);
 
 export default function ValidationConfiguration() {
+  const modelConfiguration = useAppSelector(selectModelConfiguration);
+  const dispatch = useAppDispatch();
   return (
     <div data-section id="validation-configuration">
       <h2 className="mb-4">Validation Configuration</h2>
@@ -18,7 +24,18 @@ export default function ValidationConfiguration() {
         title="Train / Test Split"
         documentationLink={trainTestSplitDocumentationLink}
       >
-        <h2>Test</h2>
+        <CFormInput
+          type="number"
+          defaultValue={modelConfiguration.validation.testSplit}
+          placeholder="Relative size of test set in %"
+          onChange={(e) =>
+            dispatch(
+              editModelConfig({
+                validation: { testSplit: parseStringToNumber(e.target.value) },
+              })
+            )
+          }
+        ></CFormInput>
       </ConfigurationCard>
       <ConfigurationCard
         explanation={quantilesExplanation}
