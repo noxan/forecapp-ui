@@ -34,8 +34,9 @@ export default function ConfigurationCard({
           </IconButton>
         </CCardTitle>
         <div className="row align-items-start">
-          <div className="col-9">{children}</div>
-          <div className="col-3">
+          <div className="col-12">
+            {children}
+            <br />
             <ConfigExplanationHTML
               explanationText={explanation}
               documentationLink={documentationLink}
