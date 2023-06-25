@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../src/hooks";
 import {
   selectDataset,
   selectModelConfiguration,
+  selectStatus,
   selectTargetColumn,
 } from "../../src/store/selectors";
 import { PredictionChart } from "./Chart";
@@ -17,6 +18,7 @@ import { ModelParameters } from "../../src/schemas/modelParameters";
 import { apiPrediction } from "../../src/store/datasets";
 import { errorToastWithMessage } from "../ErrorToast";
 import { CToaster } from "@coreui/react";
+import LoadingOverlay from "./LoadingOverlay";
 
 export type PredictionChartConfig = {
   showUncertainty: boolean;
@@ -31,6 +33,7 @@ export default function PredictionView() {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dataset = useAppSelector(selectDataset);
   const columns = useAppSelector((state) => state.datasets.columns);
+  const status = useAppSelector(selectStatus);
 
   const [errorMessage, setErrorMessage] = useState<ReactElement>();
 
@@ -80,15 +83,22 @@ export default function PredictionView() {
 
   return (
     <>
-      <PredictionChart
-        forecast={predictionData.forecast}
-        targetColumn={targetColumn}
-        numForecasts={predictionData.configuration?.forecasts}
-        showUncertainty={true}
-        showEvents={false}
-        showTrend={false}
-      />
-      <CToaster push={errorMessage} placement="bottom-end" />
+      {status === "loading" && (
+        <LoadingOverlay msg={"Generating your forecast..."} />
+      )}
+      {predictionData && predictionData.status === "ok" && (
+        <>
+          <PredictionChart
+            forecast={predictionData.forecast}
+            targetColumn={targetColumn}
+            numForecasts={predictionData.configuration?.forecasts}
+            showUncertainty={true}
+            showEvents={false}
+            showTrend={false}
+          />
+          <CToaster push={errorMessage} placement="bottom-end" />
+        </>
+      )}
     </>
   );
 }

@@ -133,7 +133,9 @@ export default function Visualization() {
               <PredictionBuilder />
             </CCol>
             <CCol style={{ position: "relative" }}>
-              {status === "loading" && <LoadingOverlay />}
+              {status === "loading" && (
+                <LoadingOverlay msg={"Generating your forecast..."} />
+              )}
               {predictionData && predictionData.status === "ok" && (
                 <PredictionChart
                   targetColumn={targetColumn}

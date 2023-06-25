@@ -1,12 +1,9 @@
 import { CSpinner } from "@coreui/react";
 
-const LoadingOverlay = () => (
+const LoadingOverlay = (props: { msg: string }) => (
   <div
     style={{
-      transform: "translate(-50%, -50%)",
       position: "absolute",
-      left: "50%",
-      top: "50%",
       zIndex: 100,
       display: "flex",
       flexDirection: "column",
@@ -18,7 +15,7 @@ const LoadingOverlay = () => (
     }}
   >
     <CSpinner color="primary" />
-    <p>Generating your forecast...</p>
+    <p>{props.msg}</p>
   </div>
 );
 
