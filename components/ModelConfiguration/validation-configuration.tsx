@@ -7,7 +7,7 @@ import {
 } from "./ConfigExplanations";
 import { useAppSelector, useAppDispatch } from "../../src/hooks";
 import { selectModelConfiguration } from "../../src/store/selectors";
-import { CFormInput } from "@coreui/react";
+import { CFormInput, CFormRange } from "@coreui/react";
 import { editModelConfig } from "../../src/store/models";
 
 const parseStringToNumber = (value: string) =>
@@ -42,7 +42,20 @@ export default function ValidationConfiguration() {
         title="Quantiles"
         documentationLink={quantilesDocumentationLink}
       >
-        <h2>Test</h2>
+        <CFormRange
+          min={68}
+          max={99}
+          step={1}
+          label={`Confidence Interval (${modelConfiguration.validation.confidenceLevel}%)`}
+          defaultValue={modelConfiguration.validation.confidenceLevel}
+          onChange={(e) =>
+            dispatch(
+              editModelConfig({
+                validation: { confidenceLevel: Number(e.target.value) },
+              })
+            )
+          }
+        />
       </ConfigurationCard>
     </div>
   );

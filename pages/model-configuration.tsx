@@ -84,7 +84,7 @@ export default function ModelConfiguration() {
             />,
             renderSwitch("underlying-trends"),
             <hr
-              key="line_1"
+              key="line_2"
               style={{
                 background: "black",
                 color: "black",
@@ -94,7 +94,7 @@ export default function ModelConfiguration() {
             />,
             renderSwitch("modeling-assumptions"),
             <hr
-              key="line_1"
+              key="line_3"
               style={{
                 background: "black",
                 color: "black",
@@ -104,7 +104,7 @@ export default function ModelConfiguration() {
             />,
             renderSwitch("training-configuration"),
             <hr
-              key="line_1"
+              key="line_4"
               style={{
                 background: "black",
                 color: "black",
@@ -114,7 +114,7 @@ export default function ModelConfiguration() {
             />,
             renderSwitch("validation-configuration"),
             <hr
-              key="line_1"
+              key="line_5"
               style={{
                 background: "black",
                 color: "black",
