@@ -14,10 +14,15 @@ import {
   seasonalityDocumentationLink,
   trendDocumentationLink,
 } from "../../components/ModelConfiguration/ConfigExplanations";
+import { validateModelParameterSection } from "../../src/schemas/modelParameters";
 
 export default function UnderlyingTrends() {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dispatch = useAppDispatch();
+  const { trend } = validateModelParameterSection(
+    modelConfiguration,
+    "underlying-trends"
+  );
   return (
     <div data-section id="underlying-trends">
       <h2 className="mb-4">Underlying Trends</h2>
@@ -53,6 +58,10 @@ export default function UnderlyingTrends() {
               })
             );
           }}
+          valid={trend.numberOfChangepoints.valid}
+          invalid={!trend.numberOfChangepoints.valid}
+          feedbackValid=""
+          feedbackInvalid={trend.numberOfChangepoints.error}
         ></CFormInput>
       </ConfigurationCard>
       <ConfigurationCard

@@ -8,6 +8,7 @@ import {
   epochsExplanation,
   learningRateExplanation,
 } from "../../components/ModelConfiguration/ConfigExplanations";
+import { validateModelParameterSection } from "../../src/schemas/modelParameters";
 
 const parseStringToNumber = (value: string) =>
   value === "" ? null : Number(value);
@@ -15,6 +16,10 @@ const parseStringToNumber = (value: string) =>
 export default function TrainingConfiguration() {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dispatch = useAppDispatch();
+  const { training } = validateModelParameterSection(
+    modelConfiguration,
+    "training-configuration"
+  );
   return (
     <div data-section id="training-configuration">
       <h2 className="mb-4">Training Configuration</h2>
@@ -37,6 +42,10 @@ export default function TrainingConfiguration() {
               })
             )
           }
+          valid={training.epochs.valid}
+          invalid={!training.epochs.valid}
+          feedbackValid=""
+          feedbackInvalid={training.epochs.error}
         />
         <CFormCheck
           id="earlyStopping"
@@ -69,6 +78,10 @@ export default function TrainingConfiguration() {
               })
             )
           }
+          valid={training.learningRate.valid}
+          invalid={!training.learningRate.valid}
+          feedbackValid=""
+          feedbackInvalid={training.learningRate.error}
         />
       </ConfigurationCard>
       <ConfigurationCard
@@ -89,6 +102,10 @@ export default function TrainingConfiguration() {
               })
             )
           }
+          valid={training.batchSize.valid}
+          invalid={!training.batchSize.valid}
+          feedbackValid=""
+          feedbackInvalid={training.batchSize.error}
         />
       </ConfigurationCard>
     </div>

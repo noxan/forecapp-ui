@@ -9,6 +9,7 @@ import { useAppSelector, useAppDispatch } from "../../src/hooks";
 import { selectModelConfiguration } from "../../src/store/selectors";
 import { CFormInput, CFormRange } from "@coreui/react";
 import { editModelConfig } from "../../src/store/models";
+import { validateModelParameterSection } from "../../src/schemas/modelParameters";
 
 const parseStringToNumber = (value: string) =>
   value === "" ? null : Number(value);
@@ -24,8 +25,11 @@ export default function ValidationConfiguration() {
         title="Train / Test Split"
         documentationLink={trainTestSplitDocumentationLink}
       >
-        <CFormInput
-          type="number"
+        <CFormRange
+          min={0}
+          max={30}
+          step={1}
+          label={`${modelConfiguration.validation.testSplit}% of data used as test set`}
           defaultValue={modelConfiguration.validation.testSplit}
           placeholder="Relative size of test set in %"
           onChange={(e) =>
@@ -35,7 +39,7 @@ export default function ValidationConfiguration() {
               })
             )
           }
-        ></CFormInput>
+        ></CFormRange>
       </ConfigurationCard>
       <ConfigurationCard
         explanation={quantilesExplanation}
@@ -46,7 +50,7 @@ export default function ValidationConfiguration() {
           min={68}
           max={99}
           step={1}
-          label={`Confidence Interval (${modelConfiguration.validation.confidenceLevel}%)`}
+          label={`Confidence Interval ${modelConfiguration.validation.confidenceLevel}%`}
           defaultValue={modelConfiguration.validation.confidenceLevel}
           onChange={(e) =>
             dispatch(

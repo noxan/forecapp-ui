@@ -6,8 +6,11 @@ import DatasetInfo from "../components/ModelConfiguration/dataset-info";
 import ModelingAssumptions from "../components/ModelConfiguration/modeling-assumptions";
 import ValidationConfiguration from "../components/ModelConfiguration/validation-configuration";
 import PredictionConfiguration from "../components/ModelConfiguration/prediction-configuration";
+import { validateModelParameters } from "../src/schemas/modelParameters";
+import { useAppDispatch, useAppSelector } from "../src/hooks";
+import { selectModelConfiguration } from "../src/store/selectors";
 
-type modelConfigurationMenu =
+export type modelConfigurationMenu =
   | "underlying-trends"
   | "training-configuration"
   | "dataset-info"
@@ -37,7 +40,6 @@ const renderSwitch = (selectedConfigMenu: string) => {
 export default function ModelConfiguration() {
   const [selectedConfigMenu, setSelectedConfigMenu] =
     useState("underlying-trends");
-  const [activeSection, setActiveSection] = useState("");
   const sections = useRef([]);
   const handleScroll = () => {
     const pageYOffset = window.scrollY;

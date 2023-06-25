@@ -12,6 +12,7 @@ import {
 } from "../../src/store/selectors";
 import { editModelConfig } from "../../src/store/models";
 import { detectResolution } from "../../src/helpers";
+import { validateModelParameterSection } from "../../src/schemas/modelParameters";
 
 const parseStringToNumber = (value: string) =>
   value === "" ? null : Number(value);
@@ -22,6 +23,10 @@ export default function PredictionConfiguration() {
   const dataset = useAppSelector(selectDataset);
   const timeColumn = useAppSelector(selectTimeColumn);
   const resolution = detectResolution(dataset, timeColumn);
+  const { forecasts } = validateModelParameterSection(
+    modelConfiguration,
+    "prediction-configuration"
+  );
   return (
     <div data-section id="prediction-configuration">
       <h2 className="mb-4">Prediction Configuration</h2>
@@ -43,6 +48,10 @@ export default function PredictionConfiguration() {
               })
             )
           }
+          valid={forecasts.valid}
+          invalid={!forecasts.valid}
+          feedbackValid=""
+          feedbackInvalid={forecasts.error}
         />
       </ConfigurationCard>
     </div>

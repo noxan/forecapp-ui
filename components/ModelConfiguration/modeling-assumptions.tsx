@@ -15,6 +15,7 @@ import {
 } from "../../src/store/selectors";
 import { CFormInput, CFormRange } from "@coreui/react";
 import LaggedRegressorBuilder from "../../components/prediction/LaggedRegressorBuilder";
+import { validateModelParameterSection } from "../../src/schemas/modelParameters";
 
 const parseStringToNumber = (value: string) =>
   value === "" ? null : Number(value);
@@ -28,6 +29,10 @@ export default function ModelingAssumptions() {
   const columnHeaders = Object.keys(dataset[0]);
   const laggedRegressorColumns = columnHeaders.filter(
     (column) => column !== timeColumn && column !== targetColumn
+  );
+  const { autoregression } = validateModelParameterSection(
+    modelConfiguration,
+    "modeling-assumptions"
   );
   return (
     <div data-section id="modeling-assumptions">
@@ -50,6 +55,10 @@ export default function ModelingAssumptions() {
               })
             )
           }
+          valid={autoregression.lags.valid}
+          invalid={!autoregression.lags.valid}
+          feedbackValid=""
+          feedbackInvalid={autoregression.lags.error}
         />
         <CFormRange
           min={0}

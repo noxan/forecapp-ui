@@ -71,7 +71,7 @@ export const modelSlice = createSlice({
       earlyStopping: true,
     },
     validation: {
-      testSplit: 80,
+      testSplit: 20,
       confidenceLevel: 95,
     },
     laggedRegressors: [],
