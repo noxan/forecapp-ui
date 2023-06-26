@@ -38,6 +38,10 @@ export type ModelState = {
     batchSize?: any;
     learningRate?: any;
   };
+  validation: {
+    testSplit: number;
+    confidenceLevel: number;
+  };
   laggedRegressors: any[];
   holidays: string[];
 };
@@ -66,6 +70,10 @@ export const modelSlice = createSlice({
       epochs: 10,
       batchSize: null,
       earlyStopping: true,
+    },
+    validation: {
+      testSplit: 20,
+      confidenceLevel: 95,
     },
     laggedRegressors: [],
     holidays: [],
