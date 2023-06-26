@@ -31,8 +31,6 @@ export default function PreviousModelPerfView() {
     array1ToN(previousModels.models.length)
   );
 
-  console.log(sortedModels);
-
   return (
     <CContainer fluid>
       <CCol>
@@ -53,7 +51,7 @@ export default function PreviousModelPerfView() {
               const trainMAEArr = Object.values(model.metrics.MAE) as number[];
               return (
                 <CTableRow
-                  key={index}
+                  key={modelIndex}
                   active={previousModels.currentModel === index}
                 >
                   <CTableHeaderCell scope="row">
