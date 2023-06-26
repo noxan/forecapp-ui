@@ -23,6 +23,9 @@ import { errorToastWithMessage } from "../components/ErrorToast";
 import ModelConfiguration, {
   modelConfigurationMenu,
 } from "../components/ModelConfiguration/ModelConfiguration";
+import DataSelectorPage, {
+  DataSelectorPages,
+} from "../components/DataSelectorPage";
 
 const modelConfigSubPage: modelConfigurationMenu[] = [
   "dataset-info",
@@ -33,6 +36,13 @@ const modelConfigSubPage: modelConfigurationMenu[] = [
   "prediction-configuration",
 ];
 
+const dataSelectorSubPage: DataSelectorPages[] = [
+  "data-selector",
+  "data-viewer",
+  "data-visualize",
+  "data-table",
+];
+
 enum Pages {
   DataSelector = 0,
   ModelConfiguration = 1,
@@ -41,7 +51,10 @@ enum Pages {
 }
 
 const pages = [
-  { pageName: "Data Selector", subPages: [] },
+  {
+    pageName: "Data Selector",
+    subPages: ["Data Selector", "View Data", "Visualize Data", "Data Table"],
+  },
   {
     pageName: "Model Configuration",
     subPages: [
@@ -146,8 +159,10 @@ export default function Layout() {
             }}
           />
         );
-      default:
-        return <></>;
+      case "Data Selector":
+        return (
+          <DataSelectorPage selectedSubPage={dataSelectorSubPage[subPageInd]} />
+        );
     }
   }
 
