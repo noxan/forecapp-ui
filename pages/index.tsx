@@ -43,10 +43,10 @@ export default function Home() {
     targetColumn
   );
   const resumeHref = isColumnDefinitions
-    ? "/prediction"
+    ? "/new-layout"
     : dataErrors.length > 0
     ? "/wizard/data-errors"
-    : "/data-selector";
+    : "/new-layout";
 
   const importAction = async (source: string | File) => {
     try {
@@ -55,7 +55,7 @@ export default function Home() {
       dispatch(detectColumnConfig(columnHeaders));
       dispatch(validateData());
       router.push(
-        parseResult.errors.length > 0 ? "/wizard/data-errors" : "/data-selector"
+        parseResult.errors.length > 0 ? "/wizard/data-errors" : "/new-layout"
       );
     } catch (err: any) {
       pushErrorToast(errorToastWithMessage("Error: " + err.message));
