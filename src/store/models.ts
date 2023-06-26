@@ -3,6 +3,7 @@ import merge from "lodash.merge";
 
 import { forecappApi } from "./forecappApi";
 import { HistoricModel } from "./history";
+import { apiPrediction, validateModel } from "./datasets";
 
 forecappApi.endpoints.predictionPredictionPost.useMutation;
 
@@ -44,6 +45,8 @@ export type ModelState = {
   };
   laggedRegressors: any[];
   holidays: string[];
+  shouldPredict: boolean;
+  shouldEval: boolean;
 };
 
 export const modelSlice = createSlice({
@@ -77,9 +80,13 @@ export const modelSlice = createSlice({
     },
     laggedRegressors: [],
     holidays: [],
+    shouldPredict: true,
+    shouldEval: true,
   } as ModelState,
   reducers: {
     editModelConfig: (state: ModelState, { payload }) => {
+      state.shouldEval = true;
+      state.shouldPredict = true;
       const keys = Object.keys(payload);
       if (keys.includes("laggedRegressors")) {
         const { laggedRegressors } = payload;
@@ -91,8 +98,10 @@ export const modelSlice = createSlice({
         return merge(state, payload);
       }
     },
-    applyPrevModel: (state, action: { payload: HistoricModel }) => {
+    applyPrevModel: (state, action: { payload: HistoricModel }) => {      
       state = action.payload.modelConfig;
+      state.shouldPredict = true;
+      state.shouldEval = true;
     },
     editModelConfigJsonView: (_, { payload: { updated_src: newState } }: any) =>
       newState,
@@ -101,6 +110,14 @@ export const modelSlice = createSlice({
       state.events = newEvents;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(apiPrediction.fulfilled, (state, _) => {
+      state.shouldPredict = false;
+    });
+    builder.addCase(validateModel.fulfilled, (state, _) => {
+      state.shouldEval = false;
+    });
+  }
 });
 
 export const { editModelConfig, editModelConfigJsonView, removeEvent, applyPrevModel } =

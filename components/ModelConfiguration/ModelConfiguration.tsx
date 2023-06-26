@@ -52,7 +52,6 @@ export default function ModelConfiguration(props: {
         pageYOffset < sectionOffsetTop + sectionHeight
       ) {
         newSelectedConfigMenu = section.id as modelConfigurationMenu;
-        console.log(newSelectedConfigMenu);
       }
     });
     props.onSelectionChange(newSelectedConfigMenu!);

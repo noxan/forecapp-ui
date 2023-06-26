@@ -12,6 +12,7 @@ export default function TestTrainSplitView() {
   const validationResult = useAppSelector(
     (state) => state.datasets.validationResult
   );
+  console.log(validationResult);
   const status = useAppSelector(selectStatus);
 
   const parameterPlot =

@@ -12,6 +12,8 @@ import { useAppDispatch, useAppSelector } from "../src/hooks";
 import {
   selectDataset,
   selectModelConfiguration,
+  shouldEval,
+  shouldPredict,
 } from "../src/store/selectors";
 import { transformDataset } from "../src/helpers";
 import { ModelParameters } from "../src/schemas/modelParameters";
@@ -63,6 +65,8 @@ export default function Layout() {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dataset = useAppSelector(selectDataset);
   const columns = useAppSelector((state) => state.datasets.columns);
+  const shouldRunEval = useAppSelector(shouldEval);
+  const shouldRunPred = useAppSelector(shouldPredict);
 
   const [activePageInd, setActivePageInd] = useState(0);
   const [activeSubPageInd, setActiveSubPageInd] = useState(-1);
@@ -126,7 +130,6 @@ export default function Layout() {
   };
 
   function getPageComponent(pageInd: number, subPageInd: number) {
-    console.log("Get page called");
     const pageName = pages[pageInd].pageName;
     const subPageName =
       subPageInd >= 0 ? (pages[pageInd].subPages[subPageInd] as string) : "";
@@ -166,13 +169,18 @@ export default function Layout() {
 
     if (
       activePageInd !== Pages.ModelEvaluation &&
-      pageInd === Pages.ModelEvaluation
+      pageInd === Pages.ModelEvaluation &&
+      shouldRunPred
     ) {
-      predict();
+      validate();
     }
 
-    if (activePageInd !== Pages.Prediction && pageInd === Pages.Prediction) {
-      validate();
+    if (
+      activePageInd !== Pages.Prediction &&
+      pageInd === Pages.Prediction &&
+      shouldRunEval
+    ) {
+      predict();
     }
 
     setActivePageInd(pageInd);

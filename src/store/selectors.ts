@@ -34,3 +34,6 @@ export const currentModel = (state: RootState): number | undefined =>
 export const selectDataErrors = (state: RootState): DataError[] =>
   state.datasets.dataErrors;
 
+export const shouldEval = (state : RootState) : boolean => state.models.shouldEval;
+export const shouldPredict=  (state : RootState) : boolean => state.models.shouldPredict;
+
