@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { ModelState } from "../store/models";
 import { extractValidationStatus } from "./helpers";
-import { modelConfigurationMenu } from "../../pages/model-configuration";
+import { modelConfigurationMenu } from "../../components/ModelConfiguration/ModelConfiguration";
 
 export const forecasts = z
   .number({ invalid_type_error: "Must be a number" })

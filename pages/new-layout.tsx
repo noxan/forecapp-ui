@@ -18,21 +18,18 @@ import { ModelParameters } from "../src/schemas/modelParameters";
 import { ZodError } from "zod";
 import { HTTPError, NeuralProphetError, ValidationError } from "../src/error";
 import { errorToastWithMessage } from "../components/ErrorToast";
+import ModelConfiguration, {
+  modelConfigurationMenu,
+} from "../components/ModelConfiguration/ModelConfiguration";
 
-function getPageComponent(pageInd: number, subPageInd: number) {
-  console.log("Get page called");
-  const pageName = pages[pageInd].pageName;
-  const subPageName =
-    subPageInd >= 0 ? (pages[pageInd].subPages[subPageInd] as string) : "";
-  switch (pageName) {
-    case "Model Evaluation":
-      return <Validation view={subPageName as ValidationViewMode} />;
-    case "Prediction":
-      return <PredictionView />;
-    default:
-      return <></>;
-  }
-}
+const modelConfigSubPage: modelConfigurationMenu[] = [
+  "dataset-info",
+  "underlying-trends",
+  "modeling-assumptions",
+  "training-configuration",
+  "validation-configuration",
+  "prediction-configuration",
+];
 
 enum Pages {
   DataSelector = 0,
@@ -46,10 +43,12 @@ const pages = [
   {
     pageName: "Model Configuration",
     subPages: [
-      "Underlying Trends",
-      "Training Configuration",
-      "Modeling Assumptions",
       "Dataset Info",
+      "Underlying Trends",
+      "Modeling Assumptions",
+      "Training Configuration",
+      "Validation Configuration",
+      "Prediction Configuration",
     ],
   },
   {
@@ -126,12 +125,44 @@ export default function Layout() {
     }
   };
 
+  function getPageComponent(pageInd: number, subPageInd: number) {
+    console.log("Get page called");
+    const pageName = pages[pageInd].pageName;
+    const subPageName =
+      subPageInd >= 0 ? (pages[pageInd].subPages[subPageInd] as string) : "";
+    switch (pageName) {
+      case "Model Evaluation":
+        return <Validation view={subPageName as ValidationViewMode} />;
+      case "Prediction":
+        return <PredictionView />;
+      case "Model Configuration":
+        return (
+          <ModelConfiguration
+            onSelectionChange={(newSelection) => {
+              const newInd = modelConfigSubPage.findIndex(
+                (val) => val === newSelection
+              );
+              setActiveSubPageInd(newInd);
+            }}
+          />
+        );
+      default:
+        return <></>;
+    }
+  }
+
   const handleNavClick = (
     pageInd: number,
     subPageInd: number,
     event: React.MouseEvent<HTMLElement>
   ) => {
+    // Prevent any href from the nav click
     event.preventDefault();
+
+    // Do page specific computations
+    if (pageInd === Pages.ModelConfiguration) {
+      location.href = `#${modelConfigSubPage[subPageInd]}`;
+    }
 
     if (
       activePageInd !== Pages.ModelEvaluation &&
@@ -140,7 +171,7 @@ export default function Layout() {
       predict();
     }
 
-    if (activePageInd !== Pages.Prediction && subPageInd === Pages.Prediction) {
+    if (activePageInd !== Pages.Prediction && pageInd === Pages.Prediction) {
       validate();
     }
 
