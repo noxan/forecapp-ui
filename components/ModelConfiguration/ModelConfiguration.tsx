@@ -21,19 +21,19 @@ export type modelConfigurationMenu =
 const renderSwitch = (selectedConfigMenu: string) => {
   switch (selectedConfigMenu) {
     case "underlying-trends":
-      return <UnderlyingTrends />;
+      return <UnderlyingTrends key="underlying-trends" />;
     case "training-configuration":
-      return <TrainingConfiguration />;
+      return <TrainingConfiguration key="training-configuration" />;
     case "dataset-info":
-      return <DatasetInfo />;
+      return <DatasetInfo key="dataset-info" />;
     case "modeling-assumptions":
-      return <ModelingAssumptions />;
+      return <ModelingAssumptions key="modeling-assumptions" />;
     case "validation-configuration":
-      return <ValidationConfiguration />;
+      return <ValidationConfiguration key="validation-configuration" />;
     case "prediction-configuration":
-      return <PredictionConfiguration />;
+      return <PredictionConfiguration key="prediction-configuration" />;
     default:
-      return <h1>Nothing selected!</h1>;
+      return <h1 key="default">Nothing selected!</h1>;
   }
 };
 
