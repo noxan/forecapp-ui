@@ -60,20 +60,6 @@ export default function ModelingAssumptions() {
           feedbackValid=""
           feedbackInvalid={autoregression.lags.error}
         />
-        <CFormRange
-          min={0}
-          max={1}
-          step={0.01}
-          label={`Regularization (${modelConfiguration.autoregression.regularization})`}
-          defaultValue={modelConfiguration.autoregression.regularization}
-          onChange={(e) =>
-            dispatch(
-              editModelConfig({
-                autoregression: { regularization: Number(e.target.value) },
-              })
-            )
-          }
-        />
       </ConfigurationCard>
       <ConfigurationCard
         explanation={laggedRegressorsExplanation}

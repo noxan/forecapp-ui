@@ -74,9 +74,19 @@ export default function ModelConfiguration() {
       <div className="col-9">
         <div className="overflow-scroll">
           {[
-            renderSwitch("dataset-info"),
+            renderSwitch("prediction-configuration"),
             <hr
               key="line_1"
+              style={{
+                background: "black",
+                color: "black",
+                height: "3px",
+                borderColor: "black",
+              }}
+            />,
+            renderSwitch("dataset-info"),
+            <hr
+              key="line_5"
               style={{
                 background: "black",
                 color: "black",
@@ -115,16 +125,6 @@ export default function ModelConfiguration() {
               }}
             />,
             renderSwitch("validation-configuration"),
-            <hr
-              key="line_5"
-              style={{
-                background: "black",
-                color: "black",
-                height: "3px",
-                borderColor: "black",
-              }}
-            />,
-            renderSwitch("prediction-configuration"),
           ]}
         </div>
       </div>
