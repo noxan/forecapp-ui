@@ -74,9 +74,7 @@ export const apiPrediction = createAsyncThunk<any, PredictionQueryArg>(
   }
 );
 
-export type ValidationArg = {dataset: any[]; validationConfig: {split : number, modelConfig : ModelConfig}}
-
-export const validateModel = createAsyncThunk<any, ValidationArg>(
+export const validateModel = createAsyncThunk<any, PredictionQueryArg>(
   "datasets/validateModel",
   async (payload, {rejectWithValue}) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/validate`, {

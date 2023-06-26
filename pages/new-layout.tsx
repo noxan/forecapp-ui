@@ -118,10 +118,7 @@ export default function Layout() {
       await dispatch(
         validateModel({
           dataset: transformDataset(dataset, modelConfiguration, columns),
-          validationConfig: {
-            split: 0.2,
-            modelConfig: modelConfiguration,
-          },
+          configuration: modelConfiguration,
         })
       ).unwrap();
     } catch (err: any) {

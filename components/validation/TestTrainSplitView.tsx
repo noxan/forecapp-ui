@@ -12,7 +12,6 @@ export default function TestTrainSplitView() {
   const validationResult = useAppSelector(
     (state) => state.datasets.validationResult
   );
-  console.log(validationResult);
   const status = useAppSelector(selectStatus);
 
   const parameterPlot =
@@ -54,15 +53,11 @@ export default function TestTrainSplitView() {
       {status === "loading" && <LoadingOverlay msg="Evaluating model..." />}
       {validationResult && validationResult.status === "ok" && (
         <>
-          <CRow>
-            <p>
-              Current Holdout Percentage:{" "}
-              {validationResult.validationConfiguration.split * 100} %
-            </p>
-          </CRow>
           <TestTrainSplitChart
             prediction={validationResult.prediction}
-            holdoutFraction={validationResult.validationConfiguration.split}
+            holdoutFraction={
+              validationResult.configuration.validation.testSplit / 100
+            }
             targetColumn={targetColumn}
             showUncertainty={true}
             showTrend={false}
