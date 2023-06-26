@@ -40,10 +40,10 @@ const renderSwitch = (selectedConfigMenu: string) => {
 export default function ModelConfiguration(props: {
   onSelectionChange: (newSelection: modelConfigurationMenu) => void;
 }) {
-  const sections = useRef([]);
+  const sections = useRef<HTMLElement[]>([]);
   const handleScroll = () => {
     const pageYOffset = window.scrollY;
-    let newSelectedConfigMenu = null;
+    let newSelectedConfigMenu: modelConfigurationMenu = "underlying-trends";
     sections.current.forEach((section) => {
       const sectionOffsetTop = section.offsetTop;
       const sectionHeight = section.offsetHeight;
@@ -51,18 +51,21 @@ export default function ModelConfiguration(props: {
         pageYOffset + 20 >= sectionOffsetTop &&
         pageYOffset < sectionOffsetTop + sectionHeight
       ) {
-        newSelectedConfigMenu = section.id;
+        newSelectedConfigMenu = section.id as modelConfigurationMenu;
         console.log(newSelectedConfigMenu);
       }
     });
     props.onSelectionChange(newSelectedConfigMenu!);
   };
   useEffect(() => {
-    sections.current = document.querySelectorAll("[data-section");
+    sections.current = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-section").values()
+    );
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="overflow-scroll">
