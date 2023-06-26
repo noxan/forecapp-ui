@@ -44,28 +44,9 @@ export default function TestTrainSplitView() {
         : undefined,
     [validationResult]
   );
-  /*
-  const [priorHoldoutPercent, setPriorHoldout] = useState(20);
-  const [currHoldoutPercent, setCurrHoldout] = useState(20);
-  */
+
   const [parametersVisible, setParametersVisible] = useState(false);
   const [residualVisible, setResidualVisible] = useState(false);
-
-  /*
-  <CFormRange
-        min={0}
-        max={100}
-        value={currHoldoutPercent}
-        onChange={(event) => setCurrHoldout(Number(event.target.value))}
-        step={1}
-        label={`Holdout Percentage: ${currHoldoutPercent}%`}
-      ></CFormRange>
-      <CButton
-        disabled={priorHoldoutPercent === currHoldoutPercent}
-      >
-        Re-evaluate Model
-      </CButton>
-  */
 
   return (
     <>

@@ -1,19 +1,26 @@
 import AccordionSideBar, {
   AccordionSideBarGroupProps,
 } from "../components/layouts/AccordionSidebar";
-import { useMemo, useState } from "react";
+import { ReactElement, useMemo, useState } from "react";
 import Validation, {
   ValidationViewMode,
 } from "../components/validation/Validation";
 import PredictionView from "../components/prediction/PredictionView";
-
-type PageTypes =
-  | "Data Selector"
-  | "Model Configuration"
-  | "Model Evaluation"
-  | "Prediction";
+import { CToaster } from "@coreui/react";
+import { apiPrediction, validateModel } from "../src/store/datasets";
+import { useAppDispatch, useAppSelector } from "../src/hooks";
+import {
+  selectDataset,
+  selectModelConfiguration,
+} from "../src/store/selectors";
+import { transformDataset } from "../src/helpers";
+import { ModelParameters } from "../src/schemas/modelParameters";
+import { ZodError } from "zod";
+import { HTTPError, NeuralProphetError, ValidationError } from "../src/error";
+import { errorToastWithMessage } from "../components/ErrorToast";
 
 function getPageComponent(pageInd: number, subPageInd: number) {
+  console.log("Get page called");
   const pageName = pages[pageInd].pageName;
   const subPageName =
     subPageInd >= 0 ? (pages[pageInd].subPages[subPageInd] as string) : "";
@@ -25,6 +32,13 @@ function getPageComponent(pageInd: number, subPageInd: number) {
     default:
       return <></>;
   }
+}
+
+enum Pages {
+  DataSelector = 0,
+  ModelConfiguration = 1,
+  ModelEvaluation = 2,
+  Prediction = 3,
 }
 
 const pages = [
@@ -46,13 +60,94 @@ const pages = [
 ] as AccordionSideBarGroupProps[];
 
 export default function Layout() {
-  const [activePageInd, setActivePageInd] = useState(0);
-  const [activeSubPageInd, setActiveSubPageInd] = useState(0);
+  const dispatch = useAppDispatch();
+  const modelConfiguration = useAppSelector(selectModelConfiguration);
+  const dataset = useAppSelector(selectDataset);
+  const columns = useAppSelector((state) => state.datasets.columns);
 
-  const pageComponent = useMemo(
-    () => getPageComponent(activePageInd, activeSubPageInd),
-    [activePageInd, activeSubPageInd]
-  );
+  const [activePageInd, setActivePageInd] = useState(0);
+  const [activeSubPageInd, setActiveSubPageInd] = useState(-1);
+
+  const [errorMessage, setErrorMessage] = useState<ReactElement>();
+
+  const processError = (err: any) => {
+    if (err instanceof ZodError) {
+      setErrorMessage(
+        errorToastWithMessage("The model configuration was invalid.")
+      );
+    } else if (err.message) {
+      const error = err as HTTPError;
+      setErrorMessage(
+        errorToastWithMessage("Something went wrong: " + error.message)
+      );
+    } else if (err.detail) {
+      if (err.detail instanceof Array) {
+        const error = err as ValidationError;
+        setErrorMessage(
+          errorToastWithMessage("The model configuration was invalid.")
+        );
+      } else {
+        const error = err as NeuralProphetError;
+        setErrorMessage(
+          errorToastWithMessage("Neural Prophet failed: " + error.detail)
+        );
+      }
+    } else {
+      setErrorMessage(errorToastWithMessage("An unknown error occured."));
+    }
+  };
+
+  const predict = async () => {
+    try {
+      await dispatch(
+        apiPrediction({
+          dataset: transformDataset(dataset, modelConfiguration, columns),
+          configuration: modelConfiguration,
+        })
+      ).unwrap();
+    } catch (err: any) {
+      processError(err);
+    }
+  };
+
+  const validate = async () => {
+    try {
+      await dispatch(
+        validateModel({
+          dataset: transformDataset(dataset, modelConfiguration, columns),
+          validationConfig: {
+            split: 0.2,
+            modelConfig: modelConfiguration,
+          },
+        })
+      ).unwrap();
+    } catch (err: any) {
+      processError(err);
+    }
+  };
+
+  const handleNavClick = (
+    pageInd: number,
+    subPageInd: number,
+    event: React.MouseEvent<HTMLElement>
+  ) => {
+    event.preventDefault();
+
+    if (
+      activePageInd !== Pages.ModelEvaluation &&
+      pageInd === Pages.ModelEvaluation
+    ) {
+      predict();
+    }
+
+    if (activePageInd !== Pages.Prediction && subPageInd === Pages.Prediction) {
+      validate();
+    }
+
+    setActivePageInd(pageInd);
+    setActiveSubPageInd(subPageInd);
+  };
+
   return (
     <div className="row align-items-start">
       <div className="col-2 sidebar--div">
@@ -60,14 +155,13 @@ export default function Layout() {
           content={pages}
           activePageInd={activePageInd}
           activeSubPageInd={activeSubPageInd}
-          onNavClick={(pageInd, subPageInd, event) => {
-            setActivePageInd(pageInd);
-            setActiveSubPageInd(subPageInd);
-            event.preventDefault();
-          }}
+          onNavClick={handleNavClick}
         />
       </div>
-      <div className="col-10">{pageComponent}</div>
+      <div className="col-10">
+        {getPageComponent(activePageInd, activeSubPageInd)}
+      </div>
+      <CToaster push={errorMessage} placement="bottom-end" />
     </div>
   );
 }
