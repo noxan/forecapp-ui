@@ -13,6 +13,9 @@ export default function TestTrainSplitView() {
     (state) => state.datasets.validationResult
   );
   const status = useAppSelector(selectStatus);
+  const confidenceLevel = useAppSelector(
+    (state) => state.models.validation.confidenceLevel
+  );
 
   const parameterPlot =
     validationResult && validationResult.status === "ok"
@@ -62,6 +65,7 @@ export default function TestTrainSplitView() {
             showUncertainty={true}
             showTrend={false}
             showEvents={false}
+            confidenceLevel={confidenceLevel}
           />
           <CButton onClick={() => setResidualVisible(!residualVisible)}>
             {residualVisible ? "Hide residual error" : "Show residual error"}

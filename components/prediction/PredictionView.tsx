@@ -30,6 +30,11 @@ export default function PredictionView() {
   const predictionData = useAppSelector((state) => state.datasets.prediction);
   const targetColumn = useAppSelector(selectTargetColumn);
   const status = useAppSelector(selectStatus);
+  const confidenceLevel = useAppSelector(
+    (state) => state.models.validation.confidenceLevel
+  );
+
+  console.log(predictionData);
 
   return (
     <>
@@ -44,6 +49,7 @@ export default function PredictionView() {
           showUncertainty={true}
           showEvents={false}
           showTrend={false}
+          confidenceLevel={confidenceLevel}
         />
       )}
     </>

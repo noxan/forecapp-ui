@@ -18,7 +18,8 @@ export const transformPredictionData = (
   forecast: any,
   showUncertainty: boolean,
   showTrend: boolean,
-  showEvents: boolean
+  showEvents: boolean,
+  confidenceLevel: number
 ): Plotly.Data[] => {
   const columnHeaders = Object.keys(forecast).filter((item) => item !== "ds");
   const x = Object.values(forecast.ds);
@@ -35,7 +36,8 @@ export const transformPredictionData = (
       res.push({
         type: "scattergl",
         mode: "lines",
-        name: "95% Confidence Interval",
+        name: `${confidenceLevel}% Confidence Interval`,
+        hoverinfo: "y",
         fillcolor: "rgba(45, 146, 255, 0.2)",
         fill: "tonexty",
         line: { color: "rgba(45, 146, 255, 0.2)", width: 1 },
@@ -47,6 +49,7 @@ export const transformPredictionData = (
         type: "scattergl",
         mode: "lines",
         showlegend: false,
+        hoverinfo: "y",
         fillcolor: "rgba(45, 146, 255, 0.2)",
         fill: "tonexty",
         line: { color: "rgba(45, 146, 255, 0.2)", width: 1 },
@@ -62,6 +65,7 @@ export const transformPredictionData = (
       mode: "lines",
       line: { width: 2 },
       showlegend: true,
+      hoverinfo: "y+name",
       name: "Trend",
       y: Object.values(forecast["trend"]),
       x,
@@ -82,6 +86,7 @@ export const transformPredictionData = (
     mode: "lines",
     line: { color: "#2d92ff", width: 2 },
     name: capitalize(renameColumn("yhat1")),
+    hoverinfo: "y+name",
     y: Object.values(forecast["yhat1"]),
     x: x,
   } as Plotly.Data);
@@ -91,6 +96,7 @@ export const transformPredictionData = (
     mode: "markers",
     marker: { color: "black", size: 4 },
     name: capitalize(renameColumn("y")),
+    hoverinfo: "y+name",
     y: Object.values(forecast["y"]),
     x,
   } as Plotly.Data);
@@ -143,6 +149,7 @@ export type PredictionChartProps = {
   showUncertainty: boolean;
   showTrend: boolean;
   showEvents: boolean;
+  confidenceLevel: number;
 };
 
 export const PredictionChart = (props: PredictionChartProps) => (
@@ -152,7 +159,8 @@ export const PredictionChart = (props: PredictionChartProps) => (
       props.forecast,
       props.showUncertainty,
       props.showTrend,
-      props.showEvents
+      props.showEvents,
+      props.confidenceLevel
     )}
     layout={{
       hovermode: "x",

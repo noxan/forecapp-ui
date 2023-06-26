@@ -8,6 +8,7 @@ export type TestTrainSplitChartProps = {
   showUncertainty: boolean;
   showTrend: boolean;
   showEvents: boolean;
+  confidenceLevel: number;
 };
 
 export function TestTrainSplitChart(props: TestTrainSplitChartProps) {
@@ -21,7 +22,8 @@ export function TestTrainSplitChart(props: TestTrainSplitChartProps) {
         props.prediction,
         props.showUncertainty,
         props.showTrend,
-        props.showEvents
+        props.showEvents,
+        props.confidenceLevel
       )}
       layout={{
         hovermode: "x",
