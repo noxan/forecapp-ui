@@ -167,7 +167,7 @@ export default function Layout() {
     if (
       activePageInd !== Pages.ModelEvaluation &&
       pageInd === Pages.ModelEvaluation &&
-      shouldRunPred
+      shouldRunEval
     ) {
       validate();
     }
@@ -175,7 +175,7 @@ export default function Layout() {
     if (
       activePageInd !== Pages.Prediction &&
       pageInd === Pages.Prediction &&
-      shouldRunEval
+      shouldRunPred
     ) {
       predict();
     }
