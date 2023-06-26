@@ -136,6 +136,11 @@ export default function Home() {
             Explore sample datasets
           </CButton>
         </CRow>
+        <CRow className="my-2">
+          <CButton onClick={() => setShowSampleData(!showSampleData)}>
+            Explore sample datasets
+          </CButton>
+        </CRow>
         <CCollapse visible={showSampleData}>
           <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 4 }}>
             {datasetExamples.map((dataset) => (
