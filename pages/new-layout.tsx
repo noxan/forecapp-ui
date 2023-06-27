@@ -26,6 +26,10 @@ import ModelConfiguration, {
 import DataSelectorPage, {
   DataSelectorPages,
 } from "../components/DataSelectorPage";
+import PredictionConfigCard, {
+  PredictionConfig,
+} from "../components/prediction/PredictionConfigCard";
+import SideBar from "../components/layouts/Sidebar";
 
 const modelConfigSubPage: modelConfigurationMenu[] = [
   "dataset-info",
@@ -41,6 +45,11 @@ const dataSelectorSubPage: DataSelectorPages[] = [
   "data-viewer",
   "data-visualize",
   "data-table",
+];
+
+const modelEvaluationSubPage: ValidationViewMode[] = [
+  "Test Train Split",
+  "Previous Performance",
 ];
 
 enum Pages {
@@ -70,7 +79,21 @@ const pages = [
     pageName: "Model Evaluation",
     subPages: ["Test Train Split", "Previous Performance"],
   },
-  { pageName: "Prediction", subPages: [] },
+  {
+    pageName: "Prediction",
+    subPages: [
+      <PredictionConfigCard
+        key="prediction-card"
+        config={{
+          showUncertainty: true,
+          showTrend: false,
+          showEvents: false,
+          showHistory: false,
+        }}
+        updateConfig={(_) => _}
+      />,
+    ],
+  },
 ] as AccordionSideBarGroupProps[];
 
 export default function Layout() {
@@ -82,9 +105,16 @@ export default function Layout() {
   const shouldRunPred = useAppSelector(shouldPredict);
 
   const [activePageInd, setActivePageInd] = useState(0);
-  const [activeSubPageInd, setActiveSubPageInd] = useState(-1);
+  const [activeSubPageInd, setActiveSubPageInd] = useState(0);
 
   const [errorMessage, setErrorMessage] = useState<ReactElement>();
+
+  const [currChartConfig, setCurrChartConfig] = useState<PredictionConfig>({
+    showUncertainty: true,
+    showTrend: false,
+    showEvents: false,
+    showHistory: true,
+  });
 
   const processError = (err: any) => {
     if (err instanceof ZodError) {
@@ -141,13 +171,11 @@ export default function Layout() {
 
   function getPageComponent(pageInd: number, subPageInd: number) {
     const pageName = pages[pageInd].pageName;
-    const subPageName =
-      subPageInd >= 0 ? (pages[pageInd].subPages[subPageInd] as string) : "";
     switch (pageName) {
       case "Model Evaluation":
-        return <Validation view={subPageName as ValidationViewMode} />;
+        return <Validation view={modelEvaluationSubPage[subPageInd]} />;
       case "Prediction":
-        return <PredictionView />;
+        return <PredictionView chartConfig={currChartConfig} />;
       case "Model Configuration":
         return (
           <ModelConfiguration
@@ -202,11 +230,12 @@ export default function Layout() {
   return (
     <div className="row align-items-start">
       <div className="col-2 sidebar--div">
-        <AccordionSideBar
-          content={pages}
+        <SideBar
           activePageInd={activePageInd}
           activeSubPageInd={activeSubPageInd}
+          chartConfig={currChartConfig}
           onNavClick={handleNavClick}
+          onPredictionConfigChange={setCurrChartConfig}
         />
       </div>
       <div className="col-10">

@@ -149,6 +149,7 @@ export type PredictionChartProps = {
   showUncertainty: boolean;
   showTrend: boolean;
   showEvents: boolean;
+  showHistory?: boolean;
   confidenceLevel: number;
 };
 
