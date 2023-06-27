@@ -32,12 +32,12 @@ import PredictionConfigCard, {
 import SideBar from "../components/layouts/Sidebar";
 
 const modelConfigSubPage: modelConfigurationMenu[] = [
+  "prediction-configuration",
   "dataset-info",
   "underlying-trends",
   "modeling-assumptions",
   "training-configuration",
   "validation-configuration",
-  "prediction-configuration",
 ];
 
 const dataSelectorSubPage: DataSelectorPages[] = [
@@ -67,12 +67,12 @@ const pages = [
   {
     pageName: "Model Configuration",
     subPages: [
+      "Prediction Configuration",
       "Dataset Info",
       "Underlying Trends",
       "Modeling Assumptions",
       "Training Configuration",
       "Validation Configuration",
-      "Prediction Configuration",
     ],
   },
   {

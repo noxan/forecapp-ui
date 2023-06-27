@@ -101,7 +101,7 @@ export default function SideBar(props: SideBarProps) {
                 props.onNavClick(1, 0, event);
               }}
             >
-              Dataset Info
+              Prediction Configuration
             </CNavLink>
           </CNavItem>
           <CNavItem>
@@ -112,7 +112,7 @@ export default function SideBar(props: SideBarProps) {
                 props.onNavClick(1, 1, event);
               }}
             >
-              Underlying Trends
+              Dataset Info
             </CNavLink>
           </CNavItem>
           <CNavItem>
@@ -123,7 +123,7 @@ export default function SideBar(props: SideBarProps) {
                 props.onNavClick(1, 2, event);
               }}
             >
-              Modeling Assumptions
+              Underlying Trends
             </CNavLink>
           </CNavItem>
           <CNavItem>
@@ -134,29 +134,29 @@ export default function SideBar(props: SideBarProps) {
                 props.onNavClick(1, 3, event);
               }}
             >
-              Training Configuration
+              Modeling Assumptions
             </CNavLink>
           </CNavItem>
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 1 && props.activeSubPageInd === 3}
+              active={props.activePageInd === 1 && props.activeSubPageInd === 4}
               onClick={(event) => {
                 setPredictionConfigVisible(false);
                 props.onNavClick(1, 4, event);
               }}
             >
-              Validation Configuration
+              Training Configuration
             </CNavLink>
           </CNavItem>
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 1 && props.activeSubPageInd === 3}
+              active={props.activePageInd === 1 && props.activeSubPageInd === 5}
               onClick={(event) => {
                 setPredictionConfigVisible(false);
                 props.onNavClick(1, 5, event);
               }}
             >
-              Prediction Configuration
+              Validation Configuration
             </CNavLink>
           </CNavItem>
         </CNavGroup>

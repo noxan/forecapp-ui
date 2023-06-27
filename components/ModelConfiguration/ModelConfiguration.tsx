@@ -69,7 +69,7 @@ export default function ModelConfiguration(props: {
   return (
     <div className="overflow-scroll">
       {[
-        renderSwitch("dataset-info"),
+        renderSwitch("prediction-configuration"),
         <hr
           key="line_1"
           style={{
@@ -79,7 +79,7 @@ export default function ModelConfiguration(props: {
             borderColor: "black",
           }}
         />,
-        renderSwitch("underlying-trends"),
+        renderSwitch("dataset-info"),
         <hr
           key="line_2"
           style={{
@@ -89,7 +89,8 @@ export default function ModelConfiguration(props: {
             borderColor: "black",
           }}
         />,
-        renderSwitch("modeling-assumptions"),
+        renderSwitch("underlying-trends"),
+
         <hr
           key="line_3"
           style={{
@@ -99,7 +100,7 @@ export default function ModelConfiguration(props: {
             borderColor: "black",
           }}
         />,
-        renderSwitch("training-configuration"),
+        renderSwitch("modeling-assumptions"),
         <hr
           key="line_4"
           style={{
@@ -109,7 +110,7 @@ export default function ModelConfiguration(props: {
             borderColor: "black",
           }}
         />,
-        renderSwitch("validation-configuration"),
+        renderSwitch("training-configuration"),
         <hr
           key="line_5"
           style={{
@@ -119,7 +120,7 @@ export default function ModelConfiguration(props: {
             borderColor: "black",
           }}
         />,
-        renderSwitch("prediction-configuration"),
+        renderSwitch("validation-configuration"),
       ]}
     </div>
   );
