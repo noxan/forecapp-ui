@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { ModelState } from "../store/models";
 import { extractValidationStatus } from "./helpers";
+import { modelConfigurationMenu } from "../../components/ModelConfiguration/ModelConfiguration";
 
 export const forecasts = z
   .number({ invalid_type_error: "Must be a number" })
@@ -13,6 +14,7 @@ export const numberOfChangepoints = z
   .lte(20, { message: "Must be less than or equal to 20" });
 export const lags = z
   .number({ invalid_type_error: "Must be a number" })
+  .int({ message: "Must be an integer" })
   .gte(0, { message: "Must be greater than 0" });
 export const regularization = z.number({
   invalid_type_error: "Must be a number",
@@ -53,6 +55,14 @@ export const learningRate = z
   .number({ invalid_type_error: "Must be a number" })
   .gt(0, { message: "Must be greater than 0" })
   .nullable();
+export const testSplit = z
+  .number({ invalid_type_error: "Must be a number" })
+  .gte(0, { message: "Must be greater than or equal to 0" })
+  .lte(100, { message: "Must be less than or equal to 100" });
+export const confidenceLevel = z
+  .number({ invalid_type_error: "Must be a number" })
+  .gte(0, { message: "Must be greater than or equal to 0" })
+  .lt(100, { message: "Must be less than 100" });
 export const laggedRegressors = z.array(z.any());
 export const holidays = z.array(z.string());
 export const events = z.array(z.any());
@@ -97,6 +107,10 @@ export const ModelParameters = z.object({
     batchSize: batchSize,
     learningRate: learningRate,
   }),
+  validation: z.object({
+    testSplit: testSplit,
+    confidenceLevel: confidenceLevel,
+  }),
   laggedRegressors: laggedRegressors,
   holidays: holidays,
 });
@@ -136,6 +150,113 @@ export type modelParameterValidationStatus = {
       error: string;
     };
   };
+  validation: {
+    testSplit: {
+      valid: boolean;
+      error: string;
+    };
+    confidenceLevel: {
+      valid: boolean;
+      error: string;
+    };
+  };
+};
+
+export const validateModelParameterSection = (
+  modelParameters: ModelState,
+  parameterSection: modelConfigurationMenu
+) => {
+  // this function validates the model parameters for a given section
+  const validationStatus: modelParameterValidationStatus = {
+    forecasts: {
+      valid: false,
+      error: "",
+    },
+    trend: {
+      numberOfChangepoints: {
+        valid: false,
+        error: "",
+      },
+    },
+    autoregression: {
+      lags: {
+        valid: false,
+        error: "",
+      },
+      regularization: {
+        valid: false,
+        error: "",
+      },
+    },
+    training: {
+      learningRate: {
+        valid: false,
+        error: "",
+      },
+      epochs: {
+        valid: false,
+        error: "",
+      },
+      batchSize: {
+        valid: false,
+        error: "",
+      },
+    },
+    validation: {
+      testSplit: {
+        valid: false,
+        error: "",
+      },
+      confidenceLevel: {
+        valid: false,
+        error: "",
+      },
+    },
+  };
+  switch (parameterSection) {
+    case "underlying-trends":
+      validationStatus.trend.numberOfChangepoints = extractValidationStatus(
+        numberOfChangepoints.safeParse(
+          modelParameters.trend.numberOfChangepoints
+        )
+      );
+      break;
+    case "training-configuration":
+      validationStatus.training.epochs = extractValidationStatus(
+        epochs.safeParse(modelParameters.training.epochs)
+      );
+      validationStatus.training.learningRate = extractValidationStatus(
+        learningRate.safeParse(modelParameters.training.learningRate)
+      );
+      validationStatus.training.batchSize = extractValidationStatus(
+        batchSize.safeParse(modelParameters.training.batchSize)
+      );
+      break;
+    case "validation-configuration":
+      validationStatus.validation.testSplit = extractValidationStatus(
+        testSplit.safeParse(modelParameters.validation.testSplit)
+      );
+      validationStatus.validation.confidenceLevel = extractValidationStatus(
+        confidenceLevel.safeParse(modelParameters.validation.confidenceLevel)
+      );
+      break;
+    case "prediction-configuration":
+      validationStatus.forecasts = extractValidationStatus(
+        forecasts.safeParse(modelParameters.forecasts)
+      );
+      break;
+    case "modeling-assumptions":
+      validationStatus.autoregression.lags = extractValidationStatus(
+        lags.safeParse(modelParameters.autoregression.lags)
+      );
+      validationStatus.autoregression.regularization = extractValidationStatus(
+        regularization.safeParse(modelParameters.autoregression.regularization)
+      );
+      break;
+    default:
+      break;
+  }
+  return validationStatus;
 };
 
 export const validateModelParameters = (modelParameters: ModelState) => {
@@ -175,6 +296,16 @@ export const validateModelParameters = (modelParameters: ModelState) => {
         error: "",
       },
     },
+    validation: {
+      testSplit: {
+        valid: false,
+        error: "",
+      },
+      confidenceLevel: {
+        valid: false,
+        error: "",
+      },
+    },
   };
   // validate model parameters using zod schema
   validationStatus.forecasts = extractValidationStatus(
@@ -197,6 +328,12 @@ export const validateModelParameters = (modelParameters: ModelState) => {
   );
   validationStatus.training.learningRate = extractValidationStatus(
     learningRate.safeParse(modelParameters.training.learningRate)
+  );
+  validationStatus.validation.testSplit = extractValidationStatus(
+    testSplit.safeParse(modelParameters.validation.testSplit)
+  );
+  validationStatus.validation.confidenceLevel = extractValidationStatus(
+    confidenceLevel.safeParse(modelParameters.validation.confidenceLevel)
   );
   return validationStatus;
 };

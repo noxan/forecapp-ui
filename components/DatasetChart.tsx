@@ -5,6 +5,7 @@ export default function DatasetChart({
   dataset,
   timeColumn,
   targetColumn,
+  showLegend = true,
 }: any) {
   const x = dataset.map((item: any) => item[timeColumn]);
   const columnHeaders = Object.keys(dataset[0]).filter(
@@ -25,7 +26,7 @@ export default function DatasetChart({
       data={data}
       layout={{
         hovermode: "x",
-        showlegend: true,
+        showlegend: showLegend,
         legend: { orientation: "h" },
       }}
       config={{

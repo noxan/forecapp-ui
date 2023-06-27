@@ -24,14 +24,14 @@ import PredictionNavigation from "../components/prediction/Navigation";
 import PredictionWizardCard from "../components/prediction/WizardCard";
 import PredictionBuilder from "../components/prediction/Builder";
 import { apiPrediction } from "../src/store/datasets";
-import PredictionChart from "../components/prediction/Chart";
+import { PredictionChart } from "../components/prediction/Chart";
 import LoadingOverlay from "../components/prediction/LoadingOverlay";
 import MissingForecastPlaceholder from "../components/MissingForecastPlaceholder";
 import { useRouter } from "next/router";
 import { ModelParameters } from "../src/schemas/modelParameters";
 import { HTTPError, ValidationError, NeuralProphetError } from "../src/error";
 import { ZodError } from "zod";
-import VersionHistory from "../components/history/VersionHistory";
+import ModelHistory from "../components/history/ModelHistory";
 import { errorToastWithMessage } from "../components/ErrorToast";
 
 export default function Visualization() {
@@ -120,7 +120,7 @@ export default function Visualization() {
       />
       <CContainer fluid>
         {historyVisible ? (
-          <VersionHistory
+          <ModelHistory
             closeSelf={() => {
               setHistoryVisible(false);
               predictAction();
@@ -133,12 +133,17 @@ export default function Visualization() {
               <PredictionBuilder />
             </CCol>
             <CCol style={{ position: "relative" }}>
-              {status === "loading" && <LoadingOverlay />}
+              {status === "loading" && (
+                <LoadingOverlay msg={"Generating your forecast..."} />
+              )}
               {predictionData && predictionData.status === "ok" && (
                 <PredictionChart
                   targetColumn={targetColumn}
-                  predictionData={predictionData}
-                  forecasts={predictionData?.configuration?.forecasts}
+                  forecast={predictionData.forecast}
+                  numForecasts={predictionData?.configuration?.forecasts}
+                  showUncertainty={true}
+                  showEvents={true}
+                  showTrend={false}
                 />
               )}
             </CCol>

@@ -7,23 +7,22 @@ import {
 } from "../../src/store/selectors";
 import DatasetChart from "../DatasetChart";
 
-const DatasetVisualize = () => {
+const DatasetVisualize = ({ showLegend = false }: { showLegend?: boolean }) => {
   const dataset = useAppSelector(selectDataset);
   const timeColumn = useAppSelector(selectTimeColumn);
   const targetColumn = useAppSelector(selectTargetColumn);
 
   return (
-    <CContainer fluid>
-      <CRow className="my-2">
-        <CCol>
-          <DatasetChart
-            dataset={dataset}
-            timeColumn={timeColumn}
-            targetColumn={targetColumn}
-          />
-        </CCol>
-      </CRow>
-    </CContainer>
+    <CRow className="my-2">
+      <CCol>
+        <DatasetChart
+          dataset={dataset}
+          timeColumn={timeColumn}
+          targetColumn={targetColumn}
+          showLegend={showLegend}
+        />
+      </CCol>
+    </CRow>
   );
 };
 

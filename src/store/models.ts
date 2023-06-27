@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import merge from "lodash.merge";
 
 import { forecappApi } from "./forecappApi";
+import { HistoricModel } from "./history";
+import { apiPrediction, validateModel } from "./datasets";
 
 forecappApi.endpoints.predictionPredictionPost.useMutation;
 
@@ -37,8 +39,14 @@ export type ModelState = {
     batchSize?: any;
     learningRate?: any;
   };
+  validation: {
+    testSplit: number;
+    confidenceLevel: number;
+  };
   laggedRegressors: any[];
   holidays: string[];
+  shouldPredict: boolean;
+  shouldEval: boolean;
 };
 
 export const modelSlice = createSlice({
@@ -66,11 +74,19 @@ export const modelSlice = createSlice({
       batchSize: null,
       earlyStopping: true,
     },
+    validation: {
+      testSplit: 20,
+      confidenceLevel: 95,
+    },
     laggedRegressors: [],
     holidays: [],
+    shouldPredict: true,
+    shouldEval: true,
   } as ModelState,
   reducers: {
     editModelConfig: (state: ModelState, { payload }) => {
+      state.shouldEval = true;
+      state.shouldPredict = true;
       const keys = Object.keys(payload);
       if (keys.includes("laggedRegressors")) {
         const { laggedRegressors } = payload;
@@ -82,8 +98,10 @@ export const modelSlice = createSlice({
         return merge(state, payload);
       }
     },
-    setModelConfig: (state, action: { payload: ModelState }) => {
-      merge(state, action.payload);
+    applyPrevModel: (state, action: { payload: HistoricModel }) => {      
+      state = action.payload.modelConfig;
+      state.shouldPredict = true;
+      state.shouldEval = true;
     },
     editModelConfigJsonView: (_, { payload: { updated_src: newState } }: any) =>
       newState,
@@ -92,9 +110,17 @@ export const modelSlice = createSlice({
       state.events = newEvents;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(apiPrediction.fulfilled, (state, _) => {
+      state.shouldPredict = false;
+    });
+    builder.addCase(validateModel.fulfilled, (state, _) => {
+      state.shouldEval = false;
+    });
+  }
 });
 
-export const { editModelConfig, editModelConfigJsonView, removeEvent } =
+export const { editModelConfig, editModelConfigJsonView, removeEvent, applyPrevModel } =
   modelSlice.actions;
 
 export default modelSlice.reducer;
