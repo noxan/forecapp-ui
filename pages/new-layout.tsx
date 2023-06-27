@@ -1,6 +1,5 @@
 import { CButton } from "@coreui/react";
 import { CNavItem } from "@coreui/react";
-import SidebarLayout from "../components/layouts/SidebarLayout";
 import AccordionSideBar, {
   AccordionSideBarGroupProps,
 } from "../components/layouts/AccordionSidebar";
