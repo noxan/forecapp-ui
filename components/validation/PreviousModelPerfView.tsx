@@ -55,7 +55,7 @@ export default function PreviousModelPerfView() {
                   active={previousModels.currentModel === index}
                 >
                   <CTableHeaderCell scope="row">
-                    {new Date(model.time).toISOString()}
+                    {new Date(model.time).toUTCString()}
                   </CTableHeaderCell>
                   <CTableDataCell>
                     {testMetricArr[testMetricArr.length - 1]}

@@ -16,6 +16,8 @@ export default function TestTrainSplitView() {
   const confidenceLevel = useAppSelector(
     (state) => state.models.validation.confidenceLevel
   );
+  const holdoutFraction =
+    useAppSelector((state) => state.models.validation.testSplit) / 100;
 
   const parameterPlot =
     validationResult && validationResult.status === "ok"
@@ -76,7 +78,12 @@ export default function TestTrainSplitView() {
               : "Show model parameters"}
           </CButton>
           <CCollapse visible={residualVisible}>
-            <ResidualErrorChart ds={ds!} y={y!} ypredicted={ypredicted!} />
+            <ResidualErrorChart
+              ds={ds!}
+              y={y!}
+              ypredicted={ypredicted!}
+              holdoutFraction={holdoutFraction}
+            />
           </CCollapse>
           <CCollapse visible={parametersVisible}>
             {parameterPlot && (

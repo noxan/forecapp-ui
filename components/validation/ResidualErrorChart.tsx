@@ -1,17 +1,23 @@
+import { useAppSelector } from "../../src/hooks";
 import PlotlyChart from "../Plotly";
 
 export type ResidualErrorProps = {
   ds: any[];
   y: number[];
   ypredicted: number[];
-  holdOutFraction?: number;
+  holdoutFraction?: number;
 };
 
 export default function ResidualErrorChart(props: ResidualErrorProps) {
-  const residual: number[] = props.y.map((val, i) => val - props.ypredicted[i]);
-  const offset = props.holdOutFraction
-    ? (props.ds.length * props.holdOutFraction) | 0
+  const lags = useAppSelector((state) => state.models.autoregression.lags);
+  const residual: number[] = props.y
+    .map((val, i) => val - props.ypredicted[i])
+    .slice(lags);
+  const offset = props.holdoutFraction
+    ? (props.ds.length * props.holdoutFraction) | 0
     : 0;
+
+  console.log(offset);
 
   return (
     <PlotlyChart
