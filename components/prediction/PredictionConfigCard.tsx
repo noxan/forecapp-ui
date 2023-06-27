@@ -33,6 +33,7 @@ export default function PredictionConfigCard(props: {
           })
         }
       />
+      {/* TODO
       <CFormSwitch
         label="Show Events"
         checked={props.config.showEvents}
@@ -42,7 +43,7 @@ export default function PredictionConfigCard(props: {
             showEvents: event.target.checked,
           })
         }
-      />
+      />*/}
       <CFormSwitch
         label="Show History"
         checked={props.config.showHistory}
