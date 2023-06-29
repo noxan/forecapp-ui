@@ -15,7 +15,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import PredictionConfigCard, {
   PredictionConfig,
 } from "../prediction/PredictionConfigCard";
-import { useState } from "react";
 
 export type SideBarProps = {
   activePageInd: number;
@@ -148,7 +147,15 @@ export default function SideBar(props: SideBarProps) {
             </CNavLink>
           </CNavItem>
         </CNavGroup>
-        <CNavGroup toggler={"Model Evaluation"} key="Model Evaluation">
+        <CNavGroup
+          toggler={"Model Evaluation"}
+          key="Model Evaluation"
+          onClick={(event) => {
+            if (event.target.className.split(" ")[1] === "nav-group-toggle") {
+              props.onNavClick(2, 1, event);
+            }
+          }}
+        >
           <CNavItem>
             <CNavLink
               active={props.activePageInd === 2 && props.activeSubPageInd === 1}
@@ -170,23 +177,26 @@ export default function SideBar(props: SideBarProps) {
             </CNavLink>
           </CNavItem>
         </CNavGroup>
-        <CNavItem>
-          <CNavLink
-            active={props.activePageInd === 3}
-            onClick={(event) => {
+        <CNavGroup
+          toggler="Prediction"
+          visible={props.activePageInd === 3}
+          onClick={(event) => {
+            if (event.target.className.split(" ")[1] === "nav-group-toggle") {
               props.onNavClick(3, -1, event);
-            }}
-          >
-            Prediction
-          </CNavLink>
-        </CNavItem>
-        <CCollapse visible={props.activePageInd === 3}>
+            }
+          }}
+        >
           <PredictionConfigCard
             key="prediction-card"
             config={props.chartConfig}
             updateConfig={props.onPredictionConfigChange}
           />
-        </CCollapse>
+          <CNavItem>
+            <CNavLink onClick={(event) => props.onNavClick(3, 0, event)}>
+              Export
+            </CNavLink>
+          </CNavItem>
+        </CNavGroup>
       </CSidebarNav>
     </CSidebar>
   );
