@@ -32,6 +32,9 @@ import PredictionConfigCard, {
   PredictionConfig,
 } from "../components/prediction/PredictionConfigCard";
 import SideBar from "../components/layouts/Sidebar";
+import Home, { HomeViewMode } from "../components/home/Home";
+
+const homeSubPage: HomeViewMode[] = ["Data Upload", "Sample Data"];
 
 const modelConfigSubPage: modelConfigurationMenu[] = [
   "prediction-configuration",
@@ -59,6 +62,7 @@ enum Pages {
   ModelConfiguration = 1,
   ModelEvaluation = 2,
   Prediction = 3,
+  Home = 4,
 }
 
 const pages = [
@@ -95,6 +99,10 @@ const pages = [
         updateConfig={(_) => _}
       />,
     ],
+  },
+  {
+    pageName: "Homepage",
+    subPages: ["Data Upload", "Sample Data"],
   },
 ] as AccordionSideBarGroupProps[];
 
@@ -174,6 +182,8 @@ export default function Layout() {
   function getPageComponent(pageInd: number, subPageInd: number) {
     const pageName = pages[pageInd].pageName;
     switch (pageName) {
+      case "Homepage":
+        return <Home view={homeSubPage[subPageInd]} />;
       case "Model Evaluation":
         return <Validation view={modelEvaluationSubPage[subPageInd]} />;
       case "Prediction":
@@ -223,6 +233,10 @@ export default function Layout() {
       shouldRunPred
     ) {
       predict();
+    }
+
+    if (pageInd === Pages.Home) {
+      location.href = `#${homeSubPage[subPageInd]}}`;
     }
 
     setActivePageInd(pageInd);

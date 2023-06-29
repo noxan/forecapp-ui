@@ -46,6 +46,30 @@ export default function SideBar(props: SideBarProps) {
           />
           Home
         </CNavItem>
+        <CNavGroup toggler={"Home"} key={"Home"}>
+          <CNavItem>
+            <CNavLink
+              active={props.activePageInd === 4 && props.activeSubPageInd === 0}
+              onClick={(event) => {
+                setPredictionConfigVisible(false);
+                props.onNavClick(4, 0, event);
+              }}
+            >
+              Data Upload
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink
+              active={props.activePageInd === 4 && props.activeSubPageInd === 1}
+              onClick={(event) => {
+                setPredictionConfigVisible(false);
+                props.onNavClick(4, 1, event);
+              }}
+            >
+              Sample Data
+            </CNavLink>
+          </CNavItem>
+        </CNavGroup>
         <CNavGroup toggler={"Data Selector"} key="Data Selector">
           <CNavItem>
             <CNavLink
