@@ -3,6 +3,7 @@ import {
   CNavItem,
   CNavLink,
   CSidebar,
+  CSidebarBrand,
   CSidebarNav,
 } from "@coreui/react";
 import HomeIcon from "@mui/icons-material/Home";
@@ -25,6 +26,11 @@ export type SideBarProps = {
 export default function SideBar(props: SideBarProps) {
   return (
     <CSidebar position="sticky">
+      <CSidebarBrand>
+        <CNavLink href="https://neuralprophet.com/" target="_blank">
+          Forecapp
+        </CNavLink>
+      </CSidebarBrand>
       <CSidebarNav>
         <CNavItem href="/">
           <HomeIcon
