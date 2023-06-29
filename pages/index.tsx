@@ -121,16 +121,6 @@ export default function Home() {
           <br />
           <br />
         </CRow>
-        <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 4 }}>
-          {datasetExamples.map((dataset) => (
-            <DatasetCard
-              key={dataset.filename}
-              dataset={dataset}
-              importAction={() => importAction(dataset.fullUrl)}
-              disabled={status === "loading"}
-            />
-          ))}
-        </CRow>
         <CRow className="my-2">
           <CButton onClick={() => setShowSampleData(!showSampleData)}>
             Explore sample datasets
