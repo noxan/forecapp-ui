@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ModelState, editModelConfig } from "./models";
-import { apiPrediction, validateModel } from "./datasets";
+import { apiPrediction, parseDataset, validateModel } from "./datasets";
 
 export type HistoricModel = {
   modelConfig: ModelState;
@@ -56,6 +56,10 @@ export const historySlice = createSlice({
         });
         state.currentModel = state.models.length - 1;
       }
+    })
+    builder.addCase(parseDataset.fulfilled, (state, _) => {
+      state.currentModel = undefined;
+      state.models = [];
     })
   },
 });
