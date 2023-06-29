@@ -157,6 +157,8 @@ export default function Layout() {
             chartConfig={currChartConfig}
             stalePrediction={shouldRunPred}
             predict={predict}
+            exportModal={subPageInd === 0}
+            onCloseModal={() => setActiveSubPageInd(-1)}
           />
         );
       case "Model Configuration":

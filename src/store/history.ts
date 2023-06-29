@@ -9,6 +9,16 @@ export type HistoricModel = {
   time: number;
 };
 
+export function getLatestTestLoss(model : HistoricModel) {
+  const lossTestArr = Object.values(model.testMetrics.Loss_test);
+  return lossTestArr[lossTestArr.length - 1];
+}
+
+export function getLatestTrainMAE(model : HistoricModel) {
+  const trainMAEArr = Object.values(model.metrics.MAE) as number[];
+  return trainMAEArr[trainMAEArr.length - 1];
+}
+
 export type ModelHistoryState = {
   models: HistoricModel[];
   currentModel?: number;

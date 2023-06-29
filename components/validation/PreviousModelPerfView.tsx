@@ -8,6 +8,8 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from "@coreui/react";
+import CIcon from "@coreui/icons-react";
+import { cilCaretBottom } from "@coreui/icons";
 import { useAppSelector } from "../../src/hooks";
 import {
   numHistoricModels,
@@ -15,7 +17,13 @@ import {
   selectNthHistoricModel,
 } from "../../src/store/selectors";
 import { useEffect, useState } from "react";
-import { HistoricModel } from "../../src/store/history";
+import {
+  HistoricModel,
+  getLatestTestLoss,
+  getLatestTrainMAE,
+} from "../../src/store/history";
+
+type Header = "Time" | "Test Loss" | "Train MAE";
 
 function array1ToN(n: number) {
   const arr = Array(n);
@@ -25,11 +33,36 @@ function array1ToN(n: number) {
   return arr;
 }
 
+function sortBy(previousModelArr: HistoricModel[], sortHeader: Header) {
+  const arr = array1ToN(previousModelArr.length);
+  let cmpFn: (a: number, b: number) => number = (a, b) =>
+    previousModelArr[a].time - previousModelArr[b].time;
+  switch (sortHeader) {
+    case "Time":
+      cmpFn = (a, b) => previousModelArr[a].time - previousModelArr[b].time;
+      break;
+    case "Train MAE":
+      cmpFn = (a, b) =>
+        getLatestTrainMAE(previousModelArr[a]) -
+        getLatestTrainMAE(previousModelArr[b]);
+      break;
+    case "Test Loss":
+      cmpFn = (a, b) =>
+        getLatestTestLoss(previousModelArr[a]) -
+        getLatestTestLoss(previousModelArr[b]);
+      break;
+    default:
+      break;
+  }
+  return arr.sort(cmpFn);
+}
+
 export default function PreviousModelPerfView() {
   const previousModels = useAppSelector(selectHistoricModels);
   const [sortedModels, setSortedModels] = useState<number[]>(
     array1ToN(previousModels.models.length)
   );
+  const [activeHeader, setActiveHeader] = useState<Header>("Time");
 
   return (
     <CContainer fluid>
@@ -37,32 +70,57 @@ export default function PreviousModelPerfView() {
         <CTable striped hover>
           <CTableHead>
             <CTableRow>
-              <CTableHeaderCell scope="col">Time Created</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Test Loss</CTableHeaderCell>
-              <CTableHeaderCell scope="col">Train MAE</CTableHeaderCell>
+              <CTableHeaderCell
+                scope="col"
+                onClick={() => {
+                  setSortedModels(sortBy(previousModels.models, "Time"));
+                  setActiveHeader("Time");
+                }}
+              >
+                Time Created
+                {activeHeader === "Time" && (
+                  <CIcon icon={cilCaretBottom} size="sm" />
+                )}
+              </CTableHeaderCell>
+              <CTableHeaderCell
+                scope="col"
+                onClick={() => {
+                  setSortedModels(sortBy(previousModels.models, "Test Loss"));
+                  setActiveHeader("Test Loss");
+                }}
+              >
+                Test Loss
+                {activeHeader === "Test Loss" && (
+                  <CIcon icon={cilCaretBottom} size="sm" />
+                )}
+              </CTableHeaderCell>
+              <CTableHeaderCell
+                scope="col"
+                onClick={() => {
+                  setSortedModels(sortBy(previousModels.models, "Train MAE"));
+                  setActiveHeader("Train MAE");
+                }}
+              >
+                Train MAE
+                {activeHeader === "Train MAE" && (
+                  <CIcon icon={cilCaretBottom} size="sm" />
+                )}
+              </CTableHeaderCell>
             </CTableRow>
           </CTableHead>
           <CTableBody>
-            {sortedModels.map((modelIndex, index) => {
-              const model = previousModels.models[modelIndex];
-              const testMetricArr = model.testMetrics
-                ? Object.values(model.testMetrics.Loss_test)
-                : [];
-              const trainMAEArr = Object.values(model.metrics.MAE) as number[];
+            {sortedModels.map((modelInd, index) => {
+              const model = previousModels.models[modelInd];
               return (
                 <CTableRow
-                  key={modelIndex}
+                  key={modelInd}
                   active={previousModels.currentModel === index}
                 >
                   <CTableHeaderCell scope="row">
                     {new Date(model.time).toUTCString()}
                   </CTableHeaderCell>
-                  <CTableDataCell>
-                    {testMetricArr[testMetricArr.length - 1]}
-                  </CTableDataCell>
-                  <CTableDataCell>
-                    {trainMAEArr[trainMAEArr.length - 1]}
-                  </CTableDataCell>
+                  <CTableDataCell>{getLatestTestLoss(model)}</CTableDataCell>
+                  <CTableDataCell>{getLatestTrainMAE(model)}</CTableDataCell>
                 </CTableRow>
               );
             })}
