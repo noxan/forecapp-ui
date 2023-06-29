@@ -1,10 +1,4 @@
 import {
-  CAccordion,
-  CAccordionBody,
-  CAccordionHeader,
-  CAccordionItem,
-  CButton,
-  CCollapse,
   CNavGroup,
   CNavItem,
   CNavLink,
@@ -44,8 +38,8 @@ export default function SideBar(props: SideBarProps) {
           Home
         </CNavItem>
         <CNavGroup
-          toggler={"Data Selector"}
-          key="Data Selector"
+          toggler={"Home"}
+          key={"Home"}
           onClick={(event) => {
             if (event.target.className.split(" ")[1] === "nav-group-toggle") {
               props.onNavClick(0, 0, event);
@@ -54,9 +48,39 @@ export default function SideBar(props: SideBarProps) {
         >
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 0 && props.activeSubPageInd === 0}
+              active={props.activePageInd === 4 && props.activeSubPageInd === 0}
               onClick={(event) => {
                 props.onNavClick(0, 0, event);
+              }}
+            >
+              Data Upload
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink
+              active={props.activePageInd === 4 && props.activeSubPageInd === 1}
+              onClick={(event) => {
+                props.onNavClick(0, 1, event);
+              }}
+            >
+              Sample Data
+            </CNavLink>
+          </CNavItem>
+        </CNavGroup>
+        <CNavGroup
+          toggler={"Data Selector"}
+          key="Data Selector"
+          onClick={(event) => {
+            if (event.target.className.split(" ")[1] === "nav-group-toggle") {
+              props.onNavClick(1, 0, event);
+            }
+          }}
+        >
+          <CNavItem>
+            <CNavLink
+              active={props.activePageInd === 0 && props.activeSubPageInd === 0}
+              onClick={(event) => {
+                props.onNavClick(1, 0, event);
               }}
             >
               Data Selector
@@ -66,7 +90,7 @@ export default function SideBar(props: SideBarProps) {
             <CNavLink
               active={props.activePageInd === 0 && props.activeSubPageInd === 1}
               onClick={(event) => {
-                props.onNavClick(0, 1, event);
+                props.onNavClick(1, 1, event);
               }}
             >
               View Data
@@ -76,7 +100,7 @@ export default function SideBar(props: SideBarProps) {
             <CNavLink
               active={props.activePageInd === 0 && props.activeSubPageInd === 2}
               onClick={(event) => {
-                props.onNavClick(0, 2, event);
+                props.onNavClick(1, 2, event);
               }}
             >
               Visualize Data
@@ -86,7 +110,7 @@ export default function SideBar(props: SideBarProps) {
             <CNavLink
               active={props.activePageInd === 0 && props.activeSubPageInd === 3}
               onClick={(event) => {
-                props.onNavClick(0, 3, event);
+                props.onNavClick(1, 3, event);
               }}
             >
               Table View
@@ -98,7 +122,7 @@ export default function SideBar(props: SideBarProps) {
           key="Model Configuration"
           onClick={(event) => {
             if (event.target.className.split(" ")[1] === "nav-group-toggle") {
-              props.onNavClick(1, 0, event);
+              props.onNavClick(2, 0, event);
             }
           }}
         >
@@ -106,7 +130,7 @@ export default function SideBar(props: SideBarProps) {
             <CNavLink
               active={props.activePageInd === 1 && props.activeSubPageInd === 0}
               onClick={(event) => {
-                props.onNavClick(1, 0, event);
+                props.onNavClick(2, 0, event);
               }}
             >
               Prediction Configuration
@@ -116,7 +140,7 @@ export default function SideBar(props: SideBarProps) {
             <CNavLink
               active={props.activePageInd === 1 && props.activeSubPageInd === 1}
               onClick={(event) => {
-                props.onNavClick(1, 1, event);
+                props.onNavClick(2, 1, event);
               }}
             >
               Dataset Info
@@ -126,7 +150,7 @@ export default function SideBar(props: SideBarProps) {
             <CNavLink
               active={props.activePageInd === 1 && props.activeSubPageInd === 2}
               onClick={(event) => {
-                props.onNavClick(1, 2, event);
+                props.onNavClick(2, 2, event);
               }}
             >
               Underlying Trends
@@ -136,7 +160,7 @@ export default function SideBar(props: SideBarProps) {
             <CNavLink
               active={props.activePageInd === 1 && props.activeSubPageInd === 3}
               onClick={(event) => {
-                props.onNavClick(1, 3, event);
+                props.onNavClick(2, 3, event);
               }}
             >
               Modeling Assumptions
@@ -146,7 +170,7 @@ export default function SideBar(props: SideBarProps) {
             <CNavLink
               active={props.activePageInd === 1 && props.activeSubPageInd === 4}
               onClick={(event) => {
-                props.onNavClick(1, 4, event);
+                props.onNavClick(2, 4, event);
               }}
             >
               Training Configuration
@@ -156,7 +180,7 @@ export default function SideBar(props: SideBarProps) {
             <CNavLink
               active={props.activePageInd === 1 && props.activeSubPageInd === 5}
               onClick={(event) => {
-                props.onNavClick(1, 5, event);
+                props.onNavClick(2, 5, event);
               }}
             >
               Validation Configuration
@@ -168,7 +192,7 @@ export default function SideBar(props: SideBarProps) {
           key="Model Evaluation"
           onClick={(event) => {
             if (event.target.className.split(" ")[1] === "nav-group-toggle") {
-              props.onNavClick(2, 0, event);
+              props.onNavClick(3, 0, event);
             }
           }}
         >
@@ -176,7 +200,7 @@ export default function SideBar(props: SideBarProps) {
             <CNavLink
               active={props.activePageInd === 2 && props.activeSubPageInd === 0}
               onClick={(event) => {
-                props.onNavClick(2, 0, event);
+                props.onNavClick(3, 0, event);
               }}
             >
               Test Train Split
@@ -186,7 +210,7 @@ export default function SideBar(props: SideBarProps) {
             <CNavLink
               active={props.activePageInd === 2 && props.activeSubPageInd === 1}
               onClick={(event) => {
-                props.onNavClick(2, 1, event);
+                props.onNavClick(3, 1, event);
               }}
             >
               Model Parameters
@@ -196,7 +220,7 @@ export default function SideBar(props: SideBarProps) {
             <CNavLink
               active={props.activePageInd === 2 && props.activeSubPageInd === 2}
               onClick={(event) => {
-                props.onNavClick(2, 2, event);
+                props.onNavClick(3, 2, event);
               }}
             >
               Previous Performance
@@ -208,7 +232,7 @@ export default function SideBar(props: SideBarProps) {
           visible={props.activePageInd === 3}
           onClick={(event) => {
             if (event.target.className.split(" ")[1] === "nav-group-toggle") {
-              props.onNavClick(3, -1, event);
+              props.onNavClick(4, -1, event);
             }
           }}
         >
@@ -218,7 +242,7 @@ export default function SideBar(props: SideBarProps) {
             updateConfig={props.onPredictionConfigChange}
           />
           <CNavItem>
-            <CNavLink onClick={(event) => props.onNavClick(3, 0, event)}>
+            <CNavLink onClick={(event) => props.onNavClick(4, 0, event)}>
               Export
             </CNavLink>
           </CNavItem>
