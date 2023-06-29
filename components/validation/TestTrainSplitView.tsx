@@ -1,4 +1,11 @@
-import { CButton, CCollapse, CContainer, CRow } from "@coreui/react";
+import {
+  CAlert,
+  CButton,
+  CCol,
+  CCollapse,
+  CContainer,
+  CRow,
+} from "@coreui/react";
 import { useEffect, useMemo, useState } from "react";
 import { useAppSelector } from "../../src/hooks";
 import { selectStatus, selectTargetColumn } from "../../src/store/selectors";
@@ -7,7 +14,10 @@ import PlotlyChart from "../Plotly";
 import ResidualErrorChart from "./ResidualErrorChart";
 import LoadingOverlay from "../prediction/LoadingOverlay";
 
-export default function TestTrainSplitView() {
+export default function TestTrainSplitView(props: {
+  staleEvaluation: boolean;
+  validate: () => void;
+}) {
   const targetColumn = useAppSelector(selectTargetColumn);
   const validationResult = useAppSelector(
     (state) => state.datasets.validationResult
@@ -55,6 +65,16 @@ export default function TestTrainSplitView() {
 
   return (
     <>
+      <CCollapse visible={props.staleEvaluation}>
+        <CAlert color="primary">
+          <CRow>
+            <CCol> The model configuration changed. Rerun evaluation?</CCol>
+            <CCol>
+              <CButton onClick={props.validate}>Confirm</CButton>
+            </CCol>
+          </CRow>
+        </CAlert>
+      </CCollapse>
       {status === "loading" && <LoadingOverlay msg="Evaluating model..." />}
       {validationResult && validationResult.status === "ok" && (
         <>

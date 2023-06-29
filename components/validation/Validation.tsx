@@ -9,19 +9,31 @@ import {
   selectModelConfiguration,
 } from "../../src/store/selectors";
 
-export type ValidationViewMode = "Test Train Split" | "Previous Performance";
+export type ValidationViewMode =
+  | "Test Train Split"
+  | "Previous Performance"
+  | "Start";
 
-function viewRender(view: ValidationViewMode) {
-  switch (view) {
-    case "Previous Performance":
-      return <PreviousModelPerfView />;
-    case "Test Train Split":
-      return <TestTrainSplitView />;
-  }
-}
-
-export default function Validation(props: { view: ValidationViewMode }) {
-  const viewComponent = useMemo(() => viewRender(props.view), [props.view]);
+export default function Validation(props: {
+  view: ValidationViewMode;
+  staleEvaluation: boolean;
+  validate: () => void;
+}) {
+  const viewComponent = useMemo(() => {
+    switch (props.view) {
+      case "Previous Performance":
+        return <PreviousModelPerfView />;
+      case "Test Train Split":
+        return (
+          <TestTrainSplitView
+            staleEvaluation={props.staleEvaluation}
+            validate={props.validate}
+          />
+        );
+      case "Start":
+        return <>Start</>;
+    }
+  }, [props]);
 
   return viewComponent;
 }

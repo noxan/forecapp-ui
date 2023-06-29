@@ -48,6 +48,7 @@ const dataSelectorSubPage: DataSelectorPages[] = [
 ];
 
 const modelEvaluationSubPage: ValidationViewMode[] = [
+  "Start",
   "Test Train Split",
   "Previous Performance",
 ];
@@ -60,41 +61,11 @@ enum Pages {
 }
 
 const pages = [
-  {
-    pageName: "Data Selector",
-    subPages: ["Data Selector", "View Data", "Visualize Data", "Data Table"],
-  },
-  {
-    pageName: "Model Configuration",
-    subPages: [
-      "Prediction Configuration",
-      "Dataset Info",
-      "Underlying Trends",
-      "Modeling Assumptions",
-      "Training Configuration",
-      "Validation Configuration",
-    ],
-  },
-  {
-    pageName: "Model Evaluation",
-    subPages: ["Test Train Split", "Previous Performance"],
-  },
-  {
-    pageName: "Prediction",
-    subPages: [
-      <PredictionConfigCard
-        key="prediction-card"
-        config={{
-          showUncertainty: true,
-          showTrend: false,
-          showEvents: false,
-          showHistory: false,
-        }}
-        updateConfig={(_) => _}
-      />,
-    ],
-  },
-] as AccordionSideBarGroupProps[];
+  "Data Selector",
+  "Model Configuration",
+  "Model Evaluation",
+  "Prediction",
+];
 
 export default function Layout() {
   const dispatch = useAppDispatch();
@@ -170,10 +141,16 @@ export default function Layout() {
   };
 
   function getPageComponent(pageInd: number, subPageInd: number) {
-    const pageName = pages[pageInd].pageName;
+    const pageName = pages[pageInd];
     switch (pageName) {
       case "Model Evaluation":
-        return <Validation view={modelEvaluationSubPage[subPageInd]} />;
+        return (
+          <Validation
+            view={modelEvaluationSubPage[subPageInd]}
+            staleEvaluation={shouldRunEval}
+            validate={validate}
+          />
+        );
       case "Prediction":
         return (
           <PredictionView
@@ -205,20 +182,10 @@ export default function Layout() {
     subPageInd: number,
     event: React.MouseEvent<HTMLElement>
   ) => {
-    // Prevent any href from the nav click
     event.preventDefault();
 
-    // Do page specific computations
     if (pageInd === Pages.ModelConfiguration) {
       location.href = `#${modelConfigSubPage[subPageInd]}`;
-    }
-
-    if (
-      activePageInd !== Pages.ModelEvaluation &&
-      pageInd === Pages.ModelEvaluation &&
-      shouldRunEval
-    ) {
-      validate();
     }
 
     setActivePageInd(pageInd);
