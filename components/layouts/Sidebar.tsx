@@ -36,6 +36,7 @@ export default function SideBar(props: SideBarProps) {
   return (
     <CSidebar position="sticky">
       <CSidebarBrand>
+        {/* TODO: Make this as a link to an imprint subpage that explains the project and links to tutorial and NP */}
         <CNavLink href="https://neuralprophet.com/" target="_blank">
           Forecapp
         </CNavLink>
