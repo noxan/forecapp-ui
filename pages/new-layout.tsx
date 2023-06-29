@@ -58,14 +58,18 @@ const modelEvaluationSubPage: ValidationViewMode[] = [
 ];
 
 enum Pages {
-  DataSelector = 0,
-  ModelConfiguration = 1,
-  ModelEvaluation = 2,
-  Prediction = 3,
-  Home = 4,
+  Home = 0,
+  DataSelector = 1,
+  ModelConfiguration = 2,
+  ModelEvaluation = 3,
+  Prediction = 4,
 }
 
 const pages = [
+  {
+    pageName: "Homepage",
+    subPages: ["Data Upload", "Sample Data"],
+  },
   {
     pageName: "Data Selector",
     subPages: ["Data Selector", "View Data", "Visualize Data", "Data Table"],
@@ -99,10 +103,6 @@ const pages = [
         updateConfig={(_) => _}
       />,
     ],
-  },
-  {
-    pageName: "Homepage",
-    subPages: ["Data Upload", "Sample Data"],
   },
 ] as AccordionSideBarGroupProps[];
 
