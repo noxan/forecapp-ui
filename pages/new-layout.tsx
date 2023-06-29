@@ -150,8 +150,16 @@ export default function Layout() {
   function getPageComponent(pageInd: number, subPageInd: number) {
     const pageName = pages[pageInd];
     switch (pageName) {
-      case "Home Page":
-        return <Home view={homeSubPage[subPageInd]} />;
+      case "Homepage":
+        return (
+          <Home
+            view={homeSubPage[subPageInd]}
+            onDataUpload={() => {
+              setActivePageInd(Pages.DataSelector);
+              setActiveSubPageInd(0);
+            }}
+          />
+        );
       case "Model Evaluation":
         return (
           <Validation
