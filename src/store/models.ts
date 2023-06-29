@@ -3,7 +3,7 @@ import merge from "lodash.merge";
 
 import { forecappApi } from "./forecappApi";
 import { HistoricModel } from "./history";
-import { apiPrediction, validateModel } from "./datasets";
+import { apiPrediction, parseDataset, validateModel } from "./datasets";
 
 forecappApi.endpoints.predictionPredictionPost.useMutation;
 
@@ -117,6 +117,10 @@ export const modelSlice = createSlice({
     builder.addCase(validateModel.fulfilled, (state, _) => {
       state.shouldEval = false;
     });
+    builder.addCase(parseDataset.fulfilled, (state, _) => {
+      state.shouldPredict = true;
+      state.shouldEval = true;
+    })
   }
 });
 

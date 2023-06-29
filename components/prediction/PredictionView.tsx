@@ -1,23 +1,7 @@
-import { ReactElement, useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../src/hooks";
-import {
-  selectDataset,
-  selectModelConfiguration,
-  selectStatus,
-  selectTargetColumn,
-} from "../../src/store/selectors";
+import { useState } from "react";
+import { useAppSelector } from "../../src/hooks";
+import { selectStatus, selectTargetColumn } from "../../src/store/selectors";
 import { PredictionChart } from "./Chart";
-import { ZodError } from "zod";
-import {
-  HTTPError,
-  ValidationError,
-  NeuralProphetError,
-} from "../../src/error";
-import { transformDataset } from "../../src/helpers";
-import { ModelParameters } from "../../src/schemas/modelParameters";
-import { apiPrediction } from "../../src/store/datasets";
-import { errorToastWithMessage } from "../ErrorToast";
-import { CToaster } from "@coreui/react";
 import LoadingOverlay from "./LoadingOverlay";
 import { PredictionConfig } from "./PredictionConfigCard";
 
