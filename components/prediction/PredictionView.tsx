@@ -4,9 +4,19 @@ import { selectStatus, selectTargetColumn } from "../../src/store/selectors";
 import { PredictionChart } from "./Chart";
 import LoadingOverlay from "./LoadingOverlay";
 import { PredictionConfig } from "./PredictionConfigCard";
+import {
+  CAlert,
+  CButton,
+  CCallout,
+  CCol,
+  CCollapse,
+  CRow,
+} from "@coreui/react";
 
 export default function PredictionView(props: {
   chartConfig: PredictionConfig;
+  stalePrediction: boolean;
+  predict: () => void;
 }) {
   const predictionData = useAppSelector((state) => state.datasets.prediction);
   const targetColumn = useAppSelector(selectTargetColumn);
@@ -17,6 +27,16 @@ export default function PredictionView(props: {
 
   return (
     <>
+      <CCollapse visible={props.stalePrediction}>
+        <CAlert color="primary">
+          <CRow>
+            <CCol> The model configuration changed. Rerun prediction?</CCol>
+            <CCol>
+              <CButton onClick={props.predict}>Confirm</CButton>
+            </CCol>
+          </CRow>
+        </CAlert>
+      </CCollapse>
       {status === "loading" && (
         <LoadingOverlay msg={"Generating your forecast..."} />
       )}

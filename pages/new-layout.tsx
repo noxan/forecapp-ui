@@ -175,7 +175,13 @@ export default function Layout() {
       case "Model Evaluation":
         return <Validation view={modelEvaluationSubPage[subPageInd]} />;
       case "Prediction":
-        return <PredictionView chartConfig={currChartConfig} />;
+        return (
+          <PredictionView
+            chartConfig={currChartConfig}
+            stalePrediction={shouldRunPred}
+            predict={predict}
+          />
+        );
       case "Model Configuration":
         return (
           <ModelConfiguration
@@ -213,14 +219,6 @@ export default function Layout() {
       shouldRunEval
     ) {
       validate();
-    }
-
-    if (
-      activePageInd !== Pages.Prediction &&
-      pageInd === Pages.Prediction &&
-      shouldRunPred
-    ) {
-      predict();
     }
 
     setActivePageInd(pageInd);
