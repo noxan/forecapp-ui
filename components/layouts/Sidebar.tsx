@@ -43,7 +43,15 @@ export default function SideBar(props: SideBarProps) {
           />
           Home
         </CNavItem>
-        <CNavGroup toggler={"Data Selector"} key="Data Selector">
+        <CNavGroup
+          toggler={"Data Selector"}
+          key="Data Selector"
+          onClick={(event) => {
+            if (event.target.className.split(" ")[1] === "nav-group-toggle") {
+              props.onNavClick(0, 0, event);
+            }
+          }}
+        >
           <CNavItem>
             <CNavLink
               active={props.activePageInd === 0 && props.activeSubPageInd === 0}
@@ -85,7 +93,15 @@ export default function SideBar(props: SideBarProps) {
             </CNavLink>
           </CNavItem>
         </CNavGroup>
-        <CNavGroup toggler={"Model Configuration"} key="Model Configuration">
+        <CNavGroup
+          toggler={"Model Configuration"}
+          key="Model Configuration"
+          onClick={(event) => {
+            if (event.target.className.split(" ")[1] === "nav-group-toggle") {
+              props.onNavClick(1, 0, event);
+            }
+          }}
+        >
           <CNavItem>
             <CNavLink
               active={props.activePageInd === 1 && props.activeSubPageInd === 0}
