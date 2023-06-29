@@ -9,6 +9,7 @@ import {
   CNavItem,
   CNavLink,
   CSidebar,
+  CSidebarBrand,
   CSidebarNav,
 } from "@coreui/react";
 import HomeIcon from "@mui/icons-material/Home";
@@ -34,18 +35,12 @@ export default function SideBar(props: SideBarProps) {
     useState<boolean>(false);
   return (
     <CSidebar position="sticky">
+      <CSidebarBrand>
+        <CNavLink href="https://neuralprophet.com/" target="_blank">
+          Forecapp
+        </CNavLink>
+      </CSidebarBrand>
       <CSidebarNav>
-        <CNavItem href="/">
-          <HomeIcon
-            sx={{
-              width: "2em",
-              alignContent: "center",
-              justifyContent: "flex-start",
-              display: "flex",
-            }}
-          />
-          Home
-        </CNavItem>
         <CNavGroup toggler={"Home"} key={"Home"}>
           <CNavItem>
             <CNavLink
