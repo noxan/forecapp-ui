@@ -83,7 +83,7 @@ export default function SideBar(props: SideBarProps) {
                 props.onNavClick(1, 0, event);
               }}
             >
-              Data Selector
+              Data Upload
             </CNavLink>
           </CNavItem>
           <CNavItem>
@@ -133,7 +133,7 @@ export default function SideBar(props: SideBarProps) {
                 props.onNavClick(2, 0, event);
               }}
             >
-              Prediction Configuration
+              Data Selector
             </CNavLink>
           </CNavItem>
           <CNavItem>
@@ -143,7 +143,7 @@ export default function SideBar(props: SideBarProps) {
                 props.onNavClick(2, 1, event);
               }}
             >
-              Dataset Info
+              View Data
             </CNavLink>
           </CNavItem>
           <CNavItem>
@@ -153,7 +153,7 @@ export default function SideBar(props: SideBarProps) {
                 props.onNavClick(2, 2, event);
               }}
             >
-              Underlying Trends
+              Visualize Data
             </CNavLink>
           </CNavItem>
           <CNavItem>
