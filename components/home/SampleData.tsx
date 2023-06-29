@@ -17,7 +17,11 @@ import {
 import { useRouter } from "next/router";
 import { errorToastWithMessage } from "../ErrorToast";
 
-export default function SampleData() {
+export default function SampleData({
+  onDataUpload,
+}: {
+  onDataUpload: () => void;
+}) {
   const router = useRouter();
   const dataset = useAppSelector(selectDataset);
   const timeColumn = useAppSelector(selectTimeColumn);
@@ -33,18 +37,13 @@ export default function SampleData() {
       const columnHeaders = Object.keys(parseResult.data[0]);
       dispatch(detectColumnConfig(columnHeaders));
       dispatch(validateData());
-      router.push(
-        parseResult.errors.length > 0 ? "/wizard/data-errors" : "/new-layout"
-      );
+      parseResult.errors.length > 0 ? "/wizard/data-errors" : onDataUpload();
     } catch (err: any) {
       pushErrorToast(errorToastWithMessage("Error: " + err.message));
     }
   };
   return (
     <>
-      <CRow className="my-2">
-        <CButton>Explore sample datasets</CButton>
-      </CRow>
       <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 4 }}>
         {datasetExamples.map((dataset) => (
           <DatasetCard

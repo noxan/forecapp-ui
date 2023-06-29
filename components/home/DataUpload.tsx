@@ -15,7 +15,11 @@ import {
 import { useRouter } from "next/router";
 import { errorToastWithMessage } from "../ErrorToast";
 
-export default function DataUpload() {
+export default function DataUpload({
+  onDataUpload,
+}: {
+  onDataUpload: () => void;
+}) {
   const router = useRouter();
   const dataset = useAppSelector(selectDataset);
   const timeColumn = useAppSelector(selectTimeColumn);
@@ -31,9 +35,9 @@ export default function DataUpload() {
       const columnHeaders = Object.keys(parseResult.data[0]);
       dispatch(detectColumnConfig(columnHeaders));
       dispatch(validateData());
-      router.push(
-        parseResult.errors.length > 0 ? "/wizard/data-errors" : "/new-layout"
-      );
+      parseResult.errors.length > 0
+        ? router.push("/wizard/data-errors")
+        : onDataUpload();
     } catch (err: any) {
       pushErrorToast(errorToastWithMessage("Error: " + err.message));
     }

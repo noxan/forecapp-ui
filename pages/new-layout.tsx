@@ -183,7 +183,15 @@ export default function Layout() {
     const pageName = pages[pageInd].pageName;
     switch (pageName) {
       case "Homepage":
-        return <Home view={homeSubPage[subPageInd]} />;
+        return (
+          <Home
+            view={homeSubPage[subPageInd]}
+            onDataUpload={() => {
+              setActivePageInd(Pages.DataSelector);
+              setActiveSubPageInd(0);
+            }}
+          />
+        );
       case "Model Evaluation":
         return <Validation view={modelEvaluationSubPage[subPageInd]} />;
       case "Prediction":
