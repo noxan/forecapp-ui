@@ -150,7 +150,7 @@ export default function Layout() {
   function getPageComponent(pageInd: number, subPageInd: number) {
     const pageName = pages[pageInd];
     switch (pageName) {
-      case "Homepage":
+      case "Home Page":
         return (
           <Home
             view={homeSubPage[subPageInd]}
