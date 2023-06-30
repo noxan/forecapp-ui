@@ -1,4 +1,12 @@
-import { CButton, CCollapse, CContainer, CRow } from "@coreui/react";
+import {
+  CAlert,
+  CButton,
+  CCol,
+  CCollapse,
+  CContainer,
+  CHeader,
+  CRow,
+} from "@coreui/react";
 import { useEffect, useMemo, useState } from "react";
 import { useAppSelector } from "../../src/hooks";
 import { selectStatus, selectTargetColumn } from "../../src/store/selectors";
@@ -7,7 +15,10 @@ import PlotlyChart from "../Plotly";
 import ResidualErrorChart from "./ResidualErrorChart";
 import LoadingOverlay from "../prediction/LoadingOverlay";
 
-export default function TestTrainSplitView() {
+export default function TestTrainSplitView(props: {
+  staleEvaluation: boolean;
+  validate: () => void;
+}) {
   const targetColumn = useAppSelector(selectTargetColumn);
   const validationResult = useAppSelector(
     (state) => state.datasets.validationResult
@@ -19,9 +30,9 @@ export default function TestTrainSplitView() {
   const holdoutFraction =
     useAppSelector((state) => state.models.validation.testSplit) / 100;
 
-  const parameterPlot =
+  const componentPlot =
     validationResult && validationResult.status === "ok"
-      ? structuredClone(validationResult.explainable.parameters)
+      ? structuredClone(validationResult.explainable.components)
       : undefined;
 
   const y = useMemo(
@@ -50,11 +61,20 @@ export default function TestTrainSplitView() {
     [validationResult]
   );
 
-  const [parametersVisible, setParametersVisible] = useState(false);
-  const [residualVisible, setResidualVisible] = useState(false);
+  const [componentsVisible, setComponentsVisible] = useState<boolean>(false);
 
   return (
     <>
+      <CCollapse visible={props.staleEvaluation}>
+        <CAlert color="primary">
+          <CRow>
+            <CCol> The model configuration changed. Rerun evaluation?</CCol>
+            <CCol>
+              <CButton onClick={props.validate}>Confirm</CButton>
+            </CCol>
+          </CRow>
+        </CAlert>
+      </CCollapse>
       {status === "loading" && <LoadingOverlay msg="Evaluating model..." />}
       {validationResult && validationResult.status === "ok" && (
         <>
@@ -69,27 +89,22 @@ export default function TestTrainSplitView() {
             showEvents={false}
             confidenceLevel={confidenceLevel}
           />
-          <CButton onClick={() => setResidualVisible(!residualVisible)}>
-            {residualVisible ? "Hide residual error" : "Show residual error"}
+          <ResidualErrorChart
+            ds={ds!}
+            y={y!}
+            ypredicted={ypredicted!}
+            holdoutFraction={holdoutFraction}
+          />
+          <CButton onClick={() => setComponentsVisible(!componentsVisible)}>
+            {componentsVisible
+              ? "Hide model components"
+              : "Show model components"}
           </CButton>
-          <CButton onClick={() => setParametersVisible(!parametersVisible)}>
-            {parametersVisible
-              ? "Hide model parameters"
-              : "Show model parameters"}
-          </CButton>
-          <CCollapse visible={residualVisible}>
-            <ResidualErrorChart
-              ds={ds!}
-              y={y!}
-              ypredicted={ypredicted!}
-              holdoutFraction={holdoutFraction}
-            />
-          </CCollapse>
-          <CCollapse visible={parametersVisible}>
-            {parameterPlot && (
+          <CCollapse visible={componentsVisible}>
+            {componentPlot && (
               <PlotlyChart
-                data={parameterPlot.data}
-                layout={parameterPlot.layout}
+                data={componentPlot.data}
+                layout={componentPlot.layout}
               />
             )}
           </CCollapse>

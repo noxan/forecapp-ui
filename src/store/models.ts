@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import merge from "lodash.merge";
 
 import { forecappApi } from "./forecappApi";
-import { HistoricModel } from "./history";
-import { apiPrediction, validateModel } from "./datasets";
+import { HistoricModel, selectModel } from "./history";
+import { apiPrediction, parseDataset, validateModel } from "./datasets";
 
 forecappApi.endpoints.predictionPredictionPost.useMutation;
 
@@ -49,40 +49,42 @@ export type ModelState = {
   shouldEval: boolean;
 };
 
+const initConfig = {
+  forecasts: 168,
+  trend: {
+    growth: "linear",
+    numberOfChangepoints: 0,
+  },
+  autoregression: {
+    lags: 0,
+    regularization: 0,
+  },
+  seasonality: {
+    mode: "additive",
+    daily: true,
+    weekly: false,
+    yearly: false,
+  },
+  events: {},
+  training: {
+    learningRate: null,
+    epochs: 10,
+    batchSize: null,
+    earlyStopping: true,
+  },
+  validation: {
+    testSplit: 20,
+    confidenceLevel: 95,
+  },
+  laggedRegressors: [],
+  holidays: [],
+  shouldPredict: true,
+  shouldEval: true,
+} as ModelState;
+
 export const modelSlice = createSlice({
   name: "models",
-  initialState: {
-    forecasts: 168,
-    trend: {
-      growth: "linear",
-      numberOfChangepoints: 0,
-    },
-    autoregression: {
-      lags: 0,
-      regularization: 0,
-    },
-    seasonality: {
-      mode: "additive",
-      daily: true,
-      weekly: false,
-      yearly: false,
-    },
-    events: {},
-    training: {
-      learningRate: null,
-      epochs: 10,
-      batchSize: null,
-      earlyStopping: true,
-    },
-    validation: {
-      testSplit: 20,
-      confidenceLevel: 95,
-    },
-    laggedRegressors: [],
-    holidays: [],
-    shouldPredict: true,
-    shouldEval: true,
-  } as ModelState,
+  initialState: initConfig,
   reducers: {
     editModelConfig: (state: ModelState, { payload }) => {
       state.shouldEval = true;
@@ -98,10 +100,8 @@ export const modelSlice = createSlice({
         return merge(state, payload);
       }
     },
-    applyPrevModel: (state, action: { payload: HistoricModel }) => {      
-      state = action.payload.modelConfig;
-      state.shouldPredict = true;
-      state.shouldEval = true;
+    applyPrevModel: (state, action: { payload: HistoricModel }) => {  
+      state = {...action.payload.modelConfig, shouldPredict: true, shouldEval: true};
     },
     editModelConfigJsonView: (_, { payload: { updated_src: newState } }: any) =>
       newState,
@@ -117,6 +117,13 @@ export const modelSlice = createSlice({
     builder.addCase(validateModel.fulfilled, (state, _) => {
       state.shouldEval = false;
     });
+    builder.addCase(parseDataset.fulfilled, (state, _) => {
+      state = initConfig;
+    });
+    builder.addCase(selectModel, (state, _) => {
+      state.shouldEval = true;
+      state.shouldPredict = true;
+    })
   }
 });
 

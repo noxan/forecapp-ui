@@ -7,21 +7,50 @@ import { transformDataset } from "../../src/helpers";
 import {
   selectDataset,
   selectModelConfiguration,
+  shouldEval,
 } from "../../src/store/selectors";
+import PlotlyChart from "../Plotly";
 
-export type ValidationViewMode = "Test Train Split" | "Previous Performance";
+export type ValidationViewMode =
+  | "Test Train Split"
+  | "Previous Performance"
+  | "Model Parameters";
 
-function viewRender(view: ValidationViewMode) {
-  switch (view) {
-    case "Previous Performance":
-      return <PreviousModelPerfView />;
-    case "Test Train Split":
-      return <TestTrainSplitView />;
-  }
-}
+export default function Validation(props: {
+  view: ValidationViewMode;
+  validate: () => void;
+}) {
+  const validationResult = useAppSelector(
+    (state) => state.datasets.validationResult
+  );
+  const staleEvaluation = useAppSelector(shouldEval);
+  const parameterPlot =
+    validationResult && validationResult.status === "ok"
+      ? structuredClone(validationResult.explainable.parameters)
+      : undefined;
 
-export default function Validation(props: { view: ValidationViewMode }) {
-  const viewComponent = useMemo(() => viewRender(props.view), [props.view]);
+  const viewComponent = useMemo(() => {
+    switch (props.view) {
+      case "Previous Performance":
+        return <PreviousModelPerfView />;
+      case "Test Train Split":
+        return (
+          <TestTrainSplitView
+            staleEvaluation={staleEvaluation}
+            validate={props.validate}
+          />
+        );
+      case "Model Parameters":
+        return (
+          parameterPlot && (
+            <PlotlyChart
+              data={parameterPlot.data}
+              layout={parameterPlot.layout}
+            />
+          )
+        );
+    }
+  }, [props, parameterPlot, staleEvaluation]);
 
   return viewComponent;
 }

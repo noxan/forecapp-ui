@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ModelState, editModelConfig } from "./models";
-import { apiPrediction, validateModel } from "./datasets";
+import { apiPrediction, parseDataset, validateModel } from "./datasets";
 
 export type HistoricModel = {
   modelConfig: ModelState;
@@ -8,6 +8,16 @@ export type HistoricModel = {
   testMetrics: {Loss_test : {[key : number] : number}, RegLoss_test : {[key : number] : number}};
   time: number;
 };
+
+export function getLatestTestLoss(model : HistoricModel) {
+  const lossTestArr = Object.values(model.testMetrics.Loss_test);
+  return lossTestArr[lossTestArr.length - 1];
+}
+
+export function getLatestTrainMAE(model : HistoricModel) {
+  const trainMAEArr = Object.values(model.metrics.MAE) as number[];
+  return trainMAEArr[trainMAEArr.length - 1];
+}
 
 export type ModelHistoryState = {
   models: HistoricModel[];
@@ -49,13 +59,17 @@ export const historySlice = createSlice({
     builder.addCase(validateModel.fulfilled, (state, {payload}) => {
       if (state.currentModel === undefined) {
         state.models.push({
-          modelConfig: payload.configuration,
+          modelConfig: {...payload.configuration, shouldEval: false, shouldPredict: true},
           metrics: payload.trainMetrics,
           testMetrics : payload.testMetrics,
           time : Date.now(),
         });
         state.currentModel = state.models.length - 1;
       }
+    })
+    builder.addCase(parseDataset.fulfilled, (state, _) => {
+      state.currentModel = undefined;
+      state.models = [];
     })
   },
 });

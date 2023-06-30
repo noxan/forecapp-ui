@@ -155,7 +155,12 @@ export const datasetSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(parseDataset.fulfilled, (state, { payload }) => {
       state.status = "idle";
+      state.prediction = undefined;
       state.raw = payload.data;
+      state.columns = {
+        timeColumn: SELECT_STATE_INITIALIZE,
+        targetColumn: SELECT_STATE_INITIALIZE,
+      };
       state.dataErrors = payload.errors.map((e, _) => {
         const castedError: DataError = e as DataError;
         castedError.level = dataErrorTypeWarningLevel[e.type];

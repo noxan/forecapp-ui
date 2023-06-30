@@ -11,6 +11,8 @@
   "dependencies": {
     "@coreui/chartjs": "^3.1.1",
     "@coreui/coreui": "^4.2.6",
+    "@coreui/icons": "^3.0.1",
+    "@coreui/icons-react": "^2.1.0",
     "@coreui/react": "^4.7.0",
     "@coreui/react-chartjs": "^2.1.2",
     "@emotion/react": "^11.10.8",
@@ -32,7 +34,6 @@
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
     "@types/react-plotly.js": "^2.6.0",
-    "Chip": "link:@mui/material/Chip",
     "chart.js": "^3.9.1",
     "csv-parse": "^5.3.6",
     "dayjs": "^1.11.7",
