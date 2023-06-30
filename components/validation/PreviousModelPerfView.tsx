@@ -1,4 +1,5 @@
 import {
+  CButton,
   CCol,
   CContainer,
   CTable,
@@ -10,7 +11,7 @@ import {
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { cilCaretBottom } from "@coreui/icons";
-import { useAppSelector } from "../../src/hooks";
+import { useAppDispatch, useAppSelector } from "../../src/hooks";
 import {
   numHistoricModels,
   selectHistoricModels,
@@ -21,7 +22,9 @@ import {
   HistoricModel,
   getLatestTestLoss,
   getLatestTrainMAE,
+  selectModel,
 } from "../../src/store/history";
+import { applyPrevModel } from "../../src/store/models";
 
 type Header = "Time" | "Test Loss" | "Train MAE";
 
@@ -58,6 +61,7 @@ function sortBy(previousModelArr: HistoricModel[], sortHeader: Header) {
 }
 
 export default function PreviousModelPerfView() {
+  const dispatch = useAppDispatch();
   const previousModels = useAppSelector(selectHistoricModels);
   const [sortedModels, setSortedModels] = useState<number[]>(
     array1ToN(previousModels.models.length)
@@ -121,6 +125,16 @@ export default function PreviousModelPerfView() {
                   </CTableHeaderCell>
                   <CTableDataCell>{getLatestTestLoss(model)}</CTableDataCell>
                   <CTableDataCell>{getLatestTrainMAE(model)}</CTableDataCell>
+                  <CTableDataCell>
+                    <CButton
+                      onClick={() => {
+                        dispatch(selectModel(modelInd));
+                        dispatch(applyPrevModel(model));
+                      }}
+                    >
+                      Apply model
+                    </CButton>
+                  </CTableDataCell>
                 </CTableRow>
               );
             })}

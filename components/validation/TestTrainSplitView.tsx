@@ -4,6 +4,7 @@ import {
   CCol,
   CCollapse,
   CContainer,
+  CHeader,
   CRow,
 } from "@coreui/react";
 import { useEffect, useMemo, useState } from "react";
@@ -29,9 +30,9 @@ export default function TestTrainSplitView(props: {
   const holdoutFraction =
     useAppSelector((state) => state.models.validation.testSplit) / 100;
 
-  const parameterPlot =
+  const componentPlot =
     validationResult && validationResult.status === "ok"
-      ? structuredClone(validationResult.explainable.parameters)
+      ? structuredClone(validationResult.explainable.components)
       : undefined;
 
   const y = useMemo(
@@ -60,8 +61,7 @@ export default function TestTrainSplitView(props: {
     [validationResult]
   );
 
-  const [parametersVisible, setParametersVisible] = useState(false);
-  const [residualVisible, setResidualVisible] = useState(false);
+  const [componentsVisible, setComponentsVisible] = useState<boolean>(false);
 
   return (
     <>
@@ -89,27 +89,22 @@ export default function TestTrainSplitView(props: {
             showEvents={false}
             confidenceLevel={confidenceLevel}
           />
-          <CButton onClick={() => setResidualVisible(!residualVisible)}>
-            {residualVisible ? "Hide residual error" : "Show residual error"}
+          <ResidualErrorChart
+            ds={ds!}
+            y={y!}
+            ypredicted={ypredicted!}
+            holdoutFraction={holdoutFraction}
+          />
+          <CButton onClick={() => setComponentsVisible(!componentsVisible)}>
+            {componentsVisible
+              ? "Hide model components"
+              : "Show model components"}
           </CButton>
-          <CButton onClick={() => setParametersVisible(!parametersVisible)}>
-            {parametersVisible
-              ? "Hide model parameters"
-              : "Show model parameters"}
-          </CButton>
-          <CCollapse visible={residualVisible}>
-            <ResidualErrorChart
-              ds={ds!}
-              y={y!}
-              ypredicted={ypredicted!}
-              holdoutFraction={holdoutFraction}
-            />
-          </CCollapse>
-          <CCollapse visible={parametersVisible}>
-            {parameterPlot && (
+          <CCollapse visible={componentsVisible}>
+            {componentPlot && (
               <PlotlyChart
-                data={parameterPlot.data}
-                layout={parameterPlot.layout}
+                data={componentPlot.data}
+                layout={componentPlot.layout}
               />
             )}
           </CCollapse>

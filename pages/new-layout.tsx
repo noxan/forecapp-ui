@@ -48,8 +48,8 @@ const dataSelectorSubPage: DataSelectorPages[] = [
 ];
 
 const modelEvaluationSubPage: ValidationViewMode[] = [
-  "Start",
   "Test Train Split",
+  "Model Parameters",
   "Previous Performance",
 ];
 
@@ -147,7 +147,6 @@ export default function Layout() {
         return (
           <Validation
             view={modelEvaluationSubPage[subPageInd]}
-            staleEvaluation={shouldRunEval}
             validate={validate}
           />
         );

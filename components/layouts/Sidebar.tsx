@@ -168,10 +168,20 @@ export default function SideBar(props: SideBarProps) {
           key="Model Evaluation"
           onClick={(event) => {
             if (event.target.className.split(" ")[1] === "nav-group-toggle") {
-              props.onNavClick(2, 1, event);
+              props.onNavClick(2, 0, event);
             }
           }}
         >
+          <CNavItem>
+            <CNavLink
+              active={props.activePageInd === 2 && props.activeSubPageInd === 0}
+              onClick={(event) => {
+                props.onNavClick(2, 0, event);
+              }}
+            >
+              Test Train Split
+            </CNavLink>
+          </CNavItem>
           <CNavItem>
             <CNavLink
               active={props.activePageInd === 2 && props.activeSubPageInd === 1}
@@ -179,7 +189,7 @@ export default function SideBar(props: SideBarProps) {
                 props.onNavClick(2, 1, event);
               }}
             >
-              Test Train Split
+              Model Parameters
             </CNavLink>
           </CNavItem>
           <CNavItem>
