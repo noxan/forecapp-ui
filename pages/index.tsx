@@ -1,6 +1,7 @@
 import {
   CButton,
   CCol,
+  CCollapse,
   CContainer,
   CFormInput,
   CRow,
@@ -36,6 +37,7 @@ export default function Home() {
   const dispatch = useAppDispatch();
   const [url, setUrl] = useState("");
   const [errorToast, pushErrorToast] = useState<ReactElement>();
+  const [showSampleData, setShowSampleData] = useState(false);
 
   const isDatasetLoaded = !!dataset;
   const isColumnDefinitions = validateColumnDefinitions(
@@ -80,11 +82,6 @@ export default function Home() {
             </CCol>
           </CRow>
         )}
-        <CRow className="my-2">
-          <CCol>
-            <h5>Select a dataset below to get started</h5>
-          </CCol>
-        </CRow>
         <CRow className="my-2">
           <CCol>
             <h5>Import from your computer</h5>
@@ -134,6 +131,28 @@ export default function Home() {
             />
           ))}
         </CRow>
+        <CRow className="my-2">
+          <CButton onClick={() => setShowSampleData(!showSampleData)}>
+            Explore sample datasets
+          </CButton>
+        </CRow>
+        <CRow className="my-2">
+          <CButton onClick={() => setShowSampleData(!showSampleData)}>
+            Explore sample datasets
+          </CButton>
+        </CRow>
+        <CCollapse visible={showSampleData}>
+          <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 4 }}>
+            {datasetExamples.map((dataset) => (
+              <DatasetCard
+                key={dataset.filename}
+                dataset={dataset}
+                importAction={() => importAction(dataset.fullUrl)}
+                disabled={status === "loading"}
+              />
+            ))}
+          </CRow>
+        </CCollapse>
       </CContainer>
       <CToaster push={errorToast} placement="bottom-end" />
     </main>
