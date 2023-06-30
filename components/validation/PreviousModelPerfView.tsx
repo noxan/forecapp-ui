@@ -24,7 +24,7 @@ import {
   getLatestTrainMAE,
   selectModel,
 } from "../../src/store/history";
-import { applyPrevModel } from "../../src/store/models";
+import { applyPrevModel, editModelConfig } from "../../src/store/models";
 
 type Header = "Time" | "Test Loss" | "Train MAE";
 
@@ -130,6 +130,7 @@ export default function PreviousModelPerfView() {
                       onClick={() => {
                         dispatch(selectModel(modelInd));
                         dispatch(applyPrevModel(model));
+                        dispatch(editModelConfig({}));
                       }}
                     >
                       Apply model

@@ -29,8 +29,6 @@ export default function Validation(props: {
       ? structuredClone(validationResult.explainable.parameters)
       : undefined;
 
-  console.log(staleEvaluation);
-
   const viewComponent = useMemo(() => {
     switch (props.view) {
       case "Previous Performance":
