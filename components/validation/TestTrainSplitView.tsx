@@ -1,13 +1,5 @@
-import {
-  CAlert,
-  CButton,
-  CCol,
-  CCollapse,
-  CContainer,
-  CHeader,
-  CRow,
-} from "@coreui/react";
-import { useEffect, useMemo, useState } from "react";
+import { CAlert, CButton, CCol, CCollapse, CRow } from "@coreui/react";
+import { useMemo, useState } from "react";
 import { useAppSelector } from "../../src/hooks";
 import { selectStatus, selectTargetColumn } from "../../src/store/selectors";
 import { TestTrainSplitChart } from "./TestTrainSplitChart";

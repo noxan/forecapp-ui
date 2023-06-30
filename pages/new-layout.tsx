@@ -1,7 +1,4 @@
-import AccordionSideBar, {
-  AccordionSideBarGroupProps,
-} from "../components/layouts/AccordionSidebar";
-import { ReactElement, useMemo, useState } from "react";
+import { ReactElement, useState } from "react";
 import Validation, {
   ValidationViewMode,
 } from "../components/validation/Validation";
@@ -16,9 +13,7 @@ import {
   shouldPredict,
 } from "../src/store/selectors";
 import { transformDataset } from "../src/helpers";
-import { ModelParameters } from "../src/schemas/modelParameters";
 import { ZodError } from "zod";
-import { HTTPError, NeuralProphetError, ValidationError } from "../src/error";
 import { errorToastWithMessage } from "../components/ErrorToast";
 import ModelConfiguration, {
   modelConfigurationMenu,
@@ -26,10 +21,9 @@ import ModelConfiguration, {
 import DataSelectorPage, {
   DataSelectorPages,
 } from "../components/DataSelectorPage";
-import PredictionConfigCard, {
-  PredictionConfig,
-} from "../components/prediction/PredictionConfigCard";
+import { PredictionConfig } from "../components/prediction/PredictionConfigCard";
 import SideBar from "../components/layouts/Sidebar";
+import { HTTPError, ValidationError, NeuralProphetError } from "../src/error";
 
 const modelConfigSubPage: modelConfigurationMenu[] = [
   "prediction-configuration",

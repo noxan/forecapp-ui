@@ -12,19 +12,15 @@ import {
 import CIcon from "@coreui/icons-react";
 import { cilCaretBottom } from "@coreui/icons";
 import { useAppDispatch, useAppSelector } from "../../src/hooks";
-import {
-  numHistoricModels,
-  selectHistoricModels,
-  selectNthHistoricModel,
-} from "../../src/store/selectors";
-import { useEffect, useState } from "react";
+import { selectHistoricModels } from "../../src/store/selectors";
+import { useState } from "react";
 import {
   HistoricModel,
   getLatestTestLoss,
   getLatestTrainMAE,
   selectModel,
 } from "../../src/store/history";
-import { applyPrevModel, editModelConfig } from "../../src/store/models";
+import { applyPrevModel } from "../../src/store/models";
 
 type Header = "Time" | "Test Loss" | "Train MAE";
 

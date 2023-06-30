@@ -1,10 +1,4 @@
 import {
-  CAccordion,
-  CAccordionBody,
-  CAccordionHeader,
-  CAccordionItem,
-  CButton,
-  CCollapse,
   CNavGroup,
   CNavItem,
   CNavLink,
