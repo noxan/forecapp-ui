@@ -50,7 +50,7 @@ export default function Validation(props: {
           )
         );
     }
-  }, [props, parameterPlot]);
+  }, [props, parameterPlot, staleEvaluation]);
 
   return viewComponent;
 }

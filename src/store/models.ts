@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import merge from "lodash.merge";
 
 import { forecappApi } from "./forecappApi";
-import { HistoricModel } from "./history";
+import { HistoricModel, selectModel } from "./history";
 import { apiPrediction, parseDataset, validateModel } from "./datasets";
 
 forecappApi.endpoints.predictionPredictionPost.useMutation;
@@ -100,7 +100,7 @@ export const modelSlice = createSlice({
         return merge(state, payload);
       }
     },
-    applyPrevModel: (state, action: { payload: HistoricModel }) => {      
+    applyPrevModel: (state, action: { payload: HistoricModel }) => {  
       state = {...action.payload.modelConfig, shouldPredict: true, shouldEval: true};
     },
     editModelConfigJsonView: (_, { payload: { updated_src: newState } }: any) =>
@@ -119,6 +119,10 @@ export const modelSlice = createSlice({
     });
     builder.addCase(parseDataset.fulfilled, (state, _) => {
       state = initConfig;
+    });
+    builder.addCase(selectModel, (state, _) => {
+      state.shouldEval = true;
+      state.shouldPredict = true;
     })
   }
 });

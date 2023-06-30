@@ -63,7 +63,6 @@ function sortBy(previousModelArr: HistoricModel[], sortHeader: Header) {
 export default function PreviousModelPerfView() {
   const dispatch = useAppDispatch();
   const previousModels = useAppSelector(selectHistoricModels);
-  console.log(previousModels.currentModel);
   const [sortedModels, setSortedModels] = useState<number[]>(
     array1ToN(previousModels.models.length)
   );

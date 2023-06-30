@@ -17,8 +17,6 @@ export default function ResidualErrorChart(props: ResidualErrorProps) {
     ? (props.ds.length * props.holdoutFraction) | 0
     : 0;
 
-  console.log(offset);
-
   return (
     <PlotlyChart
       useResizeHandler
