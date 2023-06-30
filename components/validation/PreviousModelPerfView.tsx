@@ -63,6 +63,7 @@ function sortBy(previousModelArr: HistoricModel[], sortHeader: Header) {
 export default function PreviousModelPerfView() {
   const dispatch = useAppDispatch();
   const previousModels = useAppSelector(selectHistoricModels);
+  console.log(previousModels.currentModel);
   const [sortedModels, setSortedModels] = useState<number[]>(
     array1ToN(previousModels.models.length)
   );
@@ -118,7 +119,7 @@ export default function PreviousModelPerfView() {
               return (
                 <CTableRow
                   key={modelInd}
-                  active={previousModels.currentModel === index}
+                  active={previousModels.currentModel === modelInd}
                 >
                   <CTableHeaderCell scope="row">
                     {new Date(model.time).toUTCString()}
@@ -126,15 +127,18 @@ export default function PreviousModelPerfView() {
                   <CTableDataCell>{getLatestTestLoss(model)}</CTableDataCell>
                   <CTableDataCell>{getLatestTrainMAE(model)}</CTableDataCell>
                   <CTableDataCell>
-                    <CButton
-                      onClick={() => {
-                        dispatch(selectModel(modelInd));
-                        dispatch(applyPrevModel(model));
-                        dispatch(editModelConfig({}));
-                      }}
-                    >
-                      Apply model
-                    </CButton>
+                    {previousModels.currentModel === modelInd ? (
+                      <CButton color="success">Current Model</CButton>
+                    ) : (
+                      <CButton
+                        onClick={() => {
+                          dispatch(selectModel(modelInd));
+                          dispatch(applyPrevModel(model));
+                        }}
+                      >
+                        Apply model
+                      </CButton>
+                    )}
                   </CTableDataCell>
                 </CTableRow>
               );
