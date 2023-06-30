@@ -30,16 +30,23 @@ export type SideBarProps = {
   onPredictionConfigChange: (newConfig: PredictionConfig) => void;
 };
 
+const vars = {
+  "--cui-sidebar-color": "red",
+};
+
 export default function SideBar(props: SideBarProps) {
   const [predictionConfigVisible, setPredictionConfigVisible] =
     useState<boolean>(false);
   return (
-    <CSidebar position="sticky">
-      <CSidebarBrand>
+    <CSidebar style={vars} position="sticky">
+      <CSidebarBrand
+        onClick={(event) => {
+          setPredictionConfigVisible(false);
+          props.onNavClick(5, 0, event);
+        }}
+      >
         {/* TODO: Make this as a link to an imprint subpage that explains the project and links to tutorial and NP */}
-        <CNavLink href="https://neuralprophet.com/" target="_blank">
-          Forecapp
-        </CNavLink>
+        Forecapp
       </CSidebarBrand>
       <CSidebarNav>
         <CNavGroup toggler={"Home"} key={"Home"}>

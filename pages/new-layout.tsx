@@ -33,6 +33,9 @@ import PredictionConfigCard, {
 } from "../components/prediction/PredictionConfigCard";
 import SideBar from "../components/layouts/Sidebar";
 import Home, { HomeViewMode } from "../components/home/Home";
+import Imprint, { ImprintViewMode } from "../components/Imprint";
+
+const imprintSubPage: ImprintViewMode[] = ["Imprint"];
 
 const homeSubPage: HomeViewMode[] = ["Data Upload", "Sample Data"];
 
@@ -63,6 +66,7 @@ enum Pages {
   ModelConfiguration = 2,
   ModelEvaluation = 3,
   Prediction = 4,
+  Imprint = 5,
 }
 
 const pages = [
@@ -103,6 +107,10 @@ const pages = [
         updateConfig={(_) => _}
       />,
     ],
+  },
+  {
+    pageName: "Imprint",
+    subPages: ["Imprint"],
   },
 ] as AccordionSideBarGroupProps[];
 
@@ -211,6 +219,8 @@ export default function Layout() {
         return (
           <DataSelectorPage selectedSubPage={dataSelectorSubPage[subPageInd]} />
         );
+      case "Imprint":
+        return <Imprint />;
     }
   }
 
@@ -245,6 +255,10 @@ export default function Layout() {
 
     if (pageInd === Pages.Home) {
       location.href = `#${homeSubPage[subPageInd]}}`;
+    }
+
+    if (pageInd === Pages.Imprint) {
+      location.href = `#${imprintSubPage[subPageInd]}`;
     }
 
     setActivePageInd(pageInd);
