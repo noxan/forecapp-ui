@@ -11,6 +11,10 @@ import PredictionConfigCard, {
   PredictionConfig,
 } from "../prediction/PredictionConfigCard";
 
+const vars = {
+  "--cui-sidebar-bg": "#2d92ff",
+};
+
 export type SideBarProps = {
   activePageInd: number;
   activeSubPageInd: number;
@@ -25,7 +29,7 @@ export type SideBarProps = {
 
 export default function SideBar(props: SideBarProps) {
   return (
-    <CSidebar position="sticky">
+    <CSidebar style={vars} position="sticky">
       <CSidebarBrand
         onClick={(event) => {
           props.onNavClick(5, 0, event);
