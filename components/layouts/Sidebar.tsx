@@ -46,7 +46,7 @@ export default function SideBar(props: SideBarProps) {
         >
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 4 && props.activeSubPageInd === 0}
+              active={props.activePageInd === 0 && props.activeSubPageInd === 0}
               onClick={(event) => {
                 props.onNavClick(0, 0, event);
               }}
@@ -56,7 +56,7 @@ export default function SideBar(props: SideBarProps) {
           </CNavItem>
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 4 && props.activeSubPageInd === 1}
+              active={props.activePageInd === 0 && props.activeSubPageInd === 1}
               onClick={(event) => {
                 props.onNavClick(0, 1, event);
               }}
@@ -76,7 +76,7 @@ export default function SideBar(props: SideBarProps) {
         >
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 0 && props.activeSubPageInd === 0}
+              active={props.activePageInd === 1 && props.activeSubPageInd === 0}
               onClick={(event) => {
                 props.onNavClick(1, 0, event);
               }}
@@ -86,7 +86,7 @@ export default function SideBar(props: SideBarProps) {
           </CNavItem>
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 0 && props.activeSubPageInd === 1}
+              active={props.activePageInd === 1 && props.activeSubPageInd === 1}
               onClick={(event) => {
                 props.onNavClick(1, 1, event);
               }}
@@ -96,7 +96,7 @@ export default function SideBar(props: SideBarProps) {
           </CNavItem>
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 0 && props.activeSubPageInd === 2}
+              active={props.activePageInd === 1 && props.activeSubPageInd === 2}
               onClick={(event) => {
                 props.onNavClick(1, 2, event);
               }}
@@ -106,7 +106,7 @@ export default function SideBar(props: SideBarProps) {
           </CNavItem>
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 0 && props.activeSubPageInd === 3}
+              active={props.activePageInd === 1 && props.activeSubPageInd === 3}
               onClick={(event) => {
                 props.onNavClick(1, 3, event);
               }}
@@ -126,7 +126,7 @@ export default function SideBar(props: SideBarProps) {
         >
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 1 && props.activeSubPageInd === 0}
+              active={props.activePageInd === 2 && props.activeSubPageInd === 0}
               onClick={(event) => {
                 props.onNavClick(2, 0, event);
               }}
@@ -136,7 +136,7 @@ export default function SideBar(props: SideBarProps) {
           </CNavItem>
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 1 && props.activeSubPageInd === 1}
+              active={props.activePageInd === 2 && props.activeSubPageInd === 1}
               onClick={(event) => {
                 props.onNavClick(2, 1, event);
               }}
@@ -146,7 +146,7 @@ export default function SideBar(props: SideBarProps) {
           </CNavItem>
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 1 && props.activeSubPageInd === 2}
+              active={props.activePageInd === 2 && props.activeSubPageInd === 2}
               onClick={(event) => {
                 props.onNavClick(2, 2, event);
               }}
@@ -156,7 +156,7 @@ export default function SideBar(props: SideBarProps) {
           </CNavItem>
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 1 && props.activeSubPageInd === 3}
+              active={props.activePageInd === 2 && props.activeSubPageInd === 3}
               onClick={(event) => {
                 props.onNavClick(2, 3, event);
               }}
@@ -166,7 +166,7 @@ export default function SideBar(props: SideBarProps) {
           </CNavItem>
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 1 && props.activeSubPageInd === 4}
+              active={props.activePageInd === 2 && props.activeSubPageInd === 4}
               onClick={(event) => {
                 props.onNavClick(2, 4, event);
               }}
@@ -176,7 +176,7 @@ export default function SideBar(props: SideBarProps) {
           </CNavItem>
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 1 && props.activeSubPageInd === 5}
+              active={props.activePageInd === 2 && props.activeSubPageInd === 5}
               onClick={(event) => {
                 props.onNavClick(2, 5, event);
               }}
@@ -196,7 +196,7 @@ export default function SideBar(props: SideBarProps) {
         >
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 2 && props.activeSubPageInd === 0}
+              active={props.activePageInd === 3 && props.activeSubPageInd === 0}
               onClick={(event) => {
                 props.onNavClick(3, 0, event);
               }}
@@ -206,7 +206,7 @@ export default function SideBar(props: SideBarProps) {
           </CNavItem>
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 2 && props.activeSubPageInd === 1}
+              active={props.activePageInd === 3 && props.activeSubPageInd === 1}
               onClick={(event) => {
                 props.onNavClick(3, 1, event);
               }}
@@ -216,7 +216,7 @@ export default function SideBar(props: SideBarProps) {
           </CNavItem>
           <CNavItem>
             <CNavLink
-              active={props.activePageInd === 2 && props.activeSubPageInd === 2}
+              active={props.activePageInd === 3 && props.activeSubPageInd === 2}
               onClick={(event) => {
                 props.onNavClick(3, 2, event);
               }}
