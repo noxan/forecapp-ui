@@ -43,6 +43,7 @@ export default function SideBar(props: SideBarProps) {
               props.onNavClick(0, 0, event);
             }
           }}
+          visible={props.activePageInd === 0}
         >
           <CNavItem>
             <CNavLink
@@ -73,6 +74,7 @@ export default function SideBar(props: SideBarProps) {
               props.onNavClick(1, 0, event);
             }
           }}
+          visible={props.activePageInd === 1}
         >
           <CNavItem>
             <CNavLink
@@ -123,6 +125,7 @@ export default function SideBar(props: SideBarProps) {
               props.onNavClick(2, 0, event);
             }
           }}
+          visible={props.activePageInd === 2}
         >
           <CNavItem>
             <CNavLink
@@ -193,6 +196,7 @@ export default function SideBar(props: SideBarProps) {
               props.onNavClick(3, 0, event);
             }
           }}
+          visible={props.activePageInd === 3}
         >
           <CNavItem>
             <CNavLink
@@ -227,7 +231,7 @@ export default function SideBar(props: SideBarProps) {
         </CNavGroup>
         <CNavGroup
           toggler="Prediction"
-          visible={props.activePageInd === 3}
+          visible={props.activePageInd === 4}
           onClick={(event) => {
             if (event.target.className.split(" ")[1] === "nav-group-toggle") {
               props.onNavClick(4, -1, event);
