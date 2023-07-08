@@ -26,24 +26,15 @@ export type SideBarProps = {
 export default function SideBar(props: SideBarProps) {
   return (
     <CSidebar position="sticky">
-      <CSidebarBrand>
+      <CSidebarBrand
+        onClick={(event) => {
+          props.onNavClick(5, 0, event);
+        }}
+      >
         {/* TODO: Make this as a link to an imprint subpage that explains the project and links to tutorial and NP */}
-        <CNavLink href="https://neuralprophet.com/" target="_blank">
-          Forecapp
-        </CNavLink>
+        Forecapp
       </CSidebarBrand>
       <CSidebarNav>
-        <CNavItem href="/">
-          <HomeIcon
-            sx={{
-              width: "2em",
-              alignContent: "center",
-              justifyContent: "flex-start",
-              display: "flex",
-            }}
-          />
-          Home
-        </CNavItem>
         <CNavGroup
           toggler={"Home"}
           key={"Home"}
@@ -90,7 +81,7 @@ export default function SideBar(props: SideBarProps) {
                 props.onNavClick(1, 0, event);
               }}
             >
-              Data Upload
+              Data Selector
             </CNavLink>
           </CNavItem>
           <CNavItem>
@@ -140,7 +131,7 @@ export default function SideBar(props: SideBarProps) {
                 props.onNavClick(2, 0, event);
               }}
             >
-              Data Selector
+              Prediction Configuration
             </CNavLink>
           </CNavItem>
           <CNavItem>
@@ -150,7 +141,7 @@ export default function SideBar(props: SideBarProps) {
                 props.onNavClick(2, 1, event);
               }}
             >
-              View Data
+              Dataset Info
             </CNavLink>
           </CNavItem>
           <CNavItem>
@@ -160,7 +151,7 @@ export default function SideBar(props: SideBarProps) {
                 props.onNavClick(2, 2, event);
               }}
             >
-              Visualize Data
+              Underlying Trends
             </CNavLink>
           </CNavItem>
           <CNavItem>

@@ -7,6 +7,12 @@ dependencies:
   '@coreui/coreui':
     specifier: ^4.2.6
     version: 4.2.6(@popperjs/core@2.11.7)(postcss@8.4.21)
+  '@coreui/icons':
+    specifier: ^3.0.1
+    version: 3.0.1
+  '@coreui/icons-react':
+    specifier: ^2.1.0
+    version: 2.1.0(react-dom@18.2.0)(react@18.2.0)
   '@coreui/react':
     specifier: ^4.7.0
     version: 4.7.0(react-dom@18.2.0)(react@18.2.0)
@@ -70,9 +76,6 @@ dependencies:
   '@types/react-plotly.js':
     specifier: ^2.6.0
     version: 2.6.0
-  Chip:
-    specifier: link:@mui/material/Chip
-    version: link:@mui/material/Chip
   chart.js:
     specifier: ^3.9.1
     version: 3.9.1
@@ -266,6 +269,20 @@ packages:
       postcss-combine-duplicated-selectors: 10.0.3(postcss@8.4.21)
     transitivePeerDependencies:
       - postcss
+    dev: false
+
+  /@coreui/icons-react@2.1.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-x7qhVB6IJFbGBh/An3QZHtuUISM+TBgc4x3ecrBel+wMdJm4Qpmg9Km0GFfOkP6/fNOfy2fLb2wZ2bbe5+sgQA==}
+    peerDependencies:
+      react: '>=17'
+      react-dom: '>=17'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@coreui/icons@3.0.1:
+    resolution: {integrity: sha512-u9UKEcRMyY9pa4jUoLij8pAR03g5g6TLWV33/Mx2ix8sffyi0eO4fLV8DSTQljDCw938zt7KYog5cVKEAJUxxg==}
     dev: false
 
   /@coreui/react-chartjs@2.1.2(@popperjs/core@2.11.7)(postcss@8.4.21)(react-dom@18.2.0)(react@18.2.0):
