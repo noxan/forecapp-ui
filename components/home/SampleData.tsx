@@ -30,7 +30,6 @@ export default function SampleData({
   const dataErrors = useAppSelector(selectDataErrors);
   const dispatch = useAppDispatch();
   const [errorToast, pushErrorToast] = useState<ReactElement>();
-  const [url, setUrl] = useState("");
   const importAction = async (source: string | File) => {
     try {
       const parseResult = await dispatch(parseDataset(source)).unwrap();
