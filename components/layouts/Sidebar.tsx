@@ -35,7 +35,6 @@ export default function SideBar(props: SideBarProps) {
           props.onNavClick(4, 0, event);
         }}
       >
-        {/* TODO: Make this as a link to an imprint subpage that explains the project and links to tutorial and NP */}
         Forecapp
       </CSidebarBrand>
       <CSidebarNav>
