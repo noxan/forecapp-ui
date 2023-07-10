@@ -32,7 +32,7 @@ export default function SideBar(props: SideBarProps) {
     <CSidebar style={vars} position="sticky">
       <CSidebarBrand
         onClick={(event) => {
-          props.onNavClick(5, 0, event);
+          props.onNavClick(4, 0, event);
         }}
       >
         {/* TODO: Make this as a link to an imprint subpage that explains the project and links to tutorial and NP */}
