@@ -32,12 +32,9 @@ import PredictionConfigCard, {
   PredictionConfig,
 } from "../components/prediction/PredictionConfigCard";
 import SideBar from "../components/layouts/Sidebar";
-import Home, { HomeViewMode } from "../components/home/Home";
 import Imprint, { ImprintViewMode } from "../components/Imprint";
 
 const imprintSubPage: ImprintViewMode[] = ["Imprint"];
-
-const homeSubPage: HomeViewMode[] = ["Data Upload", "Sample Data"];
 
 const modelConfigSubPage: modelConfigurationMenu[] = [
   "prediction-configuration",
@@ -49,6 +46,7 @@ const modelConfigSubPage: modelConfigurationMenu[] = [
 ];
 
 const dataSelectorSubPage: DataSelectorPages[] = [
+  "data-upload",
   "data-selector",
   "data-viewer",
   "data-visualize",
@@ -62,16 +60,14 @@ const modelEvaluationSubPage: ValidationViewMode[] = [
 ];
 
 enum Pages {
-  Home = 0,
-  DataSelector = 1,
-  ModelConfiguration = 2,
-  ModelEvaluation = 3,
-  Prediction = 4,
-  Imprint = 5,
+  DataSelector = 0,
+  ModelConfiguration = 1,
+  ModelEvaluation = 2,
+  Prediction = 3,
+  Imprint = 4,
 }
 
 const pages = [
-  "Home Page",
   "Data Selector",
   "Model Configuration",
   "Model Evaluation",
@@ -155,16 +151,6 @@ export default function Layout() {
   function getPageComponent(pageInd: number, subPageInd: number) {
     const pageName = pages[pageInd];
     switch (pageName) {
-      case "Home Page":
-        return (
-          <Home
-            view={homeSubPage[subPageInd]}
-            onDataUpload={() => {
-              setActivePageInd(Pages.DataSelector);
-              setActiveSubPageInd(0);
-            }}
-          />
-        );
       case "Model Evaluation":
         return (
           <Validation
@@ -195,7 +181,13 @@ export default function Layout() {
         );
       case "Data Selector":
         return (
-          <DataSelectorPage selectedSubPage={dataSelectorSubPage[subPageInd]} />
+          <DataSelectorPage
+            selectedSubPage={dataSelectorSubPage[subPageInd]}
+            onDataUpload={() => {
+              setActivePageInd(Pages.DataSelector);
+              setActiveSubPageInd(1);
+            }}
+          />
         );
       case "Imprint":
         return <Imprint />;

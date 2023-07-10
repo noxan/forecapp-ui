@@ -14,6 +14,8 @@ import {
 } from "../../src/store/selectors";
 import { useRouter } from "next/router";
 import { errorToastWithMessage } from "../ErrorToast";
+import datasetExamples from "../../src/datasets";
+import DatasetCard from "../DatasetCard";
 
 export default function DataUpload({
   onDataUpload,
@@ -82,6 +84,16 @@ export default function DataUpload({
         </CCol>
         <br />
         <br />
+      </CRow>
+      <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 4 }}>
+        {datasetExamples.map((dataset) => (
+          <DatasetCard
+            key={dataset.filename}
+            dataset={dataset}
+            importAction={() => importAction(dataset.fullUrl)}
+            disabled={status === "loading"}
+          />
+        ))}
       </CRow>
     </>
   );
