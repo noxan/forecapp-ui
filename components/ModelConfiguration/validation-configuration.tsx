@@ -26,7 +26,7 @@ export default function ValidationConfiguration() {
         documentationLink={trainTestSplitDocumentationLink}
       >
         <CFormRange
-          min={0}
+          min={5}
           max={30}
           step={1}
           label={`${modelConfiguration.validation.testSplit}% of data used as test set`}
