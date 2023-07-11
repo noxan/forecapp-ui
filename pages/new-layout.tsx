@@ -94,6 +94,8 @@ export default function Layout() {
     showHistory: true,
   });
 
+  const [configured, setConfigured] = useState<boolean>(false);
+
   const processError = (err: any) => {
     if (err instanceof ZodError) {
       setErrorMessage(
@@ -203,7 +205,19 @@ export default function Layout() {
     event.preventDefault();
 
     if (pageInd === Pages.ModelConfiguration) {
+      setConfigured(true);
       location.href = `#${modelConfigSubPage[subPageInd]}`;
+    }
+
+    if (dataset === undefined) {
+      if (pageInd === Pages.Home) {
+        setActiveSubPageInd(subPageInd);
+      }
+      return;
+    } else if (!configured) {
+      if (pageInd === Pages.Prediction || pageInd === Pages.ModelEvaluation) {
+        return;
+      }
     }
 
     setActivePageInd(pageInd);
@@ -219,6 +233,8 @@ export default function Layout() {
           chartConfig={currChartConfig}
           onNavClick={handleNavClick}
           onPredictionConfigChange={setCurrChartConfig}
+          configured={configured}
+          dataUploaded={dataset !== undefined}
         />
       </div>
       <div className="col-10">
