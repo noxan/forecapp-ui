@@ -226,7 +226,7 @@ export default function Layout() {
 
   return (
     <div className="row align-items-start">
-      <div className="col-2 sidebar--div">
+      <div className="np-sidebar">
         <SideBar
           activePageInd={activePageInd}
           activeSubPageInd={activeSubPageInd}
@@ -237,7 +237,7 @@ export default function Layout() {
           dataUploaded={dataset !== undefined}
         />
       </div>
-      <div className="col-10">
+      <div className="np-side-content">
         {getPageComponent(activePageInd, activeSubPageInd)}
       </div>
       <CToaster push={errorMessage} placement="bottom-end" />

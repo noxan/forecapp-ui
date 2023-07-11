@@ -8,7 +8,13 @@
     width: 500px;
 }
 
-.sidebar--div {
+.np-sidebar {
     position: sticky;
     top: 0;
+    flex: 0 0 16rem;
+    height: 100vh;
+}
+
+.np-side-content {
+    flex: 1;
 }
