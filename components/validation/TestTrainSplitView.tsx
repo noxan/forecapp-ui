@@ -6,6 +6,7 @@ import {
   CContainer,
   CHeader,
   CRow,
+  CSpinner,
 } from "@coreui/react";
 import { useEffect, useMemo, useState } from "react";
 import { useAppSelector } from "../../src/hooks";
@@ -72,10 +73,14 @@ export default function TestTrainSplitView(props: {
             <CCol>
               <CButton onClick={props.validate}>Confirm</CButton>
             </CCol>
+            {status === "loading" && (
+              <CCol>
+                <CSpinner />
+              </CCol>
+            )}
           </CRow>
         </CAlert>
       </CCollapse>
-      {status === "loading" && <LoadingOverlay msg="Evaluating model..." />}
       {validationResult && validationResult.status === "ok" && (
         <>
           <TestTrainSplitChart
