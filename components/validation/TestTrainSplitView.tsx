@@ -71,13 +71,13 @@ export default function TestTrainSplitView(props: {
           <CRow>
             <CCol> The model configuration changed. Rerun evaluation?</CCol>
             <CCol>
-              <CButton onClick={props.validate}>Confirm</CButton>
+              <CButton onClick={props.validate}>
+                {status === "loading" && (
+                  <CSpinner component="span" size="sm" aria-hidden="true" />
+                )}
+                Confirm
+              </CButton>
             </CCol>
-            {status === "loading" && (
-              <CCol>
-                <CSpinner />
-              </CCol>
-            )}
           </CRow>
         </CAlert>
       </CCollapse>
