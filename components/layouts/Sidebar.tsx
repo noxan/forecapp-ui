@@ -17,23 +17,19 @@ export type SideBarProps = {
   chartConfig: PredictionConfig;
   dataUploaded: boolean;
   configured: boolean;
+  visible: boolean;
   onNavClick: (
     pageInd: number,
     subPageInd: number,
     event: React.MouseEvent<HTMLElement>
   ) => void;
   onPredictionConfigChange: (newConfig: PredictionConfig) => void;
+  onHide: () => void;
 };
 
 export default function SideBar(props: SideBarProps) {
   return (
-    <CSidebar position="sticky">
-      <CSidebarBrand>
-        {/* TODO: Make this as a link to an imprint subpage that explains the project and links to tutorial and NP */}
-        <CNavLink href="https://neuralprophet.com/" target="_blank">
-          Forecapp
-        </CNavLink>
-      </CSidebarBrand>
+    <CSidebar position="sticky" visible={props.visible} onHide={props.onHide}>
       <CSidebarNav>
         <CNavGroup
           toggler={"Home"}

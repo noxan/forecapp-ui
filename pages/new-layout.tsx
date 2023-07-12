@@ -1,4 +1,10 @@
-import { CButton } from "@coreui/react";
+import {
+  CButton,
+  CContainer,
+  CNavbar,
+  CNavbarBrand,
+  CNavbarToggler,
+} from "@coreui/react";
 import { CNavItem } from "@coreui/react";
 import AccordionSideBar, {
   AccordionSideBarGroupProps,
@@ -95,6 +101,8 @@ export default function Layout() {
   });
 
   const [configured, setConfigured] = useState<boolean>(false);
+
+  const [sidebarVisible, setSidebarVisible] = useState<boolean>(true);
 
   const processError = (err: any) => {
     if (err instanceof ZodError) {
@@ -225,22 +233,39 @@ export default function Layout() {
   };
 
   return (
-    <div className="row align-items-start">
-      <div className="np-sidebar">
-        <SideBar
-          activePageInd={activePageInd}
-          activeSubPageInd={activeSubPageInd}
-          chartConfig={currChartConfig}
-          onNavClick={handleNavClick}
-          onPredictionConfigChange={setCurrChartConfig}
-          configured={configured}
-          dataUploaded={dataset !== undefined}
-        />
+    <>
+      <CNavbar colorScheme="dark" className="bg-dark">
+        <CContainer fluid>
+          <CNavbarToggler
+            className="np-sidebar-toggle"
+            onClick={(event) => {
+              setSidebarVisible(!sidebarVisible);
+            }}
+          />
+          <CNavbarBrand href="https://neuralprophet.com/">
+            Forecapp
+          </CNavbarBrand>
+        </CContainer>
+      </CNavbar>
+      <div className="row align-items-start">
+        <div className="np-sidebar">
+          <SideBar
+            visible={sidebarVisible}
+            activePageInd={activePageInd}
+            activeSubPageInd={activeSubPageInd}
+            chartConfig={currChartConfig}
+            onNavClick={handleNavClick}
+            onPredictionConfigChange={setCurrChartConfig}
+            onHide={() => setSidebarVisible(false)}
+            configured={configured}
+            dataUploaded={dataset !== undefined}
+          />
+        </div>
+        <div className="np-side-content">
+          {getPageComponent(activePageInd, activeSubPageInd)}
+        </div>
+        <CToaster push={errorMessage} placement="bottom-end" />
       </div>
-      <div className="np-side-content">
-        {getPageComponent(activePageInd, activeSubPageInd)}
-      </div>
-      <CToaster push={errorMessage} placement="bottom-end" />
-    </div>
+    </>
   );
 }
