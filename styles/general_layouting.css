@@ -8,13 +8,31 @@
     width: 500px;
 }
 
-.np-sidebar {
-    position: sticky;
-    top: 0;
-    flex: 0 0 16rem;
-    height: 100vh;
-}
-
 .np-side-content {
     flex: 1;
+}
+
+.table-responsive {
+    overflow-x: scroll;
+}
+
+.row {
+    flex-wrap: nowrap;
+}
+
+@media (min-width: 768px) {
+    .np-sidebar-toggle {
+        visibility: hidden;
+    }
+
+    .np-sidebar {
+        position: sticky;
+        top: 0;
+        flex: 0 0 16rem;
+        height: 100vh;
+    }
+
+    .sidebar.hide:not(.sidebar-end) {
+        margin-left: 0;
+    }
 }
