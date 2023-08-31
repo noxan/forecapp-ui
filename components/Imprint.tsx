@@ -1,3 +1,6 @@
+import doge from "../src/images/screen.png";
+import QuickStartCard from "../components/documentation/QuickStartCard";
+
 export type ImprintViewMode = "Imprint";
 
 export default function Imprint() {
@@ -16,6 +19,9 @@ export default function Imprint() {
         models. Forecapp takes the functionality of NeuralProphet and makes it
         accessible to people who do not know how to code.
       </p>
+      <QuickStartCard text="Upload your data" img={doge}></QuickStartCard>
+      <QuickStartCard text="Configure your model" img={doge}></QuickStartCard>
+      <QuickStartCard text="Tune" img={doge}></QuickStartCard>
       <h2>Resources</h2>
       <ul>
         <li>
