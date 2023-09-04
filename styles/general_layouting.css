@@ -16,9 +16,11 @@
     overflow-x: scroll;
 }
 
+/*
 .row {
     flex-wrap: nowrap;
 }
+*/
 
 @media (min-width: 768px) {
     .np-sidebar-toggle {

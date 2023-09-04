@@ -44,17 +44,18 @@ export const laggedRegressorsExplanation = (
     <p>
       <b>Lagged regressors </b>
       allow you to include additional measured quantities for generating the
-      time series forecast. Let's say you want to predict the daily sales of an
-      icecream shop. In addition to providing the model with the past sales of
-      that ice cream place, it might be useful to provide it with the weather
-      data for a given day. This way, the model can learn that on hot days, more
-      ice cream is sold. The lagged regressors allow you to provide the model
-      with this additional information. You can select any number of columns
-      from the dataset as lagged regressors. The model will then use the values
-      of these columns at the same time point as the target column to predict
-      the target column. For example, if you select the column 'temperature' as
-      a lagged regressor, the model will use the temperature at the same time
-      point as the target column to predict the target column.
+      time series forecast. Let&apos;s say you want to predict the daily sales
+      of an icecream shop. In addition to providing the model with the past
+      sales of that ice cream place, it might be useful to provide it with the
+      weather data for a given day. This way, the model can learn that on hot
+      days, more ice cream is sold. The lagged regressors allow you to provide
+      the model with this additional information. You can select any number of
+      columns from the dataset as lagged regressors. The model will then use the
+      values of these columns at the same time point as the target column to
+      predict the target column. For example, if you select the column
+      &apos;temperature&apos; as a lagged regressor, the model will use the
+      temperature at the same time point as the target column to predict the
+      target column.
     </p>
   </>
 );
@@ -134,7 +135,7 @@ export const trainTestSplitExplanation = (
       <b>Train test split</b> is a method for evaluating the performance of a
       machine learning algorithm. It splits the dataset into two parts: a
       training set and a test set. The training set is used to train the model,
-      while the test set is used to evaluate the model's performance. The
+      while the test set is used to evaluate the model&apos;s performance. The
       training set is typically larger than the test set.
     </p>
   </>

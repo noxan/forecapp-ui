@@ -1,160 +1,284 @@
 import {
   CButton,
-  CCol,
-  CCollapse,
   CContainer,
-  CFormInput,
-  CRow,
-  CToaster,
+  CNavbar,
+  CNavbarBrand,
+  CNavbarToggler,
 } from "@coreui/react";
+import { ReactElement, useMemo, useState } from "react";
+import Validation, {
+  ValidationViewMode,
+} from "../components/validation/Validation";
+import PredictionView from "../components/prediction/PredictionView";
+import { CToaster } from "@coreui/react";
+import { apiPrediction, validateModel } from "../src/store/datasets";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
-import DatasetCard from "../components/DatasetCard";
 import {
-  detectColumnConfig,
-  parseDataset,
-  validateData,
-} from "../src/store/datasets";
-import {
-  selectDataErrors,
   selectDataset,
-  selectTargetColumn,
-  selectTimeColumn,
+  selectModelConfiguration,
+  shouldEval,
+  shouldPredict,
 } from "../src/store/selectors";
-import { useRouter } from "next/router";
-import LinkButton from "../components/LinkButton";
-import { validateColumnDefinitions } from "../src/definitions";
-import datasetExamples from "../src/datasets";
-import { ReactElement, useState } from "react";
+import { transformDataset } from "../src/helpers";
+import { ModelParameters } from "../src/schemas/modelParameters";
+import { ZodError } from "zod";
+import { HTTPError, NeuralProphetError, ValidationError } from "../src/error";
 import { errorToastWithMessage } from "../components/ErrorToast";
+import ModelConfiguration, {
+  modelConfigurationMenu,
+} from "../components/ModelConfiguration/ModelConfiguration";
+import DataSelectorPage, {
+  DataSelectorPages,
+} from "../components/DataSelectorPage";
+import PredictionConfigCard, {
+  PredictionConfig,
+} from "../components/prediction/PredictionConfigCard";
+import SideBar from "../components/layouts/Sidebar";
+import Home, { HomeViewMode } from "../components/home/Home";
+import { SELECT_STATE_INITIALIZE, isColumnValid } from "../src/definitions";
+import { GetStaticProps } from "next";
 
-export default function Home() {
-  const router = useRouter();
-  const dataset = useAppSelector(selectDataset);
-  const timeColumn = useAppSelector(selectTimeColumn);
-  const targetColumn = useAppSelector(selectTargetColumn);
-  const status = useAppSelector((state) => state.datasets.status);
-  const dataErrors = useAppSelector(selectDataErrors);
+const homeSubPage: HomeViewMode[] = ["Data Upload", "Sample Data"];
+
+const modelConfigSubPage: modelConfigurationMenu[] = [
+  "prediction-configuration",
+  "dataset-info",
+  "underlying-trends",
+  "modeling-assumptions",
+  "training-configuration",
+  "validation-configuration",
+];
+
+const dataSelectorSubPage: DataSelectorPages[] = [
+  "data-selector",
+  "data-viewer",
+  "data-visualize",
+  "data-table",
+];
+
+const modelEvaluationSubPage: ValidationViewMode[] = [
+  "Test Train Split",
+  "Model Parameters",
+  "Previous Performance",
+];
+
+enum Pages {
+  Home = 0,
+  DataSelector = 1,
+  ModelConfiguration = 2,
+  ModelEvaluation = 3,
+  Prediction = 4,
+}
+
+const pages = [
+  "Home Page",
+  "Data Selector",
+  "Model Configuration",
+  "Model Evaluation",
+  "Prediction",
+];
+
+export default function Layout() {
   const dispatch = useAppDispatch();
-  const [url, setUrl] = useState("");
-  const [errorToast, pushErrorToast] = useState<ReactElement>();
-  const [showSampleData, setShowSampleData] = useState(false);
+  const modelConfiguration = useAppSelector(selectModelConfiguration);
+  const dataset = useAppSelector(selectDataset);
+  const columns = useAppSelector((state) => state.datasets.columns);
+  const shouldRunEval = useAppSelector(shouldEval);
+  const shouldRunPred = useAppSelector(shouldPredict);
 
-  const isDatasetLoaded = !!dataset;
-  const isColumnDefinitions = validateColumnDefinitions(
-    timeColumn,
-    targetColumn
-  );
-  const resumeHref = isColumnDefinitions
-    ? "/new-layout"
-    : dataErrors.length > 0
-    ? "/wizard/data-errors"
-    : "/new-layout";
+  const [activePageInd, setActivePageInd] = useState(0);
+  const [activeSubPageInd, setActiveSubPageInd] = useState(0);
 
-  const importAction = async (source: string | File) => {
-    try {
-      const parseResult = await dispatch(parseDataset(source)).unwrap();
-      const columnHeaders = Object.keys(parseResult.data[0]);
-      dispatch(detectColumnConfig(columnHeaders));
-      dispatch(validateData());
-      router.push(
-        parseResult.errors.length > 0 ? "/wizard/data-errors" : "/new-layout"
+  const [errorMessage, setErrorMessage] = useState<ReactElement>();
+
+  const [currChartConfig, setCurrChartConfig] = useState<PredictionConfig>({
+    showUncertainty: true,
+    showTrend: false,
+    showEvents: false,
+    showHistory: true,
+  });
+
+  const [configured, setConfigured] = useState<boolean>(false);
+
+  const [sidebarVisible, setSidebarVisible] = useState<boolean>(true);
+
+  const processError = (err: any) => {
+    if (err instanceof ZodError) {
+      setErrorMessage(
+        errorToastWithMessage("The model configuration was invalid.")
       );
-    } catch (err: any) {
-      pushErrorToast(errorToastWithMessage("Error: " + err.message));
+    } else if (err.message) {
+      const error = err as HTTPError;
+      setErrorMessage(
+        errorToastWithMessage("Something went wrong: " + error.message)
+      );
+    } else if (err.detail) {
+      if (err.detail instanceof Array) {
+        const error = err as ValidationError;
+        setErrorMessage(
+          errorToastWithMessage("The model configuration was invalid.")
+        );
+      } else {
+        const error = err as NeuralProphetError;
+        setErrorMessage(
+          errorToastWithMessage("Neural Prophet failed: " + error.detail)
+        );
+      }
+    } else {
+      setErrorMessage(errorToastWithMessage("An unknown error occured."));
     }
   };
 
+  const predict = async () => {
+    try {
+      await dispatch(
+        apiPrediction({
+          dataset: transformDataset(dataset, modelConfiguration, columns),
+          configuration: modelConfiguration,
+        })
+      ).unwrap();
+    } catch (err: any) {
+      console.log(err);
+      processError(err);
+    }
+  };
+
+  const validate = async () => {
+    try {
+      await dispatch(
+        validateModel({
+          dataset: transformDataset(dataset, modelConfiguration, columns),
+          configuration: modelConfiguration,
+        })
+      ).unwrap();
+    } catch (err: any) {
+      processError(err);
+    }
+  };
+
+  function getPageComponent(pageInd: number, subPageInd: number) {
+    const pageName = pages[pageInd];
+    switch (pageName) {
+      case "Home Page":
+        return (
+          <Home
+            view={homeSubPage[subPageInd]}
+            onDataUpload={() => {
+              setActivePageInd(Pages.DataSelector);
+              setActiveSubPageInd(0);
+            }}
+          />
+        );
+      case "Model Evaluation":
+        return (
+          <Validation
+            view={modelEvaluationSubPage[subPageInd]}
+            validate={validate}
+          />
+        );
+      case "Prediction":
+        return (
+          <PredictionView
+            chartConfig={currChartConfig}
+            stalePrediction={shouldRunPred}
+            predict={predict}
+            exportModal={subPageInd === 0}
+            onCloseModal={() => setActiveSubPageInd(-1)}
+          />
+        );
+      case "Model Configuration":
+        return (
+          <ModelConfiguration
+            onSelectionChange={(newSelection) => {
+              const newInd = modelConfigSubPage.findIndex(
+                (val) => val === newSelection
+              );
+              setActiveSubPageInd(newInd);
+            }}
+          />
+        );
+      case "Data Selector":
+        return (
+          <DataSelectorPage selectedSubPage={dataSelectorSubPage[subPageInd]} />
+        );
+    }
+  }
+
+  const handleNavClick = (
+    pageInd: number,
+    subPageInd: number,
+    event: React.MouseEvent<HTMLElement>
+  ) => {
+    event.preventDefault();
+
+    if (pageInd === Pages.ModelConfiguration) {
+      setConfigured(true);
+      location.href = `#${modelConfigSubPage[subPageInd]}`;
+    }
+
+    if (dataset === undefined) {
+      if (pageInd === Pages.Home) {
+        setActiveSubPageInd(subPageInd);
+      }
+      return;
+    } else if (
+      !(
+        isColumnValid(columns.timeColumn) && isColumnValid(columns.targetColumn)
+      )
+    ) {
+      if (pageInd === Pages.Home || pageInd === Pages.DataSelector) {
+        setActivePageInd(pageInd);
+        setActiveSubPageInd(subPageInd);
+        return;
+      }
+    } else if (!configured) {
+      if (pageInd === Pages.Prediction || pageInd === Pages.ModelEvaluation) {
+        return;
+      }
+    }
+
+    setActivePageInd(pageInd);
+    setActiveSubPageInd(subPageInd);
+  };
+
   return (
-    <main>
-      <CContainer>
-        <CRow className="my-5">
-          <CCol>
-            <h1>Forecapp</h1>
-            <h4>The easy time-series forecasting app.</h4>
-          </CCol>
-        </CRow>
-        {isDatasetLoaded && (
-          <CRow className="my-5">
-            <CCol>
-              <LinkButton color="primary" href={resumeHref}>
-                Continue with previous project
-              </LinkButton>
-            </CCol>
-          </CRow>
-        )}
-        <CRow className="my-2">
-          <CCol>
-            <h5>Import from your computer</h5>
-            <CFormInput
-              type="file"
-              disabled={status === "loading"}
-              onChange={(evt) => {
-                if (evt.target.files && evt.target.files.length > 0) {
-                  return importAction(evt.target.files[0]);
-                }
-              }}
-              accept=".csv"
-            />
-          </CCol>
-        </CRow>
-        <CRow>
-          <h5>Import online dataset</h5>
-          <CCol>
-            <CFormInput
-              type="text"
-              onChange={(evt) => {
-                setUrl(evt.target.value);
-              }}
-            />
-          </CCol>
-          <CCol>
-            <CButton
-              color="primary"
-              disabled={status === "loading"}
-              onClick={(_) => {
-                importAction(url);
-              }}
-            >
-              Submit
-            </CButton>
-          </CCol>
-          <br />
-          <br />
-        </CRow>
-        <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 4 }}>
-          {datasetExamples.map((dataset) => (
-            <DatasetCard
-              key={dataset.filename}
-              dataset={dataset}
-              importAction={() => importAction(dataset.fullUrl)}
-              disabled={status === "loading"}
-            />
-          ))}
-        </CRow>
-        <CRow className="my-2">
-          <CButton onClick={() => setShowSampleData(!showSampleData)}>
-            Explore sample datasets
-          </CButton>
-        </CRow>
-        <CRow className="my-2">
-          <CButton onClick={() => setShowSampleData(!showSampleData)}>
-            Explore sample datasets
-          </CButton>
-        </CRow>
-        <CCollapse visible={showSampleData}>
-          <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 4 }}>
-            {datasetExamples.map((dataset) => (
-              <DatasetCard
-                key={dataset.filename}
-                dataset={dataset}
-                importAction={() => importAction(dataset.fullUrl)}
-                disabled={status === "loading"}
-              />
-            ))}
-          </CRow>
-        </CCollapse>
-      </CContainer>
-      <CToaster push={errorToast} placement="bottom-end" />
-    </main>
+    <>
+      <CNavbar colorScheme="dark" className="bg-dark">
+        <CContainer fluid>
+          <CNavbarToggler
+            className="np-sidebar-toggle"
+            onClick={(event) => {
+              setSidebarVisible(!sidebarVisible);
+            }}
+          />
+          <CNavbarBrand href="https://neuralprophet.com/">
+            Forecapp
+          </CNavbarBrand>
+        </CContainer>
+      </CNavbar>
+      <div className="row align-items-start">
+        <div className="np-sidebar">
+          <SideBar
+            visible={sidebarVisible}
+            activePageInd={activePageInd}
+            activeSubPageInd={activeSubPageInd}
+            chartConfig={currChartConfig}
+            onNavClick={handleNavClick}
+            onPredictionConfigChange={setCurrChartConfig}
+            onHide={() => setSidebarVisible(false)}
+            configured={configured}
+            dataUploaded={dataset !== undefined}
+            columnsChosen={
+              isColumnValid(columns.timeColumn) &&
+              isColumnValid(columns.targetColumn)
+            }
+          />
+        </div>
+        <div className="np-side-content">
+          {getPageComponent(activePageInd, activeSubPageInd)}
+        </div>
+        <CToaster push={errorMessage} placement="bottom-end" />
+      </div>
+    </>
   );
 }
