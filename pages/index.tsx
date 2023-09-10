@@ -36,6 +36,8 @@ import PredictionConfigCard, {
 import SideBar from "../components/layouts/Sidebar";
 import Home, { HomeViewMode } from "../components/home/Home";
 import { SELECT_STATE_INITIALIZE, isColumnValid } from "../src/definitions";
+import { GetStaticProps } from "next";
+import Imprint from "../components/Imprint/Imprint";
 
 const homeSubPage: HomeViewMode[] = ["Data Upload", "Sample Data"];
 
@@ -75,6 +77,7 @@ const pages = [
   "Model Configuration",
   "Model Evaluation",
   "Prediction",
+  "Imprint",
 ];
 
 export default function Layout() {
@@ -199,6 +202,8 @@ export default function Layout() {
         return (
           <DataSelectorPage selectedSubPage={dataSelectorSubPage[subPageInd]} />
         );
+      case "Imprint":
+        return <Imprint />;
     }
   }
 
@@ -255,7 +260,7 @@ export default function Layout() {
 
   return (
     <>
-      <CNavbar colorScheme="dark" className="bg-dark">
+      <CNavbar colorScheme="dark" className="background-color-blue">
         <CContainer fluid>
           <CNavbarToggler
             className="np-sidebar-toggle"
@@ -263,7 +268,7 @@ export default function Layout() {
               setSidebarVisible(!sidebarVisible);
             }}
           />
-          <CNavbarBrand href="https://neuralprophet.com/">
+          <CNavbarBrand onClick={() => setActivePageInd(5)}>
             Forecapp
           </CNavbarBrand>
         </CContainer>
