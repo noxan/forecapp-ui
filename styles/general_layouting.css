@@ -16,6 +16,11 @@
     overflow-x: scroll;
 }
 
+.background-color-blue {
+    background-color: #2d92ff;
+    --cui-bg-opacity: var(--cui-bg-opacity);
+}
+
 /*
 .row {
     flex-wrap: nowrap;
