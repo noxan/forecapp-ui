@@ -260,7 +260,7 @@ export default function Layout() {
 
   return (
     <>
-      <CNavbar colorScheme="dark" className="background-color-blue">
+      <CNavbar colorScheme="dark" className="background-color-dark-blue">
         <CContainer fluid>
           <CNavbarToggler
             className="np-sidebar-toggle"
