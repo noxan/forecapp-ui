@@ -16,6 +16,7 @@ import {
   CModalHeader,
   CModalTitle,
   CRow,
+  CSpinner,
 } from "@coreui/react";
 import { unparse as papaUnparse } from "papaparse";
 
@@ -60,14 +61,16 @@ export default function PredictionView(props: {
           <CRow>
             <CCol> The model configuration changed. Rerun prediction?</CCol>
             <CCol>
-              <CButton onClick={props.predict}>Confirm</CButton>
+              <CButton onClick={props.predict}>
+                {status === "loading" && (
+                  <CSpinner component="span" size="sm" aria-hidden="true" />
+                )}
+                Confirm
+              </CButton>
             </CCol>
           </CRow>
         </CAlert>
       </CCollapse>
-      {status === "loading" && (
-        <LoadingOverlay msg={"Generating your forecast..."} />
-      )}
       {predictionData && predictionData.status === "ok" && (
         <PredictionChart
           forecast={predictionData.forecast}

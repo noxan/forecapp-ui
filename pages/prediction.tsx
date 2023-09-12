@@ -144,6 +144,7 @@ export default function Visualization() {
                   showUncertainty={true}
                   showEvents={true}
                   showTrend={false}
+                  confidenceLevel={20}
                 />
               )}
             </CCol>

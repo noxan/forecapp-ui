@@ -1,7 +1,7 @@
 import { CButton, CCol, CContainer, CRow } from "@coreui/react";
 import { useAppDispatch, useAppSelector } from "../src/hooks";
 import {
-  resetAndDetectColumnConfig,
+  detectColumnConfig,
   setTargetColumn,
   setTimeColumn,
 } from "../src/store/datasets";
@@ -53,9 +53,7 @@ export const ColumnPickerDebug = () => {
           <div>{columns.length} columns</div>
           <CButton
             color="danger"
-            onClick={() =>
-              dispatch(resetAndDetectColumnConfig({ columnHeaders: columns }))
-            }
+            onClick={() => dispatch(detectColumnConfig(columns))}
           >
             Reset (with autodetect)
           </CButton>
