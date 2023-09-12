@@ -36,7 +36,6 @@ import PredictionConfigCard, {
 import SideBar from "../components/layouts/Sidebar";
 import Home, { HomeViewMode } from "../components/home/Home";
 import { SELECT_STATE_INITIALIZE, isColumnValid } from "../src/definitions";
-import { GetStaticProps } from "next";
 
 const homeSubPage: HomeViewMode[] = ["Data Upload", "Sample Data"];
 
@@ -83,7 +82,6 @@ export default function Layout() {
   const modelConfiguration = useAppSelector(selectModelConfiguration);
   const dataset = useAppSelector(selectDataset);
   const columns = useAppSelector((state) => state.datasets.columns);
-  const shouldRunEval = useAppSelector(shouldEval);
   const shouldRunPred = useAppSelector(shouldPredict);
 
   const [activePageInd, setActivePageInd] = useState(0);
@@ -211,6 +209,20 @@ export default function Layout() {
   ) => {
     event.preventDefault();
 
+    if (
+      event.target instanceof Element &&
+      event.target.className.split(" ")[1] === "nav-group-toggle"
+    ) {
+      if (event.target.parentElement) {
+        if (event.target.parentElement.classList.contains("show")) {
+          event.target.parentElement.classList.remove("show");
+        } else {
+          event.target.parentElement.classList.add("show");
+        }
+      }
+    }
+
+    console.log("Click event : " + "(" + pageInd + ", " + subPageInd + ")");
     if (pageInd === Pages.ModelConfiguration) {
       setConfigured(true);
       location.href = `#${modelConfigSubPage[subPageInd]}`;
@@ -247,7 +259,7 @@ export default function Layout() {
         <CContainer fluid>
           <CNavbarToggler
             className="np-sidebar-toggle"
-            onClick={(event) => {
+            onClick={(_) => {
               setSidebarVisible(!sidebarVisible);
             }}
           />
