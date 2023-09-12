@@ -21,6 +21,11 @@
     --cui-bg-opacity: var(--cui-bg-opacity);
 }
 
+.background-color-dark-blue {
+    background-color: #2786e5;
+    --cui-bg-opacity: var(--cui-bg-opacity);
+}
+
 /*
 .row {
     flex-wrap: nowrap;
