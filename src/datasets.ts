@@ -1,4 +1,4 @@
-export const datasetBaseUrl = "/datasets/";
+export const datasetBaseUrl = "./datasets/";
 
 const datasetExamples = [
   {
