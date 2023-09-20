@@ -93,7 +93,7 @@ export function isColumnDateTime(
   rowsToCheck = rowsToCheck === -1 ? dataset.length : rowsToCheck;
   for (let i = 0; i < rowsToCheck; i++) {
     const row = dataset[i];
-    if (Object.values(row).find((val) => val) === undefined) {
+    if (!Object.values(row).some((val) => val)) {
       continue;
     }
     else {
