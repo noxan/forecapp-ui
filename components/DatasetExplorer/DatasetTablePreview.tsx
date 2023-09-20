@@ -29,10 +29,6 @@ const DatasetTablePreview = ({
     useState<boolean>(false);
   const dispatch = useAppDispatch();
   const timeColumn = useAppSelector(selectTimeColumn);
-  const targetColumn = useAppSelector(selectTargetColumn);
-  console.log(timeColumn);
-  const isValidTime = isColumnValid(timeColumn);
-  const isValidTarget = isColumnValid(timeColumn);
   const isTimeColumn = useMemo(() => {
     if (!isColumnValid(timeColumn)) return true;
     const res = isColumnDateTime(dataset, timeColumn);

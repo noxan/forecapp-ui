@@ -93,10 +93,16 @@ export function isColumnDateTime(
   rowsToCheck = rowsToCheck === -1 ? dataset.length : rowsToCheck;
   for (let i = 0; i < rowsToCheck; i++) {
     const row = dataset[i];
-    if (!row[column]) return false;
-    const date = Date.parse(row[column]);
-    if (Number.isNaN(date) || date <= prevDate) return false;
-    prevDate = date;
+    if (Object.values(row).find((val) => val) === undefined) {
+      continue;
+    }
+    else {
+      const date = Date.parse(row[column]);
+      if (Number.isNaN(date) || date <= prevDate) {
+        return false;
+      }
+      prevDate = date;
+    }
   }
   return true;
 }
