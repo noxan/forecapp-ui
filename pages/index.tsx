@@ -180,8 +180,8 @@ export default function Layout() {
             chartConfig={currChartConfig}
             stalePrediction={shouldRunPred}
             predict={predict}
-            exportModal={subPageInd === 0}
-            onCloseModal={() => setActiveSubPageInd(-1)}
+            exportModal={subPageInd === 1}
+            onCloseModal={() => setActiveSubPageInd(0)}
           />
         );
       case "Model Configuration":
@@ -208,19 +208,6 @@ export default function Layout() {
     event: React.MouseEvent<HTMLElement>
   ) => {
     event.preventDefault();
-
-    if (
-      event.target instanceof Element &&
-      event.target.className.split(" ")[1] === "nav-group-toggle"
-    ) {
-      if (event.target.parentElement) {
-        if (event.target.parentElement.classList.contains("show")) {
-          event.target.parentElement.classList.remove("show");
-        } else {
-          event.target.parentElement.classList.add("show");
-        }
-      }
-    }
 
     console.log("Click event : " + "(" + pageInd + ", " + subPageInd + ")");
     if (pageInd === Pages.ModelConfiguration) {
