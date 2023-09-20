@@ -209,7 +209,6 @@ export default function Layout() {
   ) => {
     event.preventDefault();
 
-    console.log("Click event : " + "(" + pageInd + ", " + subPageInd + ")");
     if (pageInd === Pages.ModelConfiguration) {
       setConfigured(true);
       location.href = `#${modelConfigSubPage[subPageInd]}`;
