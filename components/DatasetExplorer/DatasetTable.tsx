@@ -5,14 +5,17 @@ import Table from "../Table";
 
 const DatasetTable = () => {
   const dataset = useAppSelector(selectDataset);
-
+  const MAX_ROWS = 20;
   return (
     <CContainer fluid>
-      <CRow className="my-2">
-        <CCol>
-          <Table data={dataset} />
-        </CCol>
-      </CRow>
+      <CCol>
+        <CRow>
+          <Table data={dataset.slice(0, MAX_ROWS)} />
+        </CRow>
+        {dataset.length > MAX_ROWS && (
+          <CRow>{dataset.length - MAX_ROWS} other rows...</CRow>
+        )}
+      </CCol>
     </CContainer>
   );
 };

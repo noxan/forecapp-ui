@@ -36,7 +36,7 @@ const DatasetTablePreview = ({
     return res;
   }, [dataset, timeColumn]);
   return (
-    <div>
+    <>
       <CAlert
         dismissible
         color="danger"
@@ -46,7 +46,7 @@ const DatasetTablePreview = ({
         The selected column isn&apos;t a valid time column. Choose another, or
         try editing the dataset!
       </CAlert>
-      <CRow className="my-2">
+      <CRow>
         <CCol
           onClick={(e: any) =>
             selectTime
@@ -59,7 +59,7 @@ const DatasetTablePreview = ({
           <Table data={tableHead} />
         </CCol>
       </CRow>
-    </div>
+    </>
   );
 };
 

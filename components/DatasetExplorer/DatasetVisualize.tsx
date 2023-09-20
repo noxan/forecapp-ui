@@ -13,7 +13,7 @@ const DatasetVisualize = ({ showLegend = false }: { showLegend?: boolean }) => {
   const targetColumn = useAppSelector(selectTargetColumn);
 
   return (
-    <CRow className="my-2">
+    <CRow>
       <CCol>
         <DatasetChart
           dataset={dataset}

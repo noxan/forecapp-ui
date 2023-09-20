@@ -1,5 +1,3 @@
-import { useState } from "react";
-import DatasetTablePreview from "./DatasetExplorer/DatasetTablePreview";
 import DatasetVisualize from "./DatasetExplorer/DatasetVisualize";
 import DatasetColumns from "./DatasetExplorer/DatasetColumns";
 import DataSelector from "./DataSelector";
